@@ -1,0 +1,46 @@
+{% extends 'base/base_with_sidebar.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% load humanize %}
+{% block title %}Profile | {{ user.username }}{% endblock title %}
+
+
+
+{% block main_content_container %}
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <h1 class="fw-bold">My profile</h1>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+<div class="col-lg-12">
+  <div class="card">
+    <div class="card-body">
+      
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="w-100 btn btn-lg btn-outline-navy mt-3" type="submit">Update</button>
+        </div>
+    </form>
+    
+    </div>
+  </div>
+
+</div>                  
+                          
+                </div>
+              
+
+
+
+{% endblock main_content_container %}

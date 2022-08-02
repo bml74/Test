@@ -1,0 +1,24 @@
+{% extends 'base/base_search.html' %}
+{% load humanize %}
+
+
+{% block title %}{{ title }}{% endblock title %}
+
+
+{% block main_container %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">{{ item.title }}</h1>
+            <p class="fs-4 col-md-6 offset-md-3">{{ type.capitalize }}</p>
+            <p class="fs-4 col-md-6 offset-md-3">{{ item.description }}</p>
+            {% if item.author %}<p class="fs-4 col-md-6 offset-md-3">{{ item.author }}</p>{% endif %}
+            {% if item.date_entered %}<p class="fs-4 col-md-6 offset-md-3">{{ item.date_entered }}</p>{% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock main_container %}

@@ -1,0 +1,145 @@
+{% extends 'base/base_nav.html' %}
+{% load humanize %}
+{% load static %}
+
+
+{% block css_links %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+{% endblock css_links %}
+
+{% block main %}
+
+<div class="container-fluid">
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse bg-lin-grad">
+            <div class="position-sticky pt-3 sidebar-sticky">
+                <h5 class="fw-bold px-3 mt-2"><i class="fas fa-newspaper align-text-bottom color-navy"></i> News Search</h5>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                    <span>Important</span>
+                </h6>
+                <ul class="nav flex-column">
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{% url 'news-home' %}">
+                        <i class="fas fa-home align-text-bottom color-navy"></i>
+                        News Search Home
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#">
+                        <i class="fas fa-star align-text-bottom color-navy"></i>
+                      Favorites
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-bookmark align-text-bottom color-navy"></i>
+                      Reading List
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="fas fa-flag align-text-bottom color-navy"></i>
+                      Flagged
+                    </a>
+                  </li>
+                </ul>
+        
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                  <span>Continue Searching</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'news-article-search-by-url' %}">
+                        <i class="fas fa-plus-circle align-text-bottom color-navy"></i>
+                      Retrieve article by URL
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'news-article-search-by-title' %}">
+                        <i class="fas fa-plus-circle align-text-bottom color-navy"></i>
+                      Retrieve article by title
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'news-articles-search-by-title' %}">
+                      <i class="fas fa-plus-circle align-text-bottom color-navy"></i>
+                      Retrieve mutliple articles
+                    </a>
+                  </li>
+                </ul>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                    <span>History</span>
+                  </h6>
+                  <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'news-article-user-search-list' user.username %}">
+                          <i class="fas fa-history align-text-bottom color-navy"></i>
+                        All articles
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'news-article-user-search-list-by-url' user.username %}">
+                          <i class="fas fa-history align-text-bottom color-navy"></i>
+                        Articles by URL
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="{% url 'news-article-user-search-list-by-title' user.username %}">
+                        <i class="fas fa-history align-text-bottom color-navy"></i>
+                        Articles by title
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'news-articles-user-search-list-by-title' user.username %}">
+                          <i class="fas fa-history align-text-bottom color-navy"></i>
+                          Search queries
+                        </a>
+                      </li>
+                </ul>
+
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted text-uppercase">
+                  <span>Access</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'news-searcher-access' %}">
+                        <i class="fas fa-cog align-text-bottom color-navy"></i>
+                      Access Settings
+                    </a>
+                  </li>
+                  {% if user.is_superuser %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'access_requests' %}">
+                        <i class="fas fa-key align-text-bottom color-navy"></i>
+                      Access Requests
+                    </a>
+                  </li>
+                  {% endif %}
+                </ul>
+
+              </div>
+        
+        </nav>
+  
+        <main class="col-md-9 offset-md-3 ms-sm-auto col-lg-10 px-md-4">
+            <div id="main-content" style="padding-top: 5vh; padding-left: 5vw; padding-right: 5vw;">
+
+                 <div class="container">
+
+                    {% block main_content_container %}{% endblock main_content_container %}
+
+                </div>
+            </div>
+        </main>
+</div>
+</div>
+
+{% block maps_modal %}{% endblock maps_modal %}
+  
+
+{% block toast_alert %}{% endblock toast_alert %}
+
+
+{% endblock main %}
+

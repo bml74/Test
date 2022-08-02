@@ -1,0 +1,30 @@
+{% extends "base/base_nav.html" %}
+
+<!-- This is the third main template. Extends base_nav. Only difference is that this adds the search bar at the top of the page. -->
+
+{% block main %}
+
+<div class="container py-4">
+    <div class="row">
+        <form action="{% url 'query' %}" method="get">
+
+            <div class="row">
+                <div class="col-3"></div>
+                <div class="col-6">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Try searching: Warren Buffett, 1MDB, Reichsbank, JPMorgan" aria-label="Search query" aria-describedby="button-searchQuery" name="term">
+                        <button class="btn btn-outline-secondary" type="submit" id="button-searchQuery">Search</button>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+        
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+    {% block main_container %}{% endblock main_container %}
+
+{% endblock main %}

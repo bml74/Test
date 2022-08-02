@@ -1,0 +1,89 @@
+{% extends 'base/base_search.html' %}
+{% block title %}Query: {{ term }} | Ca' de Bruno{% endblock title %}
+
+
+{% block main_container %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">Ca' de Bruno</h1>
+            <p class="fs-4 col-md-6 offset-md-3"><strong>Query:</strong> {{ term }}</p>
+        </div>
+    </div>
+
+    <div class="row">
+            
+
+    {% if transactions_with_term_contained_in_entity_1|length > 0 or transactions_with_term_contained_in_entity_2|length > 0 %}
+    <div class="col-lg-4 mb-4">
+        <div class="card card-height-300 overflow-y-scroll">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><small><strong>Transactions with entities containing "{{ term }}"</strong></small></li>
+                    {% for transaction in transactions_with_term_contained_in_entity_1 %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                    {% for transaction in transactions_with_term_contained_in_entity_2 %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if transactions_with_term_contained_in_description_of_asset_received_by_entity_1|length > 0 or transactions_with_term_contained_in_description_of_asset_received_by_entity_2|length > 0 %}
+    <div class="col-lg-4 mb-4">
+        <div class="card card-height-300 overflow-y-scroll">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><small><strong>Transactions with asset descriptions containing "{{ term }}"</strong></small></li>
+                    {% for transaction in transactions_with_term_contained_in_description_of_asset_received_by_entity_1 %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                    {% for transaction in transactions_with_term_contained_in_description_of_asset_received_by_entity_2 %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if transactions_with_term_contained_in_description|length > 0 %}
+    <div class="col-lg-4 mb-4">
+        <div class="card card-height-300 overflow-y-scroll">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><small><strong>Transactions with description containing "{{ term }}"</strong></small></li>
+                    {% for transaction in transactions_with_term_contained_in_description %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if transactions_with_term_contained_in_citation|length > 0 %}
+    <div class="col-lg-4 mb-4">
+        <div class="card card-height-300 overflow-y-scroll">
+            <div class="card-body">
+                <ul class="list-group">
+                    <li class="list-group-item"><small><strong>Transactions with entities containing "{{ term }}"</strong></small></li>
+                    {% for transaction in transactions_with_term_contained_in_citation %}
+                        <li class="list-group-item"><a href="{% url 'transaction-detail' transaction.id %}"><small>{{ transaction }}</small></a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+</div>
+
+{% endblock main_container %}

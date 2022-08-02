@@ -1,0 +1,110 @@
+{% extends 'base/base_search.html' %}
+{% load humanize %}
+
+
+{% block title %}{{ title }}{% endblock title %}
+
+
+{% block main_container %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">{{ header }}</h1>
+            <!-- <p class="fs-4 col-md-6 offset-md-3"></p> -->
+        </div>
+    </div>
+
+</div>  
+
+
+
+
+    
+  
+
+
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="list-group">
+                {% if type == "transaction" %} <!-- BEGIN IF STATEMENT -->
+                            {% for item in items %}
+                                <a href="{% url 'transaction-detail' item.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.description }}</h5>
+                                    </div>
+                                    <p class="mb-1"><small class="text-muted">Transaction between {{ transaction.entity_1 }} and {{ transaction.entity_2 }}.</small></p>
+                                </a>
+                            {% endfor %}
+                {% elif type == "entity" %}
+                            {% for item in items %}
+                                <a href="{% url 'entity-detail' item.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                    </div>
+                                    <p class="mb-1"><small class="text-muted">{{ item.description }}.</small></p>
+                                </a>
+                            {% endfor %}
+                {% elif type == "chain" %}
+                            {% for item in items %}
+                                <a href="{% url 'chain-detail' item.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                    </div>
+                                    <p class="mb-1"><small class="text-muted">{{ item.description }}.</small></p>
+                                </a>
+                            {% endfor %}
+                {% elif type == "era" %}
+                            {% for item in items %}
+                                <a href="{% url 'era-detail' item.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                    </div>
+                                    <p class="mb-1"><small class="text-muted">{{ item.description }}.</small></p>
+                                </a>
+                            {% endfor %}
+                {% elif type == "theme" %}
+                            {% for item in items %}
+                                <a href="{% url 'theme-detail' item.id %}" class="list-group-item list-group-item-action" aria-current="true">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h5 class="mb-1">{{ item.title }}</h5>
+                                    </div>
+                                    <p class="mb-1"><small class="text-muted">{{ item.description }}.</small></p>
+                                </a>
+                            {% endfor %}
+                {% endif %} <!-- END IF STATEMENT -->
+
+                {% if is_paginated %}
+
+                {% if page_obj.has_previous %}
+                    <a class="btn btn-dark mb-4" href="?page=1">First</a>
+                    <a class="btn btn-dark mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <a class="btn btn-dark mb-4" href="?page={{ num }}">{{ num }}</a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a class="btn btn-dark mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="btn btn-dark mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                {% endif %}
+
+                {% endif %}
+            </div> <!-- End list group -->
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
+
+
+{% endblock main_container %}

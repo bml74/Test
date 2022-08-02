@@ -1,0 +1,84 @@
+{% extends 'base/base_search.html' %}
+
+{% block title %}Detail View{% endblock title %}
+
+
+{% block main_container %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            <h1 class="display-5 fw-bold">{{ item.title }}</h1>
+            {% comment %} <p class="fs-4 col-md-6 offset-md-3">International financial institution</p> {% endcomment %}
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-lg-2 mb-4">
+
+            <div class="card card-height-300 overflow-y-scroll">
+                <div class="card-body">
+                    <ul class="nav nav-pills flex-column">
+                        <li class="nav-item">
+                          <a class="nav-link active" aria-current="page" href="#">Overview</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Wikipedia</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#">Articles</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Data</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">External Content</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            
+        </div>
+
+        <div class="col-lg-6 mb-4">
+            <div class="card card-height-300 overflow-y-scroll">
+                <div class="card-body">
+                    The Bank for International Settlements (BIS) is an international financial institution owned by central banks that "fosters international monetary and financial cooperation and serves as a bank for central banks". The BIS carries out its work through its meetings, programmes and through the Basel Process – hosting international groups pursuing global financial stability and facilitating their interaction. It also provides banking services, but only to central banks and other international organizations. It is based in Basel, Switzerland, with representative offices in Hong Kong and Mexico City.
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card card-height-300 overflow-y-scroll">
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><small><strong>General info</strong></small></li>
+                        <li class="list-group-item"><small>Established: 17 May 1930; 92 years ago</small></li>
+                        <li class="list-group-item"><small>Type: International financial institution</small></li>
+                        <li class="list-group-item"><small>Purpose: Central bank cooperation</small></li>
+                        <li class="list-group-item"><small>Location: Basel, Switzerland (Extraterritorial jurisdiction)</small></li>
+                        <li class="list-group-item"><small>Coordinates: 47°32′53″N 7°35′31″E</small></li>
+                        <li class="list-group-item"><small>Membership: 61 central banks</small></li>
+                        <li class="list-group-item"><small>General manager: Agustín Carstens (Mexican)</small></li>
+                        <li class="list-group-item"><small>Main organ: Board of directors</small></li>
+                        <li class="list-group-item"><small>Staff: 1300</small></li>
+                        <li class="list-group-item"><small>Website: <a href="www.bis.org">www.bis.org</a></small></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+          
+
+    </div>
+
+    <div class="row">
+        {{ summary }}
+    </div>
+
+</div>
+
+{% endblock main_container %}

@@ -1,0 +1,30 @@
+{% extends 'base/base_nav.html' %}
+{% block title %}News Search | Ca' de Bruno{% endblock title %}
+{% load crispy_forms_tags %}
+
+
+
+
+{% block main %}
+
+<div class="container my-5">
+  <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+      <h1 class="display-4 fw-bold lh-1">News Search</h1>
+      <p class="lead">{{ search_description }}</p>
+
+      <form class="form-signin" method="POST">
+        {% csrf_token %}{{ form|crispy }}
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg px-4 me-md-2 fw-bold mb-4 mt-4" type="submit">Search</button>
+        </div>
+      </form>
+
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+        <img class="rounded-lg-3" src="https://media.istockphoto.com/illustrations/flag-of-free-france-illustration-id480397195?k=20&m=480397195&s=612x612&w=0&h=abO5xNw-55b4iLMZ0IeDXtmAu5qfHyNxGnbEh2FUQis=" alt="" width="560">
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

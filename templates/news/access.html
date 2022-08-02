@@ -1,0 +1,42 @@
+{% extends 'base/base_nav.html' %}
+{% load static %}
+{% load humanize %}
+{% load auth_extras %}
+
+
+{% block title %}News Access | Ca' de Bruno{% endblock title %}
+
+{% block main %}
+
+                <div class="container">
+                    <div class="row mt-4">
+                        <div class="col-md-8 offset-md-2">
+                                    <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                                        <h1 class="fw-bold">News</h1>
+            
+            
+                                        {% if already_has_access %}
+                                            <p class="lead"><i class="fas fa-check icon-color-green"></i> You currently have access to the News section.</p>
+                                            <p><a href="{% url 'delete_access' %}" class="btn btn-lg btn-danger">Delete Access</a></p>
+                                        {% else %}
+                                            <p class="lead"><i class="fas fa-times-circle icon-color-red"></i> You don't currently have access to the News section.</p>
+                                            {% if request_already_sent %}
+                                                <p class="lead"><i class="fas fa-check color-navy"></i> You have sent an access request.</p>
+                                                <p><a href="{% url 'request_access' %}" class="btn btn-outline-danger">Rescind Request</a></p>
+                                            {% else %}
+                                                <p class="lead"><i class="fas fa-times-circle icon-color-red"></i> You have not sent an access request.</p>
+                                                <p><a href="{% url 'request_access' %}" class="btn btn-outline-info">Request Access</a></p>
+                                            {% endif %}
+                                        {% endif %}
+                            
+                                    </div>
+                        </div>
+                    </div>
+                </div>
+
+
+              
+
+
+
+{% endblock main %}

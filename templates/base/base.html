@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+
+<!-- This is the main template. Contains head tag and CSS links. -->
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="R. W. Bruno">
+    <meta name="author" content="R. W. Bruno">
+    <meta name="generator" content="R. W. Bruno">
+    <meta name="google" value="notranslate">
+    <title>{% block title %}{% endblock title %}</title>
+
+    {% block css_links %}{% endblock css_links %}
+    {% block js_links %}{% endblock js_links %}
+
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+<link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" sizes="180x180">
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" sizes="32x32" type="image/png">
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" sizes="16x16" type="image/png">
+<link rel="manifest" href="">
+<link rel="mask-icon" href="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" color="#712cf9">
+<link rel="icon" href="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg">
+<meta name="theme-color" content="#712cf9">
+
+
+    <style>
+
+
+        .card-height-300 { height: 300px; }
+        .overflow-y-scroll { overflow-y: scroll; }
+        .no-text-decoration { text-decoration: none; }
+        .font-size-12 { font-size: 12px; }
+
+        .btn-outline-navy { color: rgb(0, 38, 84); border-color: rgb(0, 38, 84); }
+        .btn-outline-navy:hover { color: white; border-color: black; background-color: rgb(0, 38, 84); }
+        .color-navy { color: rgb(0, 38, 84); }
+
+        .icon-color-green { color: green; }
+        .icon-color-gold { color: #ffd700; }
+        .icon-color-gold:hover { color: #e6c200; }
+        .icon-color-red { color: red; }
+
+        .dropdown-menu.show {
+            max-height: 65vh;
+            overflow-y: scroll;
+            overflow: -moz-scrollbars-vertical; 
+        } 
+
+        .single-line {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+      }
+
+      .multi-line {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 4;
+        overflow: hidden;
+      }
+
+      .ecole-description { height: 75px; }
+        
+      .two-lines { -webkit-line-clamp: 2; }
+      .three-lines { -webkit-line-clamp: 3; }
+    .four-lines { -webkit-line-clamp: 4; }
+
+    .bg-lin-grad { background: linear-gradient(49.21deg, rgba(127, 127, 213, 0.2) 19.87%, rgba(134, 168, 231, 0.2) 58.46%, rgba(145, 234, 228, 0.2) 97.05%); }
+
+      #modalSearchUL { height: 32vh; }
+      .overflow-y-scroll { overflow-y: scroll; }
+
+        html,
+body {
+  overflow-x: hidden; /* Prevent scroll on narrow devices */
+}
+
+body {
+  padding-top: 56px;
+}
+
+#navbar-search { border-color: rgb(0, 38, 84); }
+
+@media (max-width: 991.98px) {
+  .offcanvas-collapse {
+    position: fixed;
+    top: 56px; /* Height of navbar */
+    bottom: 0;
+    left: 100%;
+    width: 100%;
+    padding-right: 1rem;
+    padding-left: 1rem;
+    overflow-y: auto;
+    visibility: hidden;
+    background-color: white;
+    transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+  }
+  .offcanvas-collapse.open {
+    visibility: visible;
+    transform: translateX(-100%);
+  }
+}
+
+.nav-scroller .nav {
+  color: rgba(255, 255, 255, .75);
+}
+
+.nav-scroller .nav-link {
+  padding-top: .75rem;
+  padding-bottom: .75rem;
+  font-size: .875rem;
+  color: #6c757d;
+}
+
+.nav-scroller .nav-link:hover {
+  color: #007bff;
+}
+
+.nav-scroller .active {
+  font-weight: 500;
+  color: #343a40;
+}
+
+.bg-purple {
+  background-color: #6f42c1;
+}
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            user-select: none;
+          }
+    
+          @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+              font-size: 3.5rem;
+            }
+          }
+    
+          .b-example-divider {
+            height: 3rem;
+            background-color: rgba(0, 0, 0, .1);
+            border: solid rgba(0, 0, 0, .15);
+            border-width: 1px 0;
+            box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+          }
+    
+          .b-example-vr {
+            flex-shrink: 0;
+            width: 1.5rem;
+            height: 100vh;
+          }
+    
+          .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+          }
+    
+          .nav-scroller {
+            position: relative;
+            z-index: 2;
+            height: 2.75rem;
+            overflow-y: hidden;
+          }
+    
+          .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+          }
+    
+      
+    </style>
+
+    
+  </head>
+  <body>
+  
+    
+        {% block body %}{% endblock body %}
+
+        
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{% comment %} <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script> {% endcomment %}
+
+{% block JavaScript %}{% endblock JavaScript %}
+<script>
+    (() => {
+      'use strict'
+    
+      document.querySelector('#navbarSideCollapse').addEventListener('click', () => {
+        document.querySelector('.offcanvas-collapse').classList.toggle('open')
+      })
+    })()
+  </script>
+  </body>
+</html>

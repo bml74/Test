@@ -1,0 +1,192 @@
+{% extends "base/base.html" %}
+{% load auth_extras %}
+
+
+
+{% block body %}
+
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light notranslate" aria-label="Main navigation" style="border-bottom: 5px solid rgb(0, 38, 84);">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold color-navy" href="{% url 'index' %}">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      Ca' de Bruno
+    </a> 
+    <button class="navbar-toggler p-0 border-0" type="button" id="navbarSideCollapse" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="navbar-collapse offcanvas-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Notifications</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Écoles</a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="{% url 'ecoles-home' %}">View all</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École générale</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des finances</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de commerce</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École d'économie</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École d'histoire</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des sciences</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de mathématiques</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">Ecole d'informatique et de progammation</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des technologies</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de philosophie</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de langues</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École militaire</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de géographie</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de religion</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des sciences navales</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École d'agriculture</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de santé</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des beaux-arts</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de musique</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de droit</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École des sciences sociales</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de psychologie</a></li><li><a class="dropdown-item" href="{% url 'finance-home' %}">École militaire</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de gépolitique et d'actualité</a></li>
+            <li><a class="dropdown-item" href="{% url 'finance-home' %}">École de direction</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" aria-expanded="false">Sections</a>
+          <ul class="dropdown-menu">
+            {% if request.user|has_group:"News Search" %} 
+            <li><a class="dropdown-item" href="{% url 'news-home' %}">News Search</a></li>
+            {% else %}
+            <li><a class="dropdown-item" href="{% url 'news-searcher-access' %}">News</a></li>
+            {% endif %}
+            
+            <li><a class="dropdown-item" href="#">Specializations</a></li>
+            <li><a class="dropdown-item" href="#">Courses</a></li>
+            <li><a class="dropdown-item" href="#">News Feeds</a></li>
+          </ul>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="navbar-search" data-bs-toggle="modal" data-bs-target="#navbarSearchModal">
+        <div>&emsp;</div>
+      </form>
+      <div class="d-flex">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'login' %}">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'register' %}">Register</a>
+            </li>
+        {% endif %}
+      </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+{% block nav_scroller %}{% endblock nav_scroller %}
+
+
+
+
+
+<main>
+
+  {% block main %}{% endblock main %}
+
+</main>
+
+
+<div class="modal fade" id="navbarSearchModal" tabindex="-1" aria-labelledby="navbarSearchModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="navbarSearchModalLabel">Search</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow overflow-hidden w-280px">
+          <form class="p-2 mb-2 bg-light border-bottom">
+            <input type="search" class="form-control" autocomplete="false" placeholder="Type to search..." id="modalSearchQuery" onkeyup="myFunction()">
+          </form>
+          <ul class="list-unstyled mb-0 overflow-y-scroll" id="modalSearchUL">
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-success rounded-circle p-1"></span>
+              Action
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-primary rounded-circle p-1"></span>
+              Another action
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-danger rounded-circle p-1"></span>
+              Something else here
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-info rounded-circle p-1"></span>
+              Separated link
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-info rounded-circle p-1"></span>
+              Separated link
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-info rounded-circle p-1"></span>
+              Separated link1
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-info rounded-circle p-1"></span>
+              Separated link2
+            </a></li>
+            <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="#">
+              <span class="d-inline-block bg-info rounded-circle p-1"></span>
+              Separated link3
+            </a></li>
+          </ul>
+        </div>
+      
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  function myFunction() {
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById("modalSearchQuery");
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("modalSearchUL");
+      li = ul.getElementsByTagName("li");
+      for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          txtValue = a.textContent || a.innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+              li[i].style.display = "";
+          } else {
+              li[i].style.display = "none";
+          }
+      }
+  }
+  </script>
+
+
+
+{% endblock body%}

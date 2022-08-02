@@ -1,0 +1,494 @@
+{% extends 'base/base_nav.html' %}
+{% block title %}Ca' de Bruno{% endblock title %}
+
+
+{% block nav_scroller %}
+  <div class="nav-scroller bg-body shadow-sm">
+    <nav class="nav" aria-label="Secondary navigation">
+      <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+      <a class="nav-link" href="#">
+        Friends
+        <span class="badge text-bg-light rounded-pill align-text-bottom">27</span>
+      </a>
+      <a class="nav-link" href="#">Explore</a>
+      <a class="nav-link" href="#">Suggestions</a>
+      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="#">Link</a>
+      <a class="nav-link" href="#">Link</a>
+    </nav>
+  </div>
+  
+  {% endblock nav_scroller %}
+
+{% block main %}
+
+  
+
+  <div class="container py-4">
+
+    <div class="p-5 mb-4 bg-lin-grad rounded-3">
+        <div class="container-fluid py-5 text-center">
+          <h1 class="display-5 fw-bold">École des finances</h1>
+
+          <p class="fs-4 col-md-6 offset-md-3">A public database of financial transactions and economic crimes, coupled with a learning management system and interactive financial tools.</p>
+
+            <form action="{% url 'query' %}" method="get">
+
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" placeholder="Try searching: Warren Buffett, 1MDB, Reichsbank, JPMorgan" aria-label="Search query" aria-describedby="button-searchQuery" name="term">
+                            <button class="btn btn-outline-secondary" type="submit" id="button-searchQuery">Search</button>
+                        </div>
+                    </div>
+                    <div class="col-3"></div>
+            
+
+                </div>
+
+            </form>
+
+
+        </div>
+      </div>
+    
+      <div class="row align-items-md-stretch">
+        <div class="col-md-6 mb-4">
+          <div class="h-100 p-5 bg-light rounded-3">
+            <h2>Financial transactions and data</h2>
+            <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+            <button class="btn btn-outline-navy" type="button">Example button</button>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Economic crimes and corruption</h2>
+            <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+            <button class="btn btn-outline-navy" type="button">Example button</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-md-stretch">
+        <div class="col-md-6 mb-4">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Interactive learning</h2>
+            <p>Swap the background-color utility and add a `.text-*` color utility to mix up the jumbotron look. Then, mix and match with additional component themes and more.</p>
+            <button class="btn btn-outline-navy" type="button">Example button</button>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="h-100 p-5 bg-light border rounded-3">
+            <h2>Financial tools for you</h2>
+            <p>Or, keep it light and add a border for some added definition to the boundaries of your content. Be sure to look under the hood at the source HTML here as we've adjusted the alignment and sizing of both column's content for equal-height.</p>
+            <button class="btn btn-outline-navy" type="button">Example button</button>
+          </div>
+        </div>
+      </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="container">
+
+
+
+
+    <div class="row card-row">
+
+      <div class="col-lg-4 mb-4">
+          <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Transactions</h5>
+                <p class="card-text">Explore transactions such as <span class="badge bg-primary rounded-pill">Buffett investment in AIG</span> and <span class="badge bg-primary rounded-pill">Nazi transfer of gold from Czechoslovak account</span>.</p>
+              </div>
+              <ol class="list-group list-group-flush list-group-numbered">
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">XYZ</div>
+                        XYZ
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                </ol>
+  
+              <div class="card-body">
+                <a href="{% url 'transaction-list' %}" class="card-link"><small>View all</small></a>
+                <a href="#" class="card-link"><small>Saved by me</small></a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'transaction-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                {% endif %}
+              </div>
+            </div>
+      </div>
+
+      <div class="col-lg-4 mb-4">
+          <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Chains</h5>
+                <p class="card-text">Explore chains such as <span class="badge bg-primary rounded-pill">Russian tax fraud</span>, <span class="badge bg-primary rounded-pill">KKR LBOs in the 1980s</span>, and <span class="badge bg-primary rounded-pill">Drexel junk bonds</span>.</p>
+              </div>
+              <ol class="list-group list-group-flush list-group-numbered">
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">XYZ</div>
+                        XYZ
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                </ol>
+  
+              <div class="card-body">
+                <a href="{% url 'chain-list' %}" class="card-link"><small>View all</small></a>
+                <a href="#" class="card-link"><small>Saved by me</small></a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'chain-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                {% endif %}
+              </div>
+            </div>
+      </div>
+
+      <div class="col-lg-4 mb-4">
+          <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Explainers</h5>
+                <p class="card-text">Explore articles such as <span class="badge bg-primary rounded-pill">offshore banking</span>, the <span class="badge bg-primary rounded-pill">value investing</span>, and <span class="badge bg-primary rounded-pill">how LBOs work</span>.</p>
+              </div>
+              <ol class="list-group list-group-flush list-group-numbered">
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">XYZ</div>
+                        XYZ
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                      <div class="fw-bold">Subheading</div>
+                      Content for list item
+                    </div>
+                    <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                  </li>
+                </ol>
+  
+              <div class="card-body">
+                <a href="{% url 'post-list' %}" class="card-link"><small>View all</small></a>
+                <a href="#" class="card-link"><small>Saved by me</small></a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'post-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                {% endif %}
+              </div>
+            </div>
+      </div>
+
+    </div>
+
+
+
+    <div class="row card-row">
+
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Themes</h5>
+                  <p class="card-text">Explore themes such as <span class="badge bg-primary rounded-pill">Russian privatization</span>, <span class="badge bg-primary rounded-pill">Nazi finances</span>, and <span class="badge bg-primary rounded-pill">credit default swaps</span>.</p>
+                </div>
+                <ol class="list-group list-group-flush list-group-numbered">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">XYZ</div>
+                          XYZ
+                        </div>
+                        <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                  </ol>
+
+                <div class="card-body">
+                  <a href="{% url 'theme-list' %}" class="card-link"><small>View all</small></a>
+                  <a href="#" class="card-link"><small>Saved by me</small></a>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'theme-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                  {% endif %}
+                </div>
+              </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Entities</h5>
+                  <p class="card-text">Explore entities such as <span class="badge bg-primary rounded-pill">Berkshire Hathaway</span>, <span class="badge bg-primary rounded-pill">IG Farben</span>, <span class="badge bg-primary rounded-pill">AIG</span>, and <span class="badge bg-primary rounded-pill">N. M. Rothschild & Sons</span>.</p>
+                </div>
+                <ol class="list-group list-group-flush list-group-numbered">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">XYZ</div>
+                          XYZ
+                        </div>
+                        <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                  </ol>
+
+                <div class="card-body">
+                  <a href="{% url 'entity-list' %}" class="card-link"><small>View all</small></a>
+                  <a href="#" class="card-link"><small>Saved by me</small></a>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'entity-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                  {% endif %}
+                </div>
+              </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">Eras</h5>
+                  <p class="card-text">Explore eras such as <span class="badge bg-primary rounded-pill">WWII and the Shoah</span>, the <span class="badge bg-primary rounded-pill">Great Recession</span>, and <span class="badge bg-primary rounded-pill">1990s Russia</span>.</p>
+                </div>
+                <ol class="list-group list-group-flush list-group-numbered">
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                        <div class="ms-2 me-auto">
+                          <div class="fw-bold">XYZ</div>
+                          XYZ
+                        </div>
+                        <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                      </li>
+                      <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-start">
+                      <div class="ms-2 me-auto">
+                        <div class="fw-bold">Subheading</div>
+                        Content for list item
+                      </div>
+                      <span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">View</a></span>
+                    </li>
+                  </ol>
+
+                <div class="card-body">
+                  <a href="{% url 'era-list' %}" class="card-link"><small>View all</small></a>
+                  <a href="#" class="card-link"><small>Saved by me</small></a>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'era-list-by-user' user.username %}" class="card-link"><small>Created by me</small></a>
+                  {% endif %}
+                </div>
+              </div>
+        </div>
+
+    </div>
+
+
+
+
+
+  </div>
+
+
+
+
+  <div class="container px-4 py-5" id="hanging-icons">
+    <h2 class="pb-2 border-bottom">Become a contributor to the databank</h2>
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-hand-holding-usd" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Transaction</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="{% url 'transaction-create' %}" class="btn btn-primary">
+            Add transaction
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-link" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Chain of transactions</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="btn btn-primary">
+            Add chain
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-university" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Entity</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="btn btn-primary">
+            Add entity
+          </a>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-hourglass-half" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Era</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="btn btn-primary">
+            Add era
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-cloud" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Theme</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="btn btn-primary">
+            Add theme
+          </a>
+        </div>
+      </div>
+      <div class="col d-flex align-items-start">
+        <div class="d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+          <i class="fas fa-edit" width="1em" height="1em"></i>
+        </div>
+        <div>
+          <h2>Post</h2>
+          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+          <a href="#" class="btn btn-primary">
+            Add post
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  {% endblock main %}

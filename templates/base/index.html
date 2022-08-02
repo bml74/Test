@@ -1,0 +1,37 @@
+{% extends 'base/base_nav.html' %}
+{% block title %}Ca' de Bruno{% endblock title %}
+
+
+
+
+{% block main %}
+
+<div class="container my-5">
+  <div class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow-lg">
+    <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+      <h1 class="display-4 fw-bold lh-1">Ca' de Bruno</h1>
+      <p class="lead">
+          Ca' de Bruno's powerful, personalized software helps you learn any subject in detail — from history and finance to philosophy and programming — in order to meet your objectives in any field or profession. 
+      </p>
+      <p class="lead text-muted font-size-12">
+        Il potente software personalizzato della Ca' de Bruno ti aiuta a imparare qualsiasi argomento in dettaglio, dalla storia alla finanza, alla filosofia e alla programmazione, al fine di raggiungere i tuoi obiettivi in qualsiasi campo o mestiere.      
+      </p>
+      <p class="lead text-muted font-size-12">
+        Le logiciel puissant et personnalisé de la Ca' de Bruno vous aide à apprendre n'importe quel sujet en détail - de l'histoire et de la finance à la philosophie et à la programmation - afin d'atteindre vos objectifs dans n'importe quel domaine.
+      </p>
+      <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+        <a type="button" class="btn btn-primary btn-lg px-4 me-md-2 fw-bold" href="{% url 'ecoles-home' %}">View schools</a>
+        {% if user.is_authenticated %}
+        <a type="button" class="btn btn-outline-navy btn-lg px-4 me-md-2 fw-bold" href="#">View courses</a>
+        {% else %}
+        <button type="button" class="btn btn-outline-navy btn-lg px-4">My learning</button>
+        {% endif %}
+      </div>
+    </div>
+    <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+        <img class="rounded-lg-3" src="https://media.istockphoto.com/illustrations/flag-of-free-france-illustration-id480397195?k=20&m=480397195&s=612x612&w=0&h=abO5xNw-55b4iLMZ0IeDXtmAu5qfHyNxGnbEh2FUQis=" alt="" width="560">
+    </div>
+  </div>
+</div>
+
+{% endblock main %}

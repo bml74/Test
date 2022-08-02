@@ -1,0 +1,46 @@
+{% extends 'base/base_search.html' %}
+{% load humanize %}
+
+
+{% block title %}{{ title }}{% endblock title %}
+
+
+{% block main_container %}
+
+<div class="container">
+
+    <div class="p-5 mb-4 bg-light rounded-3">
+        <div class="container-fluid py-5 text-center">
+            {% if type == "transaction" %}
+            <h1 class="display-5 fw-bold">{{ item.description }}</h1>
+            {% else %}
+            <h1 class="display-5 fw-bold">{{ item.title }}</h1>
+            {% endif %}
+            <p class="fs-4 col-md-6 offset-md-3">Do you want to delete this item?</p>
+            <div class="text-center" style="display: -webkit-inline-box;">
+                {% if type == "transaction" %}
+                <a class="btn btn-primary" type="button" href="{% url 'transaction-detail' item.id %}">No, return to transaction</a>
+                {% elif type == "post" %}
+                <a class="btn btn-primary" type="button" href="{% url 'post-detail' item.id %}">No, return to post</a>
+                {% elif type == "entity" %}
+                <a class="btn btn-primary" type="button" href="{% url 'entity-detail' item.id %}">No, return to entity</a>
+                {% elif type == "era" %}
+                <a class="btn btn-primary" type="button" href="{% url 'era-detail' item.id %}">No, return to era</a>
+                {% elif type == "theme" %}
+                <a class="btn btn-primary" type="button" href="{% url 'theme-detail' item.id %}">No, return to theme</a>
+                {% elif type == "chain" %}
+                <a class="btn btn-primary" type="button" href="{% url 'chain-detail' item.id %}">No, return to chain</a>
+                {% endif %}
+                &nbsp;&nbsp;
+                <form method="post">{% csrf_token %} 
+                    <button class="btn btn-danger" type="submit" value="Confirm">Delete forever</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+{% endblock main_container %}

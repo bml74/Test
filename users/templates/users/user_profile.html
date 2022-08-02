@@ -1,0 +1,54 @@
+{% extends "base/base_nav.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title %}Profile | {{ user_with_profile_being_viewed }}{% endblock title %}
+
+{% block main %}
+
+<style>
+
+
+    body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+    }
+
+    .container {
+      max-width: 600px;
+    }
+</style>
+    
+<main class="form-signin w-100 m-auto text-center">
+
+
+
+<div class="container">
+<div class="py-5 text-center">
+  <img class="d-block mx-auto mb-4" src="https://upload.wikimedia.org/wikipedia/commons/0/05/Emblem_of_Free_France_%281940-1944%29_Cross_of_Lorraine.svg" alt="" width="50" height="70">
+  <h2>{{ header }}</h2>
+  {% comment %} <p class="lead">Below is an example form built entirely with Bootstrap’s form controls. Each required form group has a validation state that can be triggered by attempting to submit the form without completing it.</p> {% endcomment %}
+</div>
+
+<div class="row g-5">
+  
+  <div class="col-md-12 col-lg-12">
+
+    
+
+
+    {{ user_with_profile_being_viewed }}
+
+
+  </div>
+</div>
+</div>
+
+
+
+</main>
+
+
+
+
+{% endblock main %}

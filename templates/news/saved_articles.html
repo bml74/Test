@@ -1,0 +1,98 @@
+{% extends 'news/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}{{ title }} | Ca' de Bruno{% endblock title %}
+
+{% block main_content_container %}
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <h1 class="fw-bold">News Search</h1>
+                            <p class="lead">{{ title }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+
+                    <div class="col-lg-12">
+                        <div class="list-group w-auto">
+                            <div class="list-group-item list-group-item-action d-flex gap-3 py-3 w-100 bg-lin-grad" aria-current="true">
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="twbs" width="32" height="24" class="flex-shrink-0">
+                                <div class="d-flex gap-2 w-100 justify-content-between">
+                                  <div>
+                                    <h6 class="mb-0 fw-bold">{{ title }}</h6>
+                                  </div>
+                                  <small class="opacity-50 text-nowrap">{{ items|length }} results</small>
+                                </div>
+                            </div>
+                            {% for item in items %}
+
+                            <div class="list-group-item list-group-item-action d-flex gap-3 py-3 w-100">
+
+
+                                    
+                        
+
+                    
+                              <div class="d-flex gap-2 w-100 justify-content-between">
+                                <div style="display: flex;">
+
+                                    
+
+                                    {% if save_method == "flag" %}
+
+                                        {% if item.article_searched_by == "url" %}
+                                            <a href="{% url 'flag_article' article_searched_by='url' id=item.id %}"><i class="fas fa-flag icon-color-red" title="Remove flag"></i></a>
+                                        {% else %}
+                                            <a href="{% url 'flag_article' article_searched_by='title' id=item.id %}"><i class="fas fa-flag icon-color-red" title="Remove flag"></i></a>
+                                        {% endif %}
+
+                                    {% elif save_method == "star" %}
+
+
+                                        {% if item.article_searched_by == "url" %}
+                                            <a href="{% url 'star_article' article_searched_by='url' id=item.id %}"><i class="fas fa-star icon-color-gold" title="Remove star"></i></a>
+                                        {% else %}
+                                            <a href="{% url 'star_article' article_searched_by='title' id=item.id %}"><i class="fas fa-star icon-color-gold" title="Remove star"></i></a>
+                                        {% endif %}
+
+                                    {% else %}
+
+
+                                        {% if item.article_searched_by == "url" %}
+                                            <a href="{% url 'bookmark_article' article_searched_by='url' id=item.id %}"><i class="fas fa-bookmark icon-color-green" title="Remove bookmark"></i></a>
+                                        {% else %}
+                                            <a href="{% url 'bookmark_article' article_searched_by='title' id=item.id %}"><i class="fas fa-bookmark icon-color-green" title="Remove bookmark"></i></a>                                        
+                                        {% endif %}
+
+                                    {% endif%}
+
+
+
+
+
+                                    <div class="px-2">
+                                        {% if item.article_searched_by == "url" %}
+                                    <a class="text-muted text-decoration-none" aria-current="true" href="{% url 'news-article-detail-by-url' item.id %}"><h5 class="mb-0">{{ item.title }}</h5></a>
+                                {% else %}
+                                    <a class="text-muted text-decoration-none" aria-current="true" href="{% url 'news-article-detail-by-title' item.id %}"><h5 class="mb-0">{{ item.title }}</h5></a>
+                                {% endif %}
+                                    </div>
+                                  
+                                
+                                  {% comment %} <p class="mb-0 opacity-75">Visit &rarr;</p> {% endcomment %}
+                                </div>
+                                {% comment %} <small class="opacity-50 text-nowrap"> {% endcomment %}
+                                {% comment %} </small> {% endcomment %}
+                              </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                </div>
+
+{% endblock main_content_container %}
