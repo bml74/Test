@@ -166,6 +166,58 @@
   </div>
 </div>
 
+<button type="button" class="btn btn-outline-navy bg-lin-grad" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3" id="chatboxToastContainer">
+  <div id="chatboxToast" class="toast border" role="alert" aria-live="assertive" aria-atomic="true" style="display: none;">
+    <div class="toast-header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="Ca' de Bruno" width="30" height="24" class="d-inline-block align-text-top me-2">
+      <strong class="me-auto">Chat with Bruno</strong>
+      <button type="button" class="btn-close" id="btn-close-chatbox" onclick="closeChatbox()" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      <div class="chatbox-message bruno-message bg-lin-grad p-2 mt-2 mb-2" style="border-radius: 8px; float: left; width: 60%; opacity: 0.95 !important;">
+        Salve, posso aiutarLa?
+      </div>
+      <div class="chatbox-message user-message p-2 mt-2 mb-2" style="border-radius: 8px; float: right; width: 60%; color: whitesmoke; opacity: 0.8 !important; background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(8,7,97,1) 23%, rgba(8,8,109,1) 30%, rgba(9,9,121,1) 35%, rgba(7,56,152,1) 50%, rgba(5,65,134,1) 58%, rgba(0,212,255,1) 100%);">
+        Sì, ho una domanda riguardante il sito web per voi...
+      </div>
+      <div class="input-group mb-3">
+        <input type="text" class="form-control form-control-sm" placeholder="Type your message" aria-label="User message" aria-describedby="user-message">
+        <button class="btn btn-sm btn-outline-navy" type="button" id="user-message"><i class="fas fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const chatbox_toastTrigger = document.getElementById('chatboxToastBtn')
+  const chatbox_toastLiveExample = document.getElementById('chatboxToast')
+  if (chatbox_toastTrigger) {
+    chatbox_toastTrigger.addEventListener('click', () => {
+      if (chatbox_toastTrigger.classList.contains("chatbox-active")) {
+        document.getElementById('chatboxToast').style.display = "none";
+        chatbox_toastTrigger.classList.remove("chatbox-active");
+      } else {
+
+      
+      chatbox_toastLiveExample.style.display = "inline-block";
+      chatbox_toastTrigger.classList.add("chatbox-active");
+      }
+    })
+  }
+  function closeChatbox() {
+    chatbox_toastLiveExample.style.display = "none";
+    chatbox_toastTrigger.classList.remove("chatbox-active");
+  }
+
+  /*btn = document.querySelector("chatbox-active");
+  btn.addEventListener('click', () => {
+    document.getElementById('chatboxToast').style.display = "none";
+    btn.classList.remove("chatbox-active");
+  })*/
+
+</script>
 
 
 <script>

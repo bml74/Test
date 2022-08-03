@@ -120,3 +120,165 @@ class Course(models.Model):
         return reverse('course_detail', kwargs={'pk': self.pk})
 
 
+class Module(models.Model):
+    title = models.CharField(max_length=64, default="Module", blank=False)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    visibility = models.CharField(
+        max_length=100,
+        choices=Visibility.choices,
+        default=Visibility.PRIVATE,
+        blank=False,
+    )
+
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="modules_within_course")
+
+    completed = models.ManyToManyField(
+        User,
+        related_name="module_completed",
+        default=None,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('malagosto_modules_detail', kwargs={'pk': self.pk})
+
+
+class Submodule(models.Model):
+    title = models.CharField(max_length=128, default="Submodule", blank=False)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name="submodules_within_module")
+
+    completed = models.ManyToManyField(
+        User,
+        related_name="submodule_completed",
+        default=None,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('malagosto_submodules_detail', kwargs={'pk': self.pk})
+
+
+class Assignment(models.Model):
+    title = models.CharField(max_length=256, default="Assignment", blank=False)
+    description = models.TextField(blank=True)
+    due_date = models.DateTimeField(auto_now_add=True, null=True)
+    estimated_minutes_to_complete = models.FloatField(default=30)
+
+    assignment_type = models.CharField(
+        max_length=100, 
+        choices=(
+            ("Choose an assignment type", "Choose an assignment type"), # Just text on the page itself
+            ("Text", "Text"), # Just text on the page itself
+            ("Internal Link", "Internal Link"), # ex. Link to a YouTube transcript on our site or to a News Search article
+            ("External Reading Link", "External Reading Link"), # ex. Link to an article on another site
+            ("External Link", "External Link"), # ex. link to any other page from another site, such as PDF, for example
+            # ("Internal PDF", "Internal PDF"), # PDF on site
+            # ("Writing Entry", "Writing Entry"), # Like a journal or diary, but for something specific
+            # ("Exam", "Exam"), # Quiz/test
+            # ("Language Session", "Language Session"), # Like a Duolingo lesson; basically a slideshow of questions
+            # ("Slideshow", "Slideshow"), # Powerpoint of Google Slides presentation
+            # ("File", "File"), # User can upload file
+            # ("Stories", "Stories"), # Like TikTok/Instagram/YouTube stories
+            # ("Table", "Table"), # ex. for Grammar tables verb endings
+            # ("Audio", "Audio"), # Audio file
+            ("Iframe Link", "Iframe Link"), # Iframe 
+            ("Corsican Bible Chapter", "Corsican Bible Chapter"),
+            ("Youtube Video Link", "Youtube Video Link"),
+            ("Youtube Video Transcript ID", "Youtube Video Transcript ID"),
+            # ("PDF Link", "PDF Link"),
+            # ("Image", "Image")
+        ),
+        default="Choose an assignment type",
+        blank=False,
+    )
+    text = models.TextField(blank=True, null=True) # For assignment choice: Text
+    internal_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: Internal Link
+    external_reading_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: External Reading
+    external_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: External Link
+    # internal_pdf = models.ABC123Field(blank=True, null=True) # For assignment choice: Internal PDF
+    # writing_entry
+    # exam
+    # language_session
+    # slideshow
+    # file
+    # stories
+    # table
+    # audio
+    iframe_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: IFrame
+
+    # corsican_bible_chapter = models.ForeignKey(CorsicanBibleChapter, on_delete=models.CASCADE, related_name="corsican_bible_chapter_assignment", blank=True, null=True)
+    
+    youtube_video_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: Youtube Video Link
+    youtube_video_transcript_id = models.CharField(max_length=127, default="#", blank=True, null=True) # For assignment choice: Youtube Video Transcript ID
+
+    completed = models.ManyToManyField(
+        User,
+        related_name="assignment_completed",
+        default=None,
+        blank=True
+    )
+
+    submodule = models.ForeignKey(Submodule, on_delete=models.CASCADE, related_name="assignments_within_submodule")
+
+    def __str__(self):
+        return self.title
+    
+    def get_absolute_url(self):
+        return reverse('malagosto_assignments_detail', kwargs={'pk': self.pk})
+
+
+class Task(models.Model):
+    task_type = models.CharField( 
+        max_length=15,
+        choices=(("Read", "Read"), ("Watch", "Watch"), ("Notes", "Notes"), ("Write", "Write")),
+        default="Read",
+        blank=False,
+    )
+
+    due_date = models.DateTimeField(auto_now_add=True)
+
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True, related_name="tasks_within_assignment")
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_task")
+
+    completed = models.ManyToManyField(
+        User,
+        related_name="task_completed",
+        default=None,
+        blank=True
+    )
+
+    def __str__(self):
+        return self.task_type
+    
+    def get_absolute_url(self):
+        return reverse('malagosto_tasks_detail', kwargs={'pk': self.pk, "username": self.request.user.username})
+
+
+class AssignmentNote(models.Model):
+    title = models.CharField(max_length=100) 
+    content = models.TextField(blank=False)
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name="assignment_note")
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="assignment_note_creator")
+    visibility = models.CharField(
+        max_length=100,
+        choices=Visibility.choices,
+        default=Visibility.PRIVATE,
+        blank=False,
+        null=False
+    )
+        
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('malagosto_assignments_detail', kwargs={'pk': self.assignment.pk})
+
+

@@ -1,0 +1,399 @@
+{% extends 'base/base_nav.html' %}
+{% load static %}
+
+
+{% block css_links %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/main.css' %}">
+{% endblock css_links %}
+
+{% block main %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        
+        <nav id="sidebarMenu" class="col-md-4 col-lg-3 d-md-block bg-light sidebar collapse">
+            <div class="position-sticky pt-3 sidebar-sticky">
+
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 mt-4">
+                        <div class="card">
+                            <div class="card-body font-size-12">
+                                <h5 class="card-title">Data</h5>
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item p-3">
+                                    <span class="d-flex mb-2">
+                                        <small><strong class="mr-1">Source:</strong> {{ article_source }}</small>
+                                    </span>
+                                    <span class="d-flex mb-2">
+                                    <small>
+                                        <strong class="mr-1">Link:</strong>
+                                        <strong><a class="text-muted text-decoration-none" target="_blank" href="{{ article_url }}">Visit &rarr;</a></strong>
+                                    </small>
+                                    </span>
+                                    <span class="d-flex mb-2">
+                                    <small><strong class="mr-1">Title:</strong> {{ article_title}}</small>
+                                    </span>
+                                    {% if article_published_date %}
+                                    <span class="d-flex">
+                                    <small><strong class="mr-1">Date:</strong> {{ article_published_date}}</small>
+                                    </span>
+                                    {% endif %}
+                                    {% if article_author %}
+                                    <span class="d-flex">
+                                    <small><strong class="mr-1">Author(s):</strong> {{ article_author }}</small>
+                                    </span>
+                                    {% endif %}
+                                    {% if article_description %}
+                                    <span class="d-flex">
+                                    <small><strong class="mr-1">Description:</strong> <span class="">{{ article_description }}</span></small>
+                                    </span>
+                                    {% endif %}
+            
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 mt-4">
+                        <div class="card">
+                            <div class="card-body">
+                            <h5 class="card-title">Notes</h5>
+                                <div class="mb-3 mt-2">
+                                <input class="form-control form-control-sm" type="text" placeholder="Title..." aria-label="Title" id="user-note-title">
+                                </div>
+                            <div class="mb-3 mt-2">
+                                <textarea class="form-control form-control-sm" rows="3" placeholder="Start typing here..." id="user-note-text"></textarea>
+                            </div>
+                            <button id="save-user-note-btn" class="btn btn-sm btn-outline-navy w-100">Save</button>
+                            {% if article_note %}
+                            <script>
+                                document.getElementById("user-note-title").value = "{{ article_note.title|safe }}";
+                                document.getElementById("user-note-text").value = "{{ article_note.note|safe }}";
+                            </script>
+                            {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 mt-4">
+                        <div class="card">
+                            <div class="card-body">
+                            <h5 class="card-title">Translate</h5>
+                            {% comment %} <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> {% endcomment %}
+                            <select class="form-select form-select-sm mt-2" aria-label="Default select example" id="src_dropdown">
+                                    <option value="en" selected>English</option>
+                                    {% for abbrev, lang in LANGUAGES.items %}
+                                        <option value="{{ abbrev }}">{{ lang }}</option>
+                                    {% endfor %}
+                            </select>
+                            <select class="form-select form-select-sm mt-2" aria-label="Default select example" id="dest_dropdown">
+                                    <option value="en" selected>English</option>
+                                    {% for abbrev, lang in LANGUAGES.items %}
+                                        <option value="{{ abbrev }}">{{ lang }}</option>
+                                    {% endfor %}
+                            </select>
+                            <div class="mb-3 mt-2">
+                                <textarea class="form-control form-control-sm" id="textToTranslate" rows="3" placeholder="Type text to translate..."></textarea>
+                            </div>
+                            <button id="translate-btn" class="btn btn-sm btn-outline-navy w-100 mb-2">Translate</button>
+                            <div class="card mt-2">
+                                <div class="card-body font-size-12" id="translation" style="height: 150px; overflow-y: scroll;"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 mt-4">
+                        <div class="card">
+                            <div class="card-body">
+                            <h5 class="card-title">Wikipedia Search</h5>
+                            {% comment %} <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6> {% endcomment %}
+                            <select class="form-select form-select-sm mt-2" aria-label="Default select example" id="wiki-src-lang">
+                                    <option value="en" selected>English</option>
+                                    {% for abbrev, lang in LANGUAGES.items %}
+                                        <option value="{{ abbrev }}">{{ lang }}</option>
+                                    {% endfor %}
+                            </select>
+                            <div class="mb-3 mt-2">
+                                <input class="form-control form-control-sm" type="text" placeholder="Enter query" aria-label="Wikipedia query" id="wiki-query" aria-describedby="wikipediaQueryAria">
+                            </div>
+                            <button class="btn btn-sm btn-outline-navy w-100 mb-2" id="wikipedia-summary-btn">Search</button>
+                            <div class="card mt-2 font-size-12">
+                                <div class="card-body" style="height: 150px; overflow-y: scroll;">
+                                    <a href="#" type="button" class="btn btn-outline-navy btn-sm w-100 mb-2" id="wiki-summary-page-url" target="_blank" style="display: none;"></a> 
+                                    <div class="card-title font-size-12 fw-bold" id="wiki-summary-output-title"></div>
+                                    <div class="card-text font-size-12 mt-2" id="wiki-summary-output"></div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-10 offset-md-1 mt-4 mb-4">
+                        <button type="button" class="btn btn-sm btn-outline-navy w-100" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Launch map
+                        </button>
+                    </div>
+                </div>
+
+
+            
+            
+
+                
+
+            </div>
+        </nav>
+  
+        <main class="col-md-8 offset-md-3 ms-sm-auto col-lg-9 px-md-4">
+            <div id="main-content" style="padding-top: 5vh; padding-left: 5vw; padding-right: 5vw;">
+                <div class="container">
+                    {% block content_container %}{% endblock content_container %}
+                </div>
+            </div>
+         </main>
+
+    </div>
+</div>
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="Ca' de Bruno" width="30" height="24" class="d-inline-block align-text-top me-2">
+        <strong class="me-auto">Ca' de Bruno</strong>
+        <small>Now</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        <i class="fas fa-check-circle icon-color-green"></i> Your note has been saved.
+      </div>
+    </div>
+  </div>
+
+
+{% endblock main %}
+
+{% block JavaScript %}
+
+
+        <script defer>
+        
+            function splitSection() {
+                article_section = document.getElementById("article-text-original");
+                article_section.classList.remove("col-lg-12");
+                article_section.classList.add("col-lg-6");
+
+                translate_section = document.getElementById("article-text-translate");
+                translate_section.style.display = "inline";
+            }
+
+
+
+
+
+
+
+
+
+
+            $(document).ready(function(){
+
+                $("#split-section").click(function(e){
+                    e.preventDefault();
+                    btn = document.querySelector("#split-section");
+
+                    article_title = document.getElementById("article-title-original");
+                    translate_title = document.getElementById("article-title-translate");
+
+                    article_section = document.getElementById("article-text-original");
+                    translate_section = document.getElementById("article-text-translate");
+
+                    article_button_translate = document.getElementById("article-button-translate");
+
+                    if (btn.classList.contains("split-section-off")) {
+
+                        // Original when you go on the page.
+                        btn.innerHTML = "<small>Turn split section off</small>";
+                      
+                        article_section.classList.remove("col-lg-12");
+                        article_section.classList.add("col-lg-6");
+                        article_title.classList.remove("col-lg-12");
+                        article_title.classList.add("col-lg-6");
+
+                        translate_section.style.display = "inline";
+                        translate_title.style.display = "inline";
+
+                        article_button_translate.style.display = "inline";
+
+                        btn.classList.remove("split-section-off");
+                    } else {
+
+                        btn.innerHTML = "<small>Turn split section on</small>";
+
+                        translate_section.style.display = "none";
+                        translate_title.style.display = "none";
+                        article_button_translate.style.display = "none";
+
+                        article_section.classList.remove("col-lg-6");
+                        article_section.classList.add("col-lg-12");
+                        article_title.classList.remove("col-lg-6");
+                        article_title.classList.add("col-lg-12");
+
+                        btn.classList.add("split-section-off");
+                    }
+                    btn.classList.toggle("split-section-on");
+      
+                });
+      
+              });
+            
+        </script>
+
+
+
+        <script defer>          
+            $('#translate-btn').on('click', function (clickEvent) {
+                url = window.location.href;
+                article_searched_by = "{{ article_searched_by|safe }}";
+                article_id = "{{ article_id|safe }}";
+                $.ajax({
+                    url: `/news/article/${article_searched_by}/${article_id}/`,
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        src: document.getElementById("src_dropdown").value,
+                        dest: document.getElementById("dest_dropdown").value,
+                        original_text: document.getElementById("textToTranslate").value
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        console.log(response.translated_text);
+                        document.getElementById("translation").innerHTML = response.translated_text;
+                    }
+                });
+            }); 
+  
+            $('#wikipedia-summary-btn').on('click', function (clickEvent) {
+              url = window.location.href;
+              article_searched_by = "{{ article_searched_by|safe }}";
+              article_id = "{{ article_id|safe }}";
+              $.ajax({
+                  url: `/news/article/${article_searched_by}/${article_id}/`,
+                  type: 'get',
+                  dataType: 'json',
+                  data: {
+                      lang: document.getElementById("wiki-src-lang").value,
+                      wiki_query: document.getElementById("wiki-query").value
+                  },
+                  error: function(response) {
+                      console.log(response);
+                  },
+                  success: function(response) {
+                      console.log(response); // results, wiki_page_url, summary
+                      console.log(response.summary);
+                      document.getElementById("wiki-summary-output-title").innerHTML = response.first_result_title;
+                      document.getElementById("wiki-summary-output").innerHTML = response.summary;
+                      document.getElementById("wiki-summary-page-url").style.display = "inline";
+                      document.getElementById("wiki-summary-page-url").href = response.wiki_page_url;
+                      document.getElementById("wiki-summary-page-url").innerHTML = "View article in full <i class='fas fa-angle-right'></i>";
+                  }
+              });
+            });
+
+            $('#save-user-note-btn').on('click', function (clickEvent) {
+                url = window.location.href;
+                article_searched_by = "{{ article_searched_by|safe }}";
+                article_id = "{{ article_id|safe }}";
+                $.ajax({
+                    url: `/news/article/${article_searched_by}/${article_id}/`,
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        user_note_title: document.getElementById("user-note-title").value,
+                        user_note_text: document.getElementById("user-note-text").value
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    },
+                    success: function(response) {
+                        console.log(response); // results, wiki_page_url, summary
+                        document.getElementById("user-note-title").value = response.user_note_title_updated;
+                        document.getElementById("user-note-text").value = response.user_note_text_updated;
+                        
+                        const toastTrigger = document.getElementById('liveToastBtn')
+                        const toastLiveExample = document.getElementById('liveToast')
+                        const toast = new bootstrap.Toast(toastLiveExample);
+                        toast.show();
+
+                    }
+                });
+              });
+  
+  
+        </script>
+  
+
+
+        <!-- Begin Google Translate -->
+        <script type="text/javascript" defer>
+        function googleTranslateElementInit() {
+            new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+        }
+        </script>
+        <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+        <!-- End Google Translate -->
+        
+        
+{% endblock JavaScript %}
