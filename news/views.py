@@ -13,7 +13,7 @@ from .utils import (
     get_google_url
 
 )
-from malagosto.utils import is_ajax
+from config.utils import is_ajax
 
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import HttpResponse, JsonResponse
