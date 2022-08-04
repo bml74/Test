@@ -4,11 +4,12 @@
 {% load humanize %}
 {% block title %}{{ header }} | Ca' de Bruno{% endblock title %}
 
-
+{% block css_links %}
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+{% endblock css_links %}
 
 {% block main_content_container %}
 
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
                 <div class="row mb-4">
                     <div class="col-lg-12">
@@ -30,7 +31,7 @@
             {% csrf_token %}{{ form|crispy }}
         </fieldset>
         <div class="form-group">
-            <button class="w-100 btn btn-lg btn-outline-navy mt-3" type="submit" id="create-or-update">Update</button>
+            <button class="w-100 btn btn-lg btn-outline-navy mt-3" type="submit" id="create-or-update">Save</button>
         </div>
     </form>
     
@@ -113,6 +114,84 @@
     };
 
 </script>
+
+
+
+
+<script>
+
+
+
+
+    {% comment %} const page_url = window.location.href;
+    if (page_url.includes("/assignments/new") || page_url.includes("/assignments/update")) {
+
+        assignment_type_element = document.getElementById("id_assignment_type");
+
+        assignment_type_element.options[0].disabled = true;
+
+        assignment_type = assignment_type_element.value;
+
+        console.log(assignment_type);
+
+        assignment_type_element.onchange = handleChange;
+
+        assignment_type_fields = ["text", "internal_link", "external_reading_link", "external_link", "iframe_link", 'corsican_bible_chapter', 'youtube_video_link', 'youtube_video_transcript_id'];
+        assignment_type_names = [];
+        assignment_type_ids = [];
+        assignment_type_label_ids = [];
+        for (field of assignment_type_fields) {
+            num_underscores = (field.split("_").length - 1);
+            arr = field.split("_");
+            words = [];
+            for (word of arr) {
+                words.push(word.charAt(0).toUpperCase() + word.slice(1));
+            }
+            name = words.join(' ');
+            assignment_type_names.push(name);
+            assignment_type_ids.push(`id_${field}`);
+            assignment_type_label_ids.push(`div_id_${field}`);
+        }
+        for (id of assignment_type_ids) { // All assignment type IDs will have display none
+            document.getElementById(id).style.display = "none";
+        }
+        for (id of assignment_type_label_ids) { // All assignment type IDs will have display none
+            document.getElementById(id).style.display = "none";
+        }
+
+        function handleChange(e) {
+
+            for (id of assignment_type_ids) { // All assignment type IDs will have display none
+                document.getElementById(id).style.display = "none";
+            }
+            for (id of assignment_type_label_ids) { // All assignment type IDs will have display none
+                document.getElementById(id).style.display = "none";
+            }
+            
+            // log.textContent = `The field's value is ${e.target.value.length} character(s) long.`;
+            assignment_type = assignment_type_element.value;
+            if (assignment_type_names.includes(assignment_type)) { // ex. Text, Internal Link, Iframe Link, etc.
+                idx = assignment_type_names.indexOf(assignment_type);
+                document.getElementById(assignment_type_ids[idx]).style.display = "inline";
+                document.getElementById(assignment_type_label_ids[idx]).style.display = "inline";
+            }
+        }
+
+        if (page_url.includes("update")) {
+            // log.textContent = `The field's value is ${e.target.value.length} character(s) long.`;
+            assignment_type = assignment_type_element.value;
+            if (assignment_type_names.includes(assignment_type)) { // ex. Text, Internal Link, Iframe Link, etc.
+                idx = assignment_type_names.indexOf(assignment_type);
+                document.getElementById(assignment_type_ids[idx]).style.display = "inline";
+                document.getElementById(assignment_type_label_ids[idx]).style.display = "inline";
+            }
+        }
+
+    } {% endcomment %}
+
+
+</script>
+
 
 
 {% endblock JavaScript %}

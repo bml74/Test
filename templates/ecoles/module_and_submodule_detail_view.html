@@ -1,0 +1,46 @@
+{% extends 'ecoles/base_ecoles.html' %}
+{% load static %}
+
+{% block title %}{{ title }} | Ca' de Bruno{% endblock title %}
+
+{% block main_content_container %}
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <h1 class="fw-bold">{{ item.title }}</h1>
+                            <p class="lead">Course: {{ course.title }}</p>
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="row mb-4">
+
+                    <div class="col-lg-12">
+
+
+                        <div class="card mb-4 bg-lin-grad">
+                            <div class="card-body">
+                                <h5 class="card-title">Module info</h5>
+                                <hr>
+                                <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
+                                    <p class="card-text">
+                                        {{ item.description|safe }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        
+
+
+
+                    </div>
+
+
+
+                </div>
+
+{% endblock main_content_container %}

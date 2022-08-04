@@ -3,6 +3,7 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
+from django.utils import timezone
 
 
 class Ecole(models.Model):
@@ -125,12 +126,12 @@ class Course(models.Model):
 class Module(models.Model):
     title = models.CharField(max_length=64, default="Module", blank=False)
     description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
-    visibility = models.CharField(
-        max_length=100,
-        choices=Visibility.choices,
-        default=Visibility.PRIVATE,
-        blank=False,
-    )
+    # visibility = models.CharField(
+    #     max_length=100,
+    #     choices=Visibility.choices,
+    #     default=Visibility.PRIVATE,
+    #     blank=False,
+    # )
 
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="modules_within_course")
 
@@ -145,7 +146,7 @@ class Module(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('malagosto_modules_detail', kwargs={'pk': self.pk})
+        return reverse('module_detail', kwargs={'pk': self.pk, "course_id": self.course.id})
 
 
 class Submodule(models.Model):
@@ -165,13 +166,13 @@ class Submodule(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('malagosto_submodules_detail', kwargs={'pk': self.pk})
+        return reverse('submodule_detail', kwargs={'pk': self.pk, "course_id": self.module.course.id, "module_id": self.module.id})
 
 
 class Assignment(models.Model):
     title = models.CharField(max_length=256, default="Assignment", blank=False)
     description = models.TextField(blank=True)
-    due_date = models.DateTimeField(auto_now_add=True, null=True)
+    due_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
     estimated_minutes_to_complete = models.FloatField(default=30)
 
     assignment_type = models.CharField(
@@ -192,7 +193,7 @@ class Assignment(models.Model):
             # ("Table", "Table"), # ex. for Grammar tables verb endings
             # ("Audio", "Audio"), # Audio file
             ("Iframe Link", "Iframe Link"), # Iframe 
-            ("Corsican Bible Chapter", "Corsican Bible Chapter"),
+            # ("Corsican Bible Chapter", "Corsican Bible Chapter"),
             ("Youtube Video Link", "Youtube Video Link"),
             ("Youtube Video Transcript ID", "Youtube Video Transcript ID"),
             # ("PDF Link", "PDF Link"),
@@ -234,7 +235,7 @@ class Assignment(models.Model):
         return self.title
     
     def get_absolute_url(self):
-        return reverse('malagosto_assignments_detail', kwargs={'pk': self.pk})
+        return reverse('assignment_detail', kwargs={'pk': self.pk, "course_id": self.submodule.module.course.id, "module_id": self.submodule.module.id, "submodule_id": self.submodule.id})
 
 
 class Task(models.Model):
@@ -247,7 +248,7 @@ class Task(models.Model):
 
     due_date = models.DateTimeField(auto_now_add=True)
 
-    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, null=True, related_name="tasks_within_assignment")
+    assignment = models.ForeignKey(Assignment, null=True, blank=True, on_delete=models.CASCADE, related_name="tasks_within_assignment")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_task")
 
     completed = models.ManyToManyField(
@@ -261,7 +262,7 @@ class Task(models.Model):
         return self.task_type
     
     def get_absolute_url(self):
-        return reverse('malagosto_tasks_detail', kwargs={'pk': self.pk, "username": self.request.user.username})
+        return reverse('task_detail', kwargs={"course_id": self.assignment.submodule.module.course.id, "module_id": self.assignment.submodule.module.id, "submodule_id": self.assignment.submodule.id, "assignment_id": self.assignment.id, 'pk': self.pk, "username": self.creator.username})
 
 
 class AssignmentNote(models.Model):
