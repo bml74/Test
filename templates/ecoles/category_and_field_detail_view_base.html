@@ -1,0 +1,66 @@
+{% extends 'ecoles/base_ecoles.html' %}
+{% load static %}
+
+{% block title %}{{ item.title }} | Ca' de Bruno{% endblock title %}
+
+{% block main_content_container %}
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <h1 class="fw-bold">{{ item.title }}</h1>
+                            {% if user_enrolled %}
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this {{ obj_type }}.</p>
+                            {% endif %}
+                            {% if user_is_creator or allowed_to_edit %}
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are allowed to edit this {{ obj_type }}.</p>
+                            {% endif %}
+                            {% if user_is_creator %}
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this {{ obj_type }}.</p>
+                            {% endif %}
+
+                            {% if obj_type == "category" %} <!-- category -->
+                                {% if user_enrolled %}
+                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                                {% else %}
+                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                                {% endif %}
+
+                                {% if user_is_creator or allowed_to_edit %}
+                                <a class="btn btn-lg btn-info mb-2" href="{% url 'category_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
+                                {% endif %}
+                                {% if user_is_creator %}
+                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'category_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                                {% endif %}
+                            {% else %} <!-- field-->
+                                {% if user_enrolled %}
+                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                                {% else %}
+                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                                {% endif %}
+
+                                {% if user_is_creator or allowed_to_edit %}
+                                <a class="btn btn-lg btn-info mb-2" href="{% url 'field_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
+                                {% endif %}
+                                {% if user_is_creator %}
+                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'field_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                    </div> 
+                </div>
+
+                <div class="card mb-4 bg-lin-grad">
+                    <div class="card-body">
+                        <h5 class="card-title">Description</h5>
+                        <hr>
+                        <div class="media text-muted">
+                            {% comment %} <strong class="d-block text-dark mb-2 mt-1">Description</strong>   {% endcomment %}
+                            <p class="card-text">{{ item.description|safe }}</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+{% endblock main_content_container %}
