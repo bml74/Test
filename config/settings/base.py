@@ -33,9 +33,10 @@ INSTALLED_APPS = [
 
     'users',
     'ecoles',
-    'finance',
+    'maps',
     'posts',
     'news',
+    'finance',
 
     'crispy_forms'
 ]

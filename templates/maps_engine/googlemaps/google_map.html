@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Map</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+</head>
+<body>
+
+<div id='map' style='width: 100vw; height: 100vh;'></div>
+
+<script>
+	const API_KEY = "AIzaSyDhEfYnsTHhCFBjthMNlzUAOYUtD6ULKOs";
+    function initMap() {
+        options = {
+            zoom: 8,
+            center: {lat: 42.3601, lng: -71.0589},
+        }
+        map = new google.maps.Map(document.getElementById("map"), options);
+    }
+</script>
+<script
+src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap&libraries=&v=weekly&channel=2"
+async defer
+></script>
+
+</body>
+</html>

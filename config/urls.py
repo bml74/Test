@@ -34,10 +34,12 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('profile/<str:username>/', user_views.user_profile, name='user_profile'),
 
-    path('finance/', include('finance.urls')),
     path('posts/', include('posts.urls')),
     path('écoles/', include('ecoles.urls')), path('ecoles/', include('ecoles.urls')),
     path('news/', include('news.urls')), 
+    path('maps/', include('maps.urls')), 
+
+    path('finance/', include('finance.urls')),
 
     
 

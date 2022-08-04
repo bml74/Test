@@ -1,0 +1,627 @@
+{
+    "type": "FeatureCollection",
+        "features": 
+        
+        [
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-02"],
+                    "Hour": 16,
+                    "Day": "Fri",
+                    "City": "kyiv",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 150,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start_Date": "1944-10-01",
+                    "End_Date": "1944-10-31",
+                    "Start": 0,
+                    "End": 30
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.4492, 50.4713]
+                }
+            }, 
+            
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-09-02", "1940-10-02"],
+                    "Hour": 19,
+                    "Day": "Sun",
+                    "City": "myropil'",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 55555,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [27.7078, 50.1069]
+                }
+            }, 
+            
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1940-10-02"],
+                    "Hour": 19,
+                    "Day": "Fri",
+                    "City": "minsk",
+                    "Region": "",
+                    "Country": "belarus",
+                    "Num_Sites": 1,
+                    "Casualty": 200,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [27.5590, 53.9006]
+                }
+            }, 
+            
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-02"],
+                    "Hour": 14,
+                    "Day": "Fri",
+                    "City": "busk",
+                    "Other_Names": ["bousk", "bisik", "busik"],
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 7,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [24.6095, 49.9694]
+                }
+            }, 
+            
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1941-10-02"],
+                    "Hour": 13,
+                    "Day": "Sat",
+                    "City": "iași",
+                    "Region": "",
+                    "Country": "romania",
+                    "Num_Sites": 1,
+                    "Casualty": 4,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [27.6014, 47.1585]
+                }
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1941-10-02"],
+                    "Hour": 11,
+                    "Day": "Thu",
+                    "City": "vilnius",
+                    "Region": "",
+                    "Country": "lithuania",
+                    "Num_Sites": 1,
+                    "Casualty": 4,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [25.2797, 54.6872]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 13,
+                    "Day": "Sat",
+                    "City": "ivano-frankivsk",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 55,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [24.7111, 48.9226]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 10,
+                    "Day": "Sat",
+                    "City": "lviv",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 33,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 1,
+                    "End": 4
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [24.0297, 49.8397]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 9,
+                    "Day": "Sat",
+                    "City": "odessa",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 4,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 1,
+                    "End": 2
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.7233, 46.4825]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 9,
+                    "Day": "Sat",
+                    "City": "tallinn",
+                    "Region": "",
+                    "Country": "estonia",
+                    "Num_Sites": 1,
+                    "Casualty": 4000,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 1,
+                    "End": 2
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [24.7536, 59.4370]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-04"],
+                    "Hour": 19,
+                    "Day": "Sat",
+                    "City": "riga",
+                    "Region": "",
+                    "Country": "latvia",
+                    "Num_Sites": 1,
+                    "Casualty": 400,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 4,
+                    "End": 7
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [24.1052, 56.9496]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 11,
+                    "Day": "Sat",
+                    "City": "kaunas",
+                    "Region": "",
+                    "Country": "lithuania",
+                    "Num_Sites": 1,
+                    "Casualty": 40,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 4,
+                    "End": 5
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [23.9036, 54.8985]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 13,
+                    "Day": "Sat",
+                    "City": "simferopol",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 1,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 1,
+                    "End": 3
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [34.1024, 44.9521]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 6,
+                    "Day": "Sat",
+                    "City": "iași",
+                    "Region": "",
+                    "Country": "romania",
+                    "Num_Sites": 1,
+                    "Casualty": 4,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 45,
+                    "End": 46
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [27.6014, 47.1585]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 16,
+                    "Day": "Sat",
+                    "City": "sevastopol",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 22,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 34,
+                    "End": 45
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [33.5254, 44.6166]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 16,
+                    "Day": "Sat",
+                    "City": "yalta",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 22,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 10,
+                    "End": 12
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [34.1533, 44.4909]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 16,
+                    "Day": "Sat",
+                    "City": "mariupol'",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 22,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 11,
+                    "End": 44
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [37.5434, 47.0971]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 16,
+                    "Day": "Sat",
+                    "City": "kherson",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 22,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 11,
+                    "End": 34
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [32.6169, 46.6354]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 5,
+                    "Day": "Tue",
+                    "City": "mykolaiv",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 22,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 11,
+                    "End": 22
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [31.9946, 46.9750]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 5,
+                    "Day": "Wed",
+                    "City": "melitopol'",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 220,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 90,
+                    "End": 110
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [35.3587, 46.8550]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-04"],
+                    "Hour": 5,
+                    "Day": "Wed",
+                    "City": "zaporizhzhia",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 220,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 101
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [35.1396, 47.8388]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-05"],
+                    "Hour": 5,
+                    "Day": "Wed",
+                    "City": "kharkiv",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 6643,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 111
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [36.2304, 49.9935]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-06"],
+                    "Hour": 5,
+                    "Day": "Wed",
+                    "City": "chisinau",
+                    "Region": "",
+                    "Country": "moldova",
+                    "Num_Sites": 1,
+                    "Casualty": 9,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 150
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [28.8638, 47.0105]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-07"],
+                    "Hour": 5,
+                    "Day": "Tue",
+                    "City": "bucharest",
+                    "Region": "",
+                    "Country": "romania",
+                    "Num_Sites": 1,
+                    "Casualty": 997,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 97,
+                    "End": 115
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [26.1025, 44.4268]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-07"],
+                    "Hour": 5,
+                    "Day": "Tue",
+                    "City": "tiraspol",
+                    "Region": "",
+                    "Country": "moldova",
+                    "Num_Sites": 1,
+                    "Casualty": 997,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 94,
+                    "End": 107
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.5968, 46.8482]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 0,
+                    "Dates": ["1939-10-07"],
+                    "Hour": 5,
+                    "Day": "Tue",
+                    "City": "liepaja",
+                    "Region": "",
+                    "Country": "latvia",
+                    "Num_Sites": 1,
+                    "Casualty": 997,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 106
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [21.0108, 56.5047]
+                }
+            },
+
+
+
+
+
+
+
+
+
+
+
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "Content_Online": 1,
+                    "Dates": ["1939-10-09"],
+                    "Hour": 5,
+                    "Day": "Tue",
+                    "City": "uman'",
+                    "Region": "",
+                    "Country": "ukraine",
+                    "Num_Sites": 1,
+                    "Casualty": 5006,
+                    "Description": "Find out more about the fate of the local Jews in this town.",
+                    "Start": 100,
+                    "End": 104
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.2215, 48.7487]
+                }
+            }
+
+        ]
+}
