@@ -9,9 +9,27 @@
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
                             <h1 class="fw-bold">{{ item.title }}</h1>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this course.</p>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this course.</p>
-                            <a class="btn btn-lg btn-danger mb-2" href="#" role="button">Unenroll</a>
+                            {% if user_enrolled %}
+                            <p class="lead"><i class="fas fa-check-circle icon-color-green"></i> You are enrolled in this course.</p>
+                            {% else %}
+                            <p class="lead"><i class="fas fa-times-circle"></i> You are not enrolled in this course.</p>
+                            {% endif %}
+
+                            {% if user_is_creator %}
+                            <p class="lead"><i class="fas fa-check-circle icon-color-green"></i> You are the creator of this course.</p>
+                            {% endif %}
+
+                                {% if user_enrolled %}
+                                        <span>
+                                            <a href="{% url 'enroll' id=item.id obj_type="course" %}" type="button" class="btn btn-lg btn-danger mb-2"><i class="fas fa-minus-circle"></i>&emsp;Unenroll</a>
+                                        </span> 
+                                {% else %}
+                                        <span>
+                                            <a href="{% url 'enroll' id=item.id obj_type="course" %}" type="button" class="btn btn-lg btn-success mb-2"><i class="fas fa-plus-circle"></i>&emsp;Enroll</a>
+                                        </span> 
+                                {% endif %}
+
+
                             <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_info_detail' item.id %}" role="button">View info &rarr;</a>
                         </div>
                     </div> 
