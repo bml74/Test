@@ -1,3 +1,5 @@
+from urllib import response
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 
 
@@ -7,3 +9,11 @@ def index(request):
 
 def dashboard(request):
     return render(request, 'base/dashboard.html')
+
+def ajax_test_view(request):
+    if request.method == 'POST':
+        userMsg = request.POST.get('msg', '')
+        print(f"User message: {userMsg}")
+        chatbox_dict = {'userMsg': userMsg, 'chatboxMsg': 'Response...'}
+        print(chatbox_dict)
+        return JsonResponse(chatbox_dict)
