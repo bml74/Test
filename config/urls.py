@@ -28,7 +28,8 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('dashboard/', views.dashboard, name='dashboard'),
 
-    path('ajax-test-view/', views.ajax_test_view, name='ajax-test-view'),
+    path('ajax-chatbox/', views.ajax_chatbox, name='ajax-chatbox'),
+    path('docs/chatbox/', views.chatbox_docs, name='chatbox_docs'),
 
     path('register/', user_views.register, name='register'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),

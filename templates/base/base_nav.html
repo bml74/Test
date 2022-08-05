@@ -177,6 +177,7 @@
     </div>
     <div class="toast-body">
       <div id="chat">
+        <small class="text-muted font-size-10">Type 'help' to view available commands.</small>
         <div class="chatbox-message bruno-message bg-lin-grad p-2 mt-2 mb-2">
           Salve, posso aiutarLa?
         </div>
@@ -184,8 +185,8 @@
           Sì, ho una domanda riguardante il sito web per voi...
         </div> {% endcomment %}
       </div>
-      <div class="input-group mb-3">
-        <input type="text" class="form-control form-control-sm" id="user-message-text" placeholder="Type your message" aria-label="User message" aria-describedby="user-message-send">
+      <div class="input-group mb-3 mt-2">
+        <input type="text" class="form-control form-control-sm" id="user-message-text" placeholder="Type your message..." aria-label="User message" aria-describedby="user-message-send">
         <button class="btn btn-sm btn-outline-navy" type="button" id="user-message-send"><i class="fas fa-paper-plane"></i></button>
       </div>
     </div>
@@ -253,7 +254,7 @@
   $('#user-message-send').on('click', function (clickEvent) {
       url = window.location.href;
       $.ajax({
-          url: `/{{ 'ajax-test-view' }}/`,
+          url: `/{{ 'ajax-chatbox' }}/`,
           type: 'POST',
           dataType: 'json',
           data: {
@@ -285,12 +286,15 @@
               bruno_node.classList.add("p-2");
               bruno_node.classList.add("mt-2");
               bruno_node.classList.add("mb-2");
-              const bruno_text_node = document.createTextNode(response.chatboxMsg);
-              bruno_node.appendChild(bruno_text_node);
+              /* const bruno_text_node = document.createTextNode(response.chatboxMsg);
+              bruno_node.appendChild(bruno_text_node); */
+              bruno_node.innerHTML = response.chatboxMsg;
               document.getElementById("chat").appendChild(bruno_node);
               // document.getElementById("translation").innerHTML = response.translated_text;
 
               $("#chat").scrollTop($("#chat")[0].scrollHeight);
+
+              msg: document.getElementById("user-message-text").value = "";
 
 
           }

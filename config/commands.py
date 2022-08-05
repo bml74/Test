@@ -2508,3 +2508,10 @@ list_of_sources = (
 	('https://www.vi.wikipedia.org', 'Wikipedia (VI)', 'vi'),
 	('https://www.vo.wikipedia.org', 'Wikipedia (VO)', 'et'),
 )
+
+
+
+    from transformers import pipeline; classifier = pipeline("sentiment-analysis"); res = classifier("I've been waiting for a HuggingFace course my whole life!"); print(res)
+    import torch
+    x = torch.rand(5, 3)
+    print(x)
