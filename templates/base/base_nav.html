@@ -176,11 +176,13 @@
       <button type="button" class="btn-close" id="btn-close-chatbox" onclick="closeChatbox()" data-bs-dismiss="toast" aria-label="Close"></button>
     </div>
     <div class="toast-body">
-      <div class="chatbox-message bruno-message bg-lin-grad p-2 mt-2 mb-2" style="border-radius: 8px; float: left; width: 60%; opacity: 0.95 !important;">
-        Salve, posso aiutarLa?
-      </div>
-      <div class="chatbox-message user-message p-2 mt-2 mb-2" style="border-radius: 8px; float: right; width: 60%; color: whitesmoke; opacity: 0.8 !important; background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(8,7,97,1) 23%, rgba(8,8,109,1) 30%, rgba(9,9,121,1) 35%, rgba(7,56,152,1) 50%, rgba(5,65,134,1) 58%, rgba(0,212,255,1) 100%);">
-        Sì, ho una domanda riguardante il sito web per voi...
+      <div id="chat">
+        <div class="chatbox-message bruno-message bg-lin-grad p-2 mt-2 mb-2">
+          Salve, posso aiutarLa?
+        </div>
+        {% comment %} <div class="chatbox-message user-message p-2 mt-2 mb-2">
+          Sì, ho una domanda riguardante il sito web per voi...
+        </div> {% endcomment %}
       </div>
       <div class="input-group mb-3">
         <input type="text" class="form-control form-control-sm" id="user-message-text" placeholder="Type your message" aria-label="User message" aria-describedby="user-message-send">
@@ -265,7 +267,32 @@
               console.log(response);
               console.log("User message: " + response.userMsg);
               console.log("Chatbox response message: " + response.chatboxMsg);
+
+              const user_node = document.createElement("div");
+              user_node.classList.add("chatbox-message");
+              user_node.classList.add("user-message");
+              user_node.classList.add("p-2");
+              user_node.classList.add("mt-2");
+              user_node.classList.add("mb-2");
+              const user_text_node = document.createTextNode(response.userMsg);
+              user_node.appendChild(user_text_node);
+              document.getElementById("chat").appendChild(user_node);
+
+              const bruno_node = document.createElement("div");
+              bruno_node.classList.add("chatbox-message");
+              bruno_node.classList.add("bruno-message");
+              bruno_node.classList.add("bg-lin-grad");
+              bruno_node.classList.add("p-2");
+              bruno_node.classList.add("mt-2");
+              bruno_node.classList.add("mb-2");
+              const bruno_text_node = document.createTextNode(response.chatboxMsg);
+              bruno_node.appendChild(bruno_text_node);
+              document.getElementById("chat").appendChild(bruno_node);
               // document.getElementById("translation").innerHTML = response.translated_text;
+
+              $("#chat").scrollTop($("#chat")[0].scrollHeight);
+
+
           }
       });
   }); 

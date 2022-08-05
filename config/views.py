@@ -14,6 +14,7 @@ def ajax_test_view(request):
     if request.method == 'POST':
         userMsg = request.POST.get('msg', '')
         print(f"User message: {userMsg}")
-        chatbox_dict = {'userMsg': userMsg, 'chatboxMsg': 'Response...'}
+        chatboxMsg = "Mi chiamo Bruno" if userMsg == "Come ti chiami?" else "Non capisco questa domanda...."
+        chatbox_dict = {'userMsg': userMsg, 'chatboxMsg': chatboxMsg}
         print(chatbox_dict)
         return JsonResponse(chatbox_dict)
