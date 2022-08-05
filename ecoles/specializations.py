@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -12,13 +12,8 @@ from .models import (
     Category, 
     Field, 
     Specialization,
-    Course,
-    Module, 
-    Submodule, 
-    Assignment,
-    Task,
+    Course
 )
-from .models import Ecole
 
 
 class SpecializationListView(UserPassesTestMixin, ListView):

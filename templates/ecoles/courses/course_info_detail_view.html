@@ -1,17 +1,42 @@
 {% extends 'ecoles/base_ecoles.html' %}
 {% load static %}
 
-{% block title %}{{ item.description }} | Info | Ca' de Bruno{% endblock title %}
+{% block title %}{{ item.title }} | Ca' de Bruno{% endblock title %}
 
 {% block main_content_container %}
 
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <small class="text-muted">{{ obj_type.upper }}</small>
                             <h1 class="fw-bold">{{ item.title }}</h1>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this course.</p>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this course.</p>
-                            <a class="btn btn-lg btn-danger mb-2" href="#" role="button">Unenroll</a>
+                            {% if user_enrolled %}
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-label="Example with label" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+                            </div>
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this {{ obj_type }}.</p>
+                            {% endif %}
+                            {% if user_is_creator or allowed_to_edit %}
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are allowed to edit this {{ obj_type }}.</p>
+                            {% endif %}
+                            {% if user_is_creator %}
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this {{ obj_type }}.</p>
+                            {% endif %}
+
+                            {% if user_enrolled %}
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                            {% else %}
+                            <a class="btn btn-lg btn-success mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                            {% endif %}
+
+                            {% if user_is_creator or allowed_to_edit %}
+                            <a class="btn btn-lg btn-info mb-2" href="{% url 'course_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
+                            {% endif %}
+                            {% if user_is_creator %}
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'course_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                            {% endif %}
+
+
                             <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_detail' item.id %}" role="button">View course &rarr;</a>
                         </div>
                     </div> 
@@ -19,115 +44,170 @@
 
                 <div class="row mb-4">
 
-                    <div class="col-lg-12">
+                    <div class="col-lg-8">
 
 
-                        <div class="card mb-4 bg-lin-grad">
+                        <div class="card mb-4">
                             <div class="card-body">
                                 <h5 class="card-title">Course info</h5>
                                 <hr>
-                                <div class="media text-muted">
+                                <div class="media text-muted lh-125 border-bottom border-gray">
                                     <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                                    <p class="card-text">
+                                    <p class="media-body pb-3 mb-0 small">
                                         {{ item.description|safe }}
                                     </p>
                                 </div>
+                                <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Metadata</strong>  
+                                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <div class="display-flex"><span class="mr-2">Parent category(s):</span> <a href="{% url 'category_detail' category.id %}"><h6><span class="badge bg-secondary mr-1">{{ category.title }}</span></h6></a></div>
+                                        <div class="display-flex"><span class="mr-2">Parent field(s):</span> <a href="{% url 'field_detail' field.id %}"><h6><span class="badge bg-secondary mr-1">{{ field.title }}</span></h6></a></div>                                        
+                                        {% if item.specialization %}
+                                        <div class="display-flex"><span class="mr-2">Parent specialization(s):</span> <a href="{% url 'specialization_detail' item.specialization.id %}"><h6><span class="badge bg-secondary mr-1">{{ item.specialization.title }}</span></h6></a></div>                                        
+                                        {% endif %}
+                                        
+                                        <div class="display-flex">Edit Access:&nbsp;
+                                            
+                                            {% if user == item.creator %}
+                                                <span class="text-success fw-bold">Granted (Creator)</span>
+                                            {% elif allowed_to_edit %}
+                                                <span class="text-success fw-bold">Granted</span>
+                                            {% else %}
+                                                <span class="text-danger fw-bold">Not Granted</span>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="display-flex mt-1">Visibility:&nbsp;
+                                            {% if item.visibility == "Private" %}
+                                                <span class="d-flex text-warning fw-bold">Private</span>
+                                            {% elif item.visibility == "Invisible" %}
+                                                <span class="d-flex text-danger fw-bold">Invisible</span>
+                                            {% elif item.visibility == "Public" %}
+                                                <span class="d-flex text-success fw-bold">Public</span>
+                                            {% endif %}
+                                        </div>
+
+                                        {% if item.creator %}
+                                        <div class="display-flex mt-1"><span class="mr-2">Creator:</span> <a href="{% url 'user_profile' item.creator.username %}"><h6><span class="badge bg-primary mr-1">{{ item.creator }}</span></h6></a></div>
+                                        {% endif %}
+
+                                    </div>
+                                </div>
+                                {% comment %} <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Topics</strong>  
+                                    
+                                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray display-flex">
+                                        <a href="#"><h6><span class="badge bg-secondary m-1">Nazi Germany</span></h6></a>
+                                        <a href="#"><h6><span class="badge bg-secondary m-1">European art</span></h6></a>
+                                        <a href="#"><h6><span class="badge bg-secondary m-1">Louvre</span></h6></a>
+                                        <a href="#"><h6><span class="badge bg-secondary m-1">World War II</span></h6></a>
+                                        <a href="#"><h6><span class="badge bg-secondary m-1">Shoah</span></h6></a>
+                                    </div>
+                                </div> {% endcomment %}
+                                {% comment %} <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Provider</strong>  
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        Course offered by @RoseValland. 
+                                    </p>
+                                </div> {% endcomment %}
                             </div>
                         </div>
 
-
-                        <div class="card mb-4 bg-lin-grad">
+                        <div class="card mb-4">
                             <div class="card-body">
-                                <h5 class="card-title">Module 1: Formation</h5>
+                                <h5 class="card-title">FAQs</h5>
                                 <hr>
                                 <div class="media text-muted">
-                                    <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                                    <p class="card-text">
-                                        The ERR was initially a project of Hohe Schule der NSDAP, a Nazi-oriented elite university, which was subordinate to Alfred Rosenberg. Rosenberg wanted it to be a research institute filled with cultural material on the opponents of the Nazi ideology. These included Jewish, Masonic, Communist and democratic organizations from throughout Germany and from the occupied countries. Plans to build monumental buildings for the University on the shores of Lake Chiemsee failed to materialize after the outbreak of World War II.[1]
+                                    <strong class="d-block text-dark mb-2 mt-1">When will I have access to the lectures and assignments?</strong>  
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        Because this course is both online and free, as long as you are enrolled, you will always have access to all course materials (including lectures, assignments, your own notes, and so on).
                                     </p>
                                 </div>
-                                <hr>
-                                <div class="media">
-                                    <div class="card mb-4" style="background: transparent;">
-                                        <div class="card-body"> 
-                                            <h5 class="card-title">Submodule 1: Origins</h5>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-check-circle icon-color-green mr-2"></i><a href="#" class="text-muted text-decoration-none">Alfred Rosenberg</p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-check-circle icon-color-green mr-2"></i><a href="#" class="text-muted text-decoration-none">Formation</p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-check-circle icon-color-green mr-2"></i><a href="#" class="text-muted text-decoration-none">Administration</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="media">
-                                    <div class="card mb-4" style="background: transparent;">
-                                        <div class="card-body"> 
-                                            <h5 class="card-title">Submodule 2: In France</h5>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-check-circle icon-color-green mr-2"></i><a href="#" class="text-muted text-decoration-none">Occupation of France</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Headquarters in Paris</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Looting in Paris</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-
-                        <div class="card mb-4 bg-lin-grad">
-                            <div class="card-body">
-                                <h5 class="card-title">Module 2: Operations</h5>
-                                <hr>
                                 <div class="media text-muted">
-                                    <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                                    <p class="card-text">
-                                        The Einsatzstab Reichsleiter Rosenberg (ERR), the “Special Task Force” headed by Adolf Hitler’s leading ideologue Alfred Rosenberg, was one of the main Nazi agencies engaged in looting cultural valuables in Nazi-occupied countries during the Second World War. The detail with which the ERR documented the art, archives, books, and other Judaica it plundered has proved essential for the recovery of cultural valuables after the war and their return to victims or heirs.
+                                    <strong class="d-block text-dark mb-2 mt-1">What will I get if I purchase the Certificate?</strong>  
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        When you purchase a Certificate you get access to all course materials, including graded assignments. Upon completing the course, your electronic Certificate will be added to your Accomplishments page - from there, you can print your Certificate or add it to your LinkedIn profile. If you only want to read and view the course content, you can audit the course for free.
                                     </p>
                                 </div>
-                                <hr>
-                                <div class="media">
-                                    <div class="card mb-4" style="background: transparent;">
-                                        <div class="card-body"> 
-                                            <h5 class="card-title">Submodule 1: Domestic Operations (Germany)</h5>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">German headquarters</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Relationship with Berlin</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="media">
-                                    <div class="card mb-4" style="background: transparent;">
-                                        <div class="card-body"> 
-                                            <h5 class="card-title">Submodule 2: Operations in Western and Central Europe</h5>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in France</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Poland</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in the Netherlands</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Belgium</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Italy</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Greece</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Czechoslovakia</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Norway</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Lithuania</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="media">
-                                    <div class="card mb-4" style="background: transparent;">
-                                        <div class="card-body"> 
-                                            <h5 class="card-title">Submodule 3: Operations in the former U.S.S.R.</h5>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Russia</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Belarus</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in Ukraine</a></p>
-                                            <p class="media-body pb-3 mb-0 small lh-125"><i class="fas fa-circle mr-2"></i><a href="#" class="text-muted text-decoration-none">Operations in the rest of the U.S.S.R.</a></p>
-                                        </div>
-                                    </div>
+                                <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Is financial aid available?</strong>  
+                                    <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        This online course is free, meaning financial aid is not necessary for you to enroll in and complete this course.
+                                    </p>
                                 </div>
                             </div>
                         </div>
-
-
 
                     </div>
 
+                    <div class="col-lg-4">
 
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Course info</h5>
+                                <hr>
+                                <div class="media text-muted pt-3">
+                                    <div class="display-flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#007d9c" class="bi bi-calendar2-week bd-placeholder-img mr-2 rounded" viewBox="0 0 16 16">
+                                            <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM2 2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H2z"/>
+                                            <path d="M2.5 4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5H3a.5.5 0 0 1-.5-.5V4zM11 7.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm-5 3a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1zm3 0a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                        </svg>
+                                        <strong class="d-block text-dark mb-2 mt-1 ml-2">Flexibile deadlines</strong>
+                                    </div>
+                                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    You can reset deadlines so as to fit in with your own schedule. 
+                                  </p>
+                                </div>
+                                <div class="media text-muted pt-3">
+                                    <div class="display-flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#007d9c" class="bi bi-patch-check bd-placeholder-img mr-2 rounded" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M10.354 6.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                            <path d="m10.273 2.513-.921-.944.715-.698.622.637.89-.011a2.89 2.89 0 0 1 2.924 2.924l-.01.89.636.622a2.89 2.89 0 0 1 0 4.134l-.637.622.011.89a2.89 2.89 0 0 1-2.924 2.924l-.89-.01-.622.636a2.89 2.89 0 0 1-4.134 0l-.622-.637-.89.011a2.89 2.89 0 0 1-2.924-2.924l.01-.89-.636-.622a2.89 2.89 0 0 1 0-4.134l.637-.622-.011-.89a2.89 2.89 0 0 1 2.924-2.924l.89.01.622-.636a2.89 2.89 0 0 1 4.134 0l-.715.698a1.89 1.89 0 0 0-2.704 0l-.92.944-1.32-.016a1.89 1.89 0 0 0-1.911 1.912l.016 1.318-.944.921a1.89 1.89 0 0 0 0 2.704l.944.92-.016 1.32a1.89 1.89 0 0 0 1.912 1.911l1.318-.016.921.944a1.89 1.89 0 0 0 2.704 0l.92-.944 1.32.016a1.89 1.89 0 0 0 1.911-1.912l-.016-1.318.944-.921a1.89 1.89 0 0 0 0-2.704l-.944-.92.016-1.32a1.89 1.89 0 0 0-1.912-1.911l-1.318.016z"/>
+                                        </svg> 
+                                        <strong class="d-block text-dark mb-2 mt-1 ml-2">Certificate</strong>   
+                                    </div>             
+                                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    You will earn a Certificate upon completion of this course.
+                                  </p>
+                                </div>
+                                <div class="media text-muted pt-3">
+                                    <div class="display-flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#007d9c" class="bi bi-globe2 bd-placeholder-img mr-2 rounded" viewBox="0 0 16 16">
+                                            <path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5h2.49zm1.4-2.741a12.344 12.344 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332zM8.5 5.09V7.5h2.99a12.342 12.342 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.612 13.612 0 0 1 7.5 10.91V8.5H4.51zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741H8.5zm-3.282 3.696c.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a6.696 6.696 0 0 1-.598-.933 8.853 8.853 0 0 1-.481-1.079 8.38 8.38 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.522zm-1.383-2.964A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.963 6.963 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667zm6.728 2.964a7.009 7.009 0 0 0 2.275-1.521 8.376 8.376 0 0 0-1.197-.49 8.853 8.853 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zM8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872A12.63 12.63 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.963 6.963 0 0 0 14.982 8.5h-2.49a13.36 13.36 0 0 1-.437 3.008zM14.982 7.5a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008h2.49zM11.27 2.461c.177.334.339.694.482 1.078a8.368 8.368 0 0 0 1.196-.49 7.01 7.01 0 0 0-2.275-1.52c.218.283.418.597.597.932zm-.488 1.343a7.765 7.765 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"/>
+                                        </svg>    
+                                        <strong class="d-block text-dark mb-2 mt-1 ml-2">Accessible anywhere</strong>    
+                                    </div>            
+                                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    This course is completely online. You can start instantly and learn flexibly at your own schedule.
+                                  </p>
+                                </div>
+                                <div class="media text-muted pt-3">
+                                    <div class="display-flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#007d9c" class="bi bi-bar-chart bd-placeholder-img mr-2 rounded" viewBox="0 0 16 16">
+                                            <path d="M4 11H2v3h2v-3zm5-4H7v7h2V7zm5-5v12h-2V2h2zm-2-1a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1h-2zM6 7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7zm-5 4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1v-3z"/>
+                                        </svg>    
+                                        <strong class="d-block text-dark mb-2 mt-1 ml-2">Level</strong>
+                                    </div>
+                                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    This is a {{ item.difficulty_level.lower }}-level course.
+                                  </p>
+                                </div>
+                                {% comment %} <div class="media text-muted pt-3">
+                                    <div class="display-flex">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="#007d9c" class="bi bi-clock bd-placeholder-img mr-2 rounded" viewBox="0 0 16 16">
+                                            <path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+                                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/>
+                                        </svg>    
+                                        <strong class="d-block text-dark mb-2 mt-1 ml-2">Time committment</strong>   
+                                    </div>           
+                                  <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                    This course takes approximately {{ estimated_total_course_time }} hours to complete.
+                                  </p>
+                                </div> {% endcomment %}
+                            </div>
+                        </div>
+
+                    </div>
 
                 </div>
 
