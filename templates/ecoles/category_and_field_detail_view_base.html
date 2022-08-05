@@ -8,6 +8,7 @@
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <small class="text-muted">{{ obj_type.upper }}</small>
                             <h1 class="fw-bold">{{ item.title }}</h1>
                             {% if user_enrolled %}
                             <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this {{ obj_type }}.</p>
@@ -21,9 +22,9 @@
 
                             {% if obj_type == "category" %} <!-- category -->
                                 {% if user_enrolled %}
-                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
                                 {% else %}
-                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                                <a class="btn btn-lg btn-success mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
                                 {% endif %}
 
                                 {% if user_is_creator or allowed_to_edit %}
@@ -34,9 +35,9 @@
                                 {% endif %}
                             {% else %} <!-- field-->
                                 {% if user_enrolled %}
-                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
                                 {% else %}
-                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                                <a class="btn btn-lg btn-success mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
                                 {% endif %}
 
                                 {% if user_is_creator or allowed_to_edit %}
@@ -50,17 +51,126 @@
                     </div> 
                 </div>
 
-                <div class="card mb-4 bg-lin-grad">
+                <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">Description</h5>
+                        <h5 class="card-title">Category info</h5>
                         <hr>
-                        <div class="media text-muted">
-                            {% comment %} <strong class="d-block text-dark mb-2 mt-1">Description</strong>   {% endcomment %}
-                            <p class="card-text">{{ item.description|safe }}</p>
+                        <div class="media text-muted border-bottom border-gray lh-125">
+                            <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
+                            <div class="media-body pb-3 mb-0 small">
+                                {{ item.description|safe }}
+                            </div>
                         </div>
+                        <div class="media text-muted">
+                            <strong class="d-block text-dark mb-2 mt-1">Metadata</strong>  
+                            <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                <div class="display-flex">Type:&nbsp;<span class="fw-bold">{{ obj_type.capitalize }}</span></div>
+                                {% if item.creator %}
+                                <div class="display-flex">Creator:&nbsp;<a href="{% url 'user_profile' item.creator.username %}" class="text-decoration-none text-muted fw-bold">{{ item.creator }}</a></div>
+                                {% endif %}
+                                
+                                <div class="display-flex">Edit Access:&nbsp;
+                                    
+                                    {% if user == item.creator %}
+                                        <span class="text-success fw-bold">Granted (Creator)</span>
+                                    {% elif allowed_to_edit %}
+                                        <span class="text-success fw-bold">Granted</span>
+                                    {% else %}
+                                        <span class="text-danger fw-bold">Not Granted</span>
+                                    {% endif %}
+                                </div>
+
+                                <div class="display-flex">
+                                    {% if obj_type == "field" %}
+                                    <span class="d-flex mb-2">Parent category:&nbsp;<strong class="single-line"><a href="{% url 'category_detail' category.id %}" class="text-decoration-none text-primary">{{ category.title }}</a></strong></span>
+                                    {% endif %}
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        {% if user_is_creator or allowed_to_edit %}
+                        <div class="media text-muted pt-2">
+                            {% if obj_type == "category" %}
+                            <a href="{% url 'category_update' item.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                            {% else %} <!-- field -->
+                            <a href="{% url 'field_update' item.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                            {% endif %}
+
+                            {% if user_is_creator %}
+                                {% if obj_type == "category" %}
+                                <a href="{% url 'category_delete' item.id %}" class="btn btn-danger"><i class="fas fa-minus-circle"></i> Delete</a>
+                                {% else %} <!-- field -->
+                                <a href="{% url 'field_delete' item.id %}" class="btn btn-danger"><i class="fas fa-minus-circle"></i> Delete</a>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card mb-4" style="height: 400px;">
+                    <div class="card-body">
+                        {% if obj_type == "category" %}
+                        <h5 class="card-title mb-3">Search for <span class="text-success">fields</span> within this category</h5>
+                        {% else %}
+                        <h5 class="card-title mb-3">Search for <span class="text-success">specializations</span> and <span class="text-primary">courses</span> within this field</h5>
+                        {% endif %}
+                        <div class="dropdown-menu d-block position-static pt-0 mx-0 rounded-3 shadow w-280px" style="height: 72%; overflow-y: scroll;">
+                            <form class="p-2 mb-2 bg-light border-bottom">
+                              <input type="search" class="form-control" autocomplete="false" placeholder="Type to search..." id="itemSearchQuery" onkeyup="myFunction()">
+                            </form>
+                            <ul class="list-unstyled mb-0 overflow-y-scroll" id="itemSearchUL">
+                                {% if obj_type == "category" %}
+                                    {% for field in fields %}
+                                    <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url 'field_detail' field.id %}">
+                                        <span class="d-inline-block bg-success rounded-circle p-1"></span>
+                                        {{ field.title }}
+                                    </a></li>
+                                    {% endfor %}
+                                {% else %}
+                                    {% for specialization in specializations %}
+                                    <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url 'specialization_detail' specialization.id %}">
+                                        <span class="d-inline-block bg-success rounded-circle p-1"></span>
+                                        {{ specialization.title }}
+                                    </a></li>
+                                    {% endfor %}
+                                    {% for course in courses %}
+                                    <li><a class="dropdown-item d-flex align-items-center gap-2 py-2" href="{% url 'course_detail' course.id %}">
+                                        <span class="d-inline-block bg-primary rounded-circle p-1"></span>
+                                        {{ course.title }}
+                                    </a></li>
+                                    {% endfor %}
+                                {% endif %}
+                            </ul>
+                          </div>
+
                     </div>
                 </div>
 
 
 
 {% endblock main_content_container %}
+
+
+{% block JavaScript %}
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("itemSearchQuery");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("itemSearchUL");
+        li = ul.getElementsByTagName("li");
+        for (i = 0; i < li.length; i++) {
+            a = li[i].getElementsByTagName("a")[0];
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+    }
+</script>
+{% endblock JavaScript %}

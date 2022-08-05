@@ -301,7 +301,7 @@ class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         # Check if user created the course.
         course = Course.objects.filter(id=self.kwargs['pk'])[0]
-        return self.request.user == course.creator
+        return self.request.user == course.creator or self.request.user in course.allowed_editors.all()
 
     def get_context_data(self, **kwargs):
         context = super(CourseUpdateView, self).get_context_data(**kwargs)

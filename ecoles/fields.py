@@ -53,7 +53,7 @@ class FieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         # Check if user enrolled in the course.
         field = Field.objects.filter(id=self.kwargs['pk'])[0]
-        return self.request.user == field.creator
+        return self.request.user == field.creator or self.request.user in field.allowed_editors.all()
 
     def get_context_data(self, **kwargs):
         context = super(FieldUpdateView, self).get_context_data(**kwargs)
@@ -92,8 +92,8 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
         user_enrolled = request.user in field.students.all() 
         allowed_to_edit = request.user in field.allowed_editors.all()
         category = get_object_or_404(Category, pk=field.category.id)
-        # courses = Course.objects.filter(field=field)
-        # specializations = Specialization.objects.filter(field=field)
+        courses = Course.objects.filter(field=field)
+        specializations = Specialization.objects.filter(field=field)
 
         user_is_creator = request.user == field.creator
         request_already_sent = request.user in field.edit_access_request.all()
@@ -112,8 +112,8 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
             "users_with_edit_access": users_with_edit_access,
 
             "category": category, 
-            # "specializations": specializations,
-            # "courses": courses,
+            "specializations": specializations,
+            "courses": courses,
 
         }
         return render(request, 'ecoles/category_and_field_detail_view_base.html', context)

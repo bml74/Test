@@ -29,6 +29,13 @@
                                         </span> 
                                 {% endif %}
 
+                                {% if user_is_creator or allowed_to_edit %}
+                                <a class="btn btn-lg btn-info mb-2" href="{% url 'course_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
+                                {% endif %}
+                                {% if user_is_creator %}
+                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'course_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                                {% endif %}
+
 
                             <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_info_detail' item.id %}" role="button">View info &rarr;</a>
                         </div>

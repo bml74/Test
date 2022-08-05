@@ -36,6 +36,8 @@ INSTALLED_APPS = [
     'maps',
     'posts',
     'news',
+    'newsfeed',
+
     'finance',
 
     'crispy_forms'

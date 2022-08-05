@@ -209,7 +209,7 @@ class SpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
     def test_func(self):
         # Check if user enrolled in the course.
         specialization = Specialization.objects.filter(id=self.kwargs['pk'])[0]
-        return self.request.user == specialization.creator
+        return self.request.user == specialization.creator or self.request.user in specialization.allowed_editors.all()
 
     def get_context_data(self, **kwargs):
         context = super(SpecializationUpdateView, self).get_context_data(**kwargs)

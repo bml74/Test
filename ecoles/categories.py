@@ -52,7 +52,7 @@ class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def test_func(self):
         # Check if user enrolled in the course.
         category = Category.objects.filter(id=self.kwargs['pk'])[0]
-        return self.request.user == category.creator
+        return self.request.user == category.creator or self.request.user in category.allowed_editors.all()
 
     def get_context_data(self, **kwargs):
         context = super(CategoryUpdateView, self).get_context_data(**kwargs)

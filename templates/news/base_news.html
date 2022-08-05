@@ -25,19 +25,19 @@
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="#">
+                    <a class="nav-link" aria-current="page" href="{% url 'starred_list' user.username %}">
                         <i class="fas fa-star align-text-bottom color-navy"></i>
                       Favorites
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'bookmarked_list' user.username %}">
                         <i class="fas fa-bookmark align-text-bottom color-navy"></i>
                       Reading List
                     </a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{% url 'flagged_list' user.username %}">
                         <i class="fas fa-flag align-text-bottom color-navy"></i>
                       Flagged
                     </a>

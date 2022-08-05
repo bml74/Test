@@ -8,6 +8,7 @@
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <small class="text-muted">{{ obj_type.upper }}</small>
                             <h1 class="fw-bold">{{ item.title }}</h1>
                             {% if user_enrolled %}
                             <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this {{ obj_type }}.</p>
@@ -19,36 +20,20 @@
                             <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this {{ obj_type }}.</p>
                             {% endif %}
 
-                            {% if obj_type == "specialization" %} <!-- specialization -->
-                                {% if user_enrolled %}
-                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
-                                {% else %}
-                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
-                                {% endif %}
-
-                                {% if user_is_creator or allowed_to_edit %}
-                                <a class="btn btn-lg btn-info mb-2" href="{% url 'specialization_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
-                                {% endif %}
-                                {% if user_is_creator %}
-                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'specialization_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
-                                {% endif %}
-                            {% else %} <!-- course -->
-                                {% if user_enrolled %}
-                                <a class="btn btn-lg btn-danger mb-2" href="#" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
-                                {% else %}
-                                <a class="btn btn-lg btn-success mb-2" href="#" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
-                                {% endif %}
-
-                                {% if user_is_creator or allowed_to_edit %}
-                                <a class="btn btn-lg btn-info mb-2" href="{% url 'course_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
-                                {% endif %}
-                                {% if user_is_creator %}
-                                <a class="btn btn-lg btn-danger mb-2" href="{% url 'course_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
-                                {% endif %}
+                            {% if user_enrolled %}
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
+                            {% else %}
+                            <a class="btn btn-lg btn-success mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
                             {% endif %}
-                            {% if obj_type == "course" %}
-                            <a class="btn btn-lg btn-primary mb-2" href="#" role="button">View info &rarr;</a>
+
+                            {% if user_is_creator or allowed_to_edit %}
+                            <a class="btn btn-lg btn-info mb-2" href="{% url 'specialization_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
                             {% endif %}
+                            {% if user_is_creator %}
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'specialization_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                            {% endif %}
+
+
                         </div>
                     </div> 
                 </div>
@@ -58,16 +43,56 @@
                     <div class="col-lg-12">
 
 
-                        <div class="card mb-4 bg-lin-grad">
+                        <div class="card mb-4">
                             <div class="card-body">
                                 <h5 class="card-title">Specialization info</h5>
                                 <hr>
-                                <div class="media text-muted">
+                                <div class="media text-muted border-bottom border-gray lh-125">
                                     <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                                    <p class="card-text">
+                                    <div class="media-body pb-3 mb-0 small">
                                         {{ item.description|safe }}
-                                    </p>
+                                    </div>
                                 </div>
+                                <div class="media text-muted">
+                                    <strong class="d-block text-dark mb-2 mt-1">Metadata</strong>  
+                                    <div class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
+                                        <div class="display-flex">Type:&nbsp;<span class="fw-bold">{{ obj_type.capitalize }}</span></div>
+                                        {% if item.creator %}
+                                        <div class="display-flex">Creator:&nbsp;<a href="{% url 'user_profile' item.creator.username %}" class="text-decoration-none text-muted fw-bold">{{ item.creator }}</a></div>
+                                        {% endif %}
+                                        
+                                        <div class="display-flex">Edit Access:&nbsp;
+                                            
+                                            {% if user == item.creator %}
+                                                <span class="text-success fw-bold">Granted (Creator)</span>
+                                            {% elif allowed_to_edit %}
+                                                <span class="text-success fw-bold">Granted</span>
+                                            {% else %}
+                                                <span class="text-danger fw-bold">Not Granted</span>
+                                            {% endif %}
+                                        </div>
+        
+                                        <div class="display-flex">
+                                            <span class="d-flex">Parent category:&nbsp;<strong class="single-line"><a href="{% url 'category_detail' category.id %}" class="text-decoration-none text-primary">{{ category.title }}</a></strong></span>
+                                        </div>
+                                        <div class="display-flex">
+                                            <span class="d-flex">Parent field:&nbsp;<strong class="single-line"><a href="{% url 'field_detail' field.id %}" class="text-decoration-none text-primary">{{ field.title }}</a></strong></span>                                        
+                                        </div>
+        
+        
+        
+                                    </div>
+                                </div>
+                                {% if user_is_creator or allowed_to_edit %}
+                                <div class="media text-muted pt-2">
+                                    <a href="{% url 'specialization_update' item.id %}" class="btn btn-primary"><i class="fas fa-edit"></i> Edit</a>
+
+        
+                                    {% if user_is_creator %}
+                                    <a href="{% url 'specialization_delete' item.id %}" class="btn btn-danger"><i class="fas fa-minus-circle"></i> Delete</a>
+                                    {% endif %}
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -79,6 +104,39 @@
                     </div>
 
 
+
+                </div>
+
+                <div class="row mb-4">
+
+                    <div class="col-lg-12">
+                        <div class="list-group w-auto">
+                            <div class="list-group-item list-group-item-action d-flex gap-3 py-3 w-100" aria-current="true">
+                                {% comment %} <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="twbs" width="32" height="24" class="flex-shrink-0"> {% endcomment %}
+                                <div class="d-flex gap-2 w-100 justify-content-between">
+                                  <div>
+                                    <h5 class="card-title">Courses within this specialization</h5>
+                                  </div>
+                                  <small class="opacity-50 text-nowrap">{{ courses|length }} results</small>
+                                </div>
+                            </div>
+
+                            {% for course in courses %}
+                            <a href="{% url 'course_detail' course.id %}" class="list-group-item list-group-item-action d-flex gap-3 py-3 w-100" aria-current="true">
+                              {% comment %} <img src="https://us.123rf.com/450wm/ricochet64/ricochet641910/ricochet64191000169/134104191-cross-of-lorraine-symbol-icon.jpg?ver=6" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0"> {% endcomment %}
+                              <div class="d-flex gap-2 w-100 justify-content-between">
+                                <div>
+                                  <h5 class="mb-2">{{ forloop.counter }}. {{ course.title }}</h5>
+                                  <small class="text-muted">{{ course.description|safe }}</small>
+                                  <button class="btn btn-outline-navy">Visit &rarr;</button>
+                                </div>
+                                {% comment %} <small class="opacity-50 text-nowrap">now</small> {% endcomment %}
+                              </div>
+                            </a>
+                            {% endfor %}
+                            
+                        </div>
+                    </div>
 
                 </div>
 
