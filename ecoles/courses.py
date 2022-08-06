@@ -14,7 +14,10 @@ from .models import (
     Specialization,
     Course,
     Module, 
+    Submodule, 
+    Assignment
 )
+import math
 
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
@@ -103,6 +106,45 @@ class EditAccessCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListVie
         return user_in_url == self.request.user
 
 
+def get_details(request, modules):
+    # Progress bar:
+    total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
+    total_assignments_completed = 0
+    # total_time_to_complete_submodule_in_hours = 0
+    all_modules = {}
+    for module in modules:
+        submodules = Submodule.objects.filter(module=module)
+        submodules_within_modules = {}
+        for submodule in submodules:
+            total_time_to_complete_submodule_in_hours = 0
+            assignments = Assignment.objects.filter(submodule=submodule)
+            num_assignments = len(list(Assignment.objects.filter(submodule=submodule)))
+            total_assignments += num_assignments
+            num_assignments_completed = 0
+            assignments_within_submodules = []
+            for assignment in assignments:
+                if request.user in assignment.completed.all():
+                    num_assignments_completed += 1
+                    total_assignments_completed += 1
+                    assignment_data = {"assignment": assignment, "completed": "True"}
+                else:
+                    assignment_data = {"assignment": assignment, "completed": "False"}
+                assignments_within_submodules.append(assignment_data)
+                total_time_to_complete_submodule_in_hours += assignment.estimated_minutes_to_complete / 60
+
+            # submodules_within_modules[submodule] = assignments_within_submodules
+            submodules_within_modules[submodule] = {"assignments": assignments_within_submodules, "time": math.ceil(total_time_to_complete_submodule_in_hours)}
+        all_modules[module] = submodules_within_modules            
+            
+    try:
+        print(total_assignments_completed)
+        print(total_assignments)
+        pct_completed = int((total_assignments_completed / (total_assignments)) * 100)
+    except ZeroDivisionError:
+        pct_completed = 0
+    
+    return (all_modules, pct_completed)
+        
 class CourseDetailView(UserPassesTestMixin, DetailView):
     model = Course # Commit...
 
@@ -137,9 +179,7 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
         # total_assignments_completed = 0
         # # total_time_to_complete_submodule_in_hours = 0
-
         # all_modules = {}
-
         # for module in modules:
         #     submodules = Submodule.objects.filter(module=module)
         #     submodules_within_modules = {}
@@ -168,6 +208,7 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         #     pct_completed = int((total_assignments_completed / (total_assignments)) * 100)
         # except ZeroDivisionError:
         #     pct_completed = 0
+        (all_modules, pct_completed) = get_details(request, modules)
 
         context = {
             "obj_type": obj_type, 
@@ -179,14 +220,14 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
             "request_already_sent": request_already_sent,
             "users_with_requests": users_with_requests,
             "users_with_edit_access": users_with_edit_access,
-            # "pct_completed": pct_completed,
+            "pct_completed": pct_completed,
 
             "category": category, 
             "field": field, 
             "specialization": specialization, 
             "modules": modules,
 
-            # "all_modules": all_modules,
+            "all_modules": all_modules,
 
         }
         return render(request, 'ecoles/courses/course_detail_view.html', context)
@@ -235,23 +276,28 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
         # users_with_edit_access = course.allowed_editors.all()
 
 
-        # # All assignments in this course (https://stackoverflow.com/questions/9099544/filtering-through-two-foreign-key-relationships-in-django/9099736):
-        # assignments = Assignment.objects.filter(submodule__module__course__title="False Flag Operations")
-        # assignment_times = [a.estimated_minutes_to_complete for a in assignments]
-        # estimated_total_course_time = math.ceil(sum(assignment_times) / 60)
-        # print(estimated_total_course_time)
+        # All assignments in this course (https://stackoverflow.com/questions/9099544/filtering-through-two-foreign-key-relationships-in-django/9099736):
+        assignments = Assignment.objects.filter(submodule__module__course__title=course.title)
+        assignment_times = [a.estimated_minutes_to_complete for a in assignments]
+        estimated_total_course_time = math.ceil(sum(assignment_times) / 60)
+        print(f"Estimated total course time: {estimated_total_course_time}")
+
+        (all_modules, pct_completed) = get_details(request, modules)
 
         context = {
             "obj_type": obj_type, 
             "item": course, 
             "course": course, 
-            # "estimated_total_course_time": estimated_total_course_time,
+            "estimated_total_course_time": estimated_total_course_time,
             "user_enrolled": user_enrolled,
             "allowed_to_edit": allowed_to_edit,
             "user_is_creator": user_is_creator,
             # "request_already_sent": request_already_sent,
             # "users_with_requests": users_with_requests,
             # "users_with_edit_access": users_with_edit_access,
+
+            "pct_completed": pct_completed,
+            "all_modules": all_modules,
 
             "category": category, 
             "field": field, 

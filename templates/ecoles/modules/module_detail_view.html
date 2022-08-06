@@ -10,36 +10,30 @@
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
-                            <small class="text-muted">{{ obj_type.upper }}</small>
-                            <h1 class="fw-bold">{{ item.title }}</h1>
+                            <small class="text-muted">COURSE</small>
+                            <h1 class="fw-bold">{{ course.title }}</h1>
                             
                             {% if user_enrolled %}
                             <div class="progress mt-4 mb-4">
                                 <div class="progress-bar" role="progressbar" aria-label="Progress bar" style="width: {{pct_completed}}%;" aria-valuenow="{{pct_completed}}" aria-valuemin="0" aria-valuemax="100">{{pct_completed}}%</div>
                             </div>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this {{ obj_type }}.</p>
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this course.</p>
                             {% endif %}
                             {% if user_is_creator or allowed_to_edit %}
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are allowed to edit this {{ obj_type }}.</p>
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are allowed to edit this course.</p>
                             {% endif %}
                             {% if user_is_creator %}
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this {{ obj_type }}.</p>
-                            {% endif %}
-
-                            {% if user_enrolled %}
-                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-minus-circle"></i> Unenroll</a>
-                            {% else %}
-                            <a class="btn btn-lg btn-success mb-2" href="{% url 'enroll' id=item.id obj_type=obj_type %}" role="button"><i class="fas fa-plus-circle"></i> Enroll</a>
+                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this course.</p>
                             {% endif %}
 
                             {% if user_is_creator or allowed_to_edit %}
-                            <a class="btn btn-lg btn-info mb-2" href="{% url 'course_update' item.id %}" role="button"><i class="fas fa-edit"></i> Edit</a>
+                            <a class="btn btn-lg btn-info mb-2" href="{% url 'module_update' course.id item.id %}" role="button"><i class="fas fa-edit"></i> Edit module</a>
                             {% endif %}
                             {% if user_is_creator %}
-                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'course_delete' item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete</a>
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'module_delete' course.id item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete module</a>
                             {% endif %}
 
-                            <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_info_detail' item.id %}" role="button">View info &rarr;</a>
+                            <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_detail' course.id %}" role="button">View course &rarr;</a>
                         </div>
                     </div> 
                 </div>
@@ -56,7 +50,7 @@
                                 <div class="media text-muted">
                                     <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
                                     <p class="card-text">
-                                        {{ item.description|safe }}
+                                        {{ course.description|safe }}
                                     </p>
                                 </div>
                             </div>
@@ -69,39 +63,37 @@
 
 
                 {% if user_enrolled or allowed_to_edit or user_is_creator %}
-                {% if all_modules|length == 0 %}
-                    <div class="text-center mt-4"><h3 style="font-weight: 800;">This course is empty right now.</h3></div>
-                {% else %}
+
+                    
         
-                    {% for module_key, module_inner in all_modules.items %}
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title">Module {{forloop.counter}}: {{module_key.title}}</h5>
+                            <h5 class="card-title">Module: {{ item.title }}</h5>
                             <hr>
                             <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                            <p class="card-text">{{ module_key.description|safe }}</p>
+                            <p class="card-text">{{ item.description|safe }}</p>
                             <hr>
-                        {% if module_inner.items %}
-                            {% for submodule_key, submodule_inner in module_inner.items %}
+                        {% if submodules %}
+                            {% for submodule in submodules %}
                             <div class="media">
                                 <div class="card mb-4" style="background: transparent;">
                                     <div class="card-body"> 
-                                        <h5 class="card-title">Submodule {{forloop.counter}}: {{ submodule_key.title }} (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule_inner.time }} {% if submodule_key.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
+                                        <h5 class="card-title">Submodule {{forloop.counter}}: {{ submodule.title }} (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule.time }} {% if submodule.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
                                         <hr>
                                         <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
-                                        <p class="card-text">{{ submodule_key.description|safe }}</p>
+                                        <p class="card-text">{{ submodule.description|safe }}</p>
                                         <hr>
                                         <div style="line-height: 2;">
-                                            {% for assignment in submodule_inner.assignments %}
+                                            {% comment %} {% for assignment in submodule.assignments %}
                                                     <p class="media-body pb-3 mb-0 small lh-125" style="font-size: 16px;">
                                                         {% if assignment.completed == "True" %}
                                                             <i class="fas fa-check-circle icon-color-green mr-2"></i>
                                                         {% else %}
                                                             <i class="fas fa-circle mr-2"></i>
                                                         {% endif %}
-                                                        <a href="{% url 'assignment_detail' item.id module_key.id submodule_key.id assignment.assignment.id %}" class="text-muted text-decoration-none">{{ assignment.assignment }}</a>
+                                                        <a href="{% url 'assignment_detail' course.id module.id submodule.id assignment.id %}" class="text-muted text-decoration-none">{{ assignment.title }}</a>
                                                     </p>
-                                            {% endfor %}
+                                            {% endfor %} {% endcomment %}
                                         </div>
                                     </div>
                                 </div>
@@ -122,9 +114,7 @@
         
         
         
-                    {% endfor %}
         
-                {% endif %}
         
             {% else %}
 

@@ -13,7 +13,8 @@ from .models import (
     Specialization,
     Course,
     Module, 
-    Submodule
+    Submodule,
+    Assignment
 )
 
 
@@ -68,30 +69,29 @@ class ModuleDetailView(UserPassesTestMixin, DetailView):
         except AttributeError:
             submodules = None
 
-        # # Progress bar:
-        # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
-        # total_assignments_completed = 0
-        # for submodule in submodules:
-        #     assignments = Assignment.objects.filter(submodule=submodule)
-        #     num_assignments = len(list(Assignment.objects.filter(submodule=submodule)))
-        #     total_assignments += num_assignments
-        #     num_assignments_completed = 0
-        #     for assignment in assignments:
-        #         if request.user in assignment.completed.all():
-        #             num_assignments_completed += 1
-        #             total_assignments_completed += num_assignments_completed
-        # try:
-        #     pct_completed = int((total_assignments_completed / (total_assignments)) * 100)
-        # except ZeroDivisionError:
-        #     pct_completed = 0
-        # # "pct_completed": pct_completed,
+        # Progress bar:
+        total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
+        total_assignments_completed = 0
+        for submodule in submodules:
+            assignments = Assignment.objects.filter(submodule=submodule)
+            num_assignments = len(list(Assignment.objects.filter(submodule=submodule)))
+            total_assignments += num_assignments
+            num_assignments_completed = 0
+            for assignment in assignments:
+                if request.user in assignment.completed.all():
+                    num_assignments_completed += 1
+                    total_assignments_completed += 1
+        try:
+            pct_completed = int((total_assignments_completed / (total_assignments)) * 100)
+        except ZeroDivisionError:
+            pct_completed = 0
 
         context = {
             "obj_type": "module", 
             "item": module, 
             "module": module, 
             "allowed_to_edit": allowed_to_edit,
-            # "pct_completed": pct_completed,
+            "pct_completed": pct_completed,
 
             "category": category, 
             "field": field, 
@@ -100,7 +100,7 @@ class ModuleDetailView(UserPassesTestMixin, DetailView):
             "submodules": submodules,
 
         }
-        return render(request, 'ecoles/module_and_submodule_detail_view.html', context)
+        return render(request, 'ecoles/modules/module_detail_view.html', context)
 
 
 class ModuleCreateView(LoginRequiredMixin, CreateView):

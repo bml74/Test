@@ -2511,7 +2511,7 @@ list_of_sources = (
 
 
 
-    from transformers import pipeline; classifier = pipeline("sentiment-analysis"); res = classifier("I've been waiting for a HuggingFace course my whole life!"); print(res)
-    import torch
-    x = torch.rand(5, 3)
-    print(x)
+# from transformers import pipeline; classifier = pipeline("sentiment-analysis"); res = classifier("I've been waiting for a HuggingFace course my whole life!"); print(res)
+# import torch
+# x = torch.rand(5, 3)
+# print(x)
