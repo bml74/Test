@@ -76,7 +76,7 @@
                     {% for module_key, module_inner in all_modules.items %}
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title">Module {{forloop.counter}}: {{module_key.title}}</h5>
+                            <h5 class="card-title">Module {{forloop.counter}}: <a href="{% url 'module_detail' course.id module_key.id %}" class="text-muted text-decoration-none">{{module_key.title}}</a></h5>
                             <hr>
                             <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
                             <p class="card-text">{{ module_key.description|safe }}</p>
@@ -86,7 +86,7 @@
                             <div class="media">
                                 <div class="card mb-4" style="background: transparent;">
                                     <div class="card-body"> 
-                                        <h5 class="card-title">Submodule {{forloop.counter}}: {{ submodule_key.title }} (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule_inner.time }} {% if submodule_key.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
+                                        <h5 class="card-title">Submodule {{forloop.counter}}: <a href="{% url 'submodule_detail' course.id module_key.id submodule_key.id %}" class="text-muted text-decoration-none">{{ submodule_key.title }}</a> (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule_inner.time }} {% if submodule_key.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
                                         <hr>
                                         <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
                                         <p class="card-text">{{ submodule_key.description|safe }}</p>
