@@ -2515,3 +2515,58 @@ list_of_sources = (
 # import torch
 # x = torch.rand(5, 3)
 # print(x)
+
+
+
+
+
+
+
+# # To add all Corsican Bible Chapters to DB from terminal:
+# import json
+# from malagosto.models import CorsicanBibleChapter
+
+# FILE_PATH = "/Users/braedenlevine/Desktop/Brumaire_Copy_Oct9_758am/brumaire_project/ecole_data/course_creators/BibbiaCorsa.json"
+# f = open(FILE_PATH)
+# data = json.load(f)
+# books = data['books']
+
+# book_keys = list(books.keys())
+# # ['genese', 'proverbes', 'ecclesiaste', 'psaumes', 'luc', 'actes', 'jean1']
+# for book_key in book_keys:
+#     book = books[book_key]
+#     for chapter in book:
+#         livre = chapter['livre']
+#         ch = chapter['chapter']
+#         page_url = chapter['page_url']
+#         c = chapter['corsican']
+#         f = chapter['french']
+#         cstlc = c['stlc']
+#         ct = c['titre']
+#         # cl = c['lines'][0]
+
+#         CORSICAN_LINES = ""
+#         for line in c['lines']:
+#             CORSICAN_LINES += line + "<br>"
+
+#         fstlc = f['stlc']
+#         ft = f['titre']
+#         # fl = f['lines'][0]
+
+#         FRENCH_LINES = ""
+#         for line in f['lines']:
+#             FRENCH_LINES += line + "<br>"
+
+#         # new_c = CorsicanBibleChapter(livre=livre, chapter=ch, page_url=page_url, corsican_stlc=cstlc, french_stlc=fstlc, corsican_titre=ct, french_titre=ft, corsican_lines=cl, french_lines=fl)
+#         new_c = CorsicanBibleChapter(livre=livre, chapter=ch, page_url=page_url, corsican_stlc=cstlc, french_stlc=fstlc, corsican_titre=ct, french_titre=ft, corsican_lines=CORSICAN_LINES, french_lines=FRENCH_LINES)
+
+#         new_c.save()
+
+
+
+# Each Corsican Bible chapter should be an Assignment.
+# Each Corsican Bible book (ex. 'Genese') should be a submodule.
+# The Corsican Bible should be a module.
+# Corsican should be a course.
+# European languages should be a field.
+# Languages should be a category.

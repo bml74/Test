@@ -4496,7 +4496,16 @@ class Scrape:
         selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li'
         garbage_arr = ['figure', 'figcaption', 'small', 'aside', 'header', 'footer', 'blockquote', '.inlineVideo___3Rd2d', '.contentBody___1zFVF', '.mv8']
         content_selector = ".article-body__content"
-        (dct, article_data) = self.handle_content(soup, content_selector, selectors, garbage_arr, data_arr)
+        # (dct, article_data) = self.handle_content(soup, content_selector, selectors, garbage_arr, data_arr)
+        content = soup.select(content_selector)
+        ps = []
+        for div in content:
+            pars = div.select("p")
+            ps += pars
+        content = self.removeOtherGarbage(content, *garbage_arr)
+        arr = self.handle_ps(ps) # strs=strs, arr_of_strs_to_remove_within_ps=arr_of_strs_to_remove_within_ps
+        (dct, article_data) = self.addToDictAndCreateClass(*data_arr, arr)
+
         return (dct, article_data)
 
     # Method for MSNBC:

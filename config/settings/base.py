@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'newsfeed',
 
     'finance',
+    'languages',
 
     'crispy_forms'
 ]
