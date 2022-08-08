@@ -9,8 +9,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     'malagosto.herokuapp.com', 
+    'cadebruno.com',
     'malagosto.com',
-    'cadebruno.com'
+    'parisorleans.com',
+    'parisorléans.com'
 ]
 
 # Heroku Logging
