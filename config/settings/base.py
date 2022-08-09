@@ -37,9 +37,10 @@ INSTALLED_APPS = [
     'posts',
     'news',
     'newsfeed',
+    'vocab',
 
     'finance',
-    'languages',
+    # 'languages',
 
     'crispy_forms'
 ]
