@@ -76,7 +76,7 @@ class Specialization(models.Model):
 
     # Make Category/Field ManyToMany instead of ForeignKey???
     field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="specializations_within_field")
-    # fields = models.ManyToManyField(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="specializations_within_fields")
+    schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_specialization_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_specialization")
     students = models.ManyToManyField(User, related_name="specialization_students", default=None, blank=True)
     allowed_editors = models.ManyToManyField(User, related_name="specialization_allowed_editors", default=None, blank=True)
@@ -109,7 +109,7 @@ class Course(models.Model):
 
     # Make Category/Field ManyToMany instead of ForeignKey???
     field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_field")
-    # fields = models.ManyToManyField(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_fields")
+    schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_course_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_course")
     specialization = models.ForeignKey(Specialization, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_specialization")
     students = models.ManyToManyField(User, related_name="course_students", default=None, blank=True)

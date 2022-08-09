@@ -1,17 +1,53 @@
 {% extends 'ecoles/base_functionality.html' %}
 {% load static %}
 
-{% block title %}{{ item.title }} | Ca' de Bruno{% endblock title %}
+{% block title %}{{ item.title }} | Assignment | Ca' de Bruno{% endblock title %}
+
+{% block assignment_metadata %}
+    <li class="list-group-item">
+        <span class="d-flex">
+            <small><strong class="mr-1">Assignment:</strong> {{ item.title }}</small>
+        </span>
+        <span class="d-flex">
+            <small><strong class="mr-1">Assignment type:</strong> {{ item.assignment_type }}</small>
+        </span>
+        <span class="d-flex">
+            <small><strong class="mr-1">Estimated time to complete:</strong> {{ item.estimated_minutes_to_complete }}</small>
+        </span>
+    </li>
+
+    <li class="list-group-item">
+        <span class="d-flex">
+            <small><strong class="mr-1">Part of submodule:</strong> <a href="{% url 'submodule_detail' course.id module.id submodule.id %}" class="text-decoration-none text-primary">{{ submodule.title }}</a></small>
+        </span>
+        <span class="d-flex">
+            <small><strong class="mr-1">Part of module</strong> <a href="{% url 'module_detail' course.id module.id %}" class="text-decoration-none text-primary">{{ module.title }}</a></small>
+        </span>
+        <span class="d-flex">
+            <small><strong class="mr-1">Part of course:</strong> <a href="{% url 'course_detail' course.id %}" class="text-decoration-none text-primary">{{ course.title }}</a></small>
+        </span>
+    </li>
+{% endblock assignment_metadata %}
 
 {% block main_content_container %}
 
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+
+                            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'course_detail' course.id %}">{{ course.title }}</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'module_detail' course.id module.id %}">{{ module.title }}</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'submodule_detail' course.id module.id submodule.id %}">{{ submodule.title }}</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+                                </ol>
+                            </nav>
+
                             <h1 class="fw-bold">{{ item.title }}</h1>
-                            <p class="lead">Course: {{ course.title }}</p>
-                            <p class="lead">Module: {{ module.title }}</p>
-                            <p class="lead">Submodule: {{ submodule.title }}</p>
+                            {% if item.description %}
+                            <p class="lead">{{ item.description|safe|linebreaks }}</p>
+                            {% endif %}
                         </div>
                     </div> 
 

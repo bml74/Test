@@ -92,7 +92,7 @@ class SubmoduleDetailView(UserPassesTestMixin, DetailView):
             "assignments": assignments,
 
         }
-        return render(request, 'ecoles/module_and_submodule_detail_view.html', context)
+        return render(request, 'ecoles/submodules/submodule_detail_view.html', context)
 
 
 class SubmoduleCreateView(LoginRequiredMixin, CreateView):

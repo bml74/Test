@@ -37,36 +37,7 @@
                             <div class="card-body font-size-12">
                                 <h5 class="card-title">Data</h5>
                                 <ul class="list-group list-group-flush">
-                                    <li class="list-group-item p-3">
-                                    <span class="d-flex mb-2">
-                                        <small><strong class="mr-1">Source:</strong> {{ article_source }}</small>
-                                    </span>
-                                    <span class="d-flex mb-2">
-                                    <small>
-                                        <strong class="mr-1">Link:</strong>
-                                        <strong><a class="text-muted text-decoration-none" target="_blank" href="{{ article_url }}">Visit &rarr;</a></strong>
-                                    </small>
-                                    </span>
-                                    <span class="d-flex mb-2">
-                                    <small><strong class="mr-1">Title:</strong> {{ article_title}}</small>
-                                    </span>
-                                    {% if article_published_date %}
-                                    <span class="d-flex">
-                                    <small><strong class="mr-1">Date:</strong> {{ article_published_date}}</small>
-                                    </span>
-                                    {% endif %}
-                                    {% if article_author %}
-                                    <span class="d-flex">
-                                    <small><strong class="mr-1">Author(s):</strong> {{ article_author }}</small>
-                                    </span>
-                                    {% endif %}
-                                    {% if article_description %}
-                                    <span class="d-flex">
-                                    <small><strong class="mr-1">Description:</strong> <span class="">{{ article_description }}</span></small>
-                                    </span>
-                                    {% endif %}
-            
-                                    </li>
+                                    {% block assignment_metadata %}{% endblock assignment_metadata %}
                                 </ul>
                             </div>
                         </div>

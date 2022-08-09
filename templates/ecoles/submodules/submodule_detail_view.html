@@ -1,7 +1,7 @@
 {% extends 'ecoles/base_ecoles.html' %}
 {% load static %}
 
-{% block title %}{{ item.title }} | Info | Ca' de Bruno{% endblock title %}
+{% block title %}{{ item.title }} | Submodule | Ca' de Bruno{% endblock title %}
 
 {% block main_content_container %}
 
@@ -10,7 +10,15 @@
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
-                            <small class="text-muted">COURSE</small>
+                            
+                            <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="{% url 'course_detail' course.id %}">{{ course.title }}</a></li>
+                                    <li class="breadcrumb-item"><a href="{% url 'module_detail' course.id module.id %}">{{ module.title }}</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+                                </ol>
+                            </nav>
+
                             <h1 class="fw-bold">{{ course.title }}</h1>
                             
                             {% if user_enrolled %}
@@ -30,7 +38,7 @@
                             <a class="btn btn-lg btn-info mb-2" href="{% url 'submodule_update' course.id module.id item.id %}" role="button"><i class="fas fa-edit"></i> Edit module</a>
                             {% endif %}
                             {% if user_is_creator %}
-                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'submodule_delete' course.id module.id item/id %}" role="button"><i class="fas fa-minus-circle"></i> Delete module</a>
+                            <a class="btn btn-lg btn-danger mb-2" href="{% url 'submodule_delete' course.id module.id item.id %}" role="button"><i class="fas fa-minus-circle"></i> Delete module</a>
                             {% endif %}
 
                             <a class="btn btn-lg btn-primary mb-2" href="{% url 'course_detail' course.id %}" role="button">View course &rarr;</a>
