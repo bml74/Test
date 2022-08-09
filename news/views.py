@@ -14,7 +14,6 @@ from .utils import (
 
 )
 from config.utils import is_ajax
-
 from django.shortcuts import render, HttpResponseRedirect, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages

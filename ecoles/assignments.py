@@ -16,7 +16,13 @@ from .models import (
     Submodule, 
     Assignment,
     Task,
+    AssignmentNote
 )
+import wikipedia, wikipediaapi
+from googletrans import Translator
+from django.http import HttpResponse, JsonResponse
+from config.utils import is_ajax
+from news.utils import get_languages
 
 
 class AssignmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -96,6 +102,64 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
         # pct_completed = int((total / (num_total_tasks + 1)) * 100) # Add 1 because of the default task made by creator 
 
 
+
+        if is_ajax(request=request):
+            if request.GET.get('original_text'):
+                original_text = request.GET.get('original_text')
+                src = request.GET.get('src')
+                dest = request.GET.get('dest')
+                print(src)
+                print(dest)
+                print(original_text)
+                translator = Translator()
+                res = translator.translate(original_text, src=src, dest=dest)
+                translation_dict = {"src": res.src, "dest": res.dest, "translated_text": res.text, "original_text": original_text}
+                print(translation_dict)
+                return JsonResponse(translation_dict)
+            if request.GET.get('wiki_query'):
+                wiki_query = request.GET.get('wiki_query')
+                lang = request.GET.get('lang')
+                # suggestion = wikipedia.suggest(wiki_query)
+                results = wikipedia.search(wiki_query)
+                print(results)
+                first_result = results[0]
+                try:
+                    wikipedia.set_lang(lang)
+                    pg = wikipedia.page(first_result)
+                    first_result_title = pg.title
+                    wiki_page_url = pg.url
+                    summ = wikipedia.summary(first_result) # Additional parameter: sentences=2
+                except:
+                    try:
+                        wiki_wiki = wikipediaapi.Wikipedia(language=lang)
+                        pg = wiki_wiki.page(first_result)
+                        first_result_title = pg.title
+                        summ = pg.summary
+                        wiki_page_url = pg.fullurl
+                    except:
+                        wiki_page_url, summ, first_result_title = "", "", ""
+                wiki_dict = {
+                    "results": results,
+                    "wiki_page_url": wiki_page_url,
+                    "summary": summ,
+                    "first_result_title": first_result_title
+                }
+                return JsonResponse(wiki_dict)
+            if request.GET.get('user_note_title') or request.GET.get('user_note_text'):
+                title = request.GET.get('user_note_title')
+                text = request.GET.get('user_note_text')
+                try:
+                    updated_note = AssignmentNote.objects.filter(assignment=assignment).filter(creator=self.request.user).first()
+                    updated_note.title = title
+                    updated_note.content = text
+                    updated_note.save()
+                except AttributeError: # If AttributeError, then note didn't exist, and we have to create one rather than updating it.
+                    new_note = AssignmentNote(creator=self.request.user, assignment=assignment, title=title, content=text)
+                    new_note.save()
+                return JsonResponse({'user_note_title_updated': title, 'user_note_text_updated': text})
+
+
+
         context = {
             "obj_type": "assignment", 
             "item": assignment, 
@@ -119,6 +183,16 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
 
 
         }
+
+        context.update({
+            'LANGUAGES': get_languages()
+        })
+
+        try:
+            assignment_note = AssignmentNote.objects.filter(assignment=assignment).filter(creator=self.request.user).first()
+            context.update({"assignment_note": assignment_note})
+        except AttributeError:
+            context.update({"assignment_note": None})
 
         # if is_ajax(request):
         #     toggle_completed, user_toggle_completed, new_task = None, None, None

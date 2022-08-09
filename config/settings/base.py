@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'vocab',
 
     'finance',
-    # 'languages',
+    'languages',
 
     'crispy_forms'
 ]

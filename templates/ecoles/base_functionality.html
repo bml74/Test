@@ -87,10 +87,10 @@
                                 <textarea class="form-control form-control-sm" rows="3" placeholder="Start typing here..." id="user-note-text"></textarea>
                             </div>
                             <button id="save-user-note-btn" class="btn btn-sm btn-outline-navy w-100">Save</button>
-                            {% if article_note %}
+                            {% if assignment_note %}
                             <script>
-                                document.getElementById("user-note-title").value = "{{ article_note.title|safe }}";
-                                document.getElementById("user-note-text").value = "{{ article_note.note|safe }}";
+                                document.getElementById("user-note-title").value = "{{ assignment_note.title|safe }}";
+                                document.getElementById("user-note-text").value = "{{ assignment_note.content|safe }}";
                             </script>
                             {% endif %}
                             </div>
@@ -177,7 +177,7 @@
         <main class="col-md-8 offset-md-3 ms-sm-auto col-lg-9 px-md-4">
             <div id="main-content" style="padding-top: 5vh; padding-left: 5vw; padding-right: 5vw;">
                 <div class="container">
-                    {% block content_container %}{% endblock content_container %}
+                    {% block main_content_container %}{% endblock main_content_container %}
                 </div>
             </div>
          </main>
@@ -303,10 +303,8 @@
         <script defer>          
             $('#translate-btn').on('click', function (clickEvent) {
                 url = window.location.href;
-                article_searched_by = "{{ article_searched_by|safe }}";
-                article_id = "{{ article_id|safe }}";
                 $.ajax({
-                    url: `/news/article/${article_searched_by}/${article_id}/`,
+                    url: url,
                     type: 'get',
                     dataType: 'json',
                     data: {
@@ -327,10 +325,8 @@
   
             $('#wikipedia-summary-btn').on('click', function (clickEvent) {
               url = window.location.href;
-              article_searched_by = "{{ article_searched_by|safe }}";
-              article_id = "{{ article_id|safe }}";
               $.ajax({
-                  url: `/news/article/${article_searched_by}/${article_id}/`,
+                  url: url,
                   type: 'get',
                   dataType: 'json',
                   data: {
@@ -354,10 +350,8 @@
 
             $('#save-user-note-btn').on('click', function (clickEvent) {
                 url = window.location.href;
-                article_searched_by = "{{ article_searched_by|safe }}";
-                article_id = "{{ article_id|safe }}";
                 $.ajax({
-                    url: `/news/article/${article_searched_by}/${article_id}/`,
+                    url: url,
                     type: 'get',
                     dataType: 'json',
                     data: {

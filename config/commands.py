@@ -2524,7 +2524,7 @@ list_of_sources = (
 
 # # To add all Corsican Bible Chapters to DB from terminal:
 # import json
-# from malagosto.models import CorsicanBibleChapter
+# from languages.models import CorsicanBibleChapter
 
 # FILE_PATH = "/Users/braedenlevine/Desktop/Brumaire_Copy_Oct9_758am/brumaire_project/ecole_data/course_creators/BibbiaCorsa.json"
 # f = open(FILE_PATH)

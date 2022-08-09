@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
 from django.utils import timezone
+from languages.models import CorsicanBibleChapter
 
 
 class Ecole(models.Model):
@@ -193,7 +194,7 @@ class Assignment(models.Model):
             # ("Table", "Table"), # ex. for Grammar tables verb endings
             # ("Audio", "Audio"), # Audio file
             ("Iframe Link", "Iframe Link"), # Iframe 
-            # ("Corsican Bible Chapter", "Corsican Bible Chapter"),
+            ("Corsican Bible Chapter", "Corsican Bible Chapter"),
             ("Youtube Video Link", "Youtube Video Link"),
             ("Youtube Video Transcript ID", "Youtube Video Transcript ID"),
             # ("PDF Link", "PDF Link"),
@@ -217,7 +218,7 @@ class Assignment(models.Model):
     # audio
     iframe_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: IFrame
 
-    # corsican_bible_chapter = models.ForeignKey(CorsicanBibleChapter, on_delete=models.CASCADE, related_name="corsican_bible_chapter_assignment", blank=True, null=True)
+    corsican_bible_chapter = models.ForeignKey(CorsicanBibleChapter, on_delete=models.CASCADE, related_name="corsican_bible_chapter_assignment", blank=True, null=True)
     
     youtube_video_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: Youtube Video Link
     youtube_video_transcript_id = models.CharField(max_length=127, default="#", blank=True, null=True) # For assignment choice: Youtube Video Transcript ID

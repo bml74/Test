@@ -15,26 +15,6 @@ class Set(models.Model):
         return f"{self.title} by {self.creator.username}" if self.creator else self.title
 
 
-class Definition(models.Model):
-    # language = Languages
-    language = models.CharField(
-        max_length=64,
-        choices=Languages.choices,
-        default=Languages.ENGLISH,
-        blank=False,
-    )
-    text = models.CharField(max_length=100)
-    definition = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-
-
-class Translation(models.Model):
-    from_language = models.CharField(max_length=100)
-    to_language = models.CharField(max_length=100)
-    text = models.CharField(max_length=100)
-    translation = models.CharField(max_length=200)
-    timestamp = models.DateTimeField(auto_now_add=True)
-
 class Pair(models.Model):
     from_language = models.CharField(max_length=64, choices=Languages.choices, default=Languages.ENGLISH, blank=False)
     to_language = models.CharField(max_length=64, choices=Languages.choices, default=Languages.ENGLISH, blank=False)
