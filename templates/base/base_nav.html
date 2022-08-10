@@ -66,9 +66,10 @@
             <li><a class="dropdown-item" href="{% url 'news-searcher-access' %}">News</a></li>
             {% endif %}
             
-            <li><a class="dropdown-item" href="#">Specializations</a></li>
-            <li><a class="dropdown-item" href="#">Courses</a></li>
-            <li><a class="dropdown-item" href="#">News Feeds</a></li>
+            <li><a class="dropdown-item" href="{% url 'specializations' %}">Specializations</a></li>
+            <li><a class="dropdown-item" href="{% url 'courses' %}">Courses</a></li>
+            <li><a class="dropdown-item" href="{% url 'feed-home' %}">News Feeds</a></li>
+            <li><a class="dropdown-item" href="{% url 'maps_home' %}">Maps</a></li>
           </ul>
         </li>
       </ul>

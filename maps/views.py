@@ -1,8 +1,23 @@
 from django.shortcuts import render
+from .models import MapMeta
 
 
 def maps_home(request):
-    return render(request, "maps_engine/maps_home.html")
+    context = {"maps": MapMeta.objects.all()}
+    return render(request, "maps_engine/maps_home.html", context)
+
+def maps_query(request):
+    if request.method == "GET":
+        term = request.GET.get('term', None)
+        if term: # If term is not None.
+            context = {'term': term}
+
+            results = MapMeta.objects.filter(title__contains=term).all()
+
+            context.update({"results": results})
+
+            return render(request, 'maps_engine/maps_query.html', context)
+    return render(request, 'maps_engine/maps_home.html')
 
 def mapbox_terrain(request):
     return render(request, "maps_engine/mapboxjs/terrain.html")

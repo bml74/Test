@@ -40,7 +40,7 @@
                     <div class="col-3"></div>
                     <div class="col-6">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Try searching: Yahad, Russian hacking, Pink Panther jewel thefts" aria-label="Search query" aria-describedby="button-searchQuery" name="term">
+                            <input type="text" class="form-control" placeholder="Try searching: Yahad, Russian hacking, Pink Panther jewel thefts" aria-label="Search query" aria-describedby="button-searchQuery" name="term" value="{{ term }}">
                             <button class="btn btn-outline-secondary" type="submit" id="button-searchQuery">Search</button>
                         </div>
                     </div>
@@ -56,20 +56,20 @@
     </div>
 
     <div class="row">
-      {% if maps %}
-          {% for map in maps %}
-              <div class="col-lg-4 mt-4">
-                  <a href="/maps/{{ map.keyword }}/" class="text-decoration-none text-muted">
-                      <div class="card bg-lin-grad">
-                          <div class="card-body text-center">
-                                  <h4>{{ map.title }}</h4>
-                          </div>
-                      </div>
-                  </a>
-              </div>
-          {% endfor %}
-      {% endif %}
-</div>
+            {% if results %}
+                {% for map in results %}
+                    <div class="col-lg-4 mt-4">
+                        <a href="/maps/{{ map.keyword }}/" class="text-decoration-none text-muted">
+                            <div class="card bg-lin-grad">
+                                <div class="card-body text-center">
+                                        <h4>{{ map.title }}</h4>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+    </div>
 
 
   </div>
