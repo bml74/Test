@@ -12,7 +12,16 @@
             <small><strong class="mr-1">Assignment type:</strong> {{ item.assignment_type }}</small>
         </span>
         <span class="d-flex">
-            <small><strong class="mr-1">Estimated time to complete:</strong> {{ item.estimated_minutes_to_complete }}</small>
+            <small><strong class="mr-1">Estimated time to complete:</strong> {{ item.estimated_minutes_to_complete }} minutes</small>
+        </span>
+        <span class="d-flex">
+            <small><strong class="mr-1">Completed:
+                {% if assignment_completed %}
+                <i class="fas fa-check-circle icon-color-green"></i>
+                {% else %}
+                <i class="fas fa-times-circle color-navy"></i>
+                {% endif %}
+            </strong></small>
         </span>
     </li>
 

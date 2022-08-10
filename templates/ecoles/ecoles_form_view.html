@@ -123,7 +123,7 @@
 
 
 
-    {% comment %} const page_url = window.location.href;
+    const page_url = window.location.href;
     if (page_url.includes("/assignments/new") || page_url.includes("/assignments/update")) {
 
         assignment_type_element = document.getElementById("id_assignment_type");
@@ -134,9 +134,9 @@
 
         console.log(assignment_type);
 
-        assignment_type_element.onchange = handleChange;
+        assignment_type_element.onchange = handleChange; 
 
-        assignment_type_fields = ["text", "internal_link", "external_reading_link", "external_link", "iframe_link", 'corsican_bible_chapter', 'youtube_video_link', 'youtube_video_transcript_id'];
+        assignment_type_fields = ['text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter'];
         assignment_type_names = [];
         assignment_type_ids = [];
         assignment_type_label_ids = [];
@@ -152,6 +152,14 @@
             assignment_type_ids.push(`id_${field}`);
             assignment_type_label_ids.push(`div_id_${field}`);
         }
+        console.log(assignment_type_names);
+        console.log(assignment_type_ids);
+        console.log(assignment_type_label_ids);
+
+        /*assignment_type_element.addEventListener('change', () => {
+            console.log(assignment_type_element.value);
+        })*/
+        
         for (id of assignment_type_ids) { // All assignment type IDs will have display none
             document.getElementById(id).style.display = "none";
         }
@@ -187,7 +195,7 @@
             }
         }
 
-    } {% endcomment %}
+    }
 
 
 </script>

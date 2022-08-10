@@ -165,7 +165,7 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
             "item": assignment, 
             "assignment": assignment,
             "allowed_to_edit": allowed_to_edit,
-            "assignment_completed": str(assignment_completed),
+            "assignment_completed": assignment_completed,
             # "user_tasks_completed_arr_of_arrs": user_tasks_completed_arr_of_arrs,
             # "task_choices_arr_of_tuples": task_choices_arr_of_tuples,
             # "num_total_tasks": num_total_tasks,
@@ -254,7 +254,7 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
 
 class AssignmentCreateView(LoginRequiredMixin, CreateView):    
     model = Assignment
-    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id']
+    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter']
     template_name = 'ecoles/ecoles_form_view.html'
 
     def form_valid(self, form):
@@ -278,7 +278,7 @@ class AssignmentCreateView(LoginRequiredMixin, CreateView):
 
 class AssignmentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Assignment
-    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id']
+    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter']
     template_name = 'ecoles/ecoles_form_view.html'
 
     def form_valid(self, form):
