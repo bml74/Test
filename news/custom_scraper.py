@@ -35,7 +35,6 @@ class Scrape:
         Else raise exception.
         """
         if domain in self.url_dict:
-            print(f"\n\n\nCScrape CP1 DOMAIN SOURCE{self.url_dict[domain]}\n\n\n")
             return self.url_dict[domain]
         raise Exception
         # return None
@@ -75,6 +74,13 @@ class Scrape:
         for p in ps:
             html_p = " ".join(p.text.strip().split())
             html_p = self.replace_strs(html_p, arr_of_strs_to_remove_within_ps)
+
+            try:
+                img = p.find("img")
+                html_p += f"""<img src={img['src']} style='width: 100%; height: auto;'>"""
+            except:
+                pass
+
             if html_p in arr:
                 continue
             noFlag = True
@@ -901,8 +907,10 @@ class Scrape:
             pass
         data_arr = [source, url, title, None, author, date]
         content_selector = '.singular__content__text__content'
-        selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li, div.heading-h2, div.heading-h3, div.heading-h4, div.heading-h5, div.heading-h6, blockquote'
-        garbage_arr = ['figure', 'figcaption', 'small', 'aside', '.cms-textAlign-center', '.wp-caption-text']
+        # selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li, div.heading-h2, div.heading-h3, div.heading-h4, div.heading-h5, div.heading-h6, blockquote'
+        # garbage_arr = ['figure', 'figcaption', 'small', 'aside', '.cms-textAlign-center', '.wp-caption-text']
+        selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li, div.heading-h2, div.heading-h3, div.heading-h4, div.heading-h5, div.heading-h6, blockquote, div.wp-caption' # '.wp-caption-text'
+        garbage_arr = [] # 'figure', 'figcaption', 'small', 'aside', '.cms-textAlign-center'
         (dct, article_data) = self.handle_content(soup, content_selector, selectors, garbage_arr, data_arr)
         return (dct, article_data)
 
@@ -4494,7 +4502,7 @@ class Scrape:
         author = self.select_author(soup, selector=".article-byline__name")
         data_arr = [source, url, title, descr, author, date]
         selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li'
-        garbage_arr = ['figure', 'figcaption', 'small', 'aside', 'header', 'footer', 'blockquote', '.inlineVideo___3Rd2d', '.contentBody___1zFVF', '.mv8']
+        garbage_arr = ['figure', 'figcaption', 'small', 'aside', 'header', 'footer', 'blockquote', '.inlineVideo___3Rd2d', '.contentBody___1zFVF', '.mv8'] 
         content_selector = ".article-body__content"
         # (dct, article_data) = self.handle_content(soup, content_selector, selectors, garbage_arr, data_arr)
         content = soup.select(content_selector)
