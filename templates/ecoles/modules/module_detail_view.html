@@ -18,21 +18,8 @@
                                 </ol>
                             </nav>
 
-                            <h1 class="fw-bold">{{ course.title }}</h1>
+                            <h1 class="fw-bold">{{ item.title }}</h1>
                             
-                            {% if user_enrolled %}
-                            <div class="progress mt-4 mb-4">
-                                <div class="progress-bar" role="progressbar" aria-label="Progress bar" style="width: {{pct_completed}}%;" aria-valuenow="{{pct_completed}}" aria-valuemin="0" aria-valuemax="100">{{pct_completed}}%</div>
-                            </div>
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are enrolled in this course.</p>
-                            {% endif %}
-                            {% if user_is_creator or allowed_to_edit %}
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are allowed to edit this course.</p>
-                            {% endif %}
-                            {% if user_is_creator %}
-                            <p class="lead"><i class="fas fa-check-circle"></i> You are the creator of this course.</p>
-                            {% endif %}
-
                             {% if user_is_creator or allowed_to_edit %}
                             <a class="btn btn-lg btn-info mb-2" href="{% url 'module_update' course.id item.id %}" role="button"><i class="fas fa-edit"></i> Edit module</a>
                             {% endif %}
@@ -64,7 +51,7 @@
                             <div class="media">
                                 <div class="card mb-4" style="background: transparent;">
                                     <div class="card-body"> 
-                                        <h5 class="card-title">Submodule {{forloop.counter}}: {{ submodule.title }} (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule.time }} {% if submodule.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
+                                        <h5 class="card-title">Submodule {{forloop.counter}}: <a href="{% url 'submodule_detail' course.id item.id submodule.id %}" class="text-decoration-none text-muted">{{ submodule.title }}</a> (<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule.time }} {% if submodule.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</h5>
                                         <hr>
                                         <strong class="d-block text-dark mb-2 mt-1">Description</strong>  
                                         <p class="card-text">{{ submodule.description|safe }}</p>

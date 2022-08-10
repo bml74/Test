@@ -12,6 +12,7 @@ class Ecole(models.Model):
     description = models.TextField(blank=True, null=True)
     url_keyword = models.CharField(max_length=16, default="")
     svg_url = models.CharField(max_length=256, default="")
+    students = models.ManyToManyField(User, related_name="ecole_students", default=None, blank=True)
 
     def __str__(self):
         return self.title
@@ -19,6 +20,7 @@ class Ecole(models.Model):
 # Specializations and Courses:
 # Instead of Category and Field being Foreign Keys, they should be ManyToManys, because there
 # can be multiple ones for each.
+
 
 class Category(models.Model):
     title = models.CharField(max_length=64, default="Category", blank=False)

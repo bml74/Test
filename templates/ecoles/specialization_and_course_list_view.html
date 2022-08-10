@@ -25,7 +25,6 @@
                                         {{ header }}
                                     </h6>
                                   </div>
-                                  {% comment %} <small class="opacity-50 text-nowrap">{{ len_of_news_arr }} results</small> {% endcomment %}
                                 </div>
                             </div>
                             {% for item in items %}
@@ -59,13 +58,12 @@
                                                         <h6 class="mb-0">{{ item.title }}</h6>
                                                         <p class="text-muted">{{ item.description|safe }}</p>
                                                         <button href="{% url 'course_detail' item.id %}" class="btn btn-outline-navy"><i class="fas fa-arrow-right"></i> View</button>
-                                                        {% comment %} {% if user == item.creator or user in item.allowed_editors.all %}
+                                                        {% if user == item.creator or user in item.allowed_editors.all %}
                                                         <button href="{% url 'course_update' item.id %}" class="btn btn-outline-primary"><i class="fas fa-edit"></i> Edit</button>
                                                         {% endif %}
                                                         {% if user == item.creator %}
                                                         <button href="{% url 'course_delete' item.id %}" class="btn btn-outline-danger"><i class="fas fa-minus-circle"></i> Delete</button>
-                                                        {% endif %} {% endcomment %}
-                                                        </div>
+                                                        {% endif %}
                                                     </div>
                                                     {% if item.creator %}
                                                     <small class="opacity-50 text-nowrap">{{ item.creator }}</small>

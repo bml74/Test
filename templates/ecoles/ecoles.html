@@ -24,21 +24,19 @@
                     <div class="card shadow-sm pt-4">
                       <img src="{{ ecole.svg_url|safe }}" class="card-img-top bd-placeholder-img" alt="Ca' de Bruno" width="100%" height="225"  role="img" aria-label="Ca' de Bruno image from svgrepo.com" preserveAspectRatio="xMidYMid slice" focusable="false">
                       <div class="card-body">
-                        <small><i class="fas fa-times-circle color-navy"></i> Not enrolled</small>
-                          {% comment %} {% if USER_IS_ENROLLED %}
+                          {% if user in ecole.students.all %}
                           <small><i class="fas fa-check-circle icon-color-green"></i> Enrolled</small>
                           {% else %}
-                          <small><i class="fas <i class="fas fa-times-circle"></i> icon-color-green"></i> Not enrolled</small>
-                          {% endif %} {% endcomment %}
+                          <small><i class="fas fa-times-circle color-navy"></i> Not enrolled</small>
+                          {% endif %} 
                           <h5 class="card-title fw-bold mt-2 single-line">{{ ecole.title }}</h5>
                         <p class="card-text font-size-12 multi-line three-lines ecole-description">{{ ecole.description }}</p>
                         <div class="d-flex justify-content-between align-items-center">
-                          <button type="button" class="btn btn-outline-navy w-50">Enroll</button>
-                          {% comment %} {% if USER_IS_ENROLLED %}
-                          <button type="button" class="btn btn-danger w-50">Unenroll</button>
+                          {% if user in ecole.students.all %}
+                          <a type="button" href="{% url 'enroll_in_ecole' ecole.id %}" class="btn btn-outline-danger w-50 unenroll-in-ecole">Unenroll</a>
                           {% else %}
-                          <button type="button" class="btn btn-outline-navy w-50">Enroll</button>
-                          {% endif %} {% endcomment %}
+                          <a type="button" href="{% url 'enroll_in_ecole' ecole.id %}" class="btn btn-outline-navy w-50 enroll-in-ecole">Enroll</a>
+                          {% endif %}
 
                               <a href="#">
                                 <i class="fas fa-info-circle color-navy"></i>
@@ -54,6 +52,8 @@
         
                 </div>
         </div>
+
+
 
 {% endblock main_content_container %}
 

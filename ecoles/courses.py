@@ -75,7 +75,7 @@ class CreatedCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CreatedCoursesListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
+        obj_type = "course"
         context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s I've created", "title": f"My Creations | {obj_type.capitalize()}"})
         return context
 
@@ -97,7 +97,7 @@ class EditAccessCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListVie
 
     def get_context_data(self, **kwargs):
         context = super(EditAccessCoursesListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
+        obj_type = "course"
         context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s I can edit", "title": f"Edit Access | {obj_type.capitalize()}"})
         return context
 
@@ -348,7 +348,7 @@ class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context = super(CourseUpdateView, self).get_context_data(**kwargs)
         obj_type = "course"
-        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
         return context
 
 

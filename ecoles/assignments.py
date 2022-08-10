@@ -23,6 +23,11 @@ from googletrans import Translator
 from django.http import HttpResponse, JsonResponse
 from config.utils import is_ajax
 from news.utils import get_languages
+from pytube import Playlist, YouTube, extract
+from youtube_transcript_api import YouTubeTranscriptApi
+import requests
+from bs4 import BeautifulSoup as bs
+from strfseconds import strfseconds
 
 
 class AssignmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -193,6 +198,17 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
             context.update({"assignment_note": assignment_note})
         except AttributeError:
             context.update({"assignment_note": None})
+
+        if assignment.assignment_type == "Youtube Video Transcript ID":
+            video_id = assignment.youtube_video_transcript_id
+            video_url = f"https://www.youtube.com/watch?v={video_id}"
+            doc = requests.get(video_url)
+            soup = bs(doc.content, 'html.parser')
+            video_title = soup.title.get_text()
+            transcript_full = YouTubeTranscriptApi.get_transcript(video_id)
+            transcript_for_display = [[strfseconds(seconds=int(arr['start'])).split('.')[0], arr['text']] for arr in transcript_full]
+            video_details = {"video_id": video_id, "transcript_for_display": transcript_for_display, "video_title": video_title}
+            context.update(video_details)
 
         # if is_ajax(request):
         #     toggle_completed, user_toggle_completed, new_task = None, None, None

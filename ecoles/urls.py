@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.urls import path
-
 from . import views, categories, fields, specializations, courses, modules, submodules, assignments, tasks
 
 
@@ -9,6 +8,8 @@ urlpatterns = [
     path('', views.ecoles_home, name='ecoles-home'),
 
     path('enroll/<str:obj_type>/<int:id>/', views.enroll, name='enroll'),
+
+    path('enroll/<int:id>/', views.enroll_in_ecole, name='enroll_in_ecole'),
 
     path('courseinfo/', views.course_info_design, name='course-info-design'),
     path('course/', views.course_design, name='course-design'),
