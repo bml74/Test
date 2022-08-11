@@ -42,6 +42,7 @@ urlpatterns = [
     path('news/', include('news.urls')), 
     path('newsfeed/', include('newsfeed.urls')), 
     path('maps/', include('maps.urls')), 
+    path('messaging/', include('messaging.urls')), 
 
     path('finance/', include('finance.urls')),
 

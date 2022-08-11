@@ -1,0 +1,111 @@
+{% extends 'base/base_nav.html' %}
+
+{% load static %}
+
+{% block main %}
+
+
+<div class="row mt-4">
+
+  <div class="col-lg-4">
+    <h1>Messages</h1>
+    <input type="text" class="form-control" id="filter-user-message" placeholder="Search for users...">
+        <div style="overflow-y: scroll; height: 500px" class="list-group w-auto">
+
+        {% for message in messages %}
+        
+
+            <a href="{% url 'directs' message.user.username %}" class="list-group-item list-group-item-action d-flex gap-3 py-3 {% if active_direct == message.user.username %}is-active{% endif %}" aria-current="true">
+              <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
+              <div class="d-flex gap-2 w-100 justify-content-between">
+                <div>
+                  <h6 class="mb-0">{{ message.user.first_name }} {{ message.user.last_name }}</h6>
+                  <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
+                  {% if message.unread %}
+                    <p style="font-weight: bold; color: red;">
+                      <i class="fas fa-circle"></i> {{ message.unread }}
+                    </p>
+                  {% endif %}   
+                </div>
+                <small class="opacity-50 text-nowrap">@{{ message.user.username }}</small>
+              </div>
+            </a>
+
+        {% endfor %}
+      
+      </div>
+        <a href="{% url 'usersearch' %}" class="button is-success">New message</a>
+  </div>
+  <div class="col-lg-8">
+
+
+
+
+
+    <div class="card" style="overflow-y: scroll; height: 60vh;">
+
+      <div class="card-body">
+
+      {% for direct in directs %}
+      <!--float: right; border-radius: 16px; width: 350px;-->
+
+      <div class="row mt-4">
+          {% if user == direct.sender %}
+          <div class="col-lg-6"></div>
+          <div class="col-lg-6 message-from-current-user bg-lin-grad px-4 pt-3 pb-3" style="border-radius: 44px;">
+            <p>
+              <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small class="text-muted">@{{ direct.sender.username }} ({{ direct.date|date:'N d G:i'}})</small>
+            </p>
+            {{ direct.body }} 
+          </div>
+        {% else %}
+          <div class="col-lg-6 message-from-other-user bg-light px-4 pt-3 pb-3" style="border-radius: 44px;">
+            <p>
+              <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small class="text-muted">@{{ direct.sender.username }} ({{ direct.date|date:'N d G:i'}})</small>
+            </p>
+            {{ direct.body }} 
+          </div>
+          <div class="col-lg-6"></div>
+        {% endif %}
+      </div>
+
+      {% endfor %}
+
+    </div>
+
+    </div>
+
+      <form role="form" method="POST" action="{% url 'send_direct' %}">
+        {% csrf_token %}
+
+        <div class="media-content">
+          <input type="hidden" name="to_user" value="{{ active_direct }}">
+          <div>
+            <p class="control">
+              <textarea class="textarea form-control w-100" name="body" placeholder="Add a comment..."></textarea>
+            </p>
+          </div>
+
+              <div>
+                <button type="submit" name="action" class="btn btn-outline-primary">Send</buttom>
+              </div>
+        </div>
+      </form>
+      
+      
+      
+      
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock %}
