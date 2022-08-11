@@ -11,6 +11,11 @@
     <meta name="google" value="notranslate">
     <title>{% block title %}{% endblock title %}</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+
+
     {% block css_links %}{% endblock css_links %}
     {% block js_links %}{% endblock js_links %}
 
@@ -31,6 +36,7 @@
     <style>
 
 
+        #nav-title { font-family: 'Bebas Neue', cursive; font-size: 24px; }
         .card-height-300 { height: 300px; }
         .overflow-y-scroll { overflow-y: scroll; }
         .no-text-decoration { text-decoration: none; }
