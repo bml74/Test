@@ -40,6 +40,24 @@
 
 {% block main_content_container %}
 
+                            {% if "deathcamps.org" in item.description %}
+                            <div class="row mb-4">
+                                <div class="col-lg-12">
+                                    <div class="alert alert-warning" role="alert">
+                                        <p>Attention: This specific page uses select images from a non-secure source (HTTP, not HTTPS). View <a href="https://stackoverflow.com/questions/18321032/how-to-get-chrome-to-allow-mixed-content">this page</a> to learn how to show the images.</p>
+                                        <p>Or, follow these instructions:</p>
+                                        <ol>
+                                            <li>Click the icon to the left of the URL. It may have a lock icon <i class="fas fa-lock"></i> or it may say 'Not Secure'.</li>
+                                            <li>Click 'Site settings' in the popup box.</li>
+                                            <li>Near the bottom of the <a href="chrome://settings/content/siteDetails?site=https%3A%2F%2Fwww.cadebruno.com">page</a> you will be taken to is 'Insecure content.' Change this setting to 'Allow.'</li>
+                                            <li>Close Chrome settings, go back to the site, and refresh the page.</li>
+                                        </ol>    
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+
+
                 <div class="row mb-4">
                     <div class="col-lg-12">
                         <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
@@ -110,3 +128,7 @@
 
 
 {% endblock main_content_container %}
+
+{% block modal %}
+{% endblock modal %}
+

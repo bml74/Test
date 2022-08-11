@@ -213,21 +213,18 @@
 
 # dict_of_topics = {"belzec": belzec, "sobibor": sobibor, "treblinka": treblinka, "reinhard": aktion_reinhard, "gas_chambers": gas_chambers, "lublin": lublin, "occupation": occupation, "euthanasia": euthanasia, "sabba": risiera_di_san_sabba}
 # for topic, arr in dict_of_topics.items():
-# 	for el in arr:
-# 		link = el['href']; language = "English"; lang_keys = {"_de": "German", "_it": "Italian", "_nl": "Dutch", "_fr": "French", "_es": "Spanish", "_dk": "Danish", "_pl": "Polish"}
-# 		for k, v in lang_keys.items():
-# 			if f"{k}.html" in link:
-# 				language = v
-# 				break
-
-# 		try:
-# 			(t, txt) = get_html_body(link, topic); assignment_type = "Text"; topics_dict = {"belzec": "Belzec", "sobibor": "Sobibor", "treblinka": "Treblinka", "reinhard": "Aktion Reinhard", "gas_chambers": "Gas Chambers", "lublin": "Lublin", "occupation": "Occupation", "euthanasia": "Euthanasia", "sabba": "Risiera di San Sabba"}
-# 			for k, v in topics_dict.items():
-# 				if topic == k:
-# 					sm = Submodule.objects.filter(title=v)[0]
-# 					break
-# 			a = Assignment(title=t, assignment_type=assignment_type, text=str(txt), submodule=sm, language=language); a.save()
-# 		except:
-# 			pass
-
-# a = Assignment(title='t', submodule=Submodule.objects.first(), language='English', assignment_type="Text", text='t')
+#     for el in arr:
+#         link = el['href']; language = "en"; lang_keys = {"_de": "de", "_it": "it", "_nl": "nl", "_fr": "fr", "_es": "es", "_dk": "da", "_pl": "pl"}
+#         for k, v in lang_keys.items():
+#             if f"{k}.html" in link:
+#                 language = v
+#                 break
+#         try:
+#             (t, txt) = get_html_body(link, topic); assignment_type = "Text"; topics_dict = {"belzec": "Belzec", "sobibor": "Sobibor", "treblinka": "Treblinka", "reinhard": "Aktion Reinhard", "gas_chambers": "Gas Chambers", "lublin": "Lublin", "occupation": "Occupation", "euthanasia": "Euthanasia", "sabba": "Risiera di San Sabba"}
+#             for k, v in topics_dict.items():
+#                 if topic == k:
+#                     sm = Submodule.objects.filter(title=v)[0]
+#                     break
+#             a = Assignment(title=t, description=href, external_link=href, assignment_type=assignment_type, text=str(txt), submodule=sm, language=language); a.save()
+#         except:
+#             pass
