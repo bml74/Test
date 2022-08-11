@@ -186,13 +186,13 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
             "submodule": submodule, 
             # "tasks": tasks,
 
+            'LANGUAGES': get_languages()
+
 
         }
 
-        context.update({
-            'LANGUAGES': get_languages()
-        })
 
+        # Get assignment note if it exists:
         try:
             assignment_note = AssignmentNote.objects.filter(assignment=assignment).filter(creator=self.request.user).first()
             context.update({"assignment_note": assignment_note})
@@ -209,6 +209,9 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
             transcript_for_display = [[strfseconds(seconds=int(arr['start'])).split('.')[0], arr['text']] for arr in transcript_full]
             video_details = {"video_id": video_id, "transcript_for_display": transcript_for_display, "video_title": video_title}
             context.update(video_details)
+        elif assignment.assignment_type == "Article":
+            article_by_url = assignment.article_by_url
+            article_id = assignment.article_id
 
         # if is_ajax(request):
         #     toggle_completed, user_toggle_completed, new_task = None, None, None
@@ -270,7 +273,7 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
 
 class AssignmentCreateView(LoginRequiredMixin, CreateView):    
     model = Assignment
-    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter']
+    fields = ['title', 'due_date', 'description', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter', 'article_by_url', 'article_id']
     template_name = 'ecoles/ecoles_form_view.html'
 
     def form_valid(self, form):

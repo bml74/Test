@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from django.core.validators import MinLengthValidator
 from django.utils import timezone
 from languages.models import CorsicanBibleChapter
+from config.choices import Languages
+
 
 
 class Ecole(models.Model):
@@ -108,8 +110,8 @@ class Course(models.Model):
         default=DifficultyLevel.BEGINNER,
         blank=False,
     )
-
-    # Make Category/Field ManyToMany instead of ForeignKey???
+ 
+    # Make Category/Field ManyToMany instead of ForeignKey??? 
     field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_field")
     # schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_course_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_course")
@@ -178,6 +180,8 @@ class Assignment(models.Model):
     due_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
     estimated_minutes_to_complete = models.FloatField(default=30)
 
+    language = models.CharField(max_length=64, choices=Languages.choices, default=Languages.ENGLISH, blank=True)
+
     assignment_type = models.CharField(
         max_length=100, 
         choices=(
@@ -201,6 +205,7 @@ class Assignment(models.Model):
             ("Youtube Video Transcript ID", "Youtube Video Transcript ID"),
             # ("PDF Link", "PDF Link"),
             # ("Image", "Image")
+            ("Article", "Article"),
         ),
         default="Choose an assignment type",
         blank=False,
@@ -224,6 +229,9 @@ class Assignment(models.Model):
     
     youtube_video_link = models.CharField(max_length=255, default="#", blank=True, null=True) # For assignment choice: Youtube Video Link
     youtube_video_transcript_id = models.CharField(max_length=127, default="#", blank=True, null=True) # For assignment choice: Youtube Video Transcript ID
+
+    article_by_url = models.BooleanField(blank=True, null=True)
+    article_id = models.IntegerField(blank=True, null=True)
 
     completed = models.ManyToManyField(
         User,
