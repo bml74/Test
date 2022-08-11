@@ -10,9 +10,17 @@
 <div class="row mt-4">
 
   <div class="col-lg-4">
-    <h1>Messages</h1>
-    <input type="text" class="form-control" id="filter-user-message" placeholder="Search for users...">
-        <div style="overflow-y: scroll; height: 500px" class="list-group w-auto">
+        <div class="mx-4">
+        
+        <div style="overflow-y: scroll; height: 500px" class="list-group w-auto" id="messages-inbox-list-group">
+
+          <div class="list-group-item bg-lin-grad">
+            <h4 class="fw-bold">Messages</h4>
+          </div>
+
+          <div class="list-group-item">
+            <input type="text" class="form-control mt-2 mb-2" id="messages-inbox-user-query" placeholder="Search for users...." onkeyup="filterUsersInInbox()">
+          </div>
 
         {% for message in messages %}
         
@@ -21,7 +29,7 @@
               <img src="https://github.com/twbs.png" alt="twbs" width="32" height="32" class="rounded-circle flex-shrink-0">
               <div class="d-flex gap-2 w-100 justify-content-between">
                 <div>
-                  <h6 class="mb-0">{{ message.user.first_name }} {{ message.user.last_name }}</h6>
+                  <h6 class="mb-0 item-title">{{ message.user.first_name }} {{ message.user.last_name }}</h6>
                   <p class="mb-0 opacity-75">Some placeholder content in a paragraph.</p>
                   {% if message.unread %}
                     <p style="font-weight: bold; color: red;">
@@ -35,7 +43,8 @@
 
         {% endfor %}
       
-      </div>
+        </div>
+        </div>
         <a href="{% url 'usersearch' %}" class="button is-success">New message</a>
   </div>
   <div class="col-lg-8">
@@ -54,14 +63,14 @@
       <div class="row mt-4">
           {% if user == direct.sender %}
           <div class="col-lg-6"></div>
-          <div class="col-lg-6 message-from-current-user bg-lin-grad px-4 pt-3 pb-3" style="border-radius: 44px;">
+          <div class="col-lg-6 message-from-current-user text-white px-4 pt-3 pb-4" style="border-radius: 80px; background: -webkit-linear-gradient(to right, #00c6ff, #0072ff); background: linear-gradient(to right, #00c6ff, #0072ff);">
             <p>
               <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small class="text-muted">@{{ direct.sender.username }} ({{ direct.date|date:'N d G:i'}})</small>
             </p>
             {{ direct.body }} 
           </div>
         {% else %}
-          <div class="col-lg-6 message-from-other-user bg-light px-4 pt-3 pb-3" style="border-radius: 44px;">
+          <div class="col-lg-6 message-from-other-user px-4 pt-3 pb-4 bg-lin-grad" style="border-radius: 80px;">
             <p>
               <strong>{{ direct.sender.profile.first_name }} {{ direct.sender.profile.last_name }}</strong> <small class="text-muted">@{{ direct.sender.username }} ({{ direct.date|date:'N d G:i'}})</small>
             </p>
@@ -110,4 +119,34 @@
 
 
 
+
+
 {% endblock %}
+
+
+{% block JavaScript %}
+<script>  
+  function filterUsersInInbox() {
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById("messages-inbox-user-query");
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("messages-inbox-list-group");
+      li = ul.querySelectorAll(".list-group-item-action");
+      for (i = 0; i < li.length; i++) {
+
+          nm = li[i].querySelectorAll(".item-title")[0];
+          name_txtValue = nm.textContent || nm.innerText;
+
+          username = li[i].querySelectorAll(".item-title")[0];
+          username_txtValue = username.textContent || username.innerText; 
+
+          if (name_txtValue.toUpperCase().indexOf(filter) > -1 || username_txtValue.toUpperCase().indexOf(filter) > -1) {
+            li[i].classList.remove("no-display");
+          } else {
+            console.log('no');
+              li[i].classList.add("no-display");
+          }
+      }
+  }
+</script>
+{% endblock JavaScript %}
