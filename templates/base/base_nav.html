@@ -5,7 +5,7 @@
 
 {% block body %}
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light notranslate" aria-label="Main navigation" style="border-bottom: 5px solid rgb(0, 38, 84);">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light notranslate noprint" aria-label="Main navigation" style="border-bottom: 5px solid rgb(0, 38, 84);">
   <div class="container-fluid">
     <a class="navbar-brand fw-bold color-navy" href="{% url 'index' %}">
       <img src="https://upload.wikimedia.org/wikipedia/commons/4/49/Flag_of_Free_France_%281940-1944%29_Cross_of_Lorraine_variant.svg" alt="" width="30" height="24" class="d-inline-block align-text-top">
@@ -170,7 +170,7 @@
   </div>
 </div>
 
-<button type="button" class="btn btn-outline-navy bg-lin-grad" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
+<button type="button" class="btn btn-outline-navy bg-lin-grad noprint" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
 
 <div class="toast-container position-fixed bottom-0 end-0 p-3" id="chatboxToastContainer">
   <div id="chatboxToast" class="toast border" role="alert" aria-live="assertive" aria-atomic="true" style="display: none;">
