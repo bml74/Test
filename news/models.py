@@ -1,3 +1,4 @@
+from operator import mod
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -168,3 +169,13 @@ class SearchAccessRequest(models.Model):
 
     def get_absolute_url(self):
         return reverse('access_requests', kwargs={'pk': self.pk})
+
+
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE) 
+    stars = models.IntegerField()
+    article_by_url = models.BooleanField(default=True)
+    article_id = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.user.username} gives {self.stars} star(s) to article by URL with id {self.article_id}" if self.article_by_url else f"{self.user.username} gives {self.stars} star(s) to article by title with id {self.article_id}"

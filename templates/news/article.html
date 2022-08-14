@@ -348,10 +348,44 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            
+
             <div class="rating">
-                <span id="1-star">☆</span><span id="2-stars">☆</span><span id="3-stars">☆</span><span id="4-stars">☆</span><span id="5-stars">☆</span>
+                <span id="5-stars">☆</span><span id="4-stars">☆</span><span id="3-stars">☆</span><span id="2-stars">☆</span><span id="1-star">☆</span>
             </div>
+
+            {% if article_rating %}
+                {% if article_rating.stars == 1 %}
+                <script>
+                    document.getElementById("1-star").classList.add("color-gold");
+                </script>
+                {% elif article_rating.stars == 2 %}
+                <script>
+                    document.getElementById("1-star").classList.add("color-gold");
+                    document.getElementById("2-stars").classList.add("color-gold");
+                </script>
+                {% elif article_rating.stars == 3 %}
+                <script>
+                    document.getElementById("1-star").classList.add("color-gold");
+                    document.getElementById("2-stars").classList.add("color-gold");
+                    document.getElementById("3-stars").classList.add("color-gold");
+                </script>
+                {% elif article_rating.stars == 4 %}
+                <script>
+                    document.getElementById("1-star").classList.add("color-gold");
+                    document.getElementById("2-stars").classList.add("color-gold");
+                    document.getElementById("3-stars").classList.add("color-gold");
+                    document.getElementById("4-stars").classList.add("color-gold");
+                </script>
+                {% elif article_rating.stars == 5 %}
+                <script>
+                    document.getElementById("1-star").classList.add("color-gold");
+                    document.getElementById("2-stars").classList.add("color-gold");
+                    document.getElementById("3-stars").classList.add("color-gold");
+                    document.getElementById("4-stars").classList.add("color-gold");
+                    document.getElementById("5-stars").classList.add("color-gold");
+                </script>
+                {% endif %}
+            {% endif %}
         
         </div>
         <div class="modal-footer">
@@ -539,7 +573,7 @@
 
                     }
                 });
-              });
+            });
   
   
         </script>
@@ -568,6 +602,68 @@
                     }
                 })
             })
+
+
+
+
+
+            document.querySelector('.rating').addEventListener('click', reviewArticle, false);
+            function hide(evt) {
+                console.log(evt.target);
+              }
+
+            function reviewArticle(clickEvent) {
+                url = window.location.href;
+                article_searched_by = "{{ article_searched_by|safe }}";
+                article_id = "{{ article_id|safe }}";
+                $.ajax({
+                    url: `/news/article/${article_searched_by}/${article_id}/`,
+                    type: 'get',
+                    dataType: 'json',
+                    data: {
+                        element_id: clickEvent.target.id
+                    },
+                    error: function(response) {
+                        console.log(response);
+                    },
+                    success: function(response) {
+                        console.log(response); // results, wiki_page_url, summary
+                        stars = response.stars;
+                        if (response.stars == 1) {
+                            document.getElementById("1-star").classList.add("color-gold");
+                            document.getElementById("2-stars").classList.remove("color-gold");
+                            document.getElementById("3-stars").classList.remove("color-gold");
+                            document.getElementById("4-stars").classList.remove("color-gold");
+                            document.getElementById("5-stars").classList.remove("color-gold");
+                        } else if (response.stars == 2) {
+                            document.getElementById("1-star").classList.add("color-gold");
+                            document.getElementById("2-stars").classList.add("color-gold");
+                            document.getElementById("3-stars").classList.remove("color-gold");
+                            document.getElementById("4-stars").classList.remove("color-gold");
+                            document.getElementById("5-stars").classList.remove("color-gold");
+                        } else if (response.stars == 3) {
+                            document.getElementById("1-star").classList.add("color-gold");
+                            document.getElementById("2-stars").classList.add("color-gold");
+                            document.getElementById("3-stars").classList.add("color-gold");
+                            document.getElementById("4-stars").classList.remove("color-gold");
+                            document.getElementById("5-stars").classList.remove("color-gold");
+                        } else if (response.stars == 4) {
+                            document.getElementById("1-star").classList.add("color-gold");
+                            document.getElementById("2-stars").classList.add("color-gold");
+                            document.getElementById("3-stars").classList.add("color-gold");
+                            document.getElementById("4-stars").classList.add("color-gold");
+                            document.getElementById("5-stars").classList.remove("color-gold");
+                        } else if (response.stars == 5) {
+                            document.getElementById("1-star").classList.add("color-gold");
+                            document.getElementById("2-stars").classList.add("color-gold");
+                            document.getElementById("3-stars").classList.add("color-gold");
+                            document.getElementById("4-stars").classList.add("color-gold");
+                            document.getElementById("5-stars").classList.add("color-gold");
+                        }
+                        
+                    }
+                });
+            }
             
         </script>
         

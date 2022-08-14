@@ -5,7 +5,8 @@ from .models import (
     ArticleNote,
     ArticleByTitle,
     ArticlesByTitle,
-    SearchAccessRequest
+    SearchAccessRequest,
+    Rating
 )
 
 
@@ -16,3 +17,4 @@ admin.site.register(ArticleNote)
 admin.site.register(ArticleByTitle)
 admin.site.register(ArticlesByTitle)
 admin.site.register(SearchAccessRequest)
+admin.site.register(Rating)

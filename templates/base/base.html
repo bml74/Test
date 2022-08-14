@@ -227,12 +227,14 @@ body {
 
             .rating {
                 unicode-bidi: bidi-override;
-                direction: rtl;
+                text-align: center;
+                direction: rtl!important;
               }
               .rating > span {
                 display: inline-block;
                 position: relative;
-                width: 1.1em;
+                width: 1.5em;
+                font-size: xx-large;
               }
               .rating > span:hover:before,
               .rating > span:hover ~ span:before {
@@ -240,6 +242,8 @@ body {
                  position: absolute;
                  color: gold;
               }
+
+              .color-gold { color: gold!important; }
     
       
     </style>

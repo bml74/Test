@@ -1,4 +1,4 @@
-from .models import ArticleByTitle, ArticlesByTitle, Source, ArticleByURL, ArticleNote, SearchAccessRequest, SET_DEFAULT_FIELD
+from .models import ArticleByTitle, ArticlesByTitle, Source, ArticleByURL, ArticleNote, SearchAccessRequest, Rating, SET_DEFAULT_FIELD
 from .utils import (
     ReadabilityArticle, 
     get_article_data, 
@@ -195,7 +195,31 @@ class ArticleByURLDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView
                 translation_dict = {"src": res.src, "dest": res.dest, "translated_text": res.text, "original_text": original_text}
                 print(translation_dict)
                 return JsonResponse(translation_dict)
-                # return JsonResponse({"src": src, "dest": dest, "translated_text": original_text, "original_text": original_text})
+            if request.GET.get('element_id'):
+                element_id = request.GET.get('element_id')
+                if element_id == "1-star":
+                    stars = 1
+                elif element_id == "2-stars":
+                    stars = 2
+                elif element_id == "3-stars":
+                    stars = 3
+                elif element_id == "4-stars":
+                    stars = 4
+                elif element_id == "5-stars":
+                    stars = 5
+                stars_dict = {"stars": stars}
+
+                article_by_url = True if article.article_searched_by == "url" else False
+
+                try:
+                    updated_rating = Rating.objects.filter(article_id=article.id).filter(user=self.request.user).filter(article_by_url=article_by_url).first()
+                    updated_rating.stars = stars
+                    updated_rating.save()
+                except AttributeError: # If AttributeError, then note didn't exist, and we have to create one rather than updating it.
+                    new_rating = Rating(user=self.request.user, article_id=article.id, article_by_url=article_by_url, stars=stars)
+                    new_rating.save()
+                print(stars_dict)
+                return JsonResponse(stars_dict)
         if request.GET.get('wiki_query'):
             wiki_query = request.GET.get('wiki_query')
             lang = request.GET.get('lang')
@@ -251,6 +275,13 @@ class ArticleByURLDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView
             context.update({"article_note": article_note})
         except AttributeError:
             context.update({"article_note": None})
+
+        try:
+            article_by_url = True if article.article_searched_by == "url" else False
+            article_rating = Rating.objects.filter(article_id=article.id).filter(user=self.request.user).filter(article_by_url=article_by_url).first()
+            context.update({"article_rating": article_rating})
+        except AttributeError:
+            context.update({"article_rating": None})
 
         return render(request, 'news/article.html', context)
 
