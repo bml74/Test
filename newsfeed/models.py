@@ -20,7 +20,7 @@ class Feed(models.Model):
     )
 
     def __str__(self):
-        return self.title
+        return f"{self.title} | {self.source.source_name}"
 
     def get_absolute_url(self):
         return reverse('feed-detail', kwargs={'pk': self.pk})
