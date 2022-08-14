@@ -2527,39 +2527,22 @@
 # from languages.models import CorsicanBibleChapter
 
 # FILE_PATH = "/Users/braedenlevine/Desktop/Brumaire_Copy_Oct9_758am/brumaire_project/ecole_data/course_creators/BibbiaCorsa.json"
+# FILE_PATH = "https://raw.githubusercontent.com/bml74/unit1789/master/ecole_data/course_creators/BibbiaCorsa.json"
 # f = open(FILE_PATH)
-# data = json.load(f)
-# books = data['books']
+# data = json.load(f) # data = json.dumps(j) # Dict to JSON
+# books = data['books'] # Data is of type DICT!!!
 
 # book_keys = list(books.keys())
 # # ['genese', 'proverbes', 'ecclesiaste', 'psaumes', 'luc', 'actes', 'jean1']
 # for book_key in book_keys:
 #     book = books[book_key]
 #     for chapter in book:
-#         livre = chapter['livre']
-#         ch = chapter['chapter']
-#         page_url = chapter['page_url']
-#         c = chapter['corsican']
-#         f = chapter['french']
-#         cstlc = c['stlc']
-#         ct = c['titre']
-#         # cl = c['lines'][0]
-
-#         CORSICAN_LINES = ""
+#         livre = chapter['livre']; ch = chapter['chapter']; page_url = chapter['page_url']; c = chapter['corsican']; f = chapter['french']; cstlc = c['stlc']; ct = c['titre']; fstlc = f['stlc']; ft = f['titre']; CORSICAN_LINES = ""; FRENCH_LINES = ""
 #         for line in c['lines']:
 #             CORSICAN_LINES += line + "<br>"
-
-#         fstlc = f['stlc']
-#         ft = f['titre']
-#         # fl = f['lines'][0]
-
-#         FRENCH_LINES = ""
 #         for line in f['lines']:
 #             FRENCH_LINES += line + "<br>"
-
-#         # new_c = CorsicanBibleChapter(livre=livre, chapter=ch, page_url=page_url, corsican_stlc=cstlc, french_stlc=fstlc, corsican_titre=ct, french_titre=ft, corsican_lines=cl, french_lines=fl)
 #         new_c = CorsicanBibleChapter(livre=livre, chapter=ch, page_url=page_url, corsican_stlc=cstlc, french_stlc=fstlc, corsican_titre=ct, french_titre=ft, corsican_lines=CORSICAN_LINES, french_lines=FRENCH_LINES)
-
 #         new_c.save()
 
 
@@ -2580,3 +2563,33 @@
 # 	sm = Submodule(title=v, module=m, description=f"Questa sezione descrive l'argomento di {v}")
 # 	sm.save()
 
+# # Course: Corsu
+# # Module: A Bìbbia corsa
+# from ecoles.models import Assignment, Submodule, Module
+# from languages.models import CorsicanBibleChapter
+
+# m = Module.objects.filter(title="A Bìbbia corsa").first()
+# sm_names = ["Gènesi", "Pruvèrbii", "Ecclesiasta", "Salmi", "Evangelu secondu san Lucca", "Atti di l’Apòstuli", "Prima epìstula di san Ghjuvanni"]
+
+# for nm in sm_names:
+#     sm = Submodule(title=nm, description=f"{nm} | A Bìbbia corsa", module=m)
+#     sm.save()
+
+# chaps = CorsicanBibleChapter.objects.all()
+# for chap in chaps:
+#     if chap.livre == "jean1":
+#         sm = Submodule.objects.filter(title="Prima epìstula di san Ghjuvanni").first()
+#     elif chap.livre == "actes":
+#         sm = Submodule.objects.filter(title="Atti di l’Apòstuli").first()
+#     elif chap.livre == "luc":
+#         sm = Submodule.objects.filter(title="Evangelu secondu san Lucca").first()
+#     elif chap.livre == "psaumes":
+#         sm = Submodule.objects.filter(title="Salmi").first()
+#     elif chap.livre == "ecclesiaste":
+#         sm = Submodule.objects.filter(title="Ecclesiasta").first()
+#     elif chap.livre == "proverbes":
+#         sm = Submodule.objects.filter(title="Pruvèrbii").first()
+#     elif chap.livre == "genese":
+#         sm = Submodule.objects.filter(title="Gènesi").first()
+#     a = Assignment(title=f"{chap.corsican_titre} | {chap.corsican_stlc}", description=f"{chap.corsican_titre} | {chap.corsican_stlc}", language="co", assignment_type="Corsican Bible Chapter", corsican_bible_chapter=chap, submodule=sm)
+#     a.save()

@@ -79,8 +79,11 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
         course = get_object_or_404(Course, pk=module.course.id)
         allowed_to_edit = request.user in course.allowed_editors.all()
         specialization = course.specialization
-        field = get_object_or_404(Field, pk=course.field.id)
-        category = get_object_or_404(Category, pk=field.category.id)
+
+        try:
+            field = get_object_or_404(Field, pk=course.field.id); category = get_object_or_404(Category, pk=field.category.id)
+        except AttributeError:
+            field = None; category = None
 
         # tasks = Task.objects.filter(assignment=assignment) # ex. Read, Watch, Take Notes, etc.
         # user_tasks_completed_arr_of_arrs = [[task.id, str(task.completed.filter(id=request.user.id).exists())] for task in tasks]           
