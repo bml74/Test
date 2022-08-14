@@ -38,9 +38,10 @@
                           <a type="button" href="{% url 'enroll_in_ecole' ecole.id %}" class="btn btn-outline-navy w-50 enroll-in-ecole">Enroll</a>
                           {% endif %}
 
-                              <a href="#">
+                                <span data-bs-toggle="modal" data-bs-target="#descriptionModal" data-bs-title="{{ ecole.title }}" data-bs-id="{{ ecole.id }}" data-bs-description="{{ ecole.description }}" style="cursor: pointer;">
                                 <i class="fas fa-info-circle color-navy"></i>
-                              </a>
+                              </span>
+
                         </div>
                       </div>
                     </div>
@@ -57,3 +58,44 @@
 
 {% endblock main_content_container %}
 
+{% block modal %}
+<div class="modal fade" id="descriptionModal" tabindex="-1" aria-labelledby="descriptionModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="descriptionModalLabel"></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock modal %}
+
+{% block JavaScript %}
+<script>
+const exampleModal = document.getElementById('descriptionModal')
+exampleModal.addEventListener('show.bs.modal', event => {
+  // Button that triggered the modal
+  const button = event.relatedTarget
+  // Extract info from data-bs-* attributes
+  const recipient = button.getAttribute('data-bs-title')
+  const id = button.getAttribute('data-bs-id')
+  const descr = button.getAttribute('data-bs-description')
+  // If necessary, you could initiate an AJAX request here
+  // and then do the updating in a callback.
+  //
+  // Update the modal's content.
+  const modalTitle = exampleModal.querySelector('.modal-title')
+  const modalBody = exampleModal.querySelector('.modal-body')
+
+  modalTitle.textContent = `${recipient}`;
+  modalBody.textContent = `${recipient}: ${descr}`;
+})
+</script>
+{% endblock JavaScript %}
