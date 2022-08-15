@@ -348,6 +348,47 @@
   
   
         </script>
+
+
+
+
+        <script>
+            assignment_completed = "{{ assignment_completed|safe }}";
+            if (assignment_completed == "True") {
+                document.getElementById("assignmentCompletedCheckbox").checked = true;
+            } else {
+                document.getElementById("assignmentCompletedCheckbox").checked = false;
+            }
+        
+            document.getElementById('assignmentCompletedCheckbox').addEventListener('change', (e) => {
+                this.checkboxValue = e.target.checked ? 'on' : 'off';
+            }) 
+        
+            document.getElementById('assignmentCompletedCheckbox').addEventListener('change', (e) => {
+                a_id = "{{ item.id|safe }}";
+        
+                this.checkboxValue = e.target.checked ? 'on' : 'off';
+            
+                $.ajax({
+                    url: window.location.href, // `/ecole/select/`
+                    type: 'get',
+                    data: {
+                        toggle_completed: this.checkboxValue,
+                    },
+                    success: function(response) {
+                        console.log(response.message);
+                        if (response.a_completed) {
+                            document.getElementById("assignmentCompletedCheckbox").checked = true;
+                        } else {
+                            document.getElementById("assignmentCompletedCheckbox").checked = false;
+                        }
+                    }
+                });
+            });
+        
+        
+        </script>
+
   
 
 

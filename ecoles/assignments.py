@@ -216,60 +216,65 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
             article_by_url = assignment.article_by_url
             article_id = assignment.article_id
 
-        # if is_ajax(request):
-        #     toggle_completed, user_toggle_completed, new_task = None, None, None
+        if is_ajax(request):
+            toggle_completed, user_toggle_completed, new_task = None, None, None
 
-        #     toggle_completed = request.GET.get('toggle_completed')
-        #     if toggle_completed:
-        #         obj_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
-        #         if obj_instance.completed.filter(id=request.user.id).exists():
-        #             # User has already completed assignment. The following line makes it so user has not completed.
-        #             obj_instance.completed.remove(request.user)
-        #             obj_instance.save()
-        #         else: # User completed assignment.
-        #             obj_instance.completed.add(request.user)
-        #             obj_instance.save()
+            toggle_completed = request.GET.get('toggle_completed')
+            if toggle_completed:
+                obj_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
+                if obj_instance.completed.filter(id=request.user.id).exists():
+                    # User has already completed assignment. The following line makes it so user has not completed.
+                    obj_instance.completed.remove(request.user)
+                    obj_instance.save()
+                    message = f"{request.user} has not completed assignment '{assignment.title}'"
+                    a_completed = False
+                else: # User completed assignment.
+                    obj_instance.completed.add(request.user)
+                    obj_instance.save()
+                    message = f"{request.user} has completed assignment '{assignment.title}'"
+                    a_completed = True
+                return JsonResponse({"message": message, "a_completed": a_completed})
 
-        #     user_toggle_completed = request.GET.get('user_toggle_completed')
-        #     if user_toggle_completed:
-        #         assignment_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
-        #         # tasks_within_assignment = assignment_instance.tasks_within_assignment.all() # Get all tasks with foreign key of the particular assignment
+            # user_toggle_completed = request.GET.get('user_toggle_completed')
+            # if user_toggle_completed:
+            #     assignment_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
+            #     # tasks_within_assignment = assignment_instance.tasks_within_assignment.all() # Get all tasks with foreign key of the particular assignment
 
-        #         print("\n\n\n\n\n\n\n")
+            #     print("\n\n\n\n\n\n\n")
 
-        #         print(f"CP1: {assignment_instance}")
+            #     print(f"CP1: {assignment_instance}")
 
-        #         # Get task instance:
-        #         task_id = request.GET.get('task_id')
-        #         task_instance = get_object_or_404(Task, pk=task_id)
+            #     # Get task instance:
+            #     task_id = request.GET.get('task_id')
+            #     task_instance = get_object_or_404(Task, pk=task_id)
 
-        #         print(f"CP2: {task_id}")
-        #         print(f"CP3: {task_instance}")
-        #         print(task_instance.completed.filter(id=request.user.id).exists())
+            #     print(f"CP2: {task_id}")
+            #     print(f"CP3: {task_instance}")
+            #     print(task_instance.completed.filter(id=request.user.id).exists())
                 
-        #         if task_instance.completed.filter(id=request.user.id).exists():
-        #             # User has already completed task. The following line makes it so user has not completed.
-        #             task_instance.completed.remove(request.user)
-        #             task_instance.save()
-        #             print(f"AAA")
-        #         else: # User completed task.
-        #             task_instance.completed.add(request.user)
-        #             task_instance.save()
-        #             print(f"BBB")
+                # if task_instance.completed.filter(id=request.user.id).exists():
+                #     # User has already completed task. The following line makes it so user has not completed.
+                #     task_instance.completed.remove(request.user)
+                #     task_instance.save()
+                #     print(f"AAA")
+                # else: # User completed task.
+                #     task_instance.completed.add(request.user)
+                #     task_instance.save()
+                #     print(f"BBB")
 
-        #         print("\n\n\n\n\n\n\n")
+                # print("\n\n\n\n\n\n\n")
             
 
-        #     new_task = request.GET.get('select_option_val_for_task')
-        #     if new_task:
-        #         assignment_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
-        #         t = Task(task_type=new_task, assignment=assignment_instance)
-        #         t.save()
-        #         context.update({"new_id": t.id});
-        #         print(f"{t.id} " * 50)
-        #         return render(request, 'ecoles/assignments/assignment_detail_view.html', context)#return render(request, 'malagosto/ecole/assignment.html', context)
+            # new_task = request.GET.get('select_option_val_for_task')
+            # if new_task:
+            #     assignment_instance = get_object_or_404(Assignment, pk=kwargs['pk'])
+            #     t = Task(task_type=new_task, assignment=assignment_instance)
+            #     t.save()
+            #     context.update({"new_id": t.id});
+            #     print(f"{t.id} " * 50)
+            #     return render(request, 'ecoles/assignments/assignment_detail_view.html', context)#return render(request, 'malagosto/ecole/assignment.html', context)
             
-        #     return render(request, 'ecoles/assignments/assignment_detail_view.html', context)#return render(request, 'malagosto/ecole/assignment.html', context)
+            return render(request, 'ecoles/assignments/assignment_detail_view.html', context)
 
         return render(request, 'ecoles/assignments/assignment_detail_view.html', context)#return render(request, 'malagosto/ecole/assignment.html', context)
 

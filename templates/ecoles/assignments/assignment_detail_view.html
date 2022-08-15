@@ -6,12 +6,20 @@
 {% block assignment_metadata %}
 
     <li class="list-group-item">
-        <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="/models?language=de">
+        <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="#">
             <i class="fas fa-check-circle"></i><span class="pl-1 text-decoration-none">Mark as completed</span> 
         </a>
-        <a class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center" href="/models?language=de">
+        <a class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center" href="#">
             <i class="fas fa-times-circle"></i> <span class="pl-1 text-decoration-none">Mark as incomplete</span> 
         </a>
+    </li>
+    <li class="list-group-item">
+        <span class="text-muted">Current status:</span>
+        <br>
+        <div class="custom-control custom-checkbox mb-1">
+            <input type="checkbox" class="custom-control-input" id="assignmentCompletedCheckbox">
+            <label class="custom-control-label" for="assignmentCompletedCheckbox">Assignment Completed</label>
+        </div>
     </li>
     <li class="list-group-item">
         <span class="d-flex">
@@ -23,16 +31,6 @@
         <span class="d-flex">
             <small><strong class="mr-1">Estimated time to complete:</strong> {{ item.estimated_minutes_to_complete }} minutes</small>
         </span>
-        <span class="d-flex">
-            <small><strong class="mr-1">Completed:
-                {% if assignment_completed %}
-                <i class="fas fa-check-circle icon-color-green"></i>
-                {% else %}
-                <i class="fas fa-times-circle color-navy"></i>
-                {% endif %}
-            </strong></small>
-        </span>
-
     </li>
 
     
@@ -141,6 +139,8 @@
                     </div>
 
                 </div>
+
+                
 
 
 {% endblock main_content_container %}
