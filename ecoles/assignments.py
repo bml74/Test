@@ -30,6 +30,66 @@ from bs4 import BeautifulSoup as bs
 from strfseconds import strfseconds
 
 
+
+def get_assignment_details(playlist_or_video_within_playlist_URL):
+    p = Playlist(playlist_or_video_within_playlist_URL)
+    watch_urls = p.video_urls
+    assignments = []
+    for watch_url in watch_urls:
+        u = YouTube(url=watch_url)
+        try:
+            video_length = float(round(u.length / 60))
+        except:
+            video_length = 30.0
+        video_id = extract.video_id(watch_url)
+        embed_url = f"https://youtube.com/embed/{video_id}"
+        assignments.append(
+            {
+                "embed_url": embed_url,
+                "watch_url": watch_url,
+                "title": u.title,
+                "description": u.description,
+                "video_length": video_length,
+                "assignment_type": "Youtube Video Link"
+            }
+        )
+    return assignments
+
+def playlist_convert(request):
+    if request.method == "POST":
+        data = request.POST
+        playlistLink = str(data.get("playlistLink"))
+        submoduleID = int(data.get("submoduleID"))
+        print(playlistLink)
+        print(submoduleID)
+
+        assignments = get_assignment_details(playlistLink)
+
+        # Save to DB
+        u = request.user
+        # sm = Submodule.objects.filter(title="Introduction to Ancient Greek History with Donald Kagan")[0]
+        sm = get_object_or_404(Submodule, id=submoduleID)
+        for assignment in assignments:
+            a = Assignment(title=assignment['title'], description=assignment['description'], assignment_type=assignment['assignment_type'], youtube_video_link=assignment['embed_url'], submodule=sm, estimated_minutes_to_complete=assignment['video_length'])
+            # if assignment['transcript']:
+            #     a = Assignment(title=assignment['title'], description=assignment['description'], assignment_type=assignment['assignment_type'], youtube_video_transcript_id=assignment['transcript'], submodule=sm, estimated_minutes_to_complete=assignment['video_length'])
+            # else:
+            #     a = Assignment(title=assignment['title'], description=assignment['description'], assignment_type=assignment['assignment_type'], youtube_video_link=assignment['embed_url'], submodule=sm, estimated_minutes_to_complete=assignment['video_length'])
+            a.save()
+
+        print("Added.")
+
+        # HTTP Method POST. That means the form was submitted by a user
+        # and we can find her filled out answers using the request.POST QueryDict
+    else:
+        print(request)
+        pass
+        # Normal GET Request (most likely).
+        # We should probably display the form, so it can be filled
+        # out by the user and submitted.
+    return render(request, 'ecoles/playlist_convert.html')
+
+
 class AssignmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Assignment
     template_name = 'ecoles/assignments/assignment_list_view.html'

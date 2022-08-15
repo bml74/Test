@@ -25,6 +25,16 @@
                         <div class="card-body font-size-12">
                             <h5 class="card-title">Data</h5>
                             <ul class="list-group list-group-flush">
+
+                                <li class="list-group-item">
+                                    <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="window.print()">
+                                        <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Print page</span> 
+                                    </button>
+                                    <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="openFullScreen()">
+                                        <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Full screen</span> 
+                                    </button>
+                                </li>
+                                
                                 <li class="list-group-item p-3">
                                 <span class="d-flex mb-2">
                                     <small><strong class="mr-1">Source:</strong> {{ article_source }}</small>
@@ -664,6 +674,22 @@
                 });
             }
             
+        </script>
+
+        <script>
+            var elem = document.querySelector("main");
+            function openFullScreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            }
+            }
         </script>
         
         

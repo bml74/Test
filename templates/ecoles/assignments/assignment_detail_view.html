@@ -6,6 +6,12 @@
 {% block assignment_metadata %}
 
     <li class="list-group-item">
+        <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="window.print()">
+            <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Print page</span> 
+        </button>
+        <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="openFullScreen()">
+            <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Full screen</span> 
+        </button>
         <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="#">
             <i class="fas fa-check-circle"></i><span class="pl-1 text-decoration-none">Mark as completed</span> 
         </a>
@@ -72,9 +78,9 @@
 
 
 
-                <div class="row mb-4">
+                <div class="row mb-4 mt-4">
                     <div class="col-lg-12">
-                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded" id="jumbo-card-header">
 
                             <nav style="--bs-breadcrumb-divider: url(&#34;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpath d='M2.5 0L1 1.5 3.5 4 1 6.5 2.5 8l4-4-4-4z' fill='%236c757d'/%3E%3C/svg%3E&#34;);" aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -92,7 +98,9 @@
                         </div>
                     </div> 
 
-                    <div class="row mt-4">
+
+                    <div class="py-4"></div>
+
 
                         {% if item.assignment_type.lower == "text" %}
                         <div class="col-lg-12">
@@ -136,7 +144,7 @@
                         </div>
                         {% endif %}
 
-                    </div>
+                    
 
                 </div>
 

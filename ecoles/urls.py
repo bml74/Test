@@ -7,6 +7,8 @@ urlpatterns = [
 
     path('', views.ecoles_home, name='ecoles-home'),
 
+    path('playlist_convert/', assignments.playlist_convert, name='playlist_convert'),
+
     path('enroll/<str:obj_type>/<int:id>/', views.enroll, name='enroll'),
 
     path('enroll/<int:id>/', views.enroll_in_ecole, name='enroll_in_ecole'),

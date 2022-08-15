@@ -10,7 +10,7 @@ from config.choices import Languages
 
 
 class Ecole(models.Model):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
     url_keyword = models.CharField(max_length=16, default="")
     svg_url = models.CharField(max_length=256, default="")
@@ -25,8 +25,8 @@ class Ecole(models.Model):
 
 
 class Category(models.Model):
-    title = models.CharField(max_length=64, default="Category", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    title = models.CharField(max_length=64, default="Category", blank=False, unique=True)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
 
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_category")
 
@@ -42,8 +42,8 @@ class Category(models.Model):
 
 
 class Field(models.Model):
-    title = models.CharField(max_length=64, default="Field", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    title = models.CharField(max_length=64, default="Field", blank=False, unique=True)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, related_name="category_of_field")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_field")
@@ -62,8 +62,8 @@ class Field(models.Model):
 class Specialization(models.Model):
     # Reminder: if user enrolls in specialization, then they are 
     # automatically enrolled in all courses beloging to the specialization.
-    title = models.CharField(max_length=64, default="Specialization", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    title = models.CharField(max_length=64, default="Specialization", blank=False, unique=True)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,
@@ -79,7 +79,7 @@ class Specialization(models.Model):
     )
 
     # Make Category/Field ManyToMany instead of ForeignKey???
-    field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="specializations_within_field")
+    field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, related_name="specializations_within_field")
     # schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_specialization_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_specialization")
     students = models.ManyToManyField(User, related_name="specialization_students", default=None, blank=True)
@@ -95,8 +95,8 @@ class Specialization(models.Model):
 
 
 class Course(models.Model):
-    title = models.CharField(max_length=64, default="Course", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    title = models.CharField(max_length=64, default="Course", blank=False, unique=True)
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,
@@ -112,8 +112,8 @@ class Course(models.Model):
     )
  
     # Make Category/Field ManyToMany instead of ForeignKey??? 
-    field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_field")
-    # schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_course_belongs_to")
+    field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, related_name="courses_within_field")
+    # schools = models.ManyToManyField(Ecole, null=True, related_name="schools_that_course_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_course")
     specialization = models.ForeignKey(Specialization, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_specialization")
     students = models.ManyToManyField(User, related_name="course_students", default=None, blank=True)
@@ -130,7 +130,7 @@ class Course(models.Model):
 
 class Module(models.Model):
     title = models.CharField(max_length=64, default="Module", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
     # visibility = models.CharField(
     #     max_length=100,
     #     choices=Visibility.choices,
@@ -156,7 +156,7 @@ class Module(models.Model):
 
 class Submodule(models.Model):
     title = models.CharField(max_length=128, default="Submodule", blank=False)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(30)])
+    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
 
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name="submodules_within_module")
 

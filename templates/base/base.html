@@ -35,6 +35,11 @@
 
     <style>
 
+      main {
+        overflow-y: scroll;
+        background-color: white;
+     }
+
 
         #nav-title { font-family: 'Bebas Neue', cursive; font-size: 24px; }
         .card-height-300 { height: 300px; }
@@ -112,8 +117,8 @@
       .three-lines { -webkit-line-clamp: 3; }
     .four-lines { -webkit-line-clamp: 4; }
 
-    .bg-lin-grad { background: linear-gradient(49.21deg, rgba(127, 127, 213, 0.2) 19.87%, rgba(134, 168, 231, 0.2) 58.46%, rgba(145, 234, 228, 0.2) 97.05%); }
-
+    .bg-lin-grad { background: linear-gradient(49.21deg, rgba(127, 127, 213, 0.2) 19.87%, rgba(134, 168, 231, 0.2) 58.46%, rgba(145, 234, 228, 0.2) 97.05%)!important; }
+    
       #modalSearchUL { height: 32vh; }
       .overflow-y-scroll { overflow-y: scroll; }
 
@@ -121,6 +126,20 @@
 body {
   overflow-x: hidden; /* Prevent scroll on narrow devices */
   padding-top: 56px;
+}
+
+// Allow scrolling:
+body:fullscreen {
+  overflow: scroll !important;
+}
+body:-ms-fullscreen {
+  overflow: scroll !important;
+}
+body:-webkit-full-screen {
+  overflow: scroll !important;
+}
+body:-moz-full-screen {
+  overflow: scroll !important;
 }
 
 #navbar-search { border-color: rgb(0, 38, 84); }

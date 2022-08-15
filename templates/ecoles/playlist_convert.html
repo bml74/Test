@@ -1,0 +1,78 @@
+{% extends "base/base_nav.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+
+{% block css_links %}
+<link rel="stylesheet" href="{% static 'styles/list_view.css' %}">
+{% endblock css_links %}
+
+
+{% block title %}
+    {{ title }}
+{% endblock title %}
+
+
+{% block main %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <div class="row">
+
+              <div class="col-lg-3"></div>
+              <div class="col-lg-6">
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="playlistLink">YouTube Playlist</label>
+                      <input type="text" class="form-control" id="playlistLink" aria-describedby="playlistLink" placeholder="Enter playlist link" name="playlistLink">
+                    </div>
+                    <div class="form-group">
+                      <label for="submoduleID">Submodule ID</label>
+                      <input type="text" class="form-control" id="submoduleID" placeholder="Enter submodule ID" name="submoduleID">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </form>
+              </div>
+              <div class="col-lg-3"></div>
+      
+            </div>
+      
+      
+      
+      
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock main %}
+
+
+
+

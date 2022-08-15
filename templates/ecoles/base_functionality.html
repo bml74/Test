@@ -389,6 +389,22 @@
         
         </script>
 
+        <script>
+            var elem = document.querySelector("main");
+            function openFullScreen() {
+            if (elem.requestFullscreen) {
+                elem.requestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            } else if (elem.webkitRequestFullscreen) { /* Safari */
+                elem.webkitRequestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            } else if (elem.msRequestFullscreen) { /* IE11 */
+                elem.msRequestFullscreen();
+                document.getElementById("jumbo-card-header").classList.remove("bg-lin-grad");
+            }
+            }
+        </script>
+
   
 
 
