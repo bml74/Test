@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'drive',
     'quizzes',
     'questions',
+    'groups',
 
     'finance',
     'languages',

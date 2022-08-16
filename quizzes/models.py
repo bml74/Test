@@ -14,7 +14,10 @@ class Quiz(models.Model):
     number_of_questions = models.IntegerField()
     time = models.IntegerField(help_text="duration of the quiz in minutes")
     required_score_to_pass = models.IntegerField(help_text="required score in %")
-    difficluty = models.CharField(max_length=6, choices=DIFF_CHOICES)
+    difficulty = models.CharField(max_length=6, choices=DIFF_CHOICES)
+    assignment = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name='quiz_assignment')
+    article_id = models.IntegerField(blank=True, null=True)
+    article_by_url = models.BooleanField(blank=True, null=True)
 
     def __str__(self):
         return self.name

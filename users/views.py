@@ -1,4 +1,5 @@
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import FollowersCount
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
@@ -56,4 +57,24 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context)
+
+
+def followers_count(request):
+    if request.method == 'POST':
+        value = request.POST['value']
+        user_username = request.POST['user']
+        user_obj = get_object_or_404(User, username=user_username)
+        follower_username = request.POST['follower']
+        follower_obj = get_object_or_404(User, username=follower_username)
+        print(f"User: {user_username}")
+        print(f"Follower: {follower_username}")
+        print(user_obj)
+        print(follower_obj)
+        if value == 'follow':
+            f_cnt = FollowersCount(follower_of_user=follower_obj, user_being_followed=user_obj)
+            f_cnt.save()
+        else:
+            f_cnt = FollowersCount.objects.get(follower_of_user=follower_obj, user_being_followed=user_obj)
+            f_cnt.delete()
+        return redirect(f'/profile/{user_username}')
 
