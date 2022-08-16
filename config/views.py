@@ -17,6 +17,13 @@ def chatbox_docs(request):
     return render(request, 'base/chatbox_docs.html')
 
 
+def error_404_view(request, exception):
+    status_number = "404"
+    status_description = "The page you are looking for was not found."
+    return render(request, 'errors/error.html', context={"status_number": status_number, "status_description": status_description}, status=404)
+
+
+
 def ajax_chatbox(request):
     if request.method == 'POST':
         userMsg = request.POST.get('msg', '').lower().strip()
