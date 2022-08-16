@@ -11,6 +11,8 @@ urlpatterns = [
 
     path('enroll/<str:obj_type>/<int:id>/', views.enroll, name='enroll'),
 
+    path('assignment/toggle_complete/<int:id>/', assignments.toggle_complete, name='toggle_complete'),
+
     path('enroll/<int:id>/', views.enroll_in_ecole, name='enroll_in_ecole'),
 
     path('courseinfo/', views.course_info_design, name='course-info-design'),

@@ -20,7 +20,7 @@ from .models import (
 )
 import wikipedia, wikipediaapi
 from googletrans import Translator
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from config.utils import is_ajax
 from news.utils import get_languages
 from pytube import Playlist, YouTube, extract
@@ -29,6 +29,15 @@ import requests
 from bs4 import BeautifulSoup as bs
 from strfseconds import strfseconds
 
+
+
+def toggle_complete(request, id):
+    obj = get_object_or_404(Assignment, id=id)
+    if obj.completed.filter(id=request.user.id).exists():
+        obj.completed.remove(request.user)
+    else: 
+        obj.completed.add(request.user)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 def get_assignment_details(playlist_or_video_within_playlist_URL):
