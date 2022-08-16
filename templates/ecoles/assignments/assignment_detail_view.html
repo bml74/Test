@@ -9,18 +9,23 @@
         <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="window.print()">
             <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Print page</span> 
         </button>
+        <a type="button" class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="this.href='data:text/html;charset=UTF-8,'+encodeURIComponent(document.documentElement.outerHTML)" download="page.html" href="#" download>
+            <i class="fas fa-download"></i> <span class="pl-1 text-decoration-none">Download page</span> 
+        </a>
         <button class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center"  onclick="openFullScreen()">
-            <i class="fas fa-print"></i> <span class="pl-1 text-decoration-none">Full screen</span> 
+            <i class="fas fa-expand"></i> <span class="pl-1 text-decoration-none">Full screen</span> 
         </button>
-        {% if not assignment_completed %}
-        <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
-            <i class="fas fa-check-circle"></i><span class="pl-1 text-decoration-none">Mark as completed</span> 
-        </a>
-        {% else %}
-        <a class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
-            <i class="fas fa-times-circle"></i> <span class="pl-1 text-decoration-none">Mark as incomplete</span> 
-        </a>
-        {% endif %}
+        <div id="complete-btn">
+            {% if not assignment_completed %}
+            <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
+                <i class="fas fa-check-circle"></i><span class="pl-1 text-decoration-none">Mark as completed</span> 
+            </a>
+            {% else %}
+            <a class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
+                <i class="fas fa-times-circle"></i> <span class="pl-1 text-decoration-none">Mark as incomplete</span> 
+            </a>
+            {% endif %}
+        </div>
     </li>
     <li class="list-group-item">
         <span class="text-muted">Current status:</span>

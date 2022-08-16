@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'messaging',
     'data',
     'drive',
+    'quizzes',
+    'questions',
 
     'finance',
     'languages',

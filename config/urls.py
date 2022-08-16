@@ -44,6 +44,7 @@ urlpatterns = [
     path('maps/', include('maps.urls')), 
     path('messaging/', include('messaging.urls')), 
     path('data/', include('data.urls')), 
+    path('quizzes/', include('quizzes.urls')), 
 
     path('finance/', include('finance.urls')),
 

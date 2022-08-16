@@ -1,0 +1,65 @@
+{% extends 'quizzes/base_quiz.html' %}
+{% load static %}
+{% block title %}Quizzes | Ca' de Bruno{% endblock title %}
+
+{% block quiz_css_links %}
+{% endblock quiz_css_links %}
+
+{% block main_content_container %}
+
+
+                <div class="row mb-4">
+                    <div class="col-lg-12">
+                        <div class="bg-lin-grad rounded shadow-sm p-5 rounded">
+                            <h1 class="fw-bold">Quizzes</h1>
+                        </div>
+                    </div>
+                </div>
+  
+    <div class="h1">Quiz List</div>
+    <hr>
+    {% for obj in object_list %}
+      <button
+          class="btn btn-link modal-button"
+          data-pk="{{obj.pk}}"
+          data-quiz="{{obj.name}}"
+          data-questions="{{obj.number_of_questions}}"
+          data-difficulty="{{obj.difficluty}}"
+          data-time="{{obj.time}}"
+          data-pass = "{{obj.required_score_to_pass}}"
+          data-bs-toggle="modal" 
+          data-bs-target="#quizStartModal"
+          >
+          {{obj.name}}
+      </button><br>
+    {% endfor %}  
+              
+
+
+
+{% endblock main_content_container %}
+
+{% block modal %}
+
+<!-- Modal -->
+<div class="modal fade" id="quizStartModal" tabindex="-1" aria-labelledby="quizStartModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="quizStartModalLabel">Start?</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body" id="modal-body-confirm"></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+          <button type="button" class="btn btn-success" id="start-button">Yes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock modal %}
+
+{% block JavaScript %}
+<script src="{% static 'scripts/quizzes/main.js' %}" defer></script> 
+{% endblock JavaScript %}

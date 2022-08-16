@@ -1026,9 +1026,9 @@ class Scrape:
             date = self.select_date(soup, header_selector="div.content-header__rubric-block", selector="time.content-header__title-block-publish-date")
         descr = self.select_descr(soup, selector="div.content-header__row.content-header__dek")
         data_arr = [source, url, title, descr, author, date]
-        content_selector = "div.article__chunks"
+        content_selector = ".article.main-content" # div.article__chunks
         selectors = 'p, h2, h3, h4, h5, h6, ul li, ol li'
-        garbage_arr = ['figure', 'figcaption', 'small', 'blockquote', 'aside', '.callout', '.pullquote-embed__content', 'div + ul']
+        garbage_arr = ['figure', 'figcaption', 'small', 'blockquote', 'aside', '.callout', '.pullquote-embed__content', 'div + ul', '.content-header']
         (dct, article_data) = self.handle_content(soup, content_selector, selectors, garbage_arr, data_arr, strs=["Write to him at", "This article appears in the", "Subscribe now", "is a WIRED contributor", "regular contributor to WIRED"])
         return (dct, article_data)
 

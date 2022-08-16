@@ -377,10 +377,21 @@
                     },
                     success: function(response) {
                         console.log(response.message);
+                        el = document.getElementById("complete-btn");
                         if (response.a_completed) {
                             document.getElementById("assignmentCompletedCheckbox").checked = true;
+                            el.innerHTML = `
+                            <a class="tag tag-indigo px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
+                                <i class="fas fa-times-circle"></i><span class="pl-1 text-decoration-none">Mark as incomplete</span> 
+                            </a>
+                            `;
                         } else {
                             document.getElementById("assignmentCompletedCheckbox").checked = false;
+                            el.innerHTML = `
+                            <a class="tag tag-green px-2 text-decoration-none w-100 justify-content-center" href="{% url 'toggle_complete' item.id %}">
+                                <i class="fas fa-check-circle"></i><span class="pl-1 text-decoration-none">Mark as completed</span> 
+                            </a>
+                            `;
                         }
                     }
                 });
