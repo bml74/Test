@@ -23,7 +23,6 @@ def error_404_view(request, exception):
     return render(request, 'errors/error.html', context={"status_number": status_number, "status_description": status_description}, status=404)
 
 
-
 def ajax_chatbox(request):
     if request.method == 'POST':
         userMsg = request.POST.get('msg', '').lower().strip()
