@@ -8,7 +8,6 @@ from languages.models import CorsicanBibleChapter
 from config.choices import Languages
 
 
-
 class Ecole(models.Model):
     title = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True, null=True)
@@ -18,6 +17,7 @@ class Ecole(models.Model):
 
     def __str__(self):
         return self.title
+
 
 # Specializations and Courses:
 # Instead of Category and Field being Foreign Keys, they should be ManyToManys, because there

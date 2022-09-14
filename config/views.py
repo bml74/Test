@@ -6,7 +6,7 @@ from .utils import translate_phrase
 
 
 def index(request):
-    return render(request, 'base/index.html')
+    return render(request, 'base/index.html') 
 
 
 def dashboard(request):
@@ -63,3 +63,6 @@ def ajax_chatbox(request):
         chatbox_dict = {'userMsg': userMsg, 'chatboxMsg': chatboxMsg}
 
         return JsonResponse(chatbox_dict)
+
+def vue_example(request):
+    return render(request, 'asdf.html')

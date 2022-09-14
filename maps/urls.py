@@ -5,6 +5,9 @@ from . import views
 urlpatterns = [
     path('', views.maps_home, name='maps_home'),
     path('query/', views.maps_query, name='maps_query'),
+    path('create/', views.create_map, name='create_map'),
+
+
     path('mapbox/terrain/', views.mapbox_terrain, name='mapbox_terrain'),
     path('mapbox/directions/', views.mapbox_directions, name='mapbox_directions'),
     path('mapbox/geocoder/', views.mapbox_geocoder, name='mapbox_geocoder'), 

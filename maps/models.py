@@ -1,9 +1,28 @@
 from django.db import models
 
 
-class MapMeta(models.Model):
+class Map(models.Model):
     title = models.CharField(max_length=64)
-    keyword = models.CharField(max_length=256)
+    description = models.TextField() # Use Quill
+    image_url = models.CharField(max_length=512)
 
-    def __str__(self):
-        return self.title
+
+class MapGroup(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.TextField()
+
+
+class Marker(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.TextField() # Use Quill
+    link = models.CharField(max_length=512)
+    color = models.CharField(max_length=16, choices=(
+            ("red", "red"),
+            ("green", "green"),
+            ("blue", "blue")
+        )
+    )
+    # icon = 
+    map_group = models.ManyToManyField(MapGroup, blank=True)
+
+

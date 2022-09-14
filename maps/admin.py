@@ -1,5 +1,7 @@
 from django.contrib import admin
-from .models import MapMeta
+from .models import Map, MapGroup, Marker
 
 
-admin.site.register(MapMeta)
+admin.site.register(Map)
+admin.site.register(MapGroup)
+admin.site.register(Marker)

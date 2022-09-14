@@ -41,7 +41,7 @@ class GroupProfile(models.Model):
         default=None,
         blank=True
     )
-    primary_twitter_handle = models.ForeignKey('users.TwitterHandle', on_delete=models.CASCADE, blank=True, null=True)
+    # primary_twitter_handle = models.ForeignKey('users.TwitterHandle', on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.group.name} Profile'

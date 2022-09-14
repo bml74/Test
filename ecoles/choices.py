@@ -5,6 +5,7 @@ class Visibility(TextChoices):
     INVISIBLE = 'Invisible'
     PRIVATE = 'Private'
     PUBLIC = 'Public'
+    ANONYMOUS = 'Anonymous'
 
 
 class DifficultyLevel(TextChoices):

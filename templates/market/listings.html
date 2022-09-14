@@ -1,0 +1,254 @@
+{% extends 'market/base.html' %}
+
+{% block title %}
+FreeMoney | Listings
+{% endblock title %}
+
+{% block main %}
+
+<main class="grow" style="margin: 5%;">
+
+    <div class="w-full px-5 mx-auto max-w-8xl">
+    <div class="lg:flex">
+        <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
+            <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
+            <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
+                <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
+                    <ul class="mb-0 list-unstyled">
+
+                        <li class="mt-8"> 
+
+                            <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
+
+                            <ul class="py-1 list-unstyled fw-normal small">
+                                <li class="checkbox-div">
+                                    <input id="general" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                    <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
+                                </li>
+                                <li class="checkbox-div">
+                                    <input id="homework" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <label for="homework" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Homework</label>
+                                </li>
+                                <li class="checkbox-div">
+                                    <input id="sale" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                    <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
+                                </li>
+                            </ul>
+
+                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
+
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+
+
+        </aside>
+
+    {% comment %} <div class="fixed inset-0 z-10 hidden bg-gray-900/50 dark:bg-gray-900/60" id="sidebarBackdrop"></div> {% endcomment %}
+
+
+
+
+
+
+
+    <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+        <div class="flex w-full">
+
+            <div class="flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+        
+            <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+        
+        
+        
+        
+        
+        
+        
+        
+            <h1 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" id="content">Flowbite - Tailwind CSS component library</h1>
+            <p class="mb-4 text-lg text-gray-500 dark:text-gray-400">Get started with the most popular open-source library of interactive UI components built with the utility classes from Tailwind CSS</p>
+            </div>
+        
+            <div id="mainContent">
+            
+                <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
+                    <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search block sections:</label><input id="search" onkeyup="myFunction()" type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search block sections" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
+                    <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
+                        {% for item in items %}    
+                            {% if item.visibility != "Invisible" %}
+            
+                                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing">
+                                    <br>
+                                    <div class="px-5 pb-5">
+                                        {% if item.request_for_help %}
+                                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-200 dark:text-green-800">Request</span>
+                                        {% else %}
+                                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-orange-100 text-orange-800 dark:bg-orange-200 dark:text-orange-800">Offer</span>
+                                        {% endif %}
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_type }}</span>
+                                    </div>
+                                    <div class="px-5 pb-5">
+                                        <a href="#">
+                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                        </a>
+                                        <p class="text-white">
+                                            {% if item.visibility == "Anonymous" %}
+                                                <strong><i>Anonymous</i></strong>
+                                            {% else %} <!-- If public or private. -->
+                                                {{ item.user }}
+                                            {% endif %}
+                                        </p>
+                                        <div class="flex items-center mt-2.5 mb-5">
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>First star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Second star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Third star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fourth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            <svg aria-hidden="true" class="w-5 h-5 text-yellow-300" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Fifth star</title><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">5.0</span>
+                                        </div>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                            <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                            {% endif %}
+                        {% endfor %}
+            
+                    </div>
+                </section>
+        
+
+        
+        
+            
+        
+        
+
+
+        
+        
+            <aside class="flex mt-6 mb-8 font-medium leading-6" aria-label="Previous and next page navigation">
+            <a class="flex ml-auto text-right text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" href="/docs/getting-started/quickstart/">Quickstart<span aria-hidden="true" class="ml-2">→</span></a>
+            </aside>
+        
+            <aside id="revue-embed" class="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700" aria-label="Subscribe to the Flowbite newsletter">
+            <h3 class="mb-3 text-xl font-medium text-gray-900 dark:text-white">Get more updates...</h3>
+            <p class="mb-5 text-sm font-medium text-gray-500 dark:text-gray-300">Do you want to get notified when a new component is added to Flowbite? Sign up for our newsletter and you'll be among the first to find out about new features, components, versions, and tools.</p>
+            <form action="https://www.getrevue.co/profile/flowbite/add_subscriber" method="post" id="revue-form" name="revue-form" >
+            <div class="flex items-end mb-3">
+            <div class="relative w-full mr-3 revue-form-group">
+            <label for="member_email" class="hidden block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
+            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
+            </div>
+            <input class="revue-form-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your email address..." type="email" name="member[email]" id="member_email" required>
+            </div>
+            <div class="revue-form-actions">
+            <input type="submit" value="Subscribe" class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="member[subscribe]" id="member_submit">
+            </div>
+            </div>
+            <div class="text-sm font-medium text-gray-500 revue-form-footer dark:text-gray-300">By subscribing, you agree with Revue’s <a rel="nofollow" href="https://www.getrevue.co/terms" class="text-blue-600 hover:underline dark:text-blue-500">Terms of Service</a> and <a rel="nofollow" class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.getrevue.co/privacy">Privacy Policy</a>.</div>
+            </form>
+            </aside>
+        
+            </div>
+            </div>
+        
+            <div class="flex-none hidden w-64 pl-8 mr-8 xl:text-sm xl:block">
+            <div class="flex overflow-y-auto sticky top-28 flex-col justify-between pt-10 pb-6 h-[calc(100vh-5rem)]">
+            <div class="mb-8">
+            <h4 class="pl-2.5 mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase dark:text-white lg:text-xs">On this page</h4>
+            <nav id="TableOfContents">
+            <ul>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#using-flowbite">Using Flowbite</a></li>
+            <li><a href="#getting-started">Getting started</a>
+            <ul>
+            <li><a href="#require-via-npm">Require via NPM</a></li>
+            <li><a href="#include-via-cdn">Include via CDN</a></li>
+            </ul>
+            </li>
+            <li><a href="#tailwind-css-20">Tailwind CSS 2.0</a></li>
+            <li><a href="#tailwind-css-30">Tailwind CSS 3.0</a></li>
+            <li><a href="#figma">Figma</a></li>
+            <li><a href="#react">React</a></li>
+            <li><a href="#nextjs">Next.js</a></li>
+            <li><a href="#vuejs">Vue.js</a></li>
+            <li><a href="#laravel">Laravel</a></li>
+            <li><a href="#svelte">Svelte</a></li>
+            <li><a href="#ruby-on-rails">Ruby on Rails</a></li>
+            <li><a href="#django">Django</a></li>
+            <li><a href="#flask">Flask</a></li>
+            <li><a href="#pro-version">Pro version</a></li>
+            <li><a href="#licensing">Licensing</a></li>
+            <li><a href="#contributions">Contributions</a></li>
+            <li><a href="#discord-community">Discord community</a></li>
+            <li><a href="#youtube-channel">YouTube channel</a></li>
+            <li><a href="#authors">Authors</a></li>
+            </ul>
+            </nav>
+            </div>
+            </div> 
+            </div>
+            </div> 
+        
+    </main>
+
+    </div>
+    </div>
+
+
+    <aside class="hidden fixed right-5 bottom-5 z-50 sm:block">
+    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CK7D4KQE&placement=flowbitedesign" id="_carbonads_js"></script>
+    </aside>
+
+    <aside id="copied-code-alert" class="flex fixed bottom-5 left-5 z-50 p-4 bg-gray-100 rounded-lg border border-gray-200 opacity-0 transition-opacity dark:border-gray-700 dshadow-sm dark:bg-gray-800" aria-label="Copied to clipboard success message">
+    <svg class="w-5 h-5 text-green-700 dark:text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+    <p class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Copied code to clipboard!</p>
+    </aside> 
+
+
+
+</main>
+
+{% endblock main %}
+
+{% block JavaScript %}
+<script>
+    function myFunction() {
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById("search");
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("listings");
+        li = ul.querySelectorAll(".listing");
+        let num_results = 0;
+        for (i = 0; i < li.length; i++) {
+            a = li[i].querySelector(".listing-title");
+            txtValue = a.textContent || a.innerText;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+                num_results += 1;
+            } else {
+                li[i].style.display = "none";
+            }
+        }
+        document.getElementById("num_results").innerHTML = num_results;
+    }
+
+    function filterListingsByType() {
+        checkbox_divs = document.querySelectorAll(".checkbox-div");
+        for (checkbox_div of checkbox_divs) {
+            checkbox = checkbox_div.querySelector(".listing-type-checkbox");
+            if (checkbox.checked) {
+                console.log(checkbox_div.querySelector("label").innerHTML);
+            }
+        }
+        
+    }
+</script>
+{% endblock JavaScript %}

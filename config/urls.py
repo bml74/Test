@@ -40,16 +40,17 @@ urlpatterns = [
     path('posts/', include('posts.urls')),
     path('écoles/', include('ecoles.urls')), path('ecoles/', include('ecoles.urls')),
     path('news/', include('news.urls')), 
-    path('newsfeed/', include('newsfeed.urls')), 
+    path('feeds/', include('newsfeed.urls')), 
     path('maps/', include('maps.urls')), 
     path('messaging/', include('messaging.urls')), 
     path('data/', include('data.urls')), 
     path('quizzes/', include('quizzes.urls')), 
+    path('market/', include('market.urls')), 
 
     path('finance/', include('finance.urls')),
 
-    
 
+    path('asdf/', views.vue_example, name='vue_example'),
 
 ]
 from django.conf import settings

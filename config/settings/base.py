@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'quizzes',
     'questions',
     'groups',
+    'personal',
+    'market',
 
     'finance',
     'languages',

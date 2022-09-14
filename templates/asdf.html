@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+
+
+{% block body %}
+<button onclick="getCatFact()">Get Cat Fact</button>
+<ul id="cat-facts-list">
+
+</ul>
+
+<script>
+const ul = document.querySelector('#cat-facts-list')
+
+async function getCatFact() {
+    let li = document.createElement('li')
+    let url = 'https://catfact.ninja/fact'
+    let fact = await fetch(url).then(response => response.json()).catch(error => console.error(error)) // Rest after won't trigger if there's an error
+    li.textContent = fact.fact
+    ul.appendChild(li)
+}
+
+</script>
+{% endblock %}

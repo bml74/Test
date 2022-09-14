@@ -3,6 +3,7 @@ from .models import Ecole, Category, Field, Specialization, Course, Module, Subm
 
 
 admin.site.register(Ecole)
+
 admin.site.register(Category)
 admin.site.register(Field)
 admin.site.register(Specialization)
