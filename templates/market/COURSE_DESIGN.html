@@ -78,19 +78,16 @@ Ca' de Bruno | {{ obj_type.capitalize }} Listings
 
                                     <div id="accordion-collapse" data-accordion="collapse" class="mb-4 ">
 
-
                                         <h2 id="accordion-collapse-heading">
-                                            <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100">
+                                            <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl text-gray-900 bg-gray-100 hover:bg-gray-200">
                                                 <span><strong>Submodules</strong></span>
                                             </button>
                                             </h2>
 
-                                        
-
                                         {% for submodule_key, submodule_inner in module_inner.items %}
 
                                         <h2 id="accordion-collapse-heading-{{ forloop.counter }}">
-                                            <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-collapse-body-{{ forloop.counter }}" aria-expanded="true" aria-controls="accordion-collapse-body-{{ forloop.counter }}">
+                                            <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left dark:border-gray-700 dark:bg-gray-900" data-accordion-target="#accordion-collapse-body-{{ forloop.counter }}" aria-expanded="true" aria-controls="accordion-collapse-body-{{ forloop.counter }}">
                                                 <span>Submodule {{forloop.counter}}: <a href="{% url 'submodule_detail' course.id module_key.id submodule_key.id %}">{{ submodule_key.title }}</a> 
                                                     &emsp;(<span class="text-dark"><i class="fas fa-clock"></i> {{ submodule_inner.time }} {% if submodule_key.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete</span>)</span> 
                                                 <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -99,13 +96,13 @@ Ca' de Bruno | {{ obj_type.capitalize }} Listings
 
                                             
                                             <div id="accordion-collapse-body-{{ forloop.counter }}" class="" aria-labelledby="accordion-collapse-heading-{{ forloop.counter }}">
-                                                <div class="p-5 font-light border  border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                                <div class="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                                                     <p class="mb-2 text-gray-500 dark:text-gray-400">{{ submodule_key.description|safe }}</p>
             
                                                     <h2 class="mb-2 text-lg font-semibold text-gray-900 dark:text-white">Assignments:</h2>
                                                     <ul class="list-inside tetx-black font-medium">
                                                         {% for assignment in submodule_inner.assignments %}
-                                                        <li class="w-100 single-line mb-2">
+                                                        <li class="w-100 single-line mb-2 dark:text-gray-400">
                                                             {% if assignment.completed == "True" %}
                                                             <i class="fas fa-check-circle w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0"></i>
                                                             {% else %}
@@ -137,9 +134,11 @@ Ca' de Bruno | {{ obj_type.capitalize }} Listings
 
                                     {% else %}
 
-                                        Module is empty.
+                                        <span class="dark:text-gray-400">Module is empty.</span>    
 
                                     {% endif %}
+
+                                    <hr class="mt-4">
 
                                 {% endfor %}
 
@@ -242,6 +241,14 @@ Ca' de Bruno | {{ obj_type.capitalize }} Listings
 </main>
 
 {% endblock main %}
+
+
+
+
+
+
+
+
 
 
 

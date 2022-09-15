@@ -6,7 +6,7 @@ from .utils import translate_phrase
 
 
 def index(request):
-    return render(request, 'base/index.html') 
+    return render(request, 'market/index.html') 
 
 
 def dashboard(request):
