@@ -14,7 +14,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 def index(request):
-    return render(request, "market/base.html")
+    return render(request, "market/COURSE_DESIGN.html")
 
 
 class ListingListView(UserPassesTestMixin, ListView):

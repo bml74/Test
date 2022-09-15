@@ -13,7 +13,7 @@ class Listing(models.Model):
     date_due = models.DateTimeField(blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_created_listing")
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name="group_that_created_listing")
-    request_for_help = models.BooleanField(default=True, blank=False) # If True, then it is a request for help; otherwise, it is an offer.
+    # request_for_help = models.BooleanField(default=True, blank=False) # If True, then it is a request for help; otherwise, it is an offer.
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,

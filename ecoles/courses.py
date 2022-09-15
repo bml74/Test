@@ -21,7 +21,7 @@ import math
 
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'ecoles/specialization_and_course_list_view.html'
+    template_name = 'market/COURSE_DESIGN.html' # ecoles/specialization_and_course_list_view.html
     context_object_name = 'items'
 
     def test_func(self):
@@ -30,7 +30,7 @@ class CourseListView(UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(CourseListView, self).get_context_data(**kwargs)
         obj_type = "course"
-        context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s", "title": f"{obj_type.capitalize()}s"})
+        context.update({"obj_type": obj_type, "num_results": len(Course.objects.all())})
         return context
 
     def get_queryset(self):

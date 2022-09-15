@@ -1,46 +1,53 @@
-{% extends "base/base.html" %}
+{% extends "market/dependencies.html" %}
 {% load static %}
 {% load crispy_forms_tags %}
 
 {% block body %}
 
-<style>
-    html,
-    body {
-    height: 100%;
-    }
 
-    body {
-    display: flex;
-    align-items: center;
-    padding-top: 40px;
-    padding-bottom: 40px;
-    background-color: #f5f5f5;
-    }
+<link rel="stylesheet" href="https://flowbite.com/application-ui/demo/app.css">
 
-    .form-signin {
-    max-width: 330px;
-    padding: 15px;
-    }
 
-    .form-signin .form-floating:focus-within {
-    z-index: 2;
-    }
+<main class="jtAJHOc7mn7b4IKRO59D h8KYXnua2NT4kTVzieom">
+    <div class="YRrCJSr_j5nopfm4duUc e8VqoQNK0mbkRFDL3LMV Q_jg_EPdNf9eDMn1mLI2 Nm7xMnguzOx6J5Ao7yCU JGzJOGfW2x0VXm_3WgQB ce5FeZ9ko_gHK0Ny73hz YajDCE_nRj_FDIevNpsd KIoDZDiDZQzT3K26HO9T pt:mt-0 h8KYXnua2NT4kTVzieom">
+      <a href="https://flowbite.com/application-ui/demo/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 Nm7xMnguzOx6J5Ao7yCU HpZzxvgSmWLxwGF95rQK q1oXbofRCOhVhOSB8tiU yM_AorRf2jSON3pDsdrz jf_cbOmwTWYNge_xgG4B OyABRrnTV_kvHV7dJ0uE">
+          <img src="https://flowbite.com/application-ui/demo/images/logo.svg" class="y7LTF_4HCOoAzmZm_v8k TZANVyZaogC2vtqxZ7oo" alt="FlowBite Logo">
+          <span style="font-size: 40px !important;">Ca' de Bruno</span>  
+      </a>
+      <!-- Card -->
+      <div class="Q_jg_EPdNf9eDMn1mLI2 Nm7xMnguzOx6J5Ao7yCU t6gkcSf0Bt4MLItXvDJ_ _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YtPVN_LlqV6t4rglMAI fMgHUheWh_tlS12QmZV7 P9GeNSEWTjwr5S8oYXzg 2xl:max:max-w-screen-lg _74Ro6wvR4pVSwhxRa2l _1jTZ8KXRZul60S6czNi">
+          <div class="_SmdlCf6eUKB_V9S5IDj o7fm00O9VUdt_v_JkdMI _YtPVN_LlqV6t4rglMAI">
+              <img class="Zbcg0Bjzm_C_64FAwnE3" src="https://ethereum.org/static/754d2f72ce2296fb59d9d974aeda16be/1e993/future_transparent.webp" alt="login image">
+          </div>
+          <div class="t6gkcSf0Bt4MLItXvDJ_ IvHclGgvMLtYg_ow0uba b2voPh7pqNbYIn9ArgrM BJhi2nPur3FVtXfbBkqr _RuYfOgGb_Zp_Qy2emT5 vXKUKRP3PRKQ_RH5opI2">
+                <br><br><br>
+              <h2 class="q1oXbofRCOhVhOSB8tiU IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl _oly1OhnXZd0iSfUzCDU OyABRrnTV_kvHV7dJ0uE">
+                  Sign in to the platform 
+              </h2>
+              <form class="R2oNx0cNtxO_M_VVt390 qDsn8ha5_HppqMcLKJwF" method="POST">
+                {% csrf_token %}{{ form|crispy }}
+                  <button type="submit" class="t6gkcSf0Bt4MLItXvDJ_ ZjWEEmDsdPvU2GdH53LK i8v96MUlFwGv9qJUkAx7 d3C8uAdJKNl1jzfE9ynq ezMFUVl744lvw6ht0lFe ijrOHNoSVGATsWYKl4Id y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY mveJTCIb2WII7J4sY22F YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T icxWjIgUd9_dzYucx1nx d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM">Login to your account</button>
+                  <div class="c8dCx6gnV43hTOLV6ks5 ezMFUVl744lvw6ht0lFe PeR2JZ9BZHYIH8Ea3F36 XIIs8ZOri3wm8Wnj9N_y">
+                      Not registered? <a class="OQflBVxALl1Ntbyc2J2_ oJZU4OQzzfXeLbF7UKZ_ fZf6W_ZtzEh6EEqmWMA9" href="{% url 'register' %}">Create account</a>
+                  </div>
+              </form>
+              <br><br><br>
+          </div>
+      </div>
+  </div>
+  
+  </main>
+  
 
-    .form-signin input[type="email"] {
-    margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
-    }
 
-    .form-signin input[type="password"] {
-    margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
-    }
-</style>
+
+
+
+  
+
+
     
-<main class="form-signin w-100 m-auto text-center">
+{% comment %} <main class="form-signin w-100 m-auto text-center">
 
   <form class="form-signin" method="POST">
     
@@ -61,15 +68,53 @@
     </div>
 
 </form>
-</main>
+</main> {% endcomment %}
 
 <script>
-    document.getElementById("id_username").placeholder = "Username";
-    document.getElementById("id_password").placeholder = "Password";
+    const u = document.getElementById("id_username");
+    u.placeholder = "Username";
+    u.classList.add("jtAJHOc7mn7b4IKRO59D");
+    u.classList.add("pXhVRBC8yaUNllmIWxln");
+    u.classList.add("vpDN1VEJLu5FmLkr5WCk");
+    u.classList.add("__9sbu0yrzdhGIkLWNXl");
+    u.classList.add("gx_pYWtAG2cJIqhquLbx");
+    u.classList.add("mveJTCIb2WII7J4sY22F");
+    u.classList.add("GdTcGtoKP5_bET3syLDl");
+    u.classList.add("LceKfSImrGKQrtDGkpBV");
+    u.classList.add("_Vb9igHms0hI1PQcvp_S");
+    u.classList.add("t6gkcSf0Bt4MLItXvDJ_");
+    u.classList.add("olxDi3yL6f0gpdsOFDhx");
+    u.classList.add("jqg6J89cvxmDiFpnV56r");
+    u.classList.add("Mmx5lX7HVdrWCgh3EpTP");
+    u.classList.add("H7KQDhgKsqZaTUouEUQL");
+    u.classList.add("OyABRrnTV_kvHV7dJ0uE");
+    u.classList.add("KpCMWe32PQyrSFbZVput");
+    u.classList.add("q6szSHqGtBufkToFe_s5");
+    const p = document.getElementById("id_password");
+    p.placeholder = "••••••••";
+    p.classList.add("jtAJHOc7mn7b4IKRO59D");
+    p.classList.add("pXhVRBC8yaUNllmIWxln");
+    p.classList.add("vpDN1VEJLu5FmLkr5WCk");
+    p.classList.add("__9sbu0yrzdhGIkLWNXl");
+    p.classList.add("gx_pYWtAG2cJIqhquLbx");
+    p.classList.add("mveJTCIb2WII7J4sY22F");
+    p.classList.add("GdTcGtoKP5_bET3syLDl");
+    p.classList.add("LceKfSImrGKQrtDGkpBV");
+    p.classList.add("_Vb9igHms0hI1PQcvp_S");
+    p.classList.add("t6gkcSf0Bt4MLItXvDJ_");
+    p.classList.add("olxDi3yL6f0gpdsOFDhx");
+    p.classList.add("jqg6J89cvxmDiFpnV56r");
+    p.classList.add("Mmx5lX7HVdrWCgh3EpTP");
+    p.classList.add("H7KQDhgKsqZaTUouEUQL");
+    p.classList.add("OyABRrnTV_kvHV7dJ0uE");
+    p.classList.add("KpCMWe32PQyrSFbZVput");
+    p.classList.add("q6szSHqGtBufkToFe_s5");
     labels = document.querySelectorAll("label.requiredField");
     for (label of labels) {
         label.style.display = "none";
     }
+
+    
 </script>
 
 {% endblock body %}
