@@ -1,4 +1,5 @@
 {% extends 'market/base.html' %}
+{% load static %}
 
 {% block title %}
 Ca' de Bruno | FreeMoney Listings
@@ -69,19 +70,14 @@ Ca' de Bruno | FreeMoney Listings
             <div id="mainContent">
             
                 <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
-                    <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup="myFunction()" type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
+                    <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
                     <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
                         {% for item in items %}    
                             {% if item.visibility != "Invisible" %}
             
                                 <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing">
                                     <br>
-                                    <div class="px-5 pb-5">
-                                        {% if item.request_for_help %}
-                                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-green-100 text-green-800 dark:bg-green-200 dark:text-green-800">Request</span>
-                                        {% else %}
-                                        <span class="text-xs font-semibold px-2.5 py-0.5 rounded bg-orange-100 text-orange-800 dark:bg-orange-200 dark:text-orange-800">Offer</span>
-                                        {% endif %}
+                                    <div class="px-2 pb-2">
                                         <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_type }}</span>
                                     </div>
                                     <div class="px-5 pb-5">
@@ -126,29 +122,8 @@ Ca' de Bruno | FreeMoney Listings
 
         
         
-            <aside class="flex mt-6 mb-8 font-medium leading-6" aria-label="Previous and next page navigation">
-            <a class="flex ml-auto text-right text-gray-500 transition-colors duration-200 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white" href="/docs/getting-started/quickstart/">Quickstart<span aria-hidden="true" class="ml-2">→</span></a>
-            </aside>
         
-            <aside id="revue-embed" class="p-4 my-8 bg-white border border-gray-200 rounded-lg shadow-md sm:p-6 lg:p-8 dark:bg-gray-800 dark:border-gray-700" aria-label="Subscribe to the Flowbite newsletter">
-            <h3 class="mb-3 text-xl font-medium text-gray-900 dark:text-white">Get more updates...</h3>
-            <p class="mb-5 text-sm font-medium text-gray-500 dark:text-gray-300">Do you want to get notified when a new component is added to Flowbite? Sign up for our newsletter and you'll be among the first to find out about new features, components, versions, and tools.</p>
-            <form action="https://www.getrevue.co/profile/flowbite/add_subscriber" method="post" id="revue-form" name="revue-form" >
-            <div class="flex items-end mb-3">
-            <div class="relative w-full mr-3 revue-form-group">
-            <label for="member_email" class="hidden block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Email address</label>
-            <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-            <svg class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path></svg>
-            </div>
-            <input class="revue-form-field bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your email address..." type="email" name="member[email]" id="member_email" required>
-            </div>
-            <div class="revue-form-actions">
-            <input type="submit" value="Subscribe" class="cursor-pointer text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" name="member[subscribe]" id="member_submit">
-            </div>
-            </div>
-            <div class="text-sm font-medium text-gray-500 revue-form-footer dark:text-gray-300">By subscribing, you agree with Revue’s <a rel="nofollow" href="https://www.getrevue.co/terms" class="text-blue-600 hover:underline dark:text-blue-500">Terms of Service</a> and <a rel="nofollow" class="text-blue-600 hover:underline dark:text-blue-500" href="https://www.getrevue.co/privacy">Privacy Policy</a>.</div>
-            </form>
-            </aside>
+
         
             </div>
             </div>
@@ -212,28 +187,12 @@ Ca' de Bruno | FreeMoney Listings
 
 {% endblock main %}
 
-{% block JavaScript %}
-<script>
-    function myFunction() {
-        var input, filter, ul, li, a, i, txtValue;
-        input = document.getElementById("search");
-        filter = input.value.toUpperCase();
-        ul = document.getElementById("listings");
-        li = ul.querySelectorAll(".listing");
-        let num_results = 0;
-        for (i = 0; i < li.length; i++) {
-            a = li[i].querySelector(".listing-title");
-            txtValue = a.textContent || a.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                li[i].style.display = "";
-                num_results += 1;
-            } else {
-                li[i].style.display = "none";
-            }
-        }
-        document.getElementById("num_results").innerHTML = num_results;
-    }
 
+
+{% block JavaScript %}
+<script src="{% static 'scripts/filterList.js' %}"></script>
+
+<script>
     function filterListingsByType() {
         checkbox_divs = document.querySelectorAll(".checkbox-div");
         for (checkbox_div of checkbox_divs) {
@@ -245,4 +204,5 @@ Ca' de Bruno | FreeMoney Listings
         
     }
 </script>
+
 {% endblock JavaScript %}

@@ -21,7 +21,7 @@ import math
 
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'market/COURSE_DESIGN.html' # ecoles/specialization_and_course_list_view.html
+    template_name = 'market/COURSE_LIST_DESIGN.html' # ecoles/specialization_and_course_list_view.html
     context_object_name = 'items'
 
     def test_func(self):
@@ -230,7 +230,7 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
             "all_modules": all_modules,
 
         }
-        return render(request, 'ecoles/courses/course_detail_view.html', context)
+        return render(request, 'market/COURSE_DESIGN.html', context)
 
 
 class CourseInfoDetailView(UserPassesTestMixin, DetailView):
@@ -309,7 +309,7 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
             # "logged_in_user_follows_course_creator": logged_in_user_follows_course_creator
 
         }
-        return render(request, 'ecoles/courses/course_info_detail_view.html', context)
+        return render(request, 'market/COURSE_INFO_DESIGN.html', context)
 
 
 class CourseCreateView(LoginRequiredMixin, CreateView):

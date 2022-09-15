@@ -31,10 +31,10 @@ def ecoles_home(request):
 
 
 def course_info_design(request):
-    return render(request, 'designs/course_info_design.html', {'title': 'Les Écoles'})
+    return render(request, 'market/COURSE_INFO_DESIGN.html')
 
 
 def course_design(request):
-    return render(request, 'designs/course_design.html', {'title': 'Les Écoles'})
+    return render(request, 'market/COURSE_DESIGN.html')
 
 

@@ -13,7 +13,7 @@ class TwitterHandle(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
-    num_credits = models.IntegerField(default=0, null=False)
+    credits = models.IntegerField(default=0, null=False)
     verified_course_creator = models.BooleanField(default=False)
     select_view_seen = models.BooleanField(default=False, null=False, blank=False) # Has user seen select view?
     # primary_twitter_handle = models.ForeignKey('users.TwitterHandle', on_delete=models.CASCADE, blank=True, null=True)

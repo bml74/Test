@@ -86,6 +86,7 @@ class Specialization(models.Model):
     allowed_editors = models.ManyToManyField(User, related_name="specialization_allowed_editors", default=None, blank=True)
     edit_access_request = models.ManyToManyField(User, related_name="specialization_edit_access_request", default=None, blank=True)
     completed = models.ManyToManyField(User, related_name="specialization_completed", default=None, blank=True)
+    price = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     def __str__(self):
         return self.title
@@ -120,6 +121,7 @@ class Course(models.Model):
     allowed_editors = models.ManyToManyField(User, related_name="course_allowed_editors", default=None, blank=True)
     edit_access_request = models.ManyToManyField(User, related_name="course_edit_access_request", default=None, blank=True)
     completed = models.ManyToManyField(User, related_name="course_completed", default=None, blank=True)
+    price = models.PositiveIntegerField(default=0, blank=False, null=False)
 
     def __str__(self):
         return self.title
