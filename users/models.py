@@ -2,12 +2,12 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 
 
-class TwitterHandle(models.Model):
-    twitter_handle = models.CharField(max_length=256, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_twitter_handle")
+# class TwitterHandle(models.Model):
+#     twitter_handle = models.CharField(max_length=256, blank=True, null=True)
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_twitter_handle")
 
-    def __str__(self):
-        return f"Twitter handle: @{self.twitter_handle}"
+#     def __str__(self):
+#         return f"Twitter handle: @{self.twitter_handle}"
 
 
 class Profile(models.Model):
