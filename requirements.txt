@@ -81,6 +81,7 @@ soupsieve==2.3.2.post1
 sqlparse==0.4.2
 strfseconds==0.0.0b1
 stringcase==1.2.0
+stripe==4.1.0
 thirdweb-contract-wrappers==2.0.4
 thirdweb-eth-account==0.6.6
 thirdweb-sdk==2.0.18

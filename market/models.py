@@ -26,12 +26,13 @@ class Listing(models.Model):
         choices=(("General", "General"), ("Homework", "Homework"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
         default="General",
     )
+    non_fungible_order = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('projects_detail_view', kwargs={'pk': self.pk})
+        return reverse('listing', kwargs={'pk': self.pk})
 
 
 class Fundraiser(models.Model):
@@ -52,7 +53,7 @@ class Fundraiser(models.Model):
 
 class Transaction(models.Model):
     transaction_obj_type = models.CharField(max_length=128)
-    transaction_obj_type_id = models.IntegerField(null=True, blank=True)
+    transaction_obj_id = models.IntegerField(null=True, blank=True)
     purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="purchaser")
     transaction_id = models.CharField(max_length=128, null=True, blank=True)
     value = models.FloatField(null=True, blank=True)

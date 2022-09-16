@@ -1,8 +1,11 @@
-from django.shortcuts import render
+import stripe
+import random
 
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
-from .models import Listing
+from .models import Listing, Transaction
 from django.views.generic import (
     ListView,
     DetailView,
@@ -13,8 +16,9 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
-def index(request):
-    return render(request, "market/COURSE_DESIGN.html")
+
+# def index(request):
+#     return render(request, "market/COURSE_DESIGN.html")
 
 
 class ListingListView(UserPassesTestMixin, ListView):
@@ -52,3 +56,64 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         }
 
         return render(request, 'market/listing.html', context)
+
+
+
+class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Listing
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
+    template_name = 'views/form_view.html'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingCreateView, self).get_context_data(**kwargs)
+        header = "Create listing"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Listing
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
+    template_name = 'views/form_view.html'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user == self.get_object().creator
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingUpdateView, self).get_context_data(**kwargs)
+        header = "Update Listing"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    """Delete Listing."""
+    model = Listing
+    success_url = '/'
+    context_object_name = 'item'
+    template_name = 'views/confirm_delete.html'
+
+    def test_func(self):
+        return self.request.user == self.get_object().creator
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingDeleteView, self).get_context_data(**kwargs)
+        transaction = get_object_or_404(Listing, id=self.kwargs.get('pk'))
+        title = f"Listing: {transaction.title}"
+        context.update({"type": "Listing", "title": title})
+        return context
+
+
