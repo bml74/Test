@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
+from django.core.validators import MinValueValidator
 
 from ecoles.choices import Visibility
 
@@ -8,10 +9,10 @@ from ecoles.choices import Visibility
 class Listing(models.Model):
     title = models.CharField(max_length=64, default="Listing", blank=False)
     description = models.TextField(blank=True, null=True)
-    price = models.FloatField(default=0)
+    price = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
     date_listed = models.DateTimeField(auto_now_add=True)
     date_due = models.DateTimeField(blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_created_listing")
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_created_listing")
     group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name="group_that_created_listing")
     visibility = models.CharField(
         max_length=100,

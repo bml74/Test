@@ -44,10 +44,11 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        project = get_object_or_404(Listing, pk=kwargs['pk'])
+        listing = get_object_or_404(Listing, pk=kwargs['pk'])
 
         context = {
-            "item": project, 
+            "item": listing, 
+            "user_is_creator": listing.creator == request.user
         }
 
         return render(request, 'market/listing.html', context)
