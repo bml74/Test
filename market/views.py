@@ -16,9 +16,15 @@ from django.views.generic import (
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
+def checkout(request, pk):
+    context = {"item": Listing.objects.get(pk=pk)}
+    return render(request, "payments/checkout.html", context=context)
 
-# def index(request):
-#     return render(request, "market/COURSE_DESIGN.html")
+def payment_cancel(request):
+    return render(request, "payments/cancel.html")
+
+def payment_success(request):
+    return render(request, "payments/success.html")
 
 
 class ListingListView(UserPassesTestMixin, ListView):
