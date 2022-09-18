@@ -7,7 +7,9 @@ from .views import (
     ListingDeleteView, 
     checkout,
     payment_success,
-    payment_cancel
+    payment_cancel,
+    learning_carousel,
+    my_listings
 )
 
 
@@ -18,6 +20,10 @@ urlpatterns = [
     path('listings/create/', ListingCreateView.as_view(), name='listing-create'),
     path('listings/update/<int:pk>/', ListingUpdateView.as_view(), name='listing-update'),
     path('listings/delete/<int:pk>/', ListingDeleteView.as_view(), name='listing-delete'),
+
+    path('lc/', learning_carousel, name='learning_carousel'),
+
+    path('my/listings/', my_listings, name='my_listings'),
 
     path('checkout/<int:pk>/', checkout, name='checkout'),
     path('checkout/success/', payment_success, name='payment_success'),

@@ -12,9 +12,9 @@
         <div class='items-center md:flex'>
           <p class='text-sm font-medium text-gray-900 md:my-0 dark:text-white'>
             <span class='bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 hidden md:inline'>New</span>
-            We have launched the Ca' de Bruno marketplace!
+            
               <a href="{% url 'listings' %}" class='inline-flex items-center ml-2 text-sm font-medium text-blue-600 md:ml-2 dark:text-blue-500 hover:underline'>
-                Check it out
+                Check out the new marketplace!
                 <svg
                 class='ml-1 w-4 h-4 text-blue-600 dark:text-blue-500'
                   fill='currentColor'
@@ -52,10 +52,16 @@
             <div class="flex justify-between items-center">
             <a href="/" class="flex">
                 <img src="https://www.svgrepo.com/show/29706/money-bag.svg" class="mr-3 h-8" alt="Ca' de Bruno Logo" />
-                <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Ca' de Bruno</span>
+                <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Ca' de Bruno</span> <!-- self-center text-2xl font-semibold whitespace-nowrap dark:text-white -->
+                </h1>
             </a>
             </div>
-            <div id="docsearch" class="ml-6 xl:ml-16 xl:pl-4"></div>
+            <a href="{% url 'search' %}">
+                {% comment %} <div id="docsearch" class="ml-6 xl:ml-16 xl:pl-4"></div> {% endcomment %}
+                <div class="ml-6 xl:ml-16 xl:pl-4"><button type="button" class="DocSearch DocSearch-Button" aria-label="Search"><span class="DocSearch-Button-Container"><svg width="20" height="20" class="DocSearch-Search-Icon" viewBox="0 0 20 20"><path d="M14.386 14.386l4.0877 4.0877-4.0877-4.0877c-2.9418 2.9419-7.7115 2.9419-10.6533 0-2.9419-2.9418-2.9419-7.7115 0-10.6533 2.9418-2.9419 7.7115-2.9419 10.6533 0 2.9419 2.9418 2.9419 7.7115 0 10.6533z" stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round"></path></svg><span class="DocSearch-Button-Placeholder">Search</span></span><span class="DocSearch-Button-Keys"></span></button></div>
+
+            </a>
         </div>
   
         <div class="flex items-center" id="">

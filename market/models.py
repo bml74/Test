@@ -54,6 +54,7 @@ class Fundraiser(models.Model):
 class Transaction(models.Model):
     transaction_obj_type = models.CharField(max_length=128)
     transaction_obj_id = models.IntegerField(null=True, blank=True)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="seller")
     purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="purchaser")
     transaction_id = models.CharField(max_length=128, null=True, blank=True)
     value = models.FloatField(null=True, blank=True)

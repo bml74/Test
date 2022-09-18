@@ -13,6 +13,10 @@ def dashboard(request):
     return render(request, 'base/dashboard.html')
 
 
+def search(request):
+    return render(request, "search.html")
+
+
 def chatbox_docs(request):
     return render(request, 'base/chatbox_docs.html')
 

@@ -14,7 +14,7 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
+from django.http import HttpResponseRedirect
 
 def checkout(request, pk):
     context = {"item": Listing.objects.get(pk=pk)}
@@ -25,6 +25,16 @@ def payment_cancel(request):
 
 def payment_success(request):
     return render(request, "payments/success.html")
+
+def learning_carousel(request):
+    return render(request, "market/LEARNING_CAROUSEL.html")
+
+def my_listings(request):
+    listings = Listing.objects.filter(creator=request.user)
+    context = {
+        "items": listings
+    }
+    return render(request, "market/dashboard/user_listings.html", context)
 
 
 class ListingListView(UserPassesTestMixin, ListView):

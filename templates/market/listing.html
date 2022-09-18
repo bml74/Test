@@ -46,7 +46,7 @@
 
                         </div>
                 
-                        <div id="mainContent" class="pl-15vw pr-15vw">
+                         <div id="mainContent" class="pl-15vw pr-15vw">
 
 
 
@@ -59,9 +59,6 @@
                                     <li class="mr-2">
                                         <button id="lister-tab" data-tabs-target="#lister" type="button" role="tab" aria-controls="lister" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Lister</button>
                                     </li>
-                                    {% comment %} <li class="mr-2">
-                                        <button id="reviews-tab" data-tabs-target="#reviews" type="button" role="tab" aria-controls="reviews" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Reviews</button>
-                                    </li> {% endcomment %}
                                 </ul>
                                 <div id="defaultTabContent">
                                     <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="overview" role="tabpanel" aria-labelledby="overview-tab">
@@ -72,7 +69,6 @@
                                                 <span class="sr-only">Open dropdown</span>
                                                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
                                             </button>
-                                            <!-- Dropdown menu -->
                                             <div id="dropdown" class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
                                                 <ul class="py-1" aria-labelledby="dropdownButton">
                                                 <li>
@@ -96,7 +92,7 @@
                                             {% if not user_is_creator %}
                                             <a href="#" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> Contact this seller</a>
                                             {% endif %}
-                                            <a href="#" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
+                                            <a href="{% url 'checkout' item.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
                                         </div>      
                                         
                                         <p class="mb-3 text-gray-500 dark:text-gray-400">{{ item.description|safe }}</p>
@@ -105,7 +101,6 @@
                                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="lister" role="tabpanel" aria-labelledby="lister-tab">
                                     
                                         <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.creator|safe }}</h2>
-                                        {% comment %} <p class="mb-3 text-gray-500 dark:text-gray-400">{{ item.description|safe }}</p> {% endcomment %}
 
                                         <a href="{% url 'user_profile' item.creator.username %}" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
                                             View profile
@@ -208,16 +203,12 @@
 
 
                                     </div>
-                                    {% comment %} <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="reviews" role="tabpanel" aria-labelledby="reviews-tab">
-                                        <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.title|safe }}</h2>
-                                    </div> {% endcomment %}
                                 </div>
                             </div>
-
                             
 
                     
-                        </div>
+                        </div> 
 
                     </div>
 
