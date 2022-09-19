@@ -1,0 +1,83 @@
+{% extends 'market/dashboard/dashboard_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{ header }}
+{% endblock title %}
+
+{% block main %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="form-content" style="margin-left: 15vh; margin-right: 15vh; margin-top: 15vh;">
+    <div class="NM7Z1HBVjN_86WhEcXan">
+        <div class="_Ybd3WwuTVljUT4vEaM3 mngKhi_Rv06PF57lblDI mveJTCIb2WII7J4sY22F _wYiJGbRZyFZeCc8y7Sf _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi hD0sTTDgbxakubcHVW2X">
+            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">{{ header }}</h3>
+            <form method="POST">
+                {% csrf_token %}{{ form|crispy }}
+                <div class="_P4crYcwEj3d10LO5o8N sm:col-full">
+                    <button id="submit-form-button" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="submit">Save all</button>
+                </div>
+            </form>
+
+            <script>
+                labels = document.getElementsByTagName("label");
+                console.log(labels);
+                console.log(labels.length);
+                for (let i = 0; i <= labels.length; i++) {
+                    labels[i].style.color = "#9daab6";
+                } 
+            </script>
+
+            <script>
+                groups = document.querySelectorAll(".form-group");
+                for (let i = 0; i <= groups.length; i++) {
+                    groups[i].classList.add("mt-2rem");
+                    groups[i].classList.add("mb-2rem");
+                } 
+            </script>
+
+            <script>
+
+                
+
+                const currentDiv = document.getElementById("submit-form-button");
+
+                els = document.querySelectorAll(".form-control");
+                for (let i = 0; i <= els.length; i++) {
+                    class_names = ['mb-4', 'pb-4', 'fzhbbDQ686T8arwvi_bJ', 'jtAJHOc7mn7b4IKRO59D', 'pXhVRBC8yaUNllmIWxln', 'vpDN1VEJLu5FmLkr5WCk', '__9sbu0yrzdhGIkLWNXl', 'gx_pYWtAG2cJIqhquLbx', 'mveJTCIb2WII7J4sY22F', 'GdTcGtoKP5_bET3syLDl', 'LceKfSImrGKQrtDGkpBV', '_Vb9igHms0hI1PQcvp_S', 't6gkcSf0Bt4MLItXvDJ_', 'olxDi3yL6f0gpdsOFDhx', 'jqg6J89cvxmDiFpnV56r', 'Mmx5lX7HVdrWCgh3EpTP', 'H7KQDhgKsqZaTUouEUQL', 'OyABRrnTV_kvHV7dJ0uE', 'KpCMWe32PQyrSFbZVput', 'q6szSHqGtBufkToFe_s5'];
+                    for (class_name of class_names) {
+                        els[i].classList.add(class_name);
+                    }
+
+                } 
+
+                
+
+            </script>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+
+{% endblock main %}
+
+
+
+

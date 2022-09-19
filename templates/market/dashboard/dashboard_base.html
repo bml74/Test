@@ -1,45 +1,62 @@
-
+{% load static %}
 <!DOCTYPE html><html lang="en" class="v2fLMH8w3xgUEQcl63H9"><head>
+
     <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Get started with a premium admin dashboard layout built with Tailwind CSS and Flowbite featuring 21 example pages including charts, kanban board, mailing system, and more.">
-<meta name="author" content="Themesberg">
-<meta name="generator" content="Hugo 0.88.1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Ca' de Bruno">
+    <meta name="author" content="Ca' de Bruno">
+    <meta name="generator" content="Ca' de Bruno">
 
-<title>Tailwind CSS Dashboard - Flowbite</title>
-
-<link rel="canonical" href="https://flowbite.com/application-ui/demo/">
+    <title>{% block title %}{% endblock title %}</title>
 
 
+
+{% comment %} <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""> {% endcomment %}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+{% comment %} <link rel="stylesheet" href="https://flowbite.com/application-ui/demo/app.css"> {% endcomment %}
+<link rel="stylesheet" href="{% static 'styles/flowbite/ui.css' %}">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="apple-touch-icon" sizes="57x57" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="60x60" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="72x72" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="76x76" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="114x114" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="120x120" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="144x144" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="152x152" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="icon" type="image/png" sizes="192x192" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="icon" type="image/png" sizes="96x96" href="https://www.svgrepo.com/show/86481/money.svg">
+<link rel="icon" type="image/png" sizes="16x16" href="https://www.svgrepo.com/show/86481/money.svg">
+
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://flowbite.com/application-ui/demo/app.css">
-<link rel="apple-touch-icon" sizes="180x180" href="https://flowbite.com/application-ui/demo/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="https://flowbite.com/application-ui/demo/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="https://flowbite.com/application-ui/demo/favicon-16x16.png">
-<link rel="icon" type="image/png" href="https://flowbite.com/application-ui/demo/favicon.ico">
-<link rel="manifest" href="https://flowbite.com/application-ui/demo/site.webmanifest">
-<link rel="mask-icon" href="https://flowbite.com/application-ui/demo/safari-pinned-tab.svg" color="#5bbad5">
+
+{% comment %} <link rel="manifest" href="https://flowbite.com/application-ui/demo/site.webmanifest">
+<link rel="mask-icon" href="https://flowbite.com/application-ui/demo/safari-pinned-tab.svg" color="#5bbad5"> {% endcomment %}
+
+
 <meta name="msapplication-TileColor" content="#ffffff">
 <meta name="theme-color" content="#ffffff">
-<!-- Twitter -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:site" content="@">
-<meta name="twitter:creator" content="@">
-<meta name="twitter:title" content="Tailwind CSS Dashboard - Flowbite">
-<meta name="twitter:description" content="Get started with a premium admin dashboard layout built with Tailwind CSS and Flowbite featuring 21 example pages including charts, kanban board, mailing system, and more.">
-<meta name="twitter:image" content="https://flowbite.com/application-ui/demo">
 
-<!-- Facebook -->
-<meta property="og:url" content="https://flowbite.com/application-ui/demo/">
-<meta property="og:title" content="Tailwind CSS Dashboard - Flowbite">
-<meta property="og:description" content="Get started with a premium admin dashboard layout built with Tailwind CSS and Flowbite featuring 21 example pages including charts, kanban board, mailing system, and more.">
-<meta property="og:type" content="website">
-<meta property="og:image" content="https://flowbite.com/application-ui/demo/images/og-image.jpg">
-<meta property="og:image:type" content="image/png">
 
+<style>
+    .mb-2rem {
+        margin-bottom: 2rem;
+    }
+    .mt-2rem {
+        margin-top: 2rem;
+    }
+</style>
 
 
 
@@ -298,110 +315,101 @@
                         </div>
                         </form>
                     </li>
+                    <!-- All items, items I'm enrolled in, items I've created, items I can edit, create. -->
                     <li>
-                        <a href="https://flowbite.com/application-ui/demo/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F _7KA5gD55t2lxf9Jkj20 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
-                            <svg class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path><path d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"></path></svg>
-                            <span class="oA7zcT_42jVeFuWTXQnq" sidebar-toggle-item="">Dashboard</span>
-                        </a>
+                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-market" data-collapse-toggle="dropdown-market">
+                            <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path></svg>
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Market</span>
+                            <svg sidebar-toggle-item="" class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                        </button>
+                        <ul id="dropdown-market" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
+                            <li>
+                                <a href="{% url 'listings' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">View all listings</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'my_listings' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My listings</a>
+                            </li>
+                            <li>
+                                <a href="#" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My order history</a>
+                            </li>
+                        </ul>
                     </li>
+
                     <li>
-                        <a href="https://flowbite.com/application-ui/demo/kanban/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F _7KA5gD55t2lxf9Jkj20 YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
-                            <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Kanban</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://flowbite.com/application-ui/demo/mailing/inbox/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F _7KA5gD55t2lxf9Jkj20 YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
+                        <a href="{% url 'search' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F _7KA5gD55t2lxf9Jkj20 YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
                             <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Inbox</span>
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Search</span>
+                            <span class="_k0lTW0vvzboctTxDi2R Nm7xMnguzOx6J5Ao7yCU Q_jg_EPdNf9eDMn1mLI2 sQaK4IH7BIQSgBTGX8Pe oA7zcT_42jVeFuWTXQnq ADSeKHR1DvUUA48Chci_ rxe6apEJoEk8r75xaVNG c8dCx6gnV43hTOLV6ks5 ezMFUVl744lvw6ht0lFe RpVwy4sO7Asb86CncKJ_ mbOxN7eW74XygTKQC_r3 YccXYy5sNIz6FJlLxw0D" sidebar-toggle-item="">3</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'news-home' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F _7KA5gD55t2lxf9Jkj20 YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
+                            <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"></path><path d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"></path></svg>
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">News</span>
                             <span class="_k0lTW0vvzboctTxDi2R Nm7xMnguzOx6J5Ao7yCU Q_jg_EPdNf9eDMn1mLI2 sQaK4IH7BIQSgBTGX8Pe oA7zcT_42jVeFuWTXQnq ADSeKHR1DvUUA48Chci_ rxe6apEJoEk8r75xaVNG c8dCx6gnV43hTOLV6ks5 ezMFUVl744lvw6ht0lFe RpVwy4sO7Asb86CncKJ_ mbOxN7eW74XygTKQC_r3 YccXYy5sNIz6FJlLxw0D" sidebar-toggle-item="">3</span>
                         </a>
                     </li>
                     
                     <li>
-                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-ecommerce" data-collapse-toggle="dropdown-ecommerce">
+                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-specializations" data-collapse-toggle="dropdown-specializations">
                             <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clip-rule="evenodd"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">E-commerce</span>
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Specializations</span>
                             <svg sidebar-toggle-item="" class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
-                        <ul id="dropdown-ecommerce" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/e-commerce/products/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Products</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/e-commerce/billing/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Billing</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/e-commerce/invoice/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Invoice</a>
-                        </li>
+                        <ul id="dropdown-specializations" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
+                            <li>
+                                <a href="{% url 'specializations' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">View all</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'specializations_enrolled' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My enrollments</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'specializations_created' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My creations</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'specializations_edit_access' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Edit access</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-users" data-collapse-toggle="dropdown-users">
+                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-courses" data-collapse-toggle="dropdown-courses">
                             <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Users</span>
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Courses</span>
                             <svg sidebar-toggle-item="" class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
-                        <ul id="dropdown-users" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/users/list/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Users list</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/users/profile/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Profile</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/users/feed/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Feed</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/users/settings/" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Settings</a>
-                        </li>
+                        <ul id="dropdown-courses" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
+                            <li>
+                                <a href="{% url 'courses' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">View all</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'courses_enrolled' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My enrollments</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'courses_created' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">My creations</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'courses_edit_access' user.username %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Edit access</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
-                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-pages" data-collapse-toggle="dropdown-pages">
-                            <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Pages</span>
+                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-create" data-collapse-toggle="dropdown-create">
+                            {% comment %} <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"></path></svg> {% endcomment %}
+                            <i class="fas fa-plus-circle fa-lg VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4"></i>
+                            
+                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Create</span>
                             <svg sidebar-toggle-item="" class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                         </button>
-                        <ul id="dropdown-pages" class="_SmdlCf6eUKB_V9S5IDj b9aD6g2qw84oyZNsMO8j TVHgSaRh3muGJct_epr9">
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/pages/pricing/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Pricing</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/pages/maintenance/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Maintenance</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/pages/404/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">404 not found</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/pages/500/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">500 server error</a>
-                        </li>
+                        <ul id="dropdown-create" class="TVHgSaRh3muGJct_epr9 b9aD6g2qw84oyZNsMO8j _SmdlCf6eUKB_V9S5IDj">
+                            <li>
+                                <a href="{% url 'specialization_create' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Specialization</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'course_create' %}" class="d3C8uAdJKNl1jzfE9ynq __9sbu0yrzdhGIkLWNXl _43MO1gcdi2Y0RJW1uHL mveJTCIb2WII7J4sY22F YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j xfuvbLgYErj_fGTMHhLc duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Course</a>
+                            </li>
                         </ul>
                     </li>
-                    <li>
-                        <button type="button" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 t6gkcSf0Bt4MLItXvDJ_ d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX" aria-controls="dropdown-auth" data-collapse-toggle="dropdown-auth">
-                            <svg class="VQS2tmQ_zFyBOC2tkmto YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr PeR2JZ9BZHYIH8Ea3F36 bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _Oyukq8JlN1X9w2FmPds XIIs8ZOri3wm8Wnj9N_y Lld6j9B1iilEqA6j31e4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd"></path></svg>
-                            <span class="_74lpPUMEtHf6F0_fjLe oA7zcT_42jVeFuWTXQnq upQp7iWehfaU8VTbfx_w BHrWGjM1Iab_fAz0_91H" sidebar-toggle-item="">Authentication</span>
-                            <svg sidebar-toggle-item="" class="YIUegm7fh_CpJbivTu6B MnxxlQlR1H0xJuMEE8Yr" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </button>
-                        <ul id="dropdown-auth" class="_SmdlCf6eUKB_V9S5IDj b9aD6g2qw84oyZNsMO8j TVHgSaRh3muGJct_epr9">
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/authentication/sign-in/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Sign in</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/authentication/sign-up/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Sign up</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/authentication/forgot-password/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Forgot password</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/authentication/reset-password/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Reset password</a>
-                        </li>
-                        <li>
-                            <a href="https://flowbite.com/application-ui/demo/authentication/profile-lock/" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 xfuvbLgYErj_fGTMHhLc d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j BpcA_ZTX79XDgSc71n2v _7KA5gD55t2lxf9Jkj20 duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">Profile lock</a>
-                        </li>
-                        </ul>
-                    </li>
+
                     </ul>
                     <div class="RLVemQvbW8bmzNf3KoDP TVHgSaRh3muGJct_epr9">
                     <a href="https://flowbite.com/docs/getting-started/introduction/" target="_blank" class="YRrCJSr_j5nopfm4duUc Q_jg_EPdNf9eDMn1mLI2 FJRldeiG2gFGZfuKgp88 d3C8uAdJKNl1jzfE9ynq _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl mveJTCIb2WII7J4sY22F bcsWqjK52oeyT6oeC2Az gZ3KuFw1JESHhOJhjT8j _7KA5gD55t2lxf9Jkj20 BpcA_ZTX79XDgSc71n2v duXR6Hcu_44X_243WcOl OPrb_iG5WDy_7F05BDOX">
@@ -567,5 +575,5 @@
 
 
     <script src="https://flowbite.com/application-ui/demo/app.bundle.js"></script>
-  
+
 </body></html>

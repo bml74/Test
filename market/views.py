@@ -78,7 +78,7 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Listing
     fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
-    template_name = 'views/form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -98,7 +98,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Listing
     fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
-    template_name = 'views/form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -118,7 +118,7 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Delete Listing."""
     model = Listing
-    success_url = '/'
+    success_url = '/market/listings/'
     context_object_name = 'item'
     template_name = 'views/confirm_delete.html'
 
@@ -129,7 +129,6 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context = super(ListingDeleteView, self).get_context_data(**kwargs)
         transaction = get_object_or_404(Listing, id=self.kwargs.get('pk'))
         title = f"Listing: {transaction.title}"
-        context.update({"type": "Listing", "title": title})
+        context.update({"type": "listing", "title": title})
         return context
-
 
