@@ -16,11 +16,6 @@
             <div class="col-md-12 text-center">
                 <span class="display-1 d-block" style="font-weight: 800;">{{ status_number }}</span>
                 <div class="mb-4 lead">{{ status_description }}</div>
-                {% if user.is_authenticated %}
-                    <a href="{% url 'malagosto_ecole_dashboard' %}" class="btn btn-link">Return to dashboard</a>
-                {% else %}
-                    <a href="{% url 'malagosto_ecole_home' %}" class="btn btn-link">Return home</a>
-                {% endif %}
             </div>
         </div>
     </div>
