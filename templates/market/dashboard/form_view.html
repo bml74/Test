@@ -9,19 +9,10 @@
 
 {% block main %}
 
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 
 
-
-
-
-
-
-
-
-
-
-
-<div class="form-content" style="margin-left: 15vh; margin-right: 15vh; margin-top: 15vh;">
+<div class="form-content" style="margin-left: 2vh; margin-right: 2vh; margin-top: 5vh;">
     <div class="NM7Z1HBVjN_86WhEcXan">
         <div class="_Ybd3WwuTVljUT4vEaM3 mngKhi_Rv06PF57lblDI mveJTCIb2WII7J4sY22F _wYiJGbRZyFZeCc8y7Sf _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi hD0sTTDgbxakubcHVW2X">
             <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">{{ header }}</h3>
@@ -78,6 +69,77 @@
 
 {% endblock main %}
 
+
+{% block JavaScript %}
+<!-- Include the Quill library -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+
+    window.onload = function() {
+        var newNode = document.createElement('div');
+        newNode.id = 'quill_editor'; // editor-container
+        var newInputNode = document.createElement('div');
+        newInputNode.setAttribute("type", "hidden");
+        newInputNode.setAttribute("name", "description");
+        newInputNode.id = 'quill_descr';
+
+
+        // Get the reference node
+        var referenceNode = document.querySelector('#id_description.textarea.form-control'); // Description textarea
+
+        // Insert the new node before the reference node
+        referenceNode.after(newNode); 
+
+        newNode.after(newInputNode);
+
+
+        
+        let toolbarOptions = [
+        [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+        ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+        ['link', 'image'],
+        ['blockquote', 'code-block'],
+        [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+        [{ 'script': 'sub'}, { 'script': 'super' }],      // superscript/subscript
+        [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent                                       // remove formatting button
+        [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
+        [{ 'font': [] }],
+        [{ 'align': [] }],
+        ];
+
+    let quill = new Quill('#quill_editor', {
+    modules: {
+      toolbar: toolbarOptions
+    },
+    placeholder: 'Compose an epic...',
+    theme: 'snow'
+    });
+  
+    txt = document.getElementById("id_description").value;
+    console.log(txt);
+    document.getElementById("id_description").style.display = 'none';
+    document.querySelector(".ql-editor").innerHTML = txt;
+
+    btn = document.getElementById("create-or-update");
+    btn.addEventListener('mouseover', (event) => {
+        console.log(quill.root.innerHTML);
+        let descr = document.querySelector('#id_description[name=description]');
+        descr.value = quill.root.innerHTML;
+    });
+  
+
+
+
+
+    };
+
+</script>
+
+
+{% endblock JavaScript %}
 
 
 

@@ -3,7 +3,6 @@
 {% block body %}
 
 
-
 <header class="sticky top-0 z-40 flex-none mx-auto w-full bg-white border-b border-gray-200 dark:border-gray-600 dark:bg-gray-800">
     <div
         id='banner'
@@ -67,9 +66,6 @@
         <div class="flex items-center" id="">
             <ul id="flowbiteMenu" class="hidden flex-col pt-6 lg:flex-row lg:self-center lg:py-0 lg:flex">
             <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0">
-                <a href="{% url 'dashboard' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Dashboard</a>
-            </li>
-            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0">
                 <a href="{% url 'ecoles-home' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Learning</a>
             </li>
             <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
@@ -124,18 +120,16 @@
 
 </header> 
 
-
-
-{% block main %}
-{% endblock main %}
+    {% block main %}
+    {% endblock main %}
 
     <footer class="py-12 bg-gray-50 xl:py-24 dark:bg-gray-800">
         <div class="px-4 mx-auto w-full max-w-8xl">
             <div class="grid gap-12 xl:grid-cols-6 xl:gap-24">
                 <div class="col-span-2">
                     <a href="/" class="flex mb-5">
-                    <img src="https://www.svgrepo.com/show/86481/money.svg" class="mr-3 h-8" alt="FreeMoney Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    <img src="https://www.svgrepo.com/show/86481/money.svg" class="mr-3 h-8" alt="Ca' de Bruno Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Ca' de Bruno</span>
                     </a>
                     <p class="mb-3 max-w-lg text-gray-600 dark:text-gray-400">Flowbite is a library of interactive UI components built with Tailwind CSS that can get you started building websites faster and more efficiently.</p>
                     <p class="max-w-lg text-gray-600 dark:text-gray-400">Code licensed <a href="https://github.com/themesberg/flowbite/blob/main/LICENSE.md" class="text-blue-600 dark:text-blue-500 hover:underline" rel="nofollow">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" class="text-blue-600 hover:underline dark:text-blue-500" rel="nofollow">CC BY 3.0</a>.</p>
@@ -214,8 +208,6 @@
         </div>
     </footer>
 
-
-
     <script>
 
 
@@ -263,8 +255,6 @@
         });
     
     </script>
-
-
 
 {% endblock body %}
 

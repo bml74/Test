@@ -15,6 +15,8 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import user_passes_test
+
 
 def checkout(request, pk):
     context = {"item": Listing.objects.get(pk=pk)}
@@ -29,12 +31,23 @@ def payment_success(request):
 def learning_carousel(request):
     return render(request, "market/LEARNING_CAROUSEL.html")
 
+def dashboard(request):
+    return render(request, "market/dashboard/dashboard.html")
+
 def my_listings(request):
     listings = Listing.objects.filter(creator=request.user)
     context = {
         "items": listings
     }
     return render(request, "market/dashboard/user_listings.html", context)
+
+@user_passes_test(lambda u: u.is_superuser)
+def transactions_admin(request):
+    transactions = Transaction.objects.all()
+    context = {
+        "items": transactions
+    }
+    return render(request, "market/dashboard/transactions_admin.html", context)
 
 
 class ListingListView(UserPassesTestMixin, ListView):
@@ -120,7 +133,7 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Listing
     success_url = '/market/listings/'
     context_object_name = 'item'
-    template_name = 'views/confirm_delete.html'
+    template_name = 'market/confirm_delete.html'
 
     def test_func(self):
         return self.request.user == self.get_object().creator

@@ -1,32 +1,26 @@
 from django.urls import path
-from .views import (
-    ListingListView, 
-    ListingDetailView, 
-    ListingCreateView, 
-    ListingUpdateView, 
-    ListingDeleteView, 
-    checkout,
-    payment_success,
-    payment_cancel,
-    learning_carousel,
-    my_listings
-)
+from . import views
 
 
 urlpatterns = [
 
-    path('listings/', ListingListView.as_view(), name='listings'),
-    path('listings/<int:pk>/', ListingDetailView.as_view(), name='listing'),
-    path('listings/create/', ListingCreateView.as_view(), name='listing-create'),
-    path('listings/update/<int:pk>/', ListingUpdateView.as_view(), name='listing-update'),
-    path('listings/delete/<int:pk>/', ListingDeleteView.as_view(), name='listing-delete'),
+    # Listings
+    path('listings/', views.ListingListView.as_view(), name='listings'),
+    path('listings/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
+    path('listings/create/', views.ListingCreateView.as_view(), name='listing-create'),
+    path('listings/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
+    path('listings/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
 
-    path('lc/', learning_carousel, name='learning_carousel'),
+    path('lc/', views.learning_carousel, name='learning_carousel'),
 
-    path('my/listings/', my_listings, name='my_listings'),
+    # Admin
+    path('dashboard/', views.dashboard, name='user-dashboard'),
+    path('my/listings/', views.my_listings, name='my_listings'),
+    path('all/transactions/', views.transactions_admin, name='transactions-admin'),
 
-    path('checkout/<int:pk>/', checkout, name='checkout'),
-    path('checkout/success/', payment_success, name='payment_success'),
-    path('checkout/cancel/', payment_cancel, name='payment_cancel')
+    # Payments
+    path('checkout/<int:pk>/', views.checkout, name='checkout'),
+    path('checkout/success/', views.payment_success, name='payment_success'),
+    path('checkout/cancel/', views.payment_cancel, name='payment_cancel')
 
 ]
