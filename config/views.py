@@ -2,9 +2,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from googletrans import Translator
 from .utils import translate_phrase
+from django.contrib.auth.decorators import login_required
 
 
-
+@login_required
 def index(request):
     return render(request, 'market/index.html') 
 

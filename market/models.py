@@ -21,11 +21,17 @@ class Listing(models.Model):
         blank=False,
         null=False
     )
-    listing_type = models.CharField(
+    listing_category = models.CharField(
         max_length=100,
         choices=(("General", "General"), ("Homework", "Homework"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
         default="General",
     )
+    quantity_available = models.IntegerField(default=1, blank=True, null=True)
+    listing_medium = models.CharField(
+        max_length=100,
+        choices=(("Digital File(s)", "Digital File(s)"), ("In-Person Service", "In-Person Service"), ("Digital Service", "Digital Service"), ("Physical Product", "Physical Product")),
+        default="General",
+    )  
     non_fungible_order = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
 
     def __str__(self):
@@ -53,13 +59,17 @@ class Fundraiser(models.Model):
 
 class Transaction(models.Model):
     transaction_obj_type = models.CharField(max_length=128)
-    transaction_obj_id = models.IntegerField(null=True, blank=True)
+    transaction_obj_id = models.IntegerField(default=0)
+    item_title = models.CharField(max_length=128, default="")
     seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="seller")
     purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="purchaser")
+    seller_verified = models.BooleanField(null=True, blank=True)
+    purchaser_verified = models.BooleanField(null=True, blank=True)
     transaction_id = models.CharField(max_length=128, null=True, blank=True)
-    value = models.FloatField(null=True, blank=True)
+    value = models.FloatField(default=0)
     description = models.CharField(max_length=256,null=True, blank=True)
     inserted_on = models.DateTimeField(auto_now_add=True)
+    end_payment_sent = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Transaction #{self.transaction_id}"

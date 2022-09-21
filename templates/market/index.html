@@ -106,7 +106,7 @@ Ca' de Bruno
     </a>
 </div>
 
-{% if request.user|has_group:"News Search" %} 
+{% if user|has_group:"News Search" %} 
 <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
     <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">New</span>
     <div class="mt-4">

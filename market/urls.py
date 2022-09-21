@@ -17,10 +17,17 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='user-dashboard'),
     path('my/listings/', views.my_listings, name='my_listings'),
     path('all/transactions/', views.transactions_admin, name='transactions-admin'),
+    path('transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction'),
 
     # Payments
     path('checkout/<int:pk>/', views.checkout, name='checkout'),
+    path('checkout_session/<int:id>/',views.checkout_session,name='checkout_session'),
     path('checkout/success/', views.payment_success, name='payment_success'),
-    path('checkout/cancel/', views.payment_cancel, name='payment_cancel')
+    path('checkout/cancel/', views.payment_cancel, name='payment_cancel'),
+    #getting all unverified payments of purchaser
+    path('my_payments/', views.my_payments, name='my_payments'),
+    #updating unverified payments of purchaser
+    path('confirm_transaction/<int:transaction_id>/', views.confirm_transaction, name='confirm_transaction'),
+    path('reject_transaction/<int:transaction_id>/', views.reject_transaction, name='reject_transaction')
 
 ]

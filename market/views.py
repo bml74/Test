@@ -18,22 +18,27 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test
 
 
+@login_required
 def checkout(request, pk):
     context = {"item": Listing.objects.get(pk=pk)}
     return render(request, "payments/checkout.html", context=context)
 
+@login_required
 def payment_cancel(request):
     return render(request, "payments/cancel.html")
 
+@login_required
 def payment_success(request):
     return render(request, "payments/success.html")
 
 def learning_carousel(request):
     return render(request, "market/LEARNING_CAROUSEL.html")
 
+@login_required
 def dashboard(request):
     return render(request, "market/dashboard/dashboard.html")
 
+@login_required
 def my_listings(request):
     listings = Listing.objects.filter(creator=request.user)
     context = {
@@ -41,6 +46,7 @@ def my_listings(request):
     }
     return render(request, "market/dashboard/user_listings.html", context)
 
+@login_required
 @user_passes_test(lambda u: u.is_superuser)
 def transactions_admin(request):
     transactions = Transaction.objects.all()
@@ -48,6 +54,28 @@ def transactions_admin(request):
         "items": transactions
     }
     return render(request, "market/dashboard/transactions_admin.html", context)
+
+
+class TransactionDetailView(UserPassesTestMixin, DetailView):
+    model = Transaction
+
+    def test_func(self):
+        # transaction = get_object_or_404(Transaction, pk=kwargs['pk'])
+        # if transaction.seller is request.user or transaction.purchaser is request.user:
+        #     return True
+        # return False
+        return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        transaction = get_object_or_404(Transaction, pk=kwargs['pk'])
+        context = {
+            "transaction": transaction, 
+            "user_is_seller": transaction.seller == request.user
+        }
+        if transaction.transaction_obj_type == 'listing':
+            item_title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
+            context.update({"item_title": item_title})
+        return render(request, 'market/dashboard/transaction_detail.html', context)
 
 
 class ListingListView(UserPassesTestMixin, ListView):
@@ -87,10 +115,9 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         return render(request, 'market/listing.html', context)
 
 
-
 class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
@@ -110,7 +137,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_type', 'non_fungible_order']
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
@@ -145,3 +172,83 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context.update({"type": "listing", "title": title})
         return context
 
+
+#checkout call
+def checkout(request, pk):
+    context = {"item": Listing.objects.get(pk=pk)}
+    return render(request, "payments/checkout.html", context=context)
+
+def checkout_session(request, id):
+    stripe.api_key = 'sk_test_51LiiCfBMfcyp67kCpEr6rBvrRKa09wNHZjJdwND4zNzW2Musu9Kp98JdgjYFSGzTC9gN8XUEAeHXElPPgQe14R480049o6ROo4'
+    item = Listing.objects.get(pk=id)
+    print('line no 27',item, id)
+    session = stripe.checkout.Session.create(
+
+        payment_method_types=['card'],
+        line_items=[{
+            'price_data': {
+                'currency': 'usd',
+                'product_data': {
+                    'name': item.title,
+                },
+                'unit_amount': int(item.price) * 100,
+            },
+            'quantity': 1,
+        }],
+        mode='payment',
+        #change domain name when you live it
+        success_url='http://127.0.0.1:8000/market/checkout/success?session_id={CHECKOUT_SESSION_ID}',
+        cancel_url='http://127.0.0.1:8000/checkout/cancel/',
+
+        client_reference_id=id
+
+    )
+    print('Line no 49 called')
+
+    return redirect(session.url, code=303)
+
+#on stripe cancel payment
+def payment_cancel(request):
+    return render(request, "payments/cancel.html")
+
+#generate transaction id
+def generate_transaction_id(length):
+    set_number = '1234567890'
+    import random
+    gen_text = ''.join((random.choice(set_number)) for i in range(length))
+    return gen_text
+
+#stripe success payment
+def payment_success(request):
+    try:
+        session = stripe.checkout.Session.retrieve(request.GET['session_id'])
+        list_id = session.client_reference_id
+        listing = Listing.objects.get(pk=list_id)
+        transaction_no = generate_transaction_id(10)
+
+        Transaction.objects.create(transaction_obj_type='listing', transaction_obj_id=listing.id, item_title=listing.title, seller=listing.creator, purchaser=request.user, transaction_id=transaction_no, value=listing.price, description='Purchase payment').save()
+
+        return render(request, 'payments/success.html')
+    except:
+        return render(request, 'payments/cancel.html')
+
+#purchaser unverified payments
+def my_payments(request):
+    # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
+    # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
+    return render(request,'payments/my_payments.html',{'items': Transaction.objects.filter(purchaser=request.user)})
+
+def confirm_transaction(request, transaction_id):
+    transaction_data=Transaction.objects.get(pk=transaction_id)
+    transaction_data.purchaser_verified = True
+    transaction_data.save()
+    return redirect('my_payments')
+
+def reject_transaction(request, transaction_id):
+    transaction_data=Transaction.objects.get(pk=transaction_id)
+    transaction_data.purchaser_verified = False
+    transaction_data.save()
+    return redirect('my_payments')
+
+
+#fetch unverified payments for seller

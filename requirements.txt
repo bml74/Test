@@ -22,6 +22,7 @@ dj-database-url==1.0.0
 Django==4.0.6
 django-crispy-forms==1.14.0
 django-on-heroku==1.1.2
+django-taggit==3.0.0
 et-xmlfile==1.1.0
 eth-abi==2.2.0
 eth-account==0.5.9
