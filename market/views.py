@@ -174,16 +174,15 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 #checkout call
-def checkout(request, pk):
+def checkout(request, obj_type, pk):
     context = {"item": Listing.objects.get(pk=pk)}
     return render(request, "payments/checkout.html", context=context)
 
-def checkout_session(request, id):
+def checkout_session(request, obj_type, pk):
     stripe.api_key = 'sk_test_51LiiCfBMfcyp67kCpEr6rBvrRKa09wNHZjJdwND4zNzW2Musu9Kp98JdgjYFSGzTC9gN8XUEAeHXElPPgQe14R480049o6ROo4'
-    item = Listing.objects.get(pk=id)
-    print('line no 27',item, id)
+    item = Listing.objects.get(pk=pk)
+    print(obj_type * 100)
     session = stripe.checkout.Session.create(
-
         payment_method_types=['card'],
         line_items=[{
             'price_data': {
@@ -197,10 +196,10 @@ def checkout_session(request, id):
         }],
         mode='payment',
         #change domain name when you live it
-        success_url='http://127.0.0.1:8000/market/checkout/success?session_id={CHECKOUT_SESSION_ID}',
+        success_url='http://127.0.0.1:8000/market/checkout/success/'+ obj_type +'?session_id={CHECKOUT_SESSION_ID}',
         cancel_url='http://127.0.0.1:8000/checkout/cancel/',
 
-        client_reference_id=id
+        client_reference_id=pk
 
     )
     print('Line no 49 called')
@@ -228,7 +227,7 @@ def payment_success(request):
 
         Transaction.objects.create(transaction_obj_type='listing', transaction_obj_id=listing.id, item_title=listing.title, seller=listing.creator, purchaser=request.user, transaction_id=transaction_no, value=listing.price, description='Purchase payment').save()
 
-        return render(request, 'payments/success.html')
+        return render(request, 'payments/success.html') 
     except:
         return render(request, 'payments/cancel.html')
 

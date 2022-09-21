@@ -2554,13 +2554,16 @@
 # European languages should be a field.
 # Languages should be a category.
 
-# from ecoles.models import Module, Submodule
+# from ecoles.models import Course, Module, Submodule
 # from django.contrib.auth.models import User
+# c = Course.objects.filter(title="Shoah").first()
+# m = Module(title="Source: DeathCamps.Org", course=c, description=f"This module describes the Shoah.")
+# m.save()
 # topics_dict = {"belzec": "Belzec", "sobibor": "Sobibor", "treblinka": "Treblinka", "reinhard": "Aktion Reinhard", "gas_chambers": "Gas Chambers", "lublin": "Lublin", "occupation": "Occupation", "euthanasia": "Euthanasia", "sabba": "Risiera di San Sabba"}
 # u = User.objects.filter(username="bml74").first()
 # m = Module.objects.filter(title="Source: DeathCamps.Org").first()
 # for k, v in topics_dict.items():
-# 	sm = Submodule(title=v, module=m, description=f"Questa sezione descrive l'argomento di {v}")
+# 	sm = Submodule(title=v, module=m, description=f"This section describes . . . {v}.")
 # 	sm.save()
 
 # # Course: Corsu
