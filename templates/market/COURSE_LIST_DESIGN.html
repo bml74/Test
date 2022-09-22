@@ -155,7 +155,7 @@ Ca' de Bruno | {{ obj_type.capitalize }} Listings
 
                                                     
                                                     <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="item-{{ item.id }}-1" role="tabpanel" aria-labelledby="item-{{ item.id }}-1">
-                                                        <h2 class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h2>
+                                                        <h2 class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white listing-title"><a href="{% url 'course_detail' item.id %}">{{ item.title }}</a></h2>
                                                         <p class="mb-3 text-gray-500 dark:text-gray-400 four-lines">{{ item.description }}</p>
                                                         <a href="{% url 'course_detail' item.id %}" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
                                                             Go to course

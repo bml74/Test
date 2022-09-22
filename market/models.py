@@ -60,7 +60,7 @@ class Fundraiser(models.Model):
 class Transaction(models.Model):
     transaction_obj_type = models.CharField(max_length=128)
     transaction_obj_id = models.IntegerField(default=0)
-    item_title = models.CharField(max_length=128, default="")
+    title = models.CharField(max_length=128, default="")
     seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="seller")
     purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="purchaser")
     seller_verified = models.BooleanField(null=True, blank=True)

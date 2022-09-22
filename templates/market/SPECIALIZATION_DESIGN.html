@@ -80,80 +80,31 @@
 
 
 {% if user_enrolled or allowed_to_edit or user_is_creator %}
-
-    {% if all_modules|length == 0 %}
-        <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">This course is empty right now.</h1>
+<div class="flex justify-center">
+    {% if courses|length == 0 %}
+        <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">This {{ obj_type }} is empty right now.</h1>
     {% else %}
 
 
-        {% for module_key, module_inner in all_modules.items %}
-
-            {% if module_inner.items %}
-                <div id="accordion-open-module-{{ module_key.id }}" data-accordion="open" style="margin-top: 4rem;">
-
-                    <h2 id="accordion-open-heading-module-{{ module_key.id }}">
-                        <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white" data-accordion-target="#accordion-open-body-module-{{ module_key.id }}" aria-expanded="true" aria-controls="accordion-open-body-module-{{ module_key.id }}">
-                            <span class="flex items-center">
-                                
-                                <h1 class="mt-4 mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white"><span class="text-blue-600 dark:text-blue-500">Module {{forloop.counter}}:&nbsp;&nbsp;</span> <a href="{% url 'module_detail' course.id module_key.id %}">{{module_key.title}}</a></h1>
-                            </span>
-                            <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </button>
-                      </h2>
-                      <div id="accordion-open-body-module-{{ module_key.id }}" class="" aria-labelledby="accordion-open-heading-module-{{ module_key.id }}">
-                        <div class="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ module_key.description|safe }}</p>
-                        </div>
-                      </div>
-
-                    {% for submodule_key, submodule_inner in module_inner.items %} <!-- For --> 
-                    <h2 id="accordion-open-heading-submodule-{{ submodule_key.id }}">
-                        <button type="button" class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800" data-accordion-target="#accordion-open-body-submodule-{{ submodule_key.id }}" aria-expanded="true" aria-controls="accordion-open-body-submodule-{{ submodule_key.id }}">
-                            <span class="flex items-center">
-                                {% comment %} <svg class="w-5 h-5 mr-2 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>  {% endcomment %}
-
-                                Submodule {{forloop.counter}}:&nbsp;&nbsp;<a href="{% url 'submodule_detail' course.id module_key.id submodule_key.id %}">{{ submodule_key.title }}</a>  
-
-                            </span>
-                            <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                        </button>
-                    </h2>
-                    <div id="accordion-open-body-submodule-{{ submodule_key.id }}" class="hidden" aria-labelledby="accordion-open-heading-submodule-{{ submodule_key.id }}">
-                        <div class="p-5 font-light border border-gray-200 dark:border-gray-700 dark:bg-gray-900" style="padding-left: 10vh; padding-right: 10vh;">
-                            <p class="text-gray-500 dark:text-white">{{ submodule_key.description }}</p>
-                            <p class="mb-2 dark:text-gray-500">This submodule takes an estimated {{ submodule_inner.time }} {% if submodule_key.estimated_hours_to_complete == 1%}hour{%else%}hours{% endif %} to complete.</p>
-                            <p class="mt-4 mb-2 text-gray-500 dark:text-white" style="font-weight: 700;">Assignments:</p>
+        {% for course in courses %}
 
 
-                            {% if submodule_inner.assignments %}
-                            <ul class="list-inside dark:text-white font-medium mt-4">
-                                {% for assignment in submodule_inner.assignments %}
-                                <li class="w-100 single-line mb-2 dark:text-gray-400">
-                                    {% if assignment.completed == "True" %}
-                                    <i class="fas fa-check-circle w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0"></i>
-                                    {% else %}
-                                    <i class="fas fa-check-circle w-4 h-4 mr-1.5 text-gray-500 dark:text-gray-400 flex-shrink-0"></i>
-                                    {% endif %}
-                                    <a href="{% url 'assignment_detail' item.id module_key.id submodule_key.id assignment.assignment.id %}">{{ assignment.assignment }}</a>
-                                </li>
-                                {% endfor %}
-                            </ul>
-                            {% else %}
-                            <p class="mt-4 mb-2 text-gray-500 dark:text-white" style="font-weight: 700;">There are not currently any assignments in this submodule.</p>
-                            {% endif %}
 
-                        </div>
-                    </div>
-                    {% endfor %} <!-- Endfor submodules -->
-                </div>
-            {% else %}
-                <span class="dark:text-gray-400">Module is empty.</span> 
-            {% endif %} <!-- End if module has inner items conditional. -->
+        <a href="{% url 'course_detail' course.id %}" class="w-100 flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <img class="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="https://ethereum.org/static/754d2f72ce2296fb59d9d974aeda16be/1e993/future_transparent.webp" alt="">
+            <div class="flex flex-col justify-between p-4 leading-normal">
+                <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ forloop.counter }}. {{ course.title }}</h5>
+                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ course.description|safe }}</p>
+            </div>
+        </a>
+        
+
 
         {% endfor %}
 
 
     {% endif %} <!-- End if modules length is 0 conditional. -->
+</div>
 {% endif %} <!-- End if user creator, enrolled, or has edit access conditional. -->
   
 

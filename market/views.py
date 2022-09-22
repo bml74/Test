@@ -14,22 +14,10 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import user_passes_test
+from ecoles.models import Specialization, Course
 
-
-@login_required
-def checkout(request, pk):
-    context = {"item": Listing.objects.get(pk=pk)}
-    return render(request, "payments/checkout.html", context=context)
-
-@login_required
-def payment_cancel(request):
-    return render(request, "payments/cancel.html")
-
-@login_required
-def payment_success(request):
-    return render(request, "payments/success.html")
 
 def learning_carousel(request):
     return render(request, "market/LEARNING_CAROUSEL.html")
@@ -73,8 +61,8 @@ class TransactionDetailView(UserPassesTestMixin, DetailView):
             "user_is_seller": transaction.seller == request.user
         }
         if transaction.transaction_obj_type == 'listing':
-            item_title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
-            context.update({"item_title": item_title})
+            title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
+            context.update({"title": title})
         return render(request, 'market/dashboard/transaction_detail.html', context)
 
 
@@ -175,36 +163,51 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 #checkout call
 def checkout(request, obj_type, pk):
-    context = {"item": Listing.objects.get(pk=pk)}
-    return render(request, "payments/checkout.html", context=context)
+    item = None
+    if obj_type == 'listing':
+        item = Listing.objects.get(pk=pk)
+    elif obj_type == 'course':
+        item = Course.objects.get(pk=pk)
+    elif obj_type == 'specialization':
+        item = Specialization.objects.get(pk=pk)
+    if item is not None:
+        context = {"item": item, "obj_type": obj_type}
+        return render(request, "payments/checkout.html", context=context)
+    return JsonResponse({"Error": "Item retrieval error."})
 
 def checkout_session(request, obj_type, pk):
     stripe.api_key = 'sk_test_51LiiCfBMfcyp67kCpEr6rBvrRKa09wNHZjJdwND4zNzW2Musu9Kp98JdgjYFSGzTC9gN8XUEAeHXElPPgQe14R480049o6ROo4'
-    item = Listing.objects.get(pk=pk)
-    print(obj_type * 100)
-    session = stripe.checkout.Session.create(
-        payment_method_types=['card'],
-        line_items=[{
-            'price_data': {
-                'currency': 'usd',
-                'product_data': {
-                    'name': item.title,
+    item = None
+    if obj_type == 'listing':
+        item = Listing.objects.get(pk=pk)
+    elif obj_type == 'course':
+        item = Course.objects.get(pk=pk)
+    elif obj_type == 'specialization':
+        item = Specialization.objects.get(pk=pk)
+    if item is not None:
+        print(obj_type * 100)
+        session = stripe.checkout.Session.create(
+            payment_method_types=['card'],
+            line_items=[{
+                'price_data': {
+                    'currency': 'usd',
+                    'product_data': {
+                        'name': f"{item.title} ({obj_type})",
+                    },
+                    'unit_amount': int(float(item.price * 100)),
                 },
-                'unit_amount': int(item.price) * 100,
-            },
-            'quantity': 1,
-        }],
-        mode='payment',
-        #change domain name when you live it
-        success_url='http://127.0.0.1:8000/market/checkout/success/'+ obj_type +'?session_id={CHECKOUT_SESSION_ID}',
-        cancel_url='http://127.0.0.1:8000/checkout/cancel/',
+                'quantity': 1,
+            }],
+            mode='payment',
+            #change domain name when you live it
+            success_url='http://127.0.0.1:8000/market/checkout/success/' + obj_type + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url='http://127.0.0.1:8000/checkout/cancel/',
 
-        client_reference_id=pk
+            client_reference_id=pk
 
-    )
-    print('Line no 49 called')
-
-    return redirect(session.url, code=303)
+        )
+        return redirect(session.url, code=303)
+    return JsonResponse({"Error": "Item retrieval error."})
 
 #on stripe cancel payment
 def payment_cancel(request):
@@ -212,22 +215,31 @@ def payment_cancel(request):
 
 #generate transaction id
 def generate_transaction_id(length):
-    set_number = '1234567890'
+    set_number = '12345678903773764673738299'
     import random
     gen_text = ''.join((random.choice(set_number)) for i in range(length))
     return gen_text
 
 #stripe success payment
-def payment_success(request):
+def payment_success(request, obj_type):
     try:
         session = stripe.checkout.Session.retrieve(request.GET['session_id'])
-        list_id = session.client_reference_id
-        listing = Listing.objects.get(pk=list_id)
-        transaction_no = generate_transaction_id(10)
-
-        Transaction.objects.create(transaction_obj_type='listing', transaction_obj_id=listing.id, item_title=listing.title, seller=listing.creator, purchaser=request.user, transaction_id=transaction_no, value=listing.price, description='Purchase payment').save()
-
-        return render(request, 'payments/success.html') 
+        item_id = session.client_reference_id
+        item = None
+        if obj_type == 'listing':
+            item = Listing.objects.get(pk=item_id)
+        elif obj_type == 'course':
+            item = Course.objects.get(pk=item_id)
+        elif obj_type == 'specialization':
+            item = Specialization.objects.get(pk=item_id)
+        if item is not None:
+            transaction_no = generate_transaction_id(10)
+            Transaction.objects.create(transaction_obj_type=obj_type, transaction_obj_id=item.id, title=item.title, seller=item.creator, purchaser=request.user, transaction_id=transaction_no, value=item.price, description=f'Purchase of {obj_type}').save()
+            return render(request, 'payments/success.html', context={
+                "obj_type": obj_type
+            }) 
+        else:
+            return render(request, 'payments/cancel.html')
     except:
         return render(request, 'payments/cancel.html')
 

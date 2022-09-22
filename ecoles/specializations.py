@@ -18,7 +18,7 @@ from .models import (
 
 class SpecializationListView(UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'ecoles/specialization_and_course_list_view.html'
+    template_name = 'market/COURSE_LIST_DESIGN.html'
     context_object_name = 'items'
 
     def test_func(self):
@@ -170,7 +170,7 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
             "courses": courses,
 
         }
-        return render(request, 'ecoles/specializations/specialization_detail_view.html', context)
+        return render(request, 'market/SPECIALIZATION_DESIGN.html', context)
 
 
 class SpecializationCreateView(LoginRequiredMixin, CreateView):

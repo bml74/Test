@@ -32,7 +32,7 @@ Listings | {{ request.user.username }}
             <dt class="mb-1 text-gray-500 md:text-lg yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Item</dt>
             <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
                 {% if transaction.transaction_obj_type == 'listing' %}
-                <a href="{% url 'listing' transaction.transaction_obj_id %}">{{ item_title }} ({{ transaction.transaction_obj_type.capitalize }})</a>
+                <a href="{% url 'listing' transaction.transaction_obj_id %}">{{ title }} ({{ transaction.transaction_obj_type.capitalize }})</a>
                 {% endif %}
             </dd>
         </div>
