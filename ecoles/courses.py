@@ -315,7 +315,7 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
     fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -334,7 +334,7 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Course
     fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

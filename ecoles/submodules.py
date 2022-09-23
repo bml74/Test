@@ -98,7 +98,7 @@ class SubmoduleDetailView(UserPassesTestMixin, DetailView):
 class SubmoduleCreateView(LoginRequiredMixin, CreateView):
     model = Submodule
     fields = ['title', 'module', 'description']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -120,7 +120,7 @@ class SubmoduleCreateView(LoginRequiredMixin, CreateView):
 class SubmoduleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Submodule
     fields = ['title', 'module', 'description']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

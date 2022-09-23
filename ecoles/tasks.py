@@ -89,7 +89,7 @@ class TaskDetailView(UserPassesTestMixin, DetailView):
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     fields = ['task_type', 'due_date', 'assignment']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -113,7 +113,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
     fields = ['task_type', 'due_date', 'assignment', 'completed']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

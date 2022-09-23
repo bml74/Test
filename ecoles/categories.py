@@ -16,7 +16,7 @@ from .models import (
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     fields = ['title', 'description', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -36,7 +36,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Category
     fields = ['title', 'description', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

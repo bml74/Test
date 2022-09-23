@@ -176,7 +176,7 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
 class SpecializationCreateView(LoginRequiredMixin, CreateView):
     model = Specialization
     fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -195,7 +195,7 @@ class SpecializationCreateView(LoginRequiredMixin, CreateView):
 class SpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Specialization
     fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

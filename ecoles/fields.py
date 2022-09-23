@@ -19,7 +19,7 @@ from django.contrib.auth.models import User
 class FieldCreateView(LoginRequiredMixin, CreateView):
     model = Field
     fields = ['title', 'category', 'description', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -39,7 +39,7 @@ class FieldCreateView(LoginRequiredMixin, CreateView):
 class FieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Field
     fields = ['title', 'category', 'description', 'creator']
-    template_name = 'ecoles/ecoles_form_view.html'
+    template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.author = self.request.user

@@ -63,9 +63,6 @@
                                     <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2">Enroll for free</a>  
                                     {% endif %}
                                 {% endif %}
-                                <a href="{% url 'course_info_detail' item.id %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-6 py-4 ml-2 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">
-                                    <span>View {{ obj_type }} info &rarr;</span> 
-                                </a>
                             </div>
                             
                         </div>
@@ -74,7 +71,58 @@
 
 
 
+                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-1 xl:grid-cols-1" id="specialization_details">                        
+                                <div class="w-100 flex flex-col bg-white rounded-lg border shadow-md dark:border-gray-700 dark:bg-gray-800">
+                                    <div class="flex flex-col justify-between p-4 leading-normal">
+                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ item.title }}</h5>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ item.description|safe }}</p>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                            Creator:&nbsp;<a href="{% url 'user_profile' item.creator.username %}" class="text-decoration-none text-muted fw-bold">{{ item.creator }}</a>
+                                        </p>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                            Parent category:&nbsp;<a href="{% url 'category_detail' category.id %}" class="text-decoration-none text-primary">{{ category.title }}</a>
+                                        </p>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                            Parent field:&nbsp;<a href="{% url 'field_detail' field.id %}" class="text-decoration-none text-primary">{{ field.title }}</a>
+                                        </p>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                            Edit access: 
+                                            {% if user == item.creator %}
+                                                Granted (Creator)
+                                            {% elif allowed_to_edit %}
+                                                Granted
+                                            {% else %}
+                                                Not Granted
+                                            {% endif %}
+                                        </p>
+                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                            Visibility: 
+                                            {% if item.visibility == "Private" %}
+                                                Private
+                                            {% elif item.visibility == "Invisible" %}
+                                                Invisible
+                                            {% elif item.visibility == "Public" %}
+                                                Public
+                                            {% elif item.visibility == "Anonymous" %}
+                                                Anonymous
+                                            {% endif %}
+                                        </p>
 
+
+                                        <p>
+                                            {% if user_is_creator or allowed_to_edit %}
+                                            <a type="button" href="{% url 'specialization_update' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Update</a>
+                                            {% if user_is_creator %}
+                                            <a type="button" href="{% url 'specialization_delete' item.id %}" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Delete</a>
+                                            {% endif %}
+                                            {% endif %}
+                                        </p>
+
+
+
+                                    </div>
+                                </div>                 
+                            </div>
 
 
 
@@ -85,13 +133,17 @@
         <h1 class="mb-4 text-2xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-2xl dark:text-white">This {{ obj_type }} is empty right now.</h1>
     {% else %}
 
+    <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="courses">
+
 
         {% for course in courses %}
 
 
 
-        <a href="{% url 'course_detail' course.id %}" class="w-100 flex flex-col items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-            <img class="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="https://ethereum.org/static/754d2f72ce2296fb59d9d974aeda16be/1e993/future_transparent.webp" alt="">
+        <a href="{% url 'course_detail' course.id %}" class="w-100 flex flex-col bg-white rounded-lg border shadow-md hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+            <div class="flex justify-center items-center">
+                <img class="object-cover w-full h-96 rounded-t-lg md:h-auto md:w-48 md:rounded-none md:rounded-l-lg" src="https://ethereum.org/static/754d2f72ce2296fb59d9d974aeda16be/1e993/future_transparent.webp" alt="">
+            </div>
             <div class="flex flex-col justify-between p-4 leading-normal">
                 <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ forloop.counter }}. {{ course.title }}</h5>
                 <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ course.description|safe }}</p>
@@ -101,6 +153,8 @@
 
 
         {% endfor %}
+
+    </div>
 
 
     {% endif %} <!-- End if modules length is 0 conditional. -->
