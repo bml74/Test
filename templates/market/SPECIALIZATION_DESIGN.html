@@ -51,16 +51,20 @@
                             
                             
                             <div class="flex flex-wrap justify-center pt-4 mt-4">
-                                {% if user_enrolled %}
-                                <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-check-circle"></i> Enrolled</a>
+                                {% if request.user in item.purchasers.all %}
+                                <button disabled href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-check-circle"></i> Enrolled</button>
                                 {% else %}
-                                    {% if item.price > 0 %}
-                                    {% comment %} <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2">Purchase (${{ item.price|floatformat:2 }})</a> {% endcomment %}
-                                    <button class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2" type="button" data-modal-toggle="popup-modal">
-                                        Purchase (${{ item.price|floatformat:2 }})
-                                    </button>
-                                    {% elif item.price == 0%}
-                                    <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2">Enroll for free</a>  
+                                    {% if user_enrolled %}
+                                    <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-check-circle"></i> Enrolled</a>
+                                    {% else %}
+                                        {% if item.price > 0 %}
+                                        {% comment %} <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2">Purchase (${{ item.price|floatformat:2 }})</a> {% endcomment %}
+                                        <a href="{% url 'checkout' 'specialization' item.id %}" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2" type="button">
+                                            Purchase (${{ item.price|floatformat:2 }})
+                                        </a>
+                                        {% elif item.price == 0 %}
+                                        <a href="{% url 'enroll' id=item.id obj_type=obj_type %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2">Enroll for free</a>  
+                                        {% endif %}
                                     {% endif %}
                                 {% endif %}
                             </div>
@@ -76,37 +80,40 @@
                                     <div class="flex flex-col justify-between p-4 leading-normal">
                                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ item.title }}</h5>
                                         <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">{{ item.description|safe }}</p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Creator:&nbsp;<a href="{% url 'user_profile' item.creator.username %}" class="text-decoration-none text-muted fw-bold">{{ item.creator }}</a>
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Parent category:&nbsp;<a href="{% url 'category_detail' category.id %}" class="text-decoration-none text-primary">{{ category.title }}</a>
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Parent field:&nbsp;<a href="{% url 'field_detail' field.id %}" class="text-decoration-none text-primary">{{ field.title }}</a>
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Edit access: 
-                                            {% if user == item.creator %}
-                                                Granted (Creator)
-                                            {% elif allowed_to_edit %}
-                                                Granted
-                                            {% else %}
-                                                Not Granted
-                                            {% endif %}
-                                        </p>
-                                        <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                                            Visibility: 
-                                            {% if item.visibility == "Private" %}
-                                                Private
-                                            {% elif item.visibility == "Invisible" %}
-                                                Invisible
-                                            {% elif item.visibility == "Public" %}
-                                                Public
-                                            {% elif item.visibility == "Anonymous" %}
-                                                Anonymous
-                                            {% endif %}
-                                        </p>
+                                        <ul class="mb-4 space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-white">
+                                            <li class="font-normal dark:text-white tracking-tight">
+                                                Creator:&nbsp;<a href="{% url 'user_profile' item.creator.username %}" class="text-decoration-none text-muted fw-bold">{{ item.creator }}</a>
+                                            </li>
+                                            <li class="font-normal dark:text-white tracking-tight">
+                                                Parent category:&nbsp;<a href="{% url 'category_detail' category.id %}" class="text-decoration-none text-primary">{{ category.title }}</a>
+                                            </li>
+                                            <li class="font-normal dark:text-white tracking-tight">
+                                                Parent field:&nbsp;<a href="{% url 'field_detail' field.id %}" class="text-decoration-none text-primary">{{ field.title }}</a>
+                                            </li>
+                                            <li class="font-normal dark:text-white tracking-tight">
+                                                Edit access: 
+                                                {% if user == item.creator %}
+                                                    Granted (Creator)
+                                                {% elif allowed_to_edit %}
+                                                    Granted
+                                                {% else %}
+                                                    Not Granted
+                                                {% endif %}
+                                            </li>
+                                            <li class="font-normal dark:text-white tracking-tight">
+                                                Visibility: 
+                                                {% if item.visibility == "Private" %}
+                                                    Private
+                                                {% elif item.visibility == "Invisible" %}
+                                                    Invisible
+                                                {% elif item.visibility == "Public" %}
+                                                    Public
+                                                {% elif item.visibility == "Anonymous" %}
+                                                    Anonymous
+                                                {% endif %}
+                                            </li>
+                                        </ul>
+
 
 
                                         <p>
@@ -177,6 +184,17 @@
     </div>
 </main>
 
+
+
+
+
+
+
+
+  
+
+
+  
 
 
 {% endblock main %}

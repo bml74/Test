@@ -58,7 +58,7 @@
                         <li class="list-group-item"><small>Themes: {% if transaction.themes.all %}{% for theme in transaction.themes.all %}<span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">{{ theme }}</a></span>&nbsp;{% endfor %}{% else %}<span class="text-muted">None</span>{% endif %}</small></li>
                         <li class="list-group-item"><small>Eras: {% if transaction.eras.all %}{% for era in transaction.eras.all %}<span class="badge bg-primary rounded-pill"><a href="#" class="text-white no-text-decoration">{{ era }}</a></span>&nbsp;{% endfor %}{% else %}<span class="text-muted">None</span>{% endif %}</small></li>
                         <li class="list-group-item"><small>Author: {{ transaction.author }}</small></li>
-                        <li class="list-group-item"><small>Date added to Ca' de Bruno: {{ transaction.date_entered }}</small></li>
+                        <li class="list-group-item"><small>Date added to HoyaPlus: {{ transaction.date_entered }}</small></li>
                         <li class="list-group-item"><small>Citation: {{ transaction.citation }}</small></li>
                     </ul>
                 </div>

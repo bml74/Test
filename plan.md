@@ -1,6 +1,6 @@
 # Ca' Bruno
 
-### Ca' de Bruno
+### HoyaPlus
 
 ##### École militaire
 ##### École d'histoire

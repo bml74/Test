@@ -5,7 +5,19 @@ from . import views
 urlpatterns = [
     path('', views.maps_home, name='maps_home'),
     path('query/', views.maps_query, name='maps_query'),
-    path('create/', views.create_map, name='create_map'),
+
+    path('all/', views.MapListView.as_view(), name='maps'),
+    path('<int:pk>/', views.MapDetailView.as_view(), name='map'),
+    path('create/', views.MapCreateView.as_view(), name='map-create'),
+    path('update/<int:pk>/', views.MapUpdateView.as_view(), name='map-update'),
+    path('delete/<int:pk>/', views.MapDeleteView.as_view(), name='map-delete'),
+
+    path('events/', views.EventListView.as_view(), name='events'),
+    path('events/<int:pk>/', views.EventDetailView.as_view(), name='event'),
+    path('events/create/', views.EventCreateView.as_view(), name='event-create'),
+    path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name='event-update'),
+    path('events/delete/<int:pk>/', views.EventDeleteView.as_view(), name='event-delete'),
+
 
 
     path('mapbox/terrain/', views.mapbox_terrain, name='mapbox_terrain'),

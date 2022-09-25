@@ -200,7 +200,7 @@ def checkout_session(request, obj_type, pk):
             }],
             mode='payment',
             #change domain name when you live it
-            success_url='http://127.0.0.1:8000/market/checkout/success/' + obj_type + '?session_id={CHECKOUT_SESSION_ID}',
+            success_url='http://127.0.0.1:8000/market/checkout/success/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
             cancel_url='http://127.0.0.1:8000/checkout/cancel/',
 
             client_reference_id=pk
@@ -221,20 +221,40 @@ def generate_transaction_id(length):
     return gen_text
 
 #stripe success payment
-def payment_success(request, obj_type):
+def payment_success(request, obj_type, pk):
     try:
         session = stripe.checkout.Session.retrieve(request.GET['session_id'])
         item_id = session.client_reference_id
         item = None
         if obj_type == 'listing':
             item = Listing.objects.get(pk=item_id)
+        # If obj_type is course or specialization then also enroll
         elif obj_type == 'course':
             item = Course.objects.get(pk=item_id)
+            # If obj_type is course then enroll in that course
+            if not item.students.filter(id=request.user.id).exists():
+                item.students.add(request.user)
+            if not item.purchasers.filter(id=request.user.id).exists():
+                item.purchasers.add(request.user)
         elif obj_type == 'specialization':
             item = Specialization.objects.get(pk=item_id)
+            # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
+            if not item.students.filter(id=request.user.id).exists():
+                item.students.add(request.user)
+            if not item.purchasers.filter(id=request.user.id).exists():
+                item.purchasers.add(request.user)
+            if isinstance(item, Specialization): # Affirm that obj is of type Specialization
+                courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
+                for course in courses_within_specialization: # For each of these courses within the specialization
+                    if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
+                        course.students.add(request.user) # Then add user as a student
+
+
         if item is not None:
+            # Generate Transaction record
             transaction_no = generate_transaction_id(10)
             Transaction.objects.create(transaction_obj_type=obj_type, transaction_obj_id=item.id, title=item.title, seller=item.creator, purchaser=request.user, transaction_id=transaction_no, value=item.price, description=f'Purchase of {obj_type}').save()
+            # Render template
             return render(request, 'payments/success.html', context={
                 "obj_type": obj_type
             }) 

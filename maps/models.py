@@ -14,7 +14,7 @@ class AlternativeCountryNames(TaggedItemBase):
     content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
 
 
-class Map(models.Model):
+class Map(models.Model): 
     title = models.CharField(max_length=64)
     description = models.TextField() # Use Quill
     image_url = models.CharField(max_length=512)

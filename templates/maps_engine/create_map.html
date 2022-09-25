@@ -81,7 +81,7 @@
                   <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Map</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                  <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Events</button>
+                  <button class="nav-link" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab" aria-controls="events" aria-selected="false">Events</button>
                 </li>
             </ul>
               
@@ -124,7 +124,23 @@
                     
 
                 </div>
-                <div class="tab-pane" id="profile" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">1.</div>
+                <div class="tab-pane" id="events" role="tabpanel" aria-labelledby="events-tab" tabindex="0">
+                    <div class="form-check">
+                        <input checked class="form-check-input" type="radio" name="action-type" id="noAction" value="none" onclick="actionSelector(this);">
+                        <label class="form-check-label" for="noAction">
+                          No action
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="action-type" id="createEventByClick" value="click" onclick="actionSelector(this);">
+                        <label class="form-check-label" for="createEventByClick">
+                          Create event by click
+                        </label> 
+                    </div>
+
+                    <div class="session" id="added-events"></div>
+
+                </div>
             </div>
 
             <div class="footer">
@@ -164,6 +180,11 @@
         <!-- moment.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 
         <script>
@@ -182,24 +203,7 @@
             renderWorldCopies: false
             });
 
-            let default_filters = {
-                // DEFAULT FILTERS:
-                "type": "all",
-                "day": filterDay = ['!=', ['string', ['get', 'Day']], 'placeholder'], // ANY DAY [i.e., all days]
-                "date": filterDay = ['!=', ['string', ['get', 'Dates']], 'placeholder'], // ANY DAY [i.e., all days]
-                "country": ['!=', ['string', ['get', 'Country']], 'placeholder'] // Any country
-            };
-
-
             function addLayer (my_filter) {
-
-                // Filters to determine number of casualties. For example, mag1 filter checks if Casualties are under 5.
-                const mag1 = ['<', ['get', 'Casualty'], 5];
-                const mag2 = ['all', ['>=', ['get', 'Casualty'], 5], ['<', ['get', 'Casualty'], 20]];
-                const mag3 = ['all', ['>=', ['get', 'Casualty'], 20], ['<', ['get', 'Casualty'], 100]];
-                const mag4 = ['all', ['>=', ['get', 'Casualty'], 100], ['<', ['get', 'Casualty'], 500]];
-                const mag5 = ['>=', ['get', 'mCasualtyag'], 500];
-
 
                 map.addLayer({
                 id: 'collisions',
@@ -221,14 +225,6 @@
                         ],
 
 
-                    // 'circle-color': [ // BY COUNTRY
-                    // 'match',
-                    // ['get', 'Country'],
-                    // 'Belarus', '#fbb03b',
-                    // 'Ukraine', '#223b53',
-                    // 'Romania', '#fff'
-                    // '#ccc' // other 
-                    // ],
                     'circle-color': [ // IF DATA AVAILABLE
                     'match',
                     ['get', 'Content_Online'],
@@ -238,48 +234,59 @@
                     ],
                     'circle-opacity': 0.8
                 },
-                filter: [my_filter.type, my_filter.day, my_filter.date, my_filter.country]
 
                 
                 });
             };
 
+            function getCoordinates(e) {
+                getClickLocation(e); // Get click position and log.
+                coords = getLongitudeAndLatitude(e); // Get longitude and latitude. Returns array in form [lng, lat]
+                lng = coords[0]; lat = coords[1]; 
+                console.log(`Longitude: ${lng} | Latitude: ${lat}`)
+                return {"longitude": lng, "latitude": lat};
+            }
 
+            function createMarker(lng, lat) {
+                newMarker = new mapboxgl.Marker()
+                .setLngLat([lng, lat])
+                .addTo(map);
+            }
 
+            let click_selected = false; // Flag variable
+            let num_events = 0; // Counter/iterator variable
 
-
-
-
-
-
-
-
-
-            
-            
-
-
-
+            function actionSelector(myRadio) { // Upon radio selection
+                if (myRadio.value != 'click') { // If not choosing click.
+                    click_selected = false;
+                    map.on('click', function (e) {
+                        console.log("No action.")
+                    });
+                }
+                else { // If choose to click to create event
+                    click_selected = true;
+                    map.on('click', function (e) {
+                        if (click_selected) {
+                            num_events += 1;
+                            coords = getCoordinates(e); // Get coordinates
+                            createMarker(coords.longitude, coords.latitude); // Create marker
+                            newDiv = document.createElement("div");
+                            newDiv.classList.add("input-group"); newDiv.classList.add("mb-3"); newDiv.id = `event-${num_events}`;
+                            newLongitude = document.createElement("input"); newLongitude.classList.add("form-control"); newLongitude.value = coords.longitude; newLongitude.disabled = true;
+                            newLatitude = document.createElement("input"); newLatitude.classList.add("form-control"); newLatitude.setAttribute("aria-describedby", "lat"); newLatitude.value = coords.latitude; newLatitude.disabled = true;
+                            newDiv.appendChild(newLongitude);
+                            newDiv.appendChild(newLatitude);
+                            document.getElementById("added-events").appendChild(newDiv);    
+                        }
+                    });
+                }
+            }
 
             // Add the geocoder search bar to the map (default in top right of map).
-            {% comment %} geocoder_search_engine();     {% endcomment %}
-
-
-
-
-                
-
-
-
-        
-
+            geocoder_search_engine(); 
 
         </script>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 
         
@@ -288,8 +295,3 @@
 
     </body>
 </html>
-
-
-
-
-
