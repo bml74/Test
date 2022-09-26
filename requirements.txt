@@ -20,6 +20,7 @@ dacite==1.6.0
 Deprecated==1.2.13
 dj-database-url==1.0.0
 Django==4.0.6
+django-countries==7.3.2
 django-crispy-forms==1.14.0
 django-on-heroku==1.1.2
 django-taggit==3.0.0

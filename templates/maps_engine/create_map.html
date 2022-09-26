@@ -306,18 +306,32 @@
                                     startDiv = document.createElement("div"); startDiv.classList.add("mb-2"); startDiv.classList.add("w-100"); 
                                     startDescription = document.createElement("label"); startDescription.classList.add("form-label"); startDescription.classList.add("fw-700"); startDescription.innerHTML = "Start Date"; startDescription.setAttribute("for", `start-${num_events}`);
                                     startInput = document.createElement("input"); startInput.id = `start-${num_events}`; startInput.classList.add("form-control"); startInput.classList.add("start-date"); startInput.type = "date";
+                                    startDiv.appendChild(startDescription); startDiv.appendChild(startInput);
+
+                                    daysSinceAnchorForEndDate = document.createElement("div"); daysSinceAnchorForEndDate.classList.add("mb-2"); daysSinceAnchorForEndDate.classList.add("w-100"); 
+                                    daysSinceAnchorForEndDateDescription = document.createElement("label"); daysSinceAnchorForEndDateDescription.classList.add("form-label"); daysSinceAnchorForEndDateDescription.classList.add("fw-700"); daysSinceAnchorForEndDateDescription.innerHTML = "Days Since Anchor For Start Date"; daysSinceAnchorForEndDateDescription.setAttribute("for", `days-since-anchor-start-${num_events}`);
+                                    daysSinceAnchorForEndDateInput = document.createElement("input"); daysSinceAnchorForEndDateInput.id = `days-since-anchor-start-${num_events}`; daysSinceAnchorForEndDateInput.classList.add("form-control"); daysSinceAnchorForEndDateInput.classList.add("days-since-anchor-start"); daysSinceAnchorForEndDateInput.type = "number";
+                                    daysSinceAnchorForEndDate.appendChild(daysSinceAnchorForEndDateDescription); daysSinceAnchorForEndDate.appendChild(daysSinceAnchorForEndDateInput);
+
+
                                     startInput.addEventListener('change', (event) => {
                                         console.log(event.target.value);
                                     });
-                                    startDiv.appendChild(startDescription); startDiv.appendChild(startInput);
 
                                     endDiv = document.createElement("div"); endDiv.classList.add("mb-2"); endDiv.classList.add("w-100"); 
                                     endDescription = document.createElement("label"); endDescription.classList.add("form-label"); endDescription.classList.add("fw-700"); endDescription.innerHTML = "End Date"; endDescription.setAttribute("for", `end-${num_events}`);
                                     endInput = document.createElement("input"); endInput.id = `end-${num_events}`; endInput.classList.add("form-control"); endInput.classList.add("end-date"); endInput.type = "date";
+                                    endDiv.appendChild(endDescription); endDiv.appendChild(endInput);
+
+                                    daysSinceAnchorForEndDate = document.createElement("div"); daysSinceAnchorForEndDate.classList.add("mb-2"); daysSinceAnchorForEndDate.classList.add("w-100"); 
+                                    daysSinceAnchorForEndDateDescription = document.createElement("label"); daysSinceAnchorForEndDateDescription.classList.add("form-label"); daysSinceAnchorForEndDateDescription.classList.add("fw-700"); daysSinceAnchorForEndDateDescription.innerHTML = "Days Since Anchor For Start Date"; daysSinceAnchorForEndDateDescription.setAttribute("for", `days-since-anchor-end-${num_events}`);
+                                    daysSinceAnchorForEndDateInput = document.createElement("input"); daysSinceAnchorForEndDateInput.id = `days-since-anchor-end-${num_events}`; daysSinceAnchorForEndDateInput.classList.add("days-since-anchor-end"); daysSinceAnchorForEndDateInput.classList.add("end-date"); daysSinceAnchorForEndDateInput.type = "number";
+                                    daysSinceAnchorForEndDate.appendChild(daysSinceAnchorForEndDateDescription); daysSinceAnchorForEndDate.appendChild(daysSinceAnchorForEndDateInput);
+
+
                                     endInput.addEventListener('change', (event) => {
                                         console.log(event.target.value);
                                     });
-                                    endDiv.appendChild(endDescription); endDiv.appendChild(endInput);
     
                                     newDiv.appendChild(radioDiv);
                                     newDiv.appendChild(startDiv);    

@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     
     'taggit',
+    'django_countries',
 
     'users',
     'ecoles',
