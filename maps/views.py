@@ -7,6 +7,7 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+from config.utils import is_ajax
 from .models import Map, Event
 
 
@@ -28,6 +29,18 @@ def maps_query(request):
 
             return render(request, 'maps_engine/maps_query.html', context)
     return render(request, 'maps_engine/maps_home.html')
+
+def create_map(request):
+    if is_ajax(request):
+        title = request.GET.get('title') if request.GET.get('title') else None
+        description = request.GET.get('description') if request.GET.get('description') else None
+        image_url = request.GET.get('image_url') if request.GET.get('image_url') else None
+        print(f"""
+        TITLE: {title}
+        DESCRIPTION: {description}
+        IMAGE URL: {image_url}
+        """)
+    return render(request, 'maps_engine/create_map.html')
 
 def mapbox_terrain(request):
     return render(request, "maps_engine/mapboxjs/terrain.html")
@@ -239,3 +252,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context.update({"type": "event", "title": title})
         return context
 
+
+
+# Function for create_map 
+# Rather than being a view make it a function. When you click save map, send map data and save all that. Also send all events data and save all that.

@@ -1,6 +1,6 @@
 # Ca' Bruno
 
-### HoyaPlus
+### Scampia
 
 ##### École militaire
 ##### École d'histoire
