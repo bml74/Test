@@ -35,6 +35,14 @@ def create_map(request):
         title = request.GET.get('title') if request.GET.get('title') else None
         description = request.GET.get('description') if request.GET.get('description') else None
         image_url = request.GET.get('image_url') if request.GET.get('image_url') else None
+        # FOR DATES:
+        # d0 = date(2008, 8, 18)
+        # d1 = date(2008, 9, 26)
+        # delta = d1 - d0.
+        # print(delta. days)
+
+        # num_days_since (both) and day_of_week should be automatic with datetime
+
         print(f"""
         TITLE: {title}
         DESCRIPTION: {description}

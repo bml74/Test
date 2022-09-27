@@ -45,7 +45,8 @@ class Event(models.Model):
     longitude = models.FloatField()
     altitude = models.FloatField(blank=True, null=True)
     geometry = models.CharField(default="Point", max_length=16)
-    details_available = models.BooleanField(default=False)
+    # details_available = models.BooleanField(default=False)
+    """
     day = models.CharField(max_length=12, choices=(
             ("Monday", "Monday"),
             ("Tuesday", "Tuesday"),
@@ -56,6 +57,7 @@ class Event(models.Model):
             ("Sunday", "Sunday")
         )
     )
+    """
     primary_city_name = models.CharField(max_length=64, blank=True, null=True)
     alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names')
 
@@ -70,9 +72,6 @@ class Event(models.Model):
     district = models.CharField(max_length=256, blank=True, null=True)
     neighborhood = models.CharField(max_length=256, blank=True, null=True)
 
-    number_of_sub_sites = models.IntegerField(default=1, blank=True, null=True)
-    number_of_casualties = models.IntegerField(default=1, blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
     anchor_date = models.DateField(default='1945-09-01')
     number_of_days_after_anchor_date_that_event_began = models.IntegerField(default=0)
     number_of_days_after_anchor_date_that_event_started = models.IntegerField(default=0)
@@ -86,3 +85,7 @@ class Event(models.Model):
     # group
 
 
+class EventDetails(models.Model):
+    description = models.TextField(blank=True, null=True)
+    number_of_sub_sites = models.IntegerField(default=1, blank=True, null=True)
+    number_of_casualties = models.IntegerField(default=1, blank=True, null=True)
