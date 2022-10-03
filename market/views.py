@@ -184,7 +184,7 @@ def checkout_session(request, obj_type, pk):
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
-    if item is not None:
+    if item: # if item is not None
         print(obj_type * 100)
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
