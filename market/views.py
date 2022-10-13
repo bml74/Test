@@ -106,7 +106,7 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Listing
     fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = 'market/dashboard/form_view.html' 
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
