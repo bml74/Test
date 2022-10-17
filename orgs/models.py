@@ -40,14 +40,14 @@ class GroupProfile(models.Model):
         default=None,
         blank=True
     )
+    group_followers = models.ManyToManyField(
+        User,
+        related_name="group_followers",
+        default=None,
+        blank=True
+    )
 
     def __str__(self):
         return f'{self.group.name} Profile'
 
 
-class GroupFollowersCount(models.Model):
-    follower_of_group = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="follower_of_group")
-    group_being_followed = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, related_name="group_being_followed")
-
-    def __str__(self):
-        return f'Group "{self.group_being_followed.name}" followed by {self.follower_of_group.username}'

@@ -38,6 +38,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('profile/<str:username>/', user_views.user_profile, name='user_profile'),
 
+    path('groups/', include('orgs.urls')),
     path('posts/', include('posts.urls')),
     path('écoles/', include('ecoles.urls')), path('ecoles/', include('ecoles.urls')),
     path('news/', include('news.urls')), 

@@ -1,0 +1,325 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}
+Scampia | {{ obj_type.capitalize }} Listings
+{% endblock title %}
+
+{% block main %}
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto max-w-8xl">
+        <div class="lg:flex">
+
+
+            <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
+                <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
+                <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
+                    <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
+                        <ul class="mb-0 list-unstyled">
+
+                            <li class="mt-8"> 
+
+                                <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
+
+                                <ul class="py-1 list-unstyled fw-normal small">
+                                    <li class="checkbox-div">
+                                        <input id="general" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                        <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
+                                    </li>
+                                    <li class="checkbox-div">
+                                        <input id="homework" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                        <label for="homework" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Homework</label>
+                                    </li>
+                                    <li class="checkbox-div">
+                                        <input id="sale" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                        <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
+                                    </li>
+                                </ul>
+
+                                <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
+
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+
+
+            </aside>
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Scampia</span> {{ obj_type.capitalize }}s</h1>
+                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Search below for groups on Scampia.</p>
+                            
+                        </div>
+                
+                        <div id="mainContent">
+                        
+                            <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
+                                <div class="mb-6 w-full">
+                                    <div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row">
+                                        <div class="w-full sm:w-auto sm:flex">
+                                            <div class="relative w-full sm:w-64 lg:w-96">
+                                                <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                                </div>
+                                                <label for="search" class="hidden">Search block sections:</label>
+                                                <input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")' type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search block sections" value="">
+                                            </div>
+                                        </div>
+                                        <div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">
+                                            Showing <span id="num_results">{{ num_results }}</span> results.
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
+
+                                    {% for item in items %}
+                                        {% if item.visibility != "Invisible" %}
+                                            <div class="w-full bg-white rounded-lg border shadow-md dark:bg-gray-800 dark:border-gray-700 item-card course-card listing">
+                                                <ul class="flex flex-wrap text-sm font-medium text-center text-gray-500 bg-gray-50 rounded-t-lg border-b border-gray-200 dark:border-gray-700 dark:text-gray-400 dark:bg-gray-800" id="defaultTab" data-tabs-toggle="#defaultTabContent" role="tablist">
+                                                    <li class="mr-2">
+                                                        <button id="item-{{ item.id }}-tab-1" data-tabs-target="#item-{{ item.id }}-1" type="button" role="tab" aria-controls="tab-1" aria-selected="true" class="inline-block p-4 text-blue-600 rounded-tl-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500">Overview</button>
+                                                    </li>
+                                                    <li class="mr-2">
+                                                        <button id="item-{{ item.id }}-tab-2" data-tabs-target="#item-{{ item.id }}-2" type="button" role="tab" aria-controls="tab-2" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Syllabus</button>
+                                                    </li>
+                                                    <li class="mr-2">
+                                                        <button id="item-{{ item.id }}-tab-3" data-tabs-target="#item-{{ item.id }}-3" type="button" role="tab" aria-controls="tab-3" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Details</button>
+                                                    </li>
+                                                </ul>
+                                                <div id="defaultTabContent">
+
+                                                    <div class="flex justify-between items-center px-4 pt-4">
+                                                        <span class="px-4">
+                                                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800">
+                                                                {% if item.visibility == "Anonymous" %}
+                                                                    Anonymous
+                                                                {% else %} <!-- If public or private. -->
+                                                                    {{ item.creator }}
+                                                                {% endif %}
+                                                            </span>
+                                                        </span>
+                                                        <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
+                                                            <span class="sr-only">Open dropdown</span>
+                                                            <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
+                                                        </button>
+                                                        <!-- Dropdown menu -->
+                                                        {% if obj_type == "specialization" %}
+                                                            <div id="dropdown" class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                                                                <ul class="py-1" aria-labelledby="dropdownButton">
+                                                                    <li>
+                                                                        <a href="{% url 'specialization_detail' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">View</a>
+                                                                    </li>
+                                                                    {% if request.user == item.creator or user in item.allowed_editors.all %}
+                                                                    <li>
+                                                                        <a href="{% url 'specialization_update' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update</a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                    {% if request.user == item.creator %}
+                                                                    <li>
+                                                                        <a href="{% url 'specialization_delete' item.id %}" class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        {% else %}
+                                                            <div id="dropdown" class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
+                                                                <ul class="py-1" aria-labelledby="dropdownButton">
+                                                                    <li>
+                                                                        <a href="{% url 'course_detail' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">View</a>
+                                                                    </li>
+                                                                    {% if request.user == item.creator or user in item.allowed_editors.all %}
+                                                                    <li>
+                                                                        <a href="{% url 'course_update' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update</a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                    {% if request.user == item.creator %}
+                                                                    <li>
+                                                                        <a href="{% url 'course_delete' item.id %}" class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+
+                                                    
+                                                    <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="item-{{ item.id }}-1" role="tabpanel" aria-labelledby="item-{{ item.id }}-1">
+                                                        <h2 class="mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white listing-title">
+                                                            {% if obj_type == 'course' %}
+                                                            <a href="{% url 'course_detail' item.id %}">{{ item.title }}</a>
+                                                            {% else %}
+                                                            <a href="{% url 'specialization_detail' item.id %}">{{ item.title }}</a>
+                                                            {% endif %}
+                                                        </h2>
+                                                        <p class="mb-3 text-gray-500 dark:text-gray-400 four-lines">{{ item.description }}</p>
+                                                        {% if obj_type == 'specialization' %}
+                                                        <a href="{% url 'specialization_detail' item.id %}" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
+                                                        {% else %}
+                                                        <a href="{% url 'course_detail' item.id %}" class="inline-flex items-center font-medium text-blue-600 hover:text-blue-800 dark:text-blue-500 dark:hover:text-blue-700">
+                                                        {% endif %}
+                                                            Go to {{ obj_type }}
+                                                            <svg class="ml-1 w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                                                        </a>
+                                                    </div>
+                                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="item-{{ item.id }}-2" role="tabpanel" aria-labelledby="item-{{ item.id }}-2">
+                                                        <h2 class="mb-5 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">We invest in the world’s potential</h2>
+                                                        <!-- List -->
+                                                        <ul role="list" class="space-y-4 text-gray-500 dark:text-gray-400">
+                                                            <li class="flex space-x-2">
+                                                                <!-- Icon -->
+                                                                <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                                <span class="font-light leading-tight">Dynamic reports and dashboards</span>
+                                                            </li>
+                                                            <li class="flex space-x-2">
+                                                                <!-- Icon -->
+                                                                <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                                <span class="font-light leading-tight">Templates for everyone</span>
+                                                            </li>
+                                                            <li class="flex space-x-2">
+                                                                <!-- Icon -->
+                                                                <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                                <span class="font-light leading-tight">Development workflow</span>
+                                                            </li>
+                                                            <li class="flex space-x-2">
+                                                                <!-- Icon -->
+                                                                <svg class="flex-shrink-0 w-4 h-4 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                                <span class="font-light leading-tight">Limitless business automation</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    {% comment %} <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="statistics" role="tabpanel" aria-labelledby="item-{{ item.id }}-tab-3">
+                                                        <dl class="grid grid-cols-2 gap-8 p-4 mx-auto max-w-screen-xl text-gray-900 sm:grid-cols-3 xl:grid-cols-6 dark:text-white sm:p-8">
+                                                            <div class="flex flex-col">
+                                                                <dt class="mb-2 text-3xl font-extrabold">73M+</dt>
+                                                                <dd class="font-light text-gray-500 dark:text-gray-400">Developers</dd>
+                                                            </div>
+                                                            <div class="flex flex-col">
+                                                                <dt class="mb-2 text-3xl font-extrabold">100M+</dt>
+                                                                <dd class="font-light text-gray-500 dark:text-gray-400">Public repositories</dd>
+                                                            </div>
+                                                            <div class="flex flex-col">
+                                                                <dt class="mb-2 text-3xl font-extrabold">1000s</dt>
+                                                                <dd class="font-light text-gray-500 dark:text-gray-400">Open source projects</dd>
+                                                            </div>
+                                                        </dl> 
+                                                    </div> {% endcomment %}
+
+                                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="item-{{ item.id }}-3" role="tabpanel" aria-labelledby="item-{{ item.id }}-3">
+                                                        <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-800 text-gray-900 dark:text-white" data-inactive-classes="text-gray-500 dark:text-gray-400">
+                                                            <h2 id="accordion-flush-heading-1">
+                                                                <button type="button" class="flex justify-between items-center py-5 w-full font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-1" aria-expanded="true" aria-controls="accordion-flush-body-1">
+                                                                <span>What is Flowbite?</span>
+                                                                <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                                </button>
+                                                            </h2>
+                                                            <div id="accordion-flush-body-1" class="hidden" aria-labelledby="accordion-flush-heading-1">
+                                                                <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                                                                <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.</p>
+                                                                <p class="text-gray-500 dark:text-gray-400">Check out this guide to learn how to <a href="/docs/getting-started/introduction/" class="text-blue-600 dark:text-blue-500 hover:underline">get started</a> and start developing websites even faster with components on top of Tailwind CSS.</p>
+                                                                </div>
+                                                            </div>
+                                                            <h2 id="accordion-flush-heading-2">
+                                                                <button type="button" class="flex justify-between items-center py-5 w-full font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-2" aria-expanded="false" aria-controls="accordion-flush-body-2">
+                                                                <span>Is there a Figma file available?</span>
+                                                                <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                                </button>
+                                                            </h2>
+                                                            <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
+                                                                <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                                                                <p class="mb-2 text-gray-500 dark:text-gray-400">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
+                                                                <p class="text-gray-500 dark:text-gray-400">Check out the <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+                                                                </div>
+                                                            </div>
+                                                            <h2 id="accordion-flush-heading-3">
+                                                                <button type="button" class="flex justify-between items-center py-5 w-full font-medium text-left text-gray-500 border-b border-gray-200 dark:border-gray-700 dark:text-gray-400" data-accordion-target="#accordion-flush-body-3" aria-expanded="false" aria-controls="accordion-flush-body-3">
+                                                                <span>What are the differences between Flowbite and Tailwind UI?</span>
+                                                                <svg data-accordion-icon class="w-6 h-6 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                                </button>
+                                                            </h2>
+                                                            <div id="accordion-flush-body-3" class="hidden" aria-labelledby="accordion-flush-heading-3">
+                                                                <div class="py-5 font-light border-b border-gray-200 dark:border-gray-700">
+                                                                <p class="mb-2 text-gray-500 dark:text-gray-400">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
+                                                                <p class="mb-2 text-gray-500 dark:text-gray-400">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
+                                                                <p class="mb-2 text-gray-500 dark:text-gray-400">Learn more about these technologies:</p>
+                                                                <ul class="pl-5 list-disc text-gray-500 dark:text-gray-400">
+                                                                    <li><a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
+                                                                    <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
+                                                                </ul>
+                                                                </div>
+                                                            </div>
+                                                            </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                            </section>
+
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main>
+
+        </div>
+    </div>
+
+
+    {% comment %} <aside class="hidden fixed right-5 bottom-5 z-50 sm:block">
+    <script async type="text/javascript" src="//cdn.carbonads.com/carbon.js?serve=CK7D4KQE&placement=flowbitedesign" id="_carbonads_js"></script>
+    </aside> {% endcomment %}
+
+    <aside id="copied-code-alert" class="flex fixed bottom-5 left-5 z-50 p-4 bg-gray-100 rounded-lg border border-gray-200 opacity-0 transition-opacity dark:border-gray-700 dshadow-sm dark:bg-gray-800" aria-label="Copied to clipboard success message">
+    <svg class="w-5 h-5 text-green-700 dark:text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+    <p class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Copied code to clipboard!</p>
+    </aside> 
+
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+{% block JavaScript %}
+<script src="{% static 'scripts/filterList.js' %}"></script>
+
+<script>
+    function filterListingsByType() {
+        checkbox_divs = document.querySelectorAll(".checkbox-div");
+        for (checkbox_div of checkbox_divs) {
+            checkbox = checkbox_div.querySelector(".listing-type-checkbox");
+            if (checkbox.checked) {
+                console.log(checkbox_div.querySelector("label").innerHTML);
+            }
+        }
+        
+    }
+</script>
+
+{% endblock JavaScript %}
+
+
