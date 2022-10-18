@@ -1,6 +1,6 @@
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class Post(models.Model):
@@ -10,6 +10,7 @@ class Post(models.Model):
     favorited_by = models.ManyToManyField(User, related_name="favorite_posts", default=None, blank=True)
 
     author = models.ForeignKey(User, on_delete=models.CASCADE)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name="group_that_created_post")
 
     class Meta:
         ordering = ['-date_posted']

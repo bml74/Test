@@ -59,7 +59,19 @@
                                         <button id="overview-tab" data-tabs-target="#overview" type="button" role="tab" aria-controls="overview" aria-selected="true" class="inline-block p-4 text-blue-600 rounded-tl-lg hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-blue-500 hover:text-blue-600 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500">Overview</button>
                                     </li>
                                     <li class="mr-2">
-                                        <button id="lister-tab" data-tabs-target="#lister" type="button" role="tab" aria-controls="lister" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Lister</button>
+                                        <button id="membership-tab" data-tabs-target="#membership" type="button" role="tab" aria-controls="membership" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Membership</button>
+                                    </li>
+                                    <li class="mr-2">
+                                        <button id="listings-tab" data-tabs-target="#listings" type="button" role="tab" aria-controls="listings" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Listings</button>
+                                    </li>
+                                    <li class="mr-2">
+                                        <button id="courses-tab" data-tabs-target="#courses" type="button" role="tab" aria-controls="courses" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Courses</button>
+                                    </li>
+                                    <li class="mr-2">
+                                        <button id="specializations-tab" data-tabs-target="#specializations" type="button" role="tab" aria-controls="specializations" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Specializations</button>
+                                    </li>
+                                    <li class="mr-2">
+                                        <button id="news-tab" data-tabs-target="#news" type="button" role="tab" aria-controls="news" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">News</button>
                                     </li>
                                 </ul>
                                 <div id="defaultTabContent">
@@ -88,18 +100,12 @@
 
 
                                         
-                                        <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.group|safe }}</h2>
-                                        <div class="flex flex-wrap justify-left mt-4 mb-4">
-                                            {% if not user_is_creator %}
-                                            <a href="#" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> Contact this seller</a>
-                                            {% endif %}
-                                            <a href="#" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
-                                        </div>      
+                                        <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.group|safe }}</h2>  
                                         
                                         <p class="mb-3 text-gray-500 dark:text-gray-400">{{ item.description|safe|linebreaks }}</p>
 
                                     </div>
-                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="lister" role="tabpanel" aria-labelledby="lister-tab">
+                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="membership" role="tabpanel" aria-labelledby="membership-tab">
                                     
                                         <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.creator|safe }}</h2>
                                         {% if item.group_creator %}
@@ -152,6 +158,31 @@
 
 
 
+                                    </div>
+
+                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="listings" role="tabpanel" aria-labelledby="listings-tab">
+                                        {% if first_ten_listings %}
+                                        {% else %}
+                                        {{ item.group }} does not have any listings available.
+                                        {% endif %}
+                                    </div>
+                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+                                        {% if first_ten_courses %}
+                                        {% else %}
+                                        {{ item.group }} does not have any listings available.
+                                        {% endif %}
+                                    </div>
+                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="specializations" role="tabpanel" aria-labelledby="specializations-tab">
+                                        {% if first_ten_specializations %}
+                                        {% else %}
+                                        {{ item.group }} does not have any listings available.
+                                        {% endif %}
+                                    </div>
+                                    <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="news" role="tabpanel" aria-labelledby="news-tab">
+                                        {% if first_ten_news %}
+                                        {% else %}
+                                        {{ item.group }} does not have any listings available.
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

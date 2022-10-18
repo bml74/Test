@@ -17,6 +17,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import user_passes_test
 from ecoles.models import Specialization, Course
+from orgs.models import GroupProfile
 
 
 def learning_carousel(request):
@@ -105,12 +106,22 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 
 class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium']
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium', 'group']
     template_name = 'market/dashboard/form_view.html' 
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        return super().form_valid(form)
+        # If user has chosen a group, make sure the user is a member of that group:
+        group = form.instance.group
+        if group is None:
+            return super().form_valid(form)
+        else: # Group is selected 
+            group_profile = get_object_or_404(GroupProfile, group=group)
+            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+                return super().form_valid(form)
+            else:
+                return super().form_invalid(form)
+        
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -125,12 +136,21 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium']
+    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'non_fungible_order', 'quantity_available', 'listing_medium', 'group']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        return super().form_valid(form)
+        # If user has chosen a group, make sure the user is a member of that group:
+        group = form.instance.group
+        if group is None:
+            return super().form_valid(form)
+        else: # Group is selected 
+            group_profile = get_object_or_404(GroupProfile, group=group)
+            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+                return super().form_valid(form)
+            else:
+                return super().form_invalid(form)
 
     def test_func(self):
         return self.request.user == self.get_object().creator

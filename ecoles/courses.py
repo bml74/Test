@@ -7,7 +7,8 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
+from orgs.models import GroupProfile
 from .models import (
     Category, 
     Field, 
@@ -175,6 +176,11 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         users_with_requests = course.edit_access_request.all()
         users_with_edit_access = course.allowed_editors.all()
 
+        if course.group:
+            group_profile = get_object_or_404(GroupProfile, group=course.group)
+        else:
+            group_profile = None
+
         # # Progress bar:
         # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
         # total_assignments_completed = 0
@@ -221,6 +227,8 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
             "users_with_requests": users_with_requests,
             "users_with_edit_access": users_with_edit_access,
             "pct_completed": pct_completed,
+
+            "group_profile": group_profile,
 
             "category": category, 
             "field": field, 
@@ -314,12 +322,21 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
 
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
-    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'creator']
+    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        form.instance.creator = self.request.user
+        # If user has chosen a group, make sure the user is a member of that group:
+        group = form.instance.group
+        if group is None:
+            return super().form_valid(form)
+        else: # Group is selected 
+            group_profile = get_object_or_404(GroupProfile, group=group)
+            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+                return super().form_valid(form)
+            else:
+                return super().form_invalid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -333,12 +350,21 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 
 class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Course
-    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'creator']
+    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+        form.instance.creator = self.request.user
+        # If user has chosen a group, make sure the user is a member of that group:
+        group = form.instance.group
+        if group is None:
+            return super().form_valid(form)
+        else: # Group is selected 
+            group_profile = get_object_or_404(GroupProfile, group=group)
+            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+                return super().form_valid(form)
+            else:
+                return super().form_invalid(form)
 
     def test_func(self):
         # Check if user created the course.

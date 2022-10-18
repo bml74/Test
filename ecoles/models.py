@@ -1,7 +1,7 @@
 from .choices import Visibility, DifficultyLevel
 from django.db import models
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.core.validators import MinLengthValidator
 from django.utils import timezone
 from languages.models import CorsicanBibleChapter
@@ -64,7 +64,7 @@ class Specialization(models.Model):
     # Reminder: if user enrolls in specialization, then they are 
     # automatically enrolled in all courses beloging to the specialization.
     title = models.CharField(max_length=64, default="Specialization", blank=False, unique=True)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
+    description = models.TextField(blank=True, null=True)
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,
@@ -83,6 +83,7 @@ class Specialization(models.Model):
     field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, related_name="specializations_within_field")
     # schools = models.ManyToManyField(Ecole, null=True, blank=True, related_name="schools_that_specialization_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_specialization")
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name="group_that_created_specialization")
     students = models.ManyToManyField(User, related_name="specialization_students", default=None, blank=True)
     purchasers = models.ManyToManyField(User, related_name="specialization_purchasers", default=None, blank=True)
     allowed_editors = models.ManyToManyField(User, related_name="specialization_allowed_editors", default=None, blank=True)
@@ -99,7 +100,7 @@ class Specialization(models.Model):
 
 class Course(models.Model):
     title = models.CharField(max_length=64, default="Course", blank=False, unique=True)
-    description = models.TextField(blank=False, validators=[MinLengthValidator(10)])
+    description = models.TextField(blank=True, null=True)
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,
@@ -118,6 +119,7 @@ class Course(models.Model):
     field = models.ForeignKey(Field, on_delete=models.CASCADE, null=True, related_name="courses_within_field")
     # schools = models.ManyToManyField(Ecole, null=True, related_name="schools_that_course_belongs_to")
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="creator_of_course")
+    group = models.ForeignKey(Group, on_delete=models.CASCADE, null=True, blank=True, related_name="group_that_created_course")
     specialization = models.ForeignKey(Specialization, on_delete=models.CASCADE, null=True, blank=True, related_name="courses_within_specialization")
     students = models.ManyToManyField(User, related_name="course_students", default=None, blank=True)
     purchasers = models.ManyToManyField(User, related_name="course_purchasers", default=None, blank=True)

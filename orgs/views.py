@@ -77,7 +77,11 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
             "users_in_group": list(users_in_group),
             "logged_in_user_in_group": logged_in_user_in_group,
             "user_is_creator": group_profile.group_creator == request.user,
-            "user_follows_this_group": group_profile.group_followers.filter(id=request.user.id).exists()
+            "user_follows_this_group": group_profile.group_followers.filter(id=request.user.id).exists(),
+            "first_ten_listings": None,
+            "first_ten_courses": None,
+            "first_ten_specializations": None,
+            "first_ten_specializations": None,
 
             # "follow_button_val": follow_button_val,
             # "num_followers_of_group": num_followers_of_group
