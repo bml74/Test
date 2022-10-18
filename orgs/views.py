@@ -11,7 +11,9 @@ from django.views.generic import (
     DetailView,
     CreateView,
 )
-
+from market.models import Listing
+from ecoles.models import Specialization, Course
+from posts.models import Post
 
 from .models import GroupProfile
 
@@ -70,6 +72,19 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
 
         group_profile = get_object_or_404(GroupProfile, group=group)
 
+        listings = Listing.objects.filter(group=group)
+        if len(listings) > 10:
+            listings = listings[:10]
+        courses = Course.objects.filter(group=group)
+        if len(courses) > 10:
+            courses = courses[:10]
+        specializations = Specialization.objects.filter(group=group)
+        if len(specializations) > 10:
+            specializations = specializations[:10]
+        news = Post.objects.filter(group=group)
+        if len(news) > 10:
+            news = news[:10]
+
         context = {
             "obj_type": "group",
             "item": group_profile,
@@ -78,10 +93,11 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
             "logged_in_user_in_group": logged_in_user_in_group,
             "user_is_creator": group_profile.group_creator == request.user,
             "user_follows_this_group": group_profile.group_followers.filter(id=request.user.id).exists(),
-            "first_ten_listings": None,
-            "first_ten_courses": None,
-            "first_ten_specializations": None,
-            "first_ten_specializations": None,
+
+            "first_ten_listings": listings,
+            "first_ten_courses": courses,
+            "first_ten_specializations": specializations,
+            "first_ten_news": news,
 
             # "follow_button_val": follow_button_val,
             # "num_followers_of_group": num_followers_of_group
