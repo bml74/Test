@@ -21,6 +21,11 @@ class Listing(models.Model):
         blank=False,
         null=False
     )
+    listing_type = models.CharField(
+        max_length=100,
+        choices=(("Offer", "Offer"), ("Request", "Request")),
+        default="Request",
+    )
     listing_category = models.CharField(
         max_length=100,
         choices=(("General", "General"), ("Homework", "Homework"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
