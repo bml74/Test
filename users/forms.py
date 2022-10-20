@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User, Group
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Profile
+from .models import Profile, ReferralCode
 
 
 class UserRegisterForm(UserCreationForm):
@@ -25,4 +25,9 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['description', 'country']
+
+
+class ReferralCodeForm(forms.Form):
+    referral_code = forms.CharField(label='Referral code', max_length=32)
+
 

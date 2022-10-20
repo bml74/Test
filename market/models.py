@@ -75,5 +75,5 @@ class Transaction(models.Model):
         return f"Transaction #{self.transaction_id}"
 
     def get_absolute_url(self):
-        return reverse('projects_detail_view', kwargs={'pk': self.pk})
+        return reverse('transaction', kwargs={'pk': self.pk})
 

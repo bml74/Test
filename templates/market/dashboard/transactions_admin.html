@@ -83,7 +83,7 @@ Listings | {{ request.user.username }}
                     {% for item in items %}
                     <tr>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
-                            <a href="{% url 'transaction' item.transaction_obj_id %}">{{ item.transaction_obj_type.capitalize }}</a>
+                            <a href="{% url 'transaction' item.id %}">{{ item.transaction_obj_type.capitalize }}</a>
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.end_payment_sent %}

@@ -25,6 +25,17 @@ class Profile(models.Model):
         return f'{self.user.username} Profile'
 
 
+class ReferralCode(models.Model):
+    referral_code = models.CharField(max_length=16, blank=True, null=True, unique=True)
+    generatedBy = models.OneToOneField(User, on_delete=models.CASCADE, related_name="generatedBy")
+    usedBy = models.ManyToManyField(
+        User,
+        related_name="usedBy",
+        default=None,
+        blank=True
+    )
+
+
 class FollowersCount(models.Model):
     follower_of_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="follower_of_user")
     user_being_followed = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_being_followed")

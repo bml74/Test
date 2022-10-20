@@ -1,10 +1,11 @@
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import FollowersCount
+from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .models import FollowersCount, Profile, ReferralCode
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseRedirect
 
 
 def register(request):
@@ -34,6 +35,7 @@ def user_profile(request, username):
 def profile(request):
 
     current_user = get_object_or_404(User, username=request.user.username)
+    referral_code = get_object_or_404(ReferralCode, generatedBy=current_user)
 
 
     if request.method == 'POST':
@@ -54,10 +56,67 @@ def profile(request):
     context = {
         'u_form': u_form,
         'p_form': p_form,
-        'header': 'My profile'
+        'header': 'My profile',
+        'referral_code': referral_code.referral_code,
     }
 
     return render(request, 'users/profile.html', context)
+
+
+def referral(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ReferralCodeForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+
+            # process the data in form.cleaned_data as required
+            referralEntered = form.cleaned_data.get('referral_code')
+
+            # Check whether referralEntered exists as a referral code:
+            referralExists = True if ReferralCode.objects.filter(referral_code=referralEntered) else False
+
+            if referralExists:
+
+                referralObj = ReferralCode.objects.filter(referral_code=referralEntered).first() # Object
+
+                # If referralEntered is the user's own code, then it is invalid.
+                if referralObj.generatedBy == request.user: # If the user who generated the referral code is also the user trying to enter the code, then it is invalid.
+                    messages.success(request, f'You cannot use your own referral code.')
+                    return redirect('profile')
+
+                # If user has already used this code, then it is invalid for them.
+                if request.user in referralObj.usedBy.all():
+                    messages.success(request, f'You have already used this referral code and cannot do so again.')
+                    return redirect('profile')
+                
+                numTimesUsed = referralObj.usedBy.all().count() # Count how many times it has been used the ManyToMany field.
+                MAX_REFERRAL_USES = 5
+
+                if numTimesUsed < MAX_REFERRAL_USES: # Valid; uses have not been used up.
+                    messages.success(request, f'That referral code from {referralObj.generatedBy} is valid!')
+                    # Add 100 tokens to both accounts
+                    NUM_CREDITS_TO_ADD = 100
+                    profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
+                    profileOfUserWhoGeneratedCode.credits += 100; profileOfUserWhoGeneratedCode.save()
+                    profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
+                    profileOfUserWhoUsedCode.credits += 100; profileOfUserWhoUsedCode.save()
+                    # Modify referralObj field 
+                    # Save request.user as usedBy
+                    referralObj.usedBy.add(request.user)
+                    referralObj.save()
+                else: # Invalid
+                    messages.success(request, f'That referral has already been used the maximum number of times allowed and is thus expired.') 
+            else:
+                messages.warning(request, f'That referral does not exist.')
+            return redirect('profile')
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ReferralCodeForm()
+
+    return render(request, 'referral_code.html', {'form': form})
+
 
 
 def followers_count(request):

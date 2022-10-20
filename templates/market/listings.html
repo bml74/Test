@@ -31,6 +31,14 @@ Scampia | Listings
                                     <label for="homework" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Homework</label>
                                 </li>
                                 <li class="checkbox-div">
+                                    <input id="consulting" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <label for="consulting" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Consulting</label>
+                                </li>
+                                <li class="checkbox-div">
+                                    <input id="tutoring" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <label for="tutoring" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tutoring</label>
+                                </li>
+                                <li class="checkbox-div">
                                     <input id="sale" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
                                     <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
                                 </li>
@@ -79,7 +87,7 @@ Scampia | Listings
                         {% for item in items %}    
                             {% if item.visibility != "Invisible" %}
             
-                                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing">
+                                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
                                     <br>
                                     <div class="px-2 pb-2">
                                         <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
@@ -198,14 +206,36 @@ Scampia | Listings
 
 <script>
     function filterListingsByType() {
+
+        let all_listings = document.querySelectorAll(".listing");
+
+        // First reset all listings' visibility so that they are displayed:
+        for (listing of all_listings) {
+            listing.style.display = 'block';
+        }
+
         checkbox_divs = document.querySelectorAll(".checkbox-div");
+        let categories_checked = [];
         for (checkbox_div of checkbox_divs) {
             checkbox = checkbox_div.querySelector(".listing-type-checkbox");
             if (checkbox.checked) {
-                console.log(checkbox_div.querySelector("label").innerHTML);
+                // console.log(checkbox_div.querySelector("label").innerHTML); 
+                categories_checked.push(checkbox_div.querySelector("label").innerHTML); // This guves us an array, or list, containing the labels of all the categories that have been selected. Example: ['Consulting', 'Tutoring']
             }
         }
-        
+
+        console.log(categories_checked);
+
+        for (listing of all_listings) {
+            let hide = false;
+            for (category of categories_checked) {
+                if (!listing.classList.contains(category)) { // If the category (the current element in the for loop) is not one of the class names of the listing.
+                    hide = true;
+                    break;
+                }
+            }
+            if (hide) { listing.style.display = 'none'; }
+        }
     }
 </script>
 
