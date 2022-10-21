@@ -1,0 +1,185 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}
+Search query: {{ term }}
+{% endblock title %}
+
+{% block main %}
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 pl-15vw pr-15vw">
+
+
+                            <div class="py-4"></div>
+                            <div class="py-4"></div>
+                            <div class="py-4">
+                                <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Search</span></h1>
+                            </div>   
+
+                            <form role="search" method="GET" action="{% url 'search-results' %}">   
+                                <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300">Search</label>
+                                <div class="relative">
+                                    <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                        <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                    </div>
+                                    <input type="search" name="term" id="default-search" class="block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search for courses, specializations, groups, users, listings, etc...." value="{{ term }}" required="">
+                                    <button type="submit" class="text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+                                </div>
+                            </form>
+                            
+                        </div>
+                
+                        <div id="mainContent" class="pl-15vw pr-15vw">
+
+                            {% if listing_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Listings</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in listing_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'listing' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'listing' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if course_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Courses</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in course_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'course_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'course_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if specialization_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Specializations</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in specialization_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'specialization_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'specialization_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if field_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Fields</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in field_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'field_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'field_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if category_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Categories</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in category_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'category_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'category_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.title }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if group_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Groups</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in group_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'group_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'group_detail' item.id %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.name }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+
+                            {% if user_results %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">Users</h2>
+                            <div class="w-100 text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                {% for item in user_results %}
+                                    {% if not forloop.last %}
+                                    <a href="{% url 'user_profile' item.username %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% else %}
+                                    <a href="{% url 'user_profile' item.username %}" type="button" class="inline-flex relative items-center py-2 px-4 w-full text-sm font-medium rounded-t-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                    {% endif %}
+                                        <i class="fas fa-gift mr-2 w-4 h-4 fill-current"></i>
+                                        {{ item.username }}
+                                    </a>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main>  
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+
+
+

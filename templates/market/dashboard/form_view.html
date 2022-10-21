@@ -25,7 +25,7 @@
                 </div>
             </form>
 
-            <script>
+            <!-- <script>
                 labels = document.getElementsByTagName("label");
                 console.log(labels);
                 console.log(labels.length);
@@ -59,7 +59,7 @@
 
                 
 
-            </script>
+            </script> -->
 
         </div>
     </div>
@@ -79,7 +79,12 @@
 <!-- Initialize Quill editor -->
 <script>
 
+    
     window.onload = function() {
+        /*
+        btn = document.getElementById("submit-form-button");
+        console.log(btn);
+
         var newNode = document.createElement('div');
         newNode.id = 'quill_editor'; // editor-container
         var newInputNode = document.createElement('div');
@@ -89,7 +94,7 @@
 
 
         // Get the reference node
-        var referenceNode = document.querySelector('#id_description.textarea.form-control'); // Description textarea
+        var referenceNode = document.querySelector('#id_description.textarea'); // Description textarea
 
         // Insert the new node before the reference node
         referenceNode.after(newNode); 
@@ -118,16 +123,20 @@
     },
     placeholder: 'Compose an epic...',
     theme: 'snow'
-    });
+    });*/
   
+    /*
     txt = document.getElementById("id_description").value;
     console.log(txt);
     document.getElementById("id_description").style.display = 'none';
-    document.querySelector(".ql-editor").innerHTML = txt;
+    document.querySelector(".ql-editor").innerHTML = txt; 
+    */
 
-    btn = document.getElementById("create-or-update");
+    btn = document.getElementById("submit-form-button");
+    console.log(btn);
     btn.addEventListener('mouseover', (event) => {
         console.log(quill.root.innerHTML);
+        console.log("Hello");
         let descr = document.querySelector('#id_description[name=description]');
         descr.value = quill.root.innerHTML;
     });

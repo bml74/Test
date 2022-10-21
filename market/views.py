@@ -95,10 +95,13 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         listing = get_object_or_404(Listing, pk=kwargs['pk'])
+        all_listings_from_this_creator = Listing.objects.filter(creator=listing.creator)
 
         context = {
             "item": listing, 
-            "user_is_creator": listing.creator == request.user
+            "user_is_creator": listing.creator == request.user,
+            "obj_type": "listing",
+            "all_listings_from_this_creator": all_listings_from_this_creator
         }
 
         return render(request, 'market/listing.html', context)

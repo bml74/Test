@@ -21,30 +21,53 @@ Scampia | Listings
 
                             <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
 
-                            <ul class="py-1 list-unstyled fw-normal small">
+                            {% comment %} <ul class="py-1 list-unstyled fw-normal small">
                                 <li class="checkbox-div">
-                                    <input id="general" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                    <input id="general" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox">
                                     <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
                                 </li>
                                 <li class="checkbox-div">
-                                    <input id="homework" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <input id="homework" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox"> 
                                     <label for="homework" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Homework</label>
                                 </li>
                                 <li class="checkbox-div">
-                                    <input id="consulting" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <input id="consulting" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox"> 
                                     <label for="consulting" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Consulting</label>
                                 </li>
                                 <li class="checkbox-div">
-                                    <input id="tutoring" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required> 
+                                    <input id="tutoring" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox"> 
                                     <label for="tutoring" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tutoring</label>
                                 </li>
                                 <li class="checkbox-div">
-                                    <input id="sale" type="checkbox" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox" required>
+                                    <input id="sale" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-checkbox">
                                     <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
                                 </li>
-                            </ul>
+                            </ul> {% endcomment %}
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="general" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
+                                    <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
+                                </div>
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="homework" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
+                                    <label for="homework" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Homework</label>
+                                </div>
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="consulting" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
+                                    <label for="consulting" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Consulting</label>
+                                </div>
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="tutoring" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
+                                    <label for="tutoring" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tutoring</label>
+                                </div>
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="sale" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
+                                    <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
+                                </div>
 
-                            <button class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
+
+                            <button class="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
+                            <hr>
+                            <button class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="resetFilter()">Reset</button>
 
                         </li>
 
@@ -199,44 +222,7 @@ Scampia | Listings
 
 {% endblock main %}
 
-
-
 {% block JavaScript %}
 <script src="{% static 'scripts/filterList.js' %}"></script>
-
-<script>
-    function filterListingsByType() {
-
-        let all_listings = document.querySelectorAll(".listing");
-
-        // First reset all listings' visibility so that they are displayed:
-        for (listing of all_listings) {
-            listing.style.display = 'block';
-        }
-
-        checkbox_divs = document.querySelectorAll(".checkbox-div");
-        let categories_checked = [];
-        for (checkbox_div of checkbox_divs) {
-            checkbox = checkbox_div.querySelector(".listing-type-checkbox");
-            if (checkbox.checked) {
-                // console.log(checkbox_div.querySelector("label").innerHTML); 
-                categories_checked.push(checkbox_div.querySelector("label").innerHTML); // This guves us an array, or list, containing the labels of all the categories that have been selected. Example: ['Consulting', 'Tutoring']
-            }
-        }
-
-        console.log(categories_checked);
-
-        for (listing of all_listings) {
-            let hide = false;
-            for (category of categories_checked) {
-                if (!listing.classList.contains(category)) { // If the category (the current element in the for loop) is not one of the class names of the listing.
-                    hide = true;
-                    break;
-                }
-            }
-            if (hide) { listing.style.display = 'none'; }
-        }
-    }
-</script>
-
+<script src="{% static 'scripts/filterListingsRadio.js' %}"></script>
 {% endblock JavaScript %}

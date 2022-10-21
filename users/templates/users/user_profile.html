@@ -1,29 +1,34 @@
-{% extends "ecoles/base_ecoles.html" %}
+{% extends 'market/dashboard/dashboard_base.html' %}
 {% load static %}
+{% load humanize %}
 {% load crispy_forms_tags %}
-{% block title %}Profile | {{ user_with_profile_being_viewed }} | Profile{% endblock title %}
 
-{% block main_content_container %}
+{% block title %}
+{{ user_with_profile_being_viewed }}'s profile 
+{% endblock title %}
+
+{% block main %}
 
 
-    
-<main class="">
 
-  <div class="container mt-4">
-    <div class="row">
-      <div class="col-lg-12">
-
-        <div class="p-5 mb-4 bg-light rounded-3 bg-lin-grad">
-          <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Scampia</h1>
-            <p class="col-md-8 fs-4">{{ user_with_profile_being_viewed }}</p>
-          </div>
-        </div>
-
-      </div>
+<div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
+    <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
+        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile</h1>
     </div>
-  </div>
+</div>
 
-</main>
 
-{% endblock main_content_container %}
+
+
+
+{% endblock main %}
+
+
+{% block JavaScript %}
+
+
+
+{% endblock JavaScript %}
+
+
+

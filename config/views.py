@@ -1,8 +1,12 @@
+from turtle import title
 from django.http import JsonResponse
 from django.shortcuts import render
 from googletrans import Translator
 from .utils import translate_phrase
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User, Group
+from ecoles.models import Category, Field, Specialization, Course
+from market.models import Listing
 
 
 @login_required
@@ -15,6 +19,31 @@ def dashboard(request):
 
 
 def search(request):
+    return render(request, "search.html")
+
+
+def search_results(request):
+    if request.method == "GET":
+        term = request.GET.get('term', None)
+        if term: 
+            user_results = User.objects.filter(username__contains=term).all()
+            group_results = Group.objects.filter(name__contains=term).all()
+            category_results = Category.objects.filter(title__contains=term).all()
+            field_results = Field.objects.filter(title__contains=term).all()
+            specialization_results = Specialization.objects.filter(title__contains=term).all()
+            course_results = Course.objects.filter(title__contains=term).all()
+            listing_results = Listing.objects.filter(title__contains=term).all()
+            context = {
+                'term': term,
+                "user_results": user_results,
+                "group_results": group_results,
+                "category_results": category_results,
+                "field_results": field_results,
+                "specialization_results": specialization_results,
+                "course_results": course_results,
+                "listing_results": listing_results,
+            }
+            return render(request, 'search_results.html', context)
     return render(request, "search.html")
 
 

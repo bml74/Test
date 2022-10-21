@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('', views.index, name='index'),
     path('search/', views.search, name='search'),
+    path('search/results/', views.search_results, name='search-results'),
     path('dashboard/', views.dashboard, name='dashboard'),
 
     path('ajax-chatbox/', views.ajax_chatbox, name='ajax-chatbox'),
