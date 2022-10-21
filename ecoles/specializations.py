@@ -28,7 +28,7 @@ class SpecializationListView(UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(SpecializationListView, self).get_context_data(**kwargs)
         obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s", "title": f"{obj_type.capitalize()}s"})
+        context.update({"obj_type": obj_type, "num_results": len(Specialization.objects.all()), "header": f"{obj_type.capitalize()}"})
         return context
 
     def get_queryset(self):
@@ -37,7 +37,7 @@ class SpecializationListView(UserPassesTestMixin, ListView):
 
 class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'ecoles/specialization_and_course_list_view.html'
+    template_name = 'market/COURSE_LIST_DESIGN.html'
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -48,7 +48,9 @@ class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, L
     def get_context_data(self, **kwargs):
         context = super(EnrolledSpecializationsListView, self).get_context_data(**kwargs)
         obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s I'm enrolled in", "title": f"Enrolled | {obj_type.capitalize()}s"})
+        user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
+        items = list(Specialization.objects.filter(students=user_in_url))
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I'm enrolled in"})
         return context
 
     def test_func(self):
@@ -63,7 +65,7 @@ class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, L
 
 class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'ecoles/specialization_and_course_list_view.html'
+    template_name = 'market/COURSE_LIST_DESIGN.html'
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -74,7 +76,9 @@ class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, Li
     def get_context_data(self, **kwargs):
         context = super(CreatedSpecializationsListView, self).get_context_data(**kwargs)
         obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s I've created", "title": f"My Creations | {obj_type.capitalize()}"})
+        user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
+        items = list(Specialization.objects.filter(creator=user_in_url))
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I've created"})
         return context
 
     def test_func(self):
@@ -84,7 +88,7 @@ class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, Li
 
 class EditAccessSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'ecoles/specialization_and_course_list_view.html'
+    template_name = 'market/COURSE_LIST_DESIGN.html'
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -96,7 +100,10 @@ class EditAccessSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin,
     def get_context_data(self, **kwargs):
         context = super(EditAccessSpecializationsListView, self).get_context_data(**kwargs)
         obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"{obj_type.capitalize()}s I can edit", "title": f"Edit Access | {obj_type.capitalize()}"})
+        user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
+        created = list(Specialization.objects.filter(creator=user_in_url))
+        items = list(user_in_url.specialization_allowed_editors.all()) + created
+        context.update({"obj_type": obj_type, "num_results": len(set(items)), "header": f"{obj_type.capitalize()}s I can edit"})
         return context
 
     def test_func(self):

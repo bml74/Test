@@ -64,6 +64,10 @@ def profile(request):
 
 
 def referral(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    if profile.hasUsedAReferralCode:
+        messages.success(request, f'You have already used a referral code.')
+        return redirect('profile')
     # if this is a POST request we need to process the form data
     if request.method == 'POST':
         # create a form instance and populate it with data from the request:
@@ -95,9 +99,9 @@ def referral(request):
                 MAX_REFERRAL_USES = 5
 
                 if numTimesUsed < MAX_REFERRAL_USES: # Valid; uses have not been used up.
-                    messages.success(request, f'That referral code from {referralObj.generatedBy} is valid!')
-                    # Add 100 tokens to both accounts
                     NUM_CREDITS_TO_ADD = 100
+                    messages.success(request, f'That referral code from {referralObj.generatedBy} is valid and has been applied! You and {referralObj.generatedBy} have each received {NUM_CREDITS_TO_ADD} tokens.')
+                    # Add 100 tokens to both accounts
                     profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
                     profileOfUserWhoGeneratedCode.credits += 100; profileOfUserWhoGeneratedCode.save()
                     profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
@@ -106,6 +110,9 @@ def referral(request):
                     # Save request.user as usedBy
                     referralObj.usedBy.add(request.user)
                     referralObj.save()
+                    # hasUsedAReferralCode is set to True in profile model
+                    profile.hasUsedAReferralCode = True
+                    profile.save()
                 else: # Invalid
                     messages.success(request, f'That referral has already been used the maximum number of times allowed and is thus expired.') 
             else:

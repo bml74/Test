@@ -20,6 +20,7 @@ class Profile(models.Model):
     select_view_seen = models.BooleanField(default=False, null=False, blank=False) # Has user seen select view?
     primary_twitter_handle = models.ForeignKey(TwitterHandle, on_delete=models.CASCADE, blank=True, null=True)
     country = CountryField(default='US')
+    hasUsedAReferralCode = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user.username} Profile'
