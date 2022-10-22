@@ -31,13 +31,14 @@ class Listing(models.Model):
         choices=(("General", "General"), ("Homework", "Homework"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
         default="General",
     )
-    quantity_available = models.IntegerField(default=1, blank=True, null=True)
     listing_medium = models.CharField(
         max_length=100,
         choices=(("Digital File(s)", "Digital File(s)"), ("In-Person Service", "In-Person Service"), ("Digital Service", "Digital Service"), ("Physical Product", "Physical Product")),
         default="General",
     )  
-    non_fungible_order = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
+    infinite_copies_available = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
+    quantity_available = models.IntegerField(default=1, blank=True, null=True)
+    quantity_sold = models.IntegerField(default=0, blank=True, null=True)
 
     def __str__(self):
         return self.title
