@@ -18,7 +18,6 @@ class Profile(models.Model):
     credits = models.IntegerField(default=0, null=False)
     verified_creator = models.BooleanField(default=False)
     has_super_status = models.BooleanField(default=False)
-    select_view_seen = models.BooleanField(default=False, null=False, blank=False) # Has user seen select view?
     primary_twitter_handle = models.ForeignKey(TwitterHandle, on_delete=models.CASCADE, blank=True, null=True)
     country = CountryField(default='US')
     hasUsedAReferralCode = models.BooleanField(default=False)

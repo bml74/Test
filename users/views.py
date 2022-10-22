@@ -1,5 +1,12 @@
+from users.utils import get_user_followers_data
 from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import FollowersCount, Profile, ReferralCode
+from .utils import (
+    get_user_followers_data,
+    get_groups_that_user_created,
+    get_groups_that_user_is_a_member_of,
+    get_groups_that_user_follows
+)
 
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
@@ -21,22 +28,32 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
+
 def user_profile(request, username):
     logged_in_user = request.user
     user_with_profile_being_viewed = get_object_or_404(User, username=username) # User whose profile is being viewed and thus will be followed.
 
     profile_of_user = get_object_or_404(Profile, user=user_with_profile_being_viewed)
 
-    list_of_followers = FollowersCount.objects.filter(user_being_followed=user_with_profile_being_viewed).all()
-    num_followers = len(list_of_followers)
+    (list_of_followers, num_followers, users_that_user_with_profile_being_viewed_is_following, num_following) = get_user_followers_data(user_with_profile_being_viewed)
 
-    users_that_user_with_profile_being_viewed_is_following = FollowersCount.objects.filter(follower_of_user=user_with_profile_being_viewed).all()
-    num_following = len(users_that_user_with_profile_being_viewed_is_following)
+    (group_follows_data, num_groups_that_user_is_following) = get_groups_that_user_follows(user_with_profile_being_viewed)
+    (group_member_data, num_groups_that_user_is_a_member_of) = get_groups_that_user_is_a_member_of(user_with_profile_being_viewed)
+    (group_creator_data, num_groups_that_user_created) = get_groups_that_user_created(user_with_profile_being_viewed)
 
     context = {
         "user_with_profile_being_viewed": user_with_profile_being_viewed,
         "profile_of_user": profile_of_user,
         "logged_in_user": logged_in_user,
+
+        "group_creator_data": group_creator_data, # DONE
+        "num_groups_that_user_is_a_member_of": num_groups_that_user_is_a_member_of,
+
+        "group_member_data": group_member_data,
+        "num_groups_that_user_created": num_groups_that_user_created,
+
+        "group_follows_data": group_follows_data, 
+        "num_groups_that_user_is_following": num_groups_that_user_is_following, 
 
         "list_of_followers": list_of_followers,
         "num_followers": num_followers,
@@ -46,12 +63,19 @@ def user_profile(request, username):
     return render(request, 'users/user_profile.html', context)
 
 
+
 @login_required
 def profile(request):
 
     current_user = get_object_or_404(User, username=request.user.username)
     referral_code = get_object_or_404(ReferralCode, generatedBy=current_user)
+    credits = get_object_or_404(Profile, user=request.user).credits
 
+    (list_of_followers, num_followers, users_that_user_with_profile_being_viewed_is_following, num_following) = get_user_followers_data(current_user)
+
+    (group_follows_data, num_groups_that_user_is_following) = get_groups_that_user_follows(current_user)
+    (group_member_data, num_groups_that_user_is_a_member_of) = get_groups_that_user_is_a_member_of(current_user)
+    (group_creator_data, num_groups_that_user_created) = get_groups_that_user_created(current_user)
 
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
@@ -73,6 +97,21 @@ def profile(request):
         'p_form': p_form,
         'header': 'My profile',
         'referral_code': referral_code.referral_code,
+        "credits": credits,
+
+        "group_creator_data": group_creator_data, # DONE
+        "num_groups_that_user_is_a_member_of": num_groups_that_user_is_a_member_of,
+
+        "group_member_data": group_member_data,
+        "num_groups_that_user_created": num_groups_that_user_created,
+
+        "group_follows_data": group_follows_data, 
+        "num_groups_that_user_is_following": num_groups_that_user_is_following, 
+
+        "list_of_followers": list_of_followers,
+        "num_followers": num_followers,
+        "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
+        "num_following": num_following
     }
 
     return render(request, 'users/profile.html', context)
