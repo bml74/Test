@@ -72,6 +72,11 @@
             <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
                 <a href="{% url 'profile' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Account</a>
             </li>
+            {% if request.user.is_superuser %}
+            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
+                <a href="/admin/" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Admin</a>
+            </li>
+            {% endif %}
 
             </ul>
 

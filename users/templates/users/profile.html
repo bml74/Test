@@ -193,7 +193,7 @@
     document.getElementById("id_description").style.display = 'none';
     document.querySelector(".ql-editor").innerHTML = txt;
 
-    btn = document.getElementById("create-or-update");
+    btn = document.getElementById("submit-form-button");
     btn.addEventListener('mouseover', (event) => {
         console.log(quill.root.innerHTML);
         let descr = document.querySelector('#id_description[name=description]');

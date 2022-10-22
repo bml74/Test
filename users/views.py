@@ -24,9 +24,24 @@ def register(request):
 def user_profile(request, username):
     logged_in_user = request.user
     user_with_profile_being_viewed = get_object_or_404(User, username=username) # User whose profile is being viewed and thus will be followed.
+
+    profile_of_user = get_object_or_404(Profile, user=user_with_profile_being_viewed)
+
+    list_of_followers = FollowersCount.objects.filter(user_being_followed=user_with_profile_being_viewed).all()
+    num_followers = len(list_of_followers)
+
+    users_that_user_with_profile_being_viewed_is_following = FollowersCount.objects.filter(follower_of_user=user_with_profile_being_viewed).all()
+    num_following = len(users_that_user_with_profile_being_viewed_is_following)
+
     context = {
         "user_with_profile_being_viewed": user_with_profile_being_viewed,
+        "profile_of_user": profile_of_user,
         "logged_in_user": logged_in_user,
+
+        "list_of_followers": list_of_followers,
+        "num_followers": num_followers,
+        "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
+        "num_following": num_following
     }
     return render(request, 'users/user_profile.html', context)
 
@@ -123,7 +138,6 @@ def referral(request):
         form = ReferralCodeForm()
 
     return render(request, 'referral_code.html', {'form': form})
-
 
 
 def followers_count(request):

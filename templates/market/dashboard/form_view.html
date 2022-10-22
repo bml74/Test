@@ -25,45 +25,47 @@
                 </div>
             </form>
 
-            <!-- <script>
-                labels = document.getElementsByTagName("label");
-                console.log(labels);
-                console.log(labels.length);
-                for (let i = 0; i <= labels.length; i++) {
-                    labels[i].style.color = "#9daab6";
-                } 
-            </script>
 
-            <script>
-                groups = document.querySelectorAll(".form-group");
-                for (let i = 0; i <= groups.length; i++) {
-                    groups[i].classList.add("mt-2rem");
-                    groups[i].classList.add("mb-2rem");
-                } 
-            </script>
-
-            <script>
-
-                
-
-                const currentDiv = document.getElementById("submit-form-button");
-
-                els = document.querySelectorAll(".form-control");
-                for (let i = 0; i <= els.length; i++) {
-                    class_names = ['mb-4', 'pb-4', 'fzhbbDQ686T8arwvi_bJ', 'jtAJHOc7mn7b4IKRO59D', 'pXhVRBC8yaUNllmIWxln', 'vpDN1VEJLu5FmLkr5WCk', '__9sbu0yrzdhGIkLWNXl', 'gx_pYWtAG2cJIqhquLbx', 'mveJTCIb2WII7J4sY22F', 'GdTcGtoKP5_bET3syLDl', 'LceKfSImrGKQrtDGkpBV', '_Vb9igHms0hI1PQcvp_S', 't6gkcSf0Bt4MLItXvDJ_', 'olxDi3yL6f0gpdsOFDhx', 'jqg6J89cvxmDiFpnV56r', 'Mmx5lX7HVdrWCgh3EpTP', 'H7KQDhgKsqZaTUouEUQL', 'OyABRrnTV_kvHV7dJ0uE', 'KpCMWe32PQyrSFbZVput', 'q6szSHqGtBufkToFe_s5'];
-                    for (class_name of class_names) {
-                        els[i].classList.add(class_name);
-                    }
-
-                } 
-
-                
-
-            </script> -->
 
         </div>
     </div>
 </div>
+
+<script>
+    labels = document.getElementsByTagName("label");
+    console.log(labels);
+    console.log(labels.length);
+    for (let i = 0; i <= labels.length; i++) {
+        labels[i].style.color = "#9daab6";
+    } 
+</script>
+
+<script>
+    groups = document.querySelectorAll(".form-group");
+    for (let i = 0; i <= groups.length; i++) {
+        groups[i].classList.add("mt-2rem");
+        groups[i].classList.add("mb-2rem");
+    } 
+</script>
+
+<script>
+
+    
+
+    const currentDiv = document.getElementById("submit-form-button");
+
+    els = document.querySelectorAll(".form-control");
+    for (let i = 0; i <= els.length; i++) {
+        class_names = ['mb-4', 'pb-4', 'fzhbbDQ686T8arwvi_bJ', 'jtAJHOc7mn7b4IKRO59D', 'pXhVRBC8yaUNllmIWxln', 'vpDN1VEJLu5FmLkr5WCk', '__9sbu0yrzdhGIkLWNXl', 'gx_pYWtAG2cJIqhquLbx', 'mveJTCIb2WII7J4sY22F', 'GdTcGtoKP5_bET3syLDl', 'LceKfSImrGKQrtDGkpBV', '_Vb9igHms0hI1PQcvp_S', 't6gkcSf0Bt4MLItXvDJ_', 'olxDi3yL6f0gpdsOFDhx', 'jqg6J89cvxmDiFpnV56r', 'Mmx5lX7HVdrWCgh3EpTP', 'H7KQDhgKsqZaTUouEUQL', 'OyABRrnTV_kvHV7dJ0uE', 'KpCMWe32PQyrSFbZVput', 'q6szSHqGtBufkToFe_s5'];
+        for (class_name of class_names) {
+            els[i].classList.add(class_name);
+        }
+
+    } 
+
+    
+
+</script> 
 
 
 
@@ -79,12 +81,7 @@
 <!-- Initialize Quill editor -->
 <script>
 
-    
     window.onload = function() {
-        /*
-        btn = document.getElementById("submit-form-button");
-        console.log(btn);
-
         var newNode = document.createElement('div');
         newNode.id = 'quill_editor'; // editor-container
         var newInputNode = document.createElement('div');
@@ -94,7 +91,7 @@
 
 
         // Get the reference node
-        var referenceNode = document.querySelector('#id_description.textarea'); // Description textarea
+        var referenceNode = document.querySelector('#id_description.textarea.form-control'); // Description textarea
 
         // Insert the new node before the reference node
         referenceNode.after(newNode); 
@@ -123,20 +120,16 @@
     },
     placeholder: 'Compose an epic...',
     theme: 'snow'
-    });*/
+    });
   
-    /*
     txt = document.getElementById("id_description").value;
     console.log(txt);
     document.getElementById("id_description").style.display = 'none';
-    document.querySelector(".ql-editor").innerHTML = txt; 
-    */
+    document.querySelector(".ql-editor").innerHTML = txt;
 
     btn = document.getElementById("submit-form-button");
-    console.log(btn);
     btn.addEventListener('mouseover', (event) => {
         console.log(quill.root.innerHTML);
-        console.log("Hello");
         let descr = document.querySelector('#id_description[name=description]');
         descr.value = quill.root.innerHTML;
     });
@@ -148,7 +141,6 @@
     };
 
 </script>
-
 
 {% endblock JavaScript %}
 

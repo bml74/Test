@@ -7,13 +7,69 @@
 {{ user_with_profile_being_viewed }}'s profile 
 {% endblock title %}
 
-{% block main %}
+{% block external_css %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+{% endblock external_css %}
 
+{% block main %}
 
 
 <div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
     <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
-        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile</h1>
+        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile </h1>
+    </div>
+    <div class="_wYiJGbRZyFZeCc8y7Sf _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi">
+
+        {% comment %} {% if profile_of_user.verified_creator %}
+        <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#4c0bce" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+            </svg>
+            &nbsp;&nbsp;Verified creator
+        </div>
+        {% endif %} {% endcomment %}
+
+        {% if profile_of_user.has_super_status %}
+        <div style="display: flex;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#198754" class="bi bi-check-circle-fill" viewBox="0 0 16 16">
+                <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+              </svg>
+            &nbsp;&nbsp;
+            <span class="mb-2 text-sm font-semibold text-gray-400 dark:text-white">Superuser</span>
+        </div>
+        {% endif %}
+
+        {% if profile_of_user.verified_creator %}
+        <div style="display: flex;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#4c0bce" class="bi bi-patch-check-fill" viewBox="0 0 16 16">
+                <path d="M10.067.87a2.89 2.89 0 0 0-4.134 0l-.622.638-.89-.011a2.89 2.89 0 0 0-2.924 2.924l.01.89-.636.622a2.89 2.89 0 0 0 0 4.134l.637.622-.011.89a2.89 2.89 0 0 0 2.924 2.924l.89-.01.622.636a2.89 2.89 0 0 0 4.134 0l.622-.637.89.011a2.89 2.89 0 0 0 2.924-2.924l-.01-.89.636-.622a2.89 2.89 0 0 0 0-4.134l-.637-.622.011-.89a2.89 2.89 0 0 0-2.924-2.924l-.89.01-.622-.636zm.287 5.984-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7 8.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+            </svg>
+            &nbsp;&nbsp;
+            <span class="mb-2 text-sm font-semibold text-gray-400 dark:text-white">Verified creator</span>
+        </div>
+        {% endif %}
+
+
+      <!-- Card Title -->
+      <div class="YRrCJSr_j5nopfm4duUc sJNGKHxFYdN5Nzml5J2j Q_jg_EPdNf9eDMn1mLI2 hD0sTTDgbxakubcHVW2X">
+        <h1 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile </h1>
+      </div>
+
+    <button type="button" data-modal-toggle="followers-modal" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
+        {{ num_followers }} followers 
+    </button>
+
+    <button type="button" data-modal-toggle="following-modal" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
+        {{ num_following }} following
+    </button>
+
+      <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+        <div class="flex flex-col py-3 dark:text-white mb-2rem">
+            <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Description</dt>
+            <dd class="text-lg font-semiboldy M_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ profile_of_user.description|safe }}</dd>
+        </div>
+    </dl>
+
     </div>
 </div>
 
@@ -21,14 +77,91 @@
 
 
 
+
+
+
+
+<!-- followers modal -->
+<div id="followers-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="followers-modal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                <span class="sr-only">Close modal</span>
+            </button>
+            <!-- Modal header -->
+            <div class="py-4 px-6 rounded-t border-b dark:border-gray-600">
+                <h3 class="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+                    {{ user_with_profile_being_viewed }} is followed by
+                </h3>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6">
+
+                <ul class="my-4 space-y-3">
+
+                    {% for member in list_of_followers %}
+
+                        <li>
+                            <a href="{% url 'user_profile' member.follower_of_user.username %}" class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                                <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                <span class="flex-1 ml-3 whitespace-nowrap">{{ member.follower_of_user.username }}</span>
+                            </a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- following modal -->
+<div id="following-modal" tabindex="-1" aria-hidden="true" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 w-full md:inset-0 h-modal md:h-full">
+    <div class="relative p-4 w-full max-w-md h-full md:h-auto">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-toggle="following-modal">
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                <span class="sr-only">Close modal</span>
+            </button>
+            <!-- Modal header -->
+            <div class="py-4 px-6 rounded-t border-b dark:border-gray-600">
+                <h3 class="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
+                    {{ user_with_profile_being_viewed }} is following
+                </h3>
+            </div>
+            <!-- Modal body -->
+            <div class="p-6">
+
+                <ul class="my-4 space-y-3">
+
+                    {% for member in users_that_user_with_profile_being_viewed_is_following %}
+
+                        <li>
+                            <a href="{% url 'user_profile' member.user_being_followed.username %}" class="flex items-center p-3 text-base font-bold text-gray-900 bg-gray-50 rounded-lg hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
+                                <svg class="flex-shrink-0 w-5 h-5 text-green-500 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+                                <span class="flex-1 ml-3 whitespace-nowrap">{{ member.user_being_followed.username }}</span>
+                            </a>
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 {% endblock main %}
 
-
-{% block JavaScript %}
-
-
-
-{% endblock JavaScript %}
 
 
 
