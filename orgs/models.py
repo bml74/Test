@@ -7,7 +7,7 @@ class GroupProfile(models.Model):
     description = models.TextField(blank=True, null=True)
     group_visibility = models.CharField(
         max_length=64,
-        choices=(("Invisible", "Invisible"), ("Private", "Private"), ("Public", "Public")),
+        choices=(("Private", "Private"), ("Public", "Public")),
         default="Private",
         blank=False,
     )
@@ -51,3 +51,13 @@ class GroupProfile(models.Model):
         return f'{self.group.name} Profile'
 
 
+class GroupFollowRequest(models.Model):
+    date_time_requested = models.DateTimeField(auto_now_add=True) 
+    user_requesting_to_follow_group = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_requesting_to_follow_group") 
+    group_receiving_follow_request = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_receiving_follow_request") 
+
+
+class GroupMembershipRequest(models.Model):
+    date_time_requested = models.DateTimeField(auto_now_add=True) 
+    user_requesting_to_become_member = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_requesting_to_become_member") 
+    group_receiving_membership_request = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_receiving_membership_request") 

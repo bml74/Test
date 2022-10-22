@@ -29,6 +29,7 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
+@login_required
 def user_profile(request, username):
     logged_in_user = request.user
     user_with_profile_being_viewed = get_object_or_404(User, username=username) # User whose profile is being viewed and thus will be followed.
@@ -125,6 +126,7 @@ def profile(request):
     return render(request, 'users/profile.html', context)
 
 
+@login_required
 def referral(request):
     profile = get_object_or_404(Profile, user=request.user)
     if profile.hasUsedAReferralCode:
@@ -187,6 +189,7 @@ def referral(request):
     return render(request, 'referral_code.html', {'form': form})
 
 
+@login_required
 def followers_count(request):
     if request.method == 'POST':
         value = request.POST['value']
@@ -207,16 +210,21 @@ def followers_count(request):
         return redirect(f'/profile/{user_username}')
 
 
+@login_required
 def follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
     user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
     user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
+    
+    requesting_user_follows_user_with_profile_being_viewed = does_user1_follow_user2(user_requesting_to_follow, user_receiving_follow_request)
+    
     # Check if FollowRequest doesn't yet exist
-    if not FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
+    if not requesting_user_follows_user_with_profile_being_viewed and not FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
         follow_request = FollowRequest(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request)
         follow_request.save()
     return redirect(f'/profile/{user_receiving_follow_request}')
 
 
+@login_required
 def delete_follow_request(user_requesting_to_follow, user_receiving_follow_request):
     # Check if follower request exists. If it does, delete that object.
     if FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
@@ -224,6 +232,7 @@ def delete_follow_request(user_requesting_to_follow, user_receiving_follow_reque
         follow_request.delete()
 
 
+@login_required
 def withdraw_follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
     user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
     user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
@@ -231,6 +240,7 @@ def withdraw_follow_request(request, user_requesting_to_follow, user_receiving_f
     return redirect(f'/profile/{user_receiving_follow_request}')
 
 
+@login_required
 def accept_follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
     user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
     user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)

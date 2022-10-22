@@ -43,7 +43,7 @@
 
       <!-- Card Title -->
       <div class="YRrCJSr_j5nopfm4duUc sJNGKHxFYdN5Nzml5J2j Q_jg_EPdNf9eDMn1mLI2 hD0sTTDgbxakubcHVW2X">
-        <h1 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile </h1>
+        <h1 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">@{{ user_with_profile_being_viewed }}</h1>
       </div>
 
         {% if profile_of_user.description %}
@@ -115,28 +115,37 @@
         </button>
 
         <div class="py-2"></div>
-        <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} is a member of</h3>
-        {% if group_member_data|length > 0 %}
-            <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-                {% for group_name, group_id in group_member_data.items %}
-                <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            {{ user_with_profile_being_viewed }} has not created any groups.
-        {% endif %}
 
-        <div class="py-2"></div>
-        <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} created</h3>
-        {% if group_creator_data|length > 0 %}
-            <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-                {% for group_name, group_id in group_creator_data.items %}
-                <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-                {% endfor %}
-            </ul>
+        {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}
+
+            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE"><i class="fas fa-lock"></i> @{{ user_with_profile_being_viewed }}'s' account is private. Follow them to view more.</h3>
+
         {% else %}
-            {{ user_with_profile_being_viewed }} is not a member of any groups.
-        {% endif %}
+
+            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} is a member of</h3>
+            {% if group_member_data|length > 0 %}
+                <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                    {% for group_name, group_id in group_member_data.items %}
+                    <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {{ user_with_profile_being_viewed }} has not created any groups.
+            {% endif %}
+
+            <div class="py-2"></div>
+            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} created</h3>
+            {% if group_creator_data|length > 0 %}
+                <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                    {% for group_name, group_id in group_creator_data.items %}
+                    <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                {{ user_with_profile_being_viewed }} is not a member of any groups.
+            {% endif %}
+
+        {% endif %} 
 
     </div>
 </div>

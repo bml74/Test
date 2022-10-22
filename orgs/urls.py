@@ -11,4 +11,7 @@ urlpatterns = [
     path('', GroupsListView.as_view(), name='groups_list_view'),
     path('<str:username>/groups/', UserGroupsListView.as_view(), name='user_groups_list_view'), # List view for all groups that the user is in.
     path('follow_group/<int:pk>/', views.follow_group, name='follow_group'),
+
+    path('<int:group_id>/request/membership/', views.request_membership, name='request_membership'),
+
 ]
