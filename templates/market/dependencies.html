@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -31,13 +32,11 @@
     <link rel="icon" type="image/png" sizes="32x32" href="https://www.svgrepo.com/show/76153/sailboat.svg">
     <link rel="icon" type="image/png" sizes="96x96" href="https://www.svgrepo.com/show/76153/sailboat.svg">
     <link rel="icon" type="image/png" sizes="16x16" href="https://www.svgrepo.com/show/76153/sailboat.svg">
-
+    
     <link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.3/dist/flowbite.min.css" />
-
-
+    
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 
     <meta name="msapplication-TileColor" content="#ffffff">
     <meta name="theme-color" content="#ffffff">
@@ -88,10 +87,25 @@
     {% block body %}
     {% endblock body %}
 
+    <style>
+        @media (min-width: 768px) {
+            #toast-message-cta {
+                width: 30vw !important;
+            }
+        }
+        @media (max-width: 768px) {
+            #toast-message-cta {
+                width: 90vw !important;
+                bottom: 2vh !important;
+                margin-left: 5vw !important;
+                marhin-right: 5vw !important;
+            }
+        }
+    </style>
 
 
 
-    <div id="toast-message-cta" style="position: fixed; width: 30vw !important;" class="flex absolute right-5 bottom-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+    <div id="toast-message-cta" style="position: fixed;" class="flex absolute bottom-5 right-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
         <div class="flex">
             <img class="w-8 h-8 rounded-full shadow-lg" src="https://pbs.twimg.com/profile_images/1281647096312016897/0a8qwD58_400x400.jpg" alt="Advertising image">
             <div class="ml-3 text-sm font-normal">
@@ -106,6 +120,7 @@
             </button>
         </div>
     </div>
+    
     
     
 

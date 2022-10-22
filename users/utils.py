@@ -50,3 +50,8 @@ def get_groups_that_user_follows(user):
         group_follows_data[item.group.name] = item.group.id
     num_groups_that_user_is_following = len(groups_that_user_follows)
     return (group_follows_data, num_groups_that_user_is_following)
+
+
+def does_user1_follow_user2(user1, user2):
+    """Does logged in user follow user with profile being viewed?"""
+    return FollowersCount.objects.filter(follower_of_user=user1, user_being_followed=user2).exists()

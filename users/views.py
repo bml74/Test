@@ -5,7 +5,8 @@ from .utils import (
     get_user_followers_data,
     get_groups_that_user_created,
     get_groups_that_user_is_a_member_of,
-    get_groups_that_user_follows
+    get_groups_that_user_follows,
+    does_user1_follow_user2
 )
 
 from django.contrib.auth.models import User
@@ -28,7 +29,6 @@ def register(request):
     return render(request, 'users/register.html', {'form': form})
 
 
-
 def user_profile(request, username):
     logged_in_user = request.user
     user_with_profile_being_viewed = get_object_or_404(User, username=username) # User whose profile is being viewed and thus will be followed.
@@ -40,6 +40,8 @@ def user_profile(request, username):
     (group_follows_data, num_groups_that_user_is_following) = get_groups_that_user_follows(user_with_profile_being_viewed)
     (group_member_data, num_groups_that_user_is_a_member_of) = get_groups_that_user_is_a_member_of(user_with_profile_being_viewed)
     (group_creator_data, num_groups_that_user_created) = get_groups_that_user_created(user_with_profile_being_viewed)
+
+    logged_in_user_follows_user_with_profile_being_viewed = does_user1_follow_user2(logged_in_user, user_with_profile_being_viewed) # Does logged in user follow user with profile being viewed?
 
     context = {
         "user_with_profile_being_viewed": user_with_profile_being_viewed,
@@ -58,10 +60,11 @@ def user_profile(request, username):
         "list_of_followers": list_of_followers,
         "num_followers": num_followers,
         "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
-        "num_following": num_following
+        "num_following": num_following,
+
+        "logged_in_user_follows_user_with_profile_being_viewed": logged_in_user_follows_user_with_profile_being_viewed
     }
     return render(request, 'users/user_profile.html', context)
-
 
 
 @login_required
