@@ -117,18 +117,27 @@
 
                 <div class="py-2"></div>
                 <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that I'm a member of</h3>
-                <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-                    {% for group_name, group_id in group_member_data.items %}
-                    <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-                    {% endfor %}
-                </ul>
+                {% if group_member_data|length > 0 %}
+                    <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                        {% for group_name, group_id in group_member_data.items %}
+                        <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    I am not a member of any groups yet.
+                {% endif %}
+
                 <div class="py-2"></div>
                 <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that I created</h3>
-                <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-                    {% for group_name, group_id in group_creator_data.items %}
-                    <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-                    {% endfor %}
-                </ul>
+                {% if group_creator_data|length > 0 %}
+                    <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                        {% for group_name, group_id in group_creator_data.items %}
+                        <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    I have not created any groups yet.
+                {% endif %}
 
             </div>
         </div>

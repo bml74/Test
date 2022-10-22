@@ -21,6 +21,12 @@ class Profile(models.Model):
     primary_twitter_handle = models.ForeignKey(TwitterHandle, on_delete=models.CASCADE, blank=True, null=True)
     country = CountryField(default='US')
     hasUsedAReferralCode = models.BooleanField(default=False)
+    visibility = models.CharField( 
+        max_length=8,
+        choices=(("Public", "Public"), ("Private", "Private")),
+        default="Public",
+        blank=False,
+    )
 
     def __str__(self):
         return f'{self.user.username} Profile'

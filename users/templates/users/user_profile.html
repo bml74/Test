@@ -46,12 +46,14 @@
         <h1 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">{{ user_with_profile_being_viewed }}'s profile </h1>
       </div>
 
+        {% if profile_of_user.description %}
         <dl class="max-w-md text-gray-900 divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
-        <div class="flex flex-col py-3 dark:text-white mb-2rem">
+        <div class="flex flex-col py-1 dark:text-white mb-2">
             <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Description</dt>
             <dd class="text-lg font-semiboldy M_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ profile_of_user.description|safe }}</dd>
         </div>
         </dl>
+        {% endif %}
 
         <button type="button" data-modal-toggle="followers-modal" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
             {{ num_followers }} followers 
@@ -70,18 +72,27 @@
 
         <div class="py-2"></div>
         <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} is a member of</h3>
-        <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-            {% for group_name, group_id in group_member_data.items %}
-            <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-            {% endfor %}
-        </ul>
+        {% if group_member_data|length > 0 %}
+            <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                {% for group_name, group_id in group_member_data.items %}
+                <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {{ user_with_profile_being_viewed }} has not created any groups.
+        {% endif %}
+
         <div class="py-2"></div>
         <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE">Groups that {{ user_with_profile_being_viewed }} created</h3>
-        <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
-            {% for group_name, group_id in group_creator_data.items %}
-            <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
-            {% endfor %}
-        </ul>
+        {% if group_creator_data|length > 0 %}
+            <ul class="space-y-1 max-w-md list-disc list-inside text-gray-500 dark:text-gray-400">
+                {% for group_name, group_id in group_creator_data.items %}
+                <li><a href="{% url 'group_detail' group_id %}">{{ group_name }}</a></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            {{ user_with_profile_being_viewed }} is not a member of any groups.
+        {% endif %}
 
     </div>
 </div>
