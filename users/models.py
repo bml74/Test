@@ -1,7 +1,7 @@
+from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django_countries.fields import CountryField
-
 
 
 class TwitterHandle(models.Model):
@@ -49,5 +49,12 @@ class FollowersCount(models.Model):
 
     def __str__(self):
         return f"{self.user_being_followed.username} followed by {self.follower_of_user.username}"
+
+
+class FollowRequest(models.Model):
+    date_time_requested = models.DateTimeField(auto_now_add=True) 
+    user_requesting_to_follow = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_requesting_to_follow") 
+    user_receiving_follow_request = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_receiving_follow_request") 
+
 
 

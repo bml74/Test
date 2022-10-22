@@ -40,6 +40,7 @@ urlpatterns = [
     path('referral/', user_views.referral, name='referral'),
     path('profile/<str:username>/', user_views.user_profile, name='user_profile'),
 
+    path('users/', include('users.urls')),
     path('groups/', include('orgs.urls')),
     path('posts/', include('posts.urls')),
     path('écoles/', include('ecoles.urls')), path('ecoles/', include('ecoles.urls')),

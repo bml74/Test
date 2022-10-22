@@ -1,6 +1,6 @@
 from users.utils import get_user_followers_data
 from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import FollowersCount, Profile, ReferralCode
+from .models import FollowersCount, FollowRequest, Profile, ReferralCode
 from .utils import (
     get_user_followers_data,
     get_groups_that_user_created,
@@ -62,7 +62,9 @@ def user_profile(request, username):
         "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
         "num_following": num_following,
 
-        "logged_in_user_follows_user_with_profile_being_viewed": logged_in_user_follows_user_with_profile_being_viewed
+        "logged_in_user_follows_user_with_profile_being_viewed": logged_in_user_follows_user_with_profile_being_viewed,
+        "logged_in_user_has_sent_follow_request": FollowRequest.objects.filter(user_requesting_to_follow=logged_in_user, user_receiving_follow_request=user_with_profile_being_viewed).exists()
+
     }
     return render(request, 'users/user_profile.html', context)
 
@@ -75,6 +77,8 @@ def profile(request):
     credits = get_object_or_404(Profile, user=request.user).credits
 
     (list_of_followers, num_followers, users_that_user_with_profile_being_viewed_is_following, num_following) = get_user_followers_data(current_user)
+
+    follow_requests = FollowRequest.objects.filter(user_receiving_follow_request=request.user).all()
 
     (group_follows_data, num_groups_that_user_is_following) = get_groups_that_user_follows(current_user)
     (group_member_data, num_groups_that_user_is_a_member_of) = get_groups_that_user_is_a_member_of(current_user)
@@ -114,7 +118,8 @@ def profile(request):
         "list_of_followers": list_of_followers,
         "num_followers": num_followers,
         "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
-        "num_following": num_following
+        "num_following": num_following,
+        "follow_requests": follow_requests
     }
 
     return render(request, 'users/profile.html', context)
@@ -201,3 +206,35 @@ def followers_count(request):
             f_cnt.delete()
         return redirect(f'/profile/{user_username}')
 
+
+def follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
+    user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
+    user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
+    # Check if FollowRequest doesn't yet exist
+    if not FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
+        follow_request = FollowRequest(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request)
+        follow_request.save()
+    return redirect(f'/profile/{user_receiving_follow_request}')
+
+
+def delete_follow_request(user_requesting_to_follow, user_receiving_follow_request):
+    # Check if follower request exists. If it does, delete that object.
+    if FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
+        follow_request = get_object_or_404(FollowRequest, user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request)
+        follow_request.delete()
+
+
+def withdraw_follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
+    user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
+    user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
+    delete_follow_request(user_requesting_to_follow, user_receiving_follow_request)
+    return redirect(f'/profile/{user_receiving_follow_request}')
+
+
+def accept_follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
+    user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
+    user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
+    new_follower_obj = FollowersCount(follower_of_user=user_requesting_to_follow, user_being_followed=user_receiving_follow_request)
+    new_follower_obj.save()
+    delete_follow_request(user_requesting_to_follow, request.user)
+    return redirect('profile')

@@ -55,21 +55,58 @@
         </dl>
         {% endif %}
 
+        {% if user_with_profile_being_viewed != logged_in_user %}
+
+            {% if profile_of_user.visibility == "Public" %}
+            <form action="{% url 'followers_count' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{ user_with_profile_being_viewed }}" readonly/>
+                <input type="hidden" name="follower" value="{{ logged_in_user }}" readonly/>
+
+                {% if logged_in_user_follows_user_with_profile_being_viewed %} 
+                <input type="hidden" name="value" value="unfollow" readonly/>
+                <button type="submit" id="unfollow-button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Unfollow</button>
+                {% else %}
+                <input type="hidden" name="value" value="follow" readonly/>
+                <button type="submit" id="follow-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Follow</button>  
+                {% endif %}
+            </form>
+            {% else %} <!-- IF USER IS PRIVATE-->
+                {% if logged_in_user_follows_user_with_profile_being_viewed %} <!-- IF ALREADY FOLLOWS USER -->
+                <form action="{% url 'followers_count' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="user" value="{{ user_with_profile_being_viewed }}" readonly/>
+                    <input type="hidden" name="follower" value="{{ logged_in_user }}" readonly/>
+                    <input type="hidden" name="value" value="unfollow" readonly/>
+                    <button type="submit" id="unfollow-button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Unfollow</button>
+                </form>
+                {% else %}
+                    {% if logged_in_user_has_sent_follow_request %}
+                        <a href="{% url 'withdraw_follow_request' logged_in_user user_with_profile_being_viewed %}" type="button" id="unfollow-button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Withdraw follow request</a>
+                    {% else %}
+                        <a href="{% url 'follow_request' logged_in_user user_with_profile_being_viewed %}" type="button" id="follow-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Request to follow</a>  
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+
+        {% endif %}
+
+        <br>
 
         <button 
-        {% if profile_of_user.visibility == "Private" or user_with_profile_being_viewed == logged_in_user or not logged_in_user_follows_user_with_profile_being_viewed %}disabled{% endif %} 
+        {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}disabled{% endif %} 
         type="button" data-modal-toggle="followers-modal" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
             {{ num_followers }} followers 
         </button>
 
         <button 
-        {% if profile_of_user.visibility == "Private" or user_with_profile_being_viewed == logged_in_user or not logged_in_user_follows_user_with_profile_being_viewed %}disabled{% endif %} 
+        {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}disabled{% endif %} 
         type="button" data-modal-toggle="following-modal" class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
             {{ num_following }} following
         </button>
 
         <button 
-        {% if profile_of_user.visibility == "Private" or user_with_profile_being_viewed == logged_in_user or not logged_in_user_follows_user_with_profile_being_viewed %}disabled{% endif %} 
+        {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}disabled{% endif %} 
         type="button" data-modal-toggle="groups-user-is-following-modal"  class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:focus:ring-gray-600 dark:bg-gray-800 dark:border-gray-700 dark:text-white dark:hover:bg-gray-700">
             Groups {{ user_with_profile_being_viewed }} follows
             <span class="inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
@@ -128,7 +165,7 @@
                 </h3>
             </div>
             <!-- Modal body -->
-            <div class="p-6">
+            <div class="p-6 modal-body">
 
                 <ul class="my-4 space-y-3">
 
@@ -166,7 +203,7 @@
                 </h3>
             </div>
             <!-- Modal body -->
-            <div class="p-6">
+            <div class="p-6 modal-body">
 
                 <ul class="my-4 space-y-3">
 
@@ -204,7 +241,7 @@
                 </h3>
             </div>
             <!-- Modal body -->
-            <div class="p-6">
+            <div class="p-6 modal-body">
 
                 <ul class="my-4 space-y-3">
 
