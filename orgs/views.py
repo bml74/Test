@@ -34,6 +34,15 @@ class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         new_profile = GroupProfile(group=form.instance)
         new_profile.save()
 
+        # Add user as group_member to group profile
+        new_profile.group_creator = self.request.user
+        new_profile.group_members.add(self.request.user)
+        new_profile.group_followers.add(self.request.user)
+        new_profile.save()
+        # Add user as group member to built-in Django groups
+        form.instance.user_set.add(self.request.user)
+
+
         # UPON CREATE ALSO CREATE A PROFILE FOR THIS GROUP
 
         return redirect('group_detail', pk=form.instance.pk) # return super().form_valid(form)
@@ -100,8 +109,9 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
             "first_few_specializations": specializations,
             "first_few_news": news,
 
-            # "follow_button_val": follow_button_val,
-            # "num_followers_of_group": num_followers_of_group
+            "user_has_made_membership_request": GroupMembershipRequest.objects.filter(user_requesting_to_become_member=request.user, group_receiving_membership_request=group).exists(),
+            "membership_requests": GroupMembershipRequest.objects.all()
+
         }
 
         return render(request, 'groups/group_detail_view.html', context)
@@ -234,14 +244,15 @@ def follow_group(request, pk):
 
 
 @login_required
-def group_membership(request, pk):
+def group_membership(request, username, pk):
     (group, group_profile) = get_group_and_group_profile_from_group_id(group_id=pk)
-    if group_profile.group_members.filter(id=request.user.id).exists():
-        group_profile.group_members.remove(request.user)
-        group.user_set.remove(request.user)
+    user = get_object_or_404(User, username=username)
+    if group_profile.group_members.filter(id=user.id).exists():
+        group_profile.group_members.remove(user)
+        group.user_set.remove(user)
     else:
-        group_profile.group_members.add(request.user)
-        group.user_set.add(request.user)
+        group_profile.group_members.add(user)
+        group.user_set.add(user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
@@ -251,7 +262,7 @@ def request_membership(request, group_id):
     (group_receiving_request, group_profile) = get_group_and_group_profile_from_group_id(group_id)
     # Boolean filters:
     user_is_member = request.user in group_profile.group_members.all()
-    request_exists = GroupMembershipRequest(user_requesting_to_become_member=request.user, group_receiving_membership_request=group_receiving_request).exists()
+    request_exists = GroupMembershipRequest.objects.filter(user_requesting_to_become_member=request.user, group_receiving_membership_request=group_receiving_request).exists()
     # If user is not a member and user has not made a request for this group so far, create request and save.
     if not user_is_member and not request_exists:
         group_request = GroupMembershipRequest(user_requesting_to_become_member=request.user, group_receiving_membership_request=group_receiving_request)
@@ -259,33 +270,33 @@ def request_membership(request, group_id):
     return redirect('group_detail', pk=group_id)
 
 
-# Delete membership request
-@login_required
-def delete_membership_request(group_receiving_request, group_profile):
-    membership_request = get_object_or_404(GroupMembershipRequest, user_requesting_to_become_member=request.user, group_receiving_membership_request=group_receiving_request)
+def delete_membership_request(username, group_receiving_request):
+    user = get_object_or_404(User, username=username)
+    membership_request = get_object_or_404(GroupMembershipRequest, user_requesting_to_become_member=user, group_receiving_membership_request=group_receiving_request)
     membership_request.delete()
 
 
 # Withdraw membership request: Delete membership request object
 @login_required
-def withdraw_membership_request(request, group_id):
+def withdraw_membership_request(request, username, group_id):
     (group_receiving_request, group_profile) = get_group_and_group_profile_from_group_id(group_id)
-    user_is_member = request.user in group_profile.group_members.all()
-    request_exists = GroupMembershipRequest(user_requesting_to_become_member=request.user, group_receiving_membership_request=group_receiving_request).exists()
+    user = get_object_or_404(User, username=username)
+    user_is_member = user in group_profile.group_members.all()
+    request_exists = GroupMembershipRequest.objects.filter(user_requesting_to_become_member=user, group_receiving_membership_request=group_receiving_request).exists()
     # If user is not a member and user has not made a request for this group so far, create request and save.
     if not user_is_member and request_exists:
-        delete_membership_request(group_receiving_request, group_profile)
+        delete_membership_request(username, group_receiving_request)
     return redirect('group_detail', pk=group_id)
 
 
 # Accept memebrship request: Add to MTM field and delete membership request object
 @login_required
-def accept_membership_request(request, group_id):
+def accept_membership_request(request, username, group_id):
     (group_receiving_request, group_profile) = get_group_and_group_profile_from_group_id(group_id)
     # Add membership
-    group_membership(request, group_id)
-    delete_membership_request(group_receiving_request, group_profile)
-    return redirect('profile')
+    group_membership(request, username, group_id)
+    delete_membership_request(username, group_receiving_request)
+    return redirect('group_detail', pk=group_id)
 
 
 # Follow request: Create follow request object

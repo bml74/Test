@@ -85,10 +85,6 @@ def profile(request):
     (group_member_data, num_groups_that_user_is_a_member_of) = get_groups_that_user_is_a_member_of(current_user)
     (group_creator_data, num_groups_that_user_created) = get_groups_that_user_created(current_user)
 
-    import sys
-    DEBUG = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-    print(DEBUG)
-
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST,
