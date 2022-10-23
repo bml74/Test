@@ -238,8 +238,10 @@ def group_membership(request, pk):
     (group, group_profile) = get_group_and_group_profile_from_group_id(group_id=pk)
     if group_profile.group_members.filter(id=request.user.id).exists():
         group_profile.group_members.remove(request.user)
+        group.user_set.remove(request.user)
     else:
         group_profile.group_members.add(request.user)
+        group.user_set.add(request.user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 

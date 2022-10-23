@@ -1,6 +1,8 @@
 import stripe
 import random
 
+from config.utils import GET_BASE_URL
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
@@ -223,8 +225,8 @@ def checkout_session(request, obj_type, pk):
             }],
             mode='payment',
             #change domain name when you live it
-            success_url='http://127.0.0.1:8000/market/checkout/success/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url='http://127.0.0.1:8000/checkout/cancel/',
+            success_url=f'{GET_BASE_URL()}/market/checkout/success/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=f'{GET_BASE_URL()}/checkout/cancel/',
 
             client_reference_id=pk
 

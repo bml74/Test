@@ -38,12 +38,26 @@
                             {% comment %} <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ item.description|safe }}</p> {% endcomment %}
 
                             <div class="flex flex-wrap justify-center pt-4 mt-4">
-                                    {% if user_follows_this_group %}
 
-                                            <a href="{% url 'follow_group' item.group.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-minus-circle"></i> Unfollow</a>
-                                        {% else %}
-                                            <a href="{% url 'follow_group' item.group.id %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-plus-circle"></i> Follow</a>  
+                                    {% if user_follows_this_group %}
+                                        <a href="{% url 'follow_group' item.group.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-minus-circle"></i> Unfollow</a>
+                                    {% else %}
+                                        <a href="{% url 'follow_group' item.group.id %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-plus-circle"></i> Follow</a>  
+                                    {% endif %}
+
+                                    {% if item.group_visibility.capitalize == "Public" %}
+                                        {% if request.user in item.group.user_set.all %} <!-- If already a member, remove your membership. -->
+                                            <a href="{% url 'group_membership' item.group.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-minus-circle"></i> Delete membership</a>
+                                        {% else %} <!-- Else become a member. -->
+                                            <a href="{% url 'group_membership' item.group.id %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-plus-circle"></i> Join group</a>  
                                         {% endif %}
+                                    {% else %}
+                                        {% if request.user in item.group.user_set.all %} <!-- If already a member, remove your membership.-->
+                                            <a href="{% url 'group_membership' item.group.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-minus-circle"></i> Delete membership</a>
+                                        {% else %} <!-- Else request membership. -->
+                                            <a href="{% url 'group_membership' item.group.id %}" type="button" class="text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-6 py-4 text-center ml-2 mr-2 mb-2"><i class="fas fa-plus-circle"></i> Request membership</a>  
+                                        {% endif %}
+                                    {% endif %}
 
                             </div>
 
@@ -76,7 +90,7 @@
                                     <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="overview" role="tabpanel" aria-labelledby="overview-tab">
 
                                         <div class="flex justify-between">
-                                            <span class="bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-2 rounded dark:bg-purple-200 dark:text-purple-900">{{ obj_type.capitalize }}</span>
+                                            <span class="bg-purple-100 text-purple-800 text-sm font-medium mr-2 px-2.5 py-2 rounded dark:bg-purple-200 dark:text-purple-900">{{ item.group_visibility.capitalize }} {{ obj_type.capitalize }}</span>
                                             <button id="dropdownButton" data-dropdown-toggle="dropdown" class="inline-block text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-1.5" type="button">
                                                 <span class="sr-only">Open dropdown</span>
                                                 <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path></svg>
