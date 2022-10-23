@@ -92,13 +92,13 @@
                                             {% if not user_is_creator %}
                                                 <a href="#" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> Contact this seller</a>
                                             {% endif %}
-                                            <a 
-                                            {% comment %} {% if item.price > 0 %} {% endcomment %}
-                                            href="{% url 'checkout' 'listing' item.id %}" 
-                                            {% comment %} {% else %} {% endcomment %}
-                                            {% comment %} href="#" {% endcomment %}
-                                            {% comment %} {% endif %} {% endcomment %}
-                                            type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
+                                            {% if request.user in item.purchasers.all %}
+                                            <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
+                                            {% elif not item.infinite_copies_available and item.quantity_available == 0 %}
+                                            <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> No more of this item available.</a>
+                                            {% else %}
+                                            <a href="{% url 'checkout' 'listing' item.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
+                                            {% endif %}
                                         </div>      
                                         
                                         <p class="mb-3 text-gray-500 dark:text-gray-400">{{ item.description|safe }}</p>
@@ -165,14 +165,14 @@
                                         <hr>
                                         <div class="py-2"></div>
 
-                                        <h2 class="pt-4 mb-3 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Other {{ obj_type }}s from this user</h2>
+                                        <h2 class="pt-4 mb-3 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white"><a href="{% url 'listings_by_user' item.creator %}">Other {{ obj_type }}s from this user &rarr;</a></h2>
 
 
 
-                                        <div class="scrollmenu gap-6 mt-6" id="{{ obj_type }}s">
+                                        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mt-6" id="{{ obj_type }}s">
 
                                             {% for item in all_listings_from_this_creator %}
-                                            <div class="horizontal-scroll-listing p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 w-100">
+                                            <div class="p-6 w-50 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 w-100">
                                                 <a href="{% url 'listing' item.id %}">
                                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ item.title }}</h5>
                                                 </a>

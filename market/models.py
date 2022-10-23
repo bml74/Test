@@ -9,7 +9,7 @@ from ecoles.choices import Visibility
 class Listing(models.Model):
     title = models.CharField(max_length=64, default="Listing", blank=False)
     description = models.TextField(blank=True, null=True)
-    price = models.FloatField(default=0, validators=[MinValueValidator(0.0)])
+    price = models.FloatField(default=0, validators=[MinValueValidator(0.00)])
     date_listed = models.DateTimeField(auto_now_add=True)
     date_due = models.DateTimeField(blank=True, null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_created_listing")
@@ -37,8 +37,8 @@ class Listing(models.Model):
         default="General",
     )  
     infinite_copies_available = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
-    quantity_available = models.IntegerField(default=1, blank=True, null=True)
-    quantity_sold = models.IntegerField(default=0, blank=True, null=True)
+    quantity_available = models.IntegerField(default=1, blank=True, null=True, validators=[MinValueValidator(0.00)])
+    quantity_sold = models.IntegerField(default=0, blank=True, null=True, validators=[MinValueValidator(0.00)])
     purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)
 
     def __str__(self):
