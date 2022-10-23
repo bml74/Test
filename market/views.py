@@ -81,12 +81,37 @@ class ListingListView(UserPassesTestMixin, ListView):
         context = super(ListingListView, self).get_context_data(**kwargs)
         num_results = len(Listing.objects.all())
         context.update({
-            "num_results": num_results
+            "num_results": num_results,
+            "header": "All listings"
         })
         return context
 
     def get_queryset(self):
-        return Listing.objects.order_by('-title')
+        return Listing.objects.all().exclude(visibility='Invisible').all().order_by('-title')
+
+
+class ListingsByUserListView(UserPassesTestMixin, ListView):
+    model = Listing
+    template_name = 'market/listings.html'
+    context_object_name = 'items'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingsByUserListView, self).get_context_data(**kwargs)
+        user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
+        results = Listing.objects.filter(creator=user_in_url).all()
+        num_results = len(results)
+        context.update({
+            "num_results": num_results,
+            "header": f"All listings by {user_in_url.username}"
+        })
+        return context
+
+    def get_queryset(self):
+        user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Listing.objects.filter(creator=user_in_url).all().exclude(visibility='Anonymous').all().exclude(visibility='Invisible').all().order_by('-title')
 
 
 class ListingDetailView(UserPassesTestMixin, DetailView):
@@ -184,6 +209,50 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         title = f"Listing: {transaction.title}"
         context.update({"type": "listing", "title": title})
         return context
+
+
+def purchase_logic(request, obj_type, item_id):
+    item = None
+    if obj_type == 'listing':
+        item = Listing.objects.get(pk=item_id)
+        item.purchasers.add(request.user)
+    # If obj_type is course or specialization then also enroll
+    elif obj_type == 'course':
+        item = Course.objects.get(pk=item_id)
+        # If obj_type is course then enroll in that course
+        if not item.students.filter(id=request.user.id).exists():
+            item.students.add(request.user)
+        if not item.purchasers.filter(id=request.user.id).exists():
+            item.purchasers.add(request.user)
+    elif obj_type == 'specialization':
+        item = Specialization.objects.get(pk=item_id)
+        # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
+        if not item.students.filter(id=request.user.id).exists():
+            item.students.add(request.user)
+        if not item.purchasers.filter(id=request.user.id).exists():
+            item.purchasers.add(request.user)
+        if isinstance(item, Specialization): # Affirm that obj is of type Specialization
+            courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
+            for course in courses_within_specialization: # For each of these courses within the specialization
+                if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
+                    course.students.add(request.user) # Then add user as a student
+    return item
+
+
+def purchase_item_for_free(request, obj_type, pk):
+    item = purchase_logic(request, obj_type, item_id=pk)
+    if item is not None:
+        print(item)
+        # Generate Transaction record
+        transaction_no = generate_transaction_id(10)
+        transaction = Transaction.objects.create(transaction_obj_type=obj_type, transaction_obj_id=item.id, title=item.title, seller=item.creator, purchaser=request.user, transaction_id=transaction_no, value=item.price, description=f'Purchase of {obj_type}')
+        transaction.save()         
+        return render(request, 'payments/free_purchase_success.html', context={
+            "obj_type": obj_type,
+            "obj_id": pk
+        }) 
+    else:
+        return redirect('payment_cancel')
 
 
 #checkout call

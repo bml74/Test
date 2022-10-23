@@ -26,14 +26,17 @@ class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     fields = ['name']
     template_name = 'market/dashboard/form_view.html'#'groups/new_group.html'
 
-    def form_valid(self, form):
-        # IS THIS THE MOST EFFECTIVE WAY TO REDIRECT?
-        form.save()
+    def get_context_data(self, **kwargs):
+        context = super(GroupCreateView, self).get_context_data(**kwargs)
+        obj_type = "group"
+        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        return context
 
+    def form_valid(self, form):
+        form.save()
         # Create a new profile upon the creation of a group:
         new_profile = GroupProfile(group=form.instance)
         new_profile.save()
-
         # Add user as group_member to group profile
         new_profile.group_creator = self.request.user
         new_profile.group_members.add(self.request.user)
@@ -41,10 +44,6 @@ class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         new_profile.save()
         # Add user as group member to built-in Django groups
         form.instance.user_set.add(self.request.user)
-
-
-        # UPON CREATE ALSO CREATE A PROFILE FOR THIS GROUP
-
         return redirect('group_detail', pk=form.instance.pk) # return super().form_valid(form)
 
     def test_func(self):

@@ -6,6 +6,7 @@ urlpatterns = [
 
     # Listings
     path('listings/', views.ListingListView.as_view(), name='listings'),
+    path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),
     path('listings/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
     path('listings/create/', views.ListingCreateView.as_view(), name='listing-create'),
     path('listings/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
@@ -20,6 +21,8 @@ urlpatterns = [
     path('transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction'),
 
     # Payments
+    path('purchase_item_for_free/<str:obj_type>/<int:pk>/', views.purchase_item_for_free, name='purchase_item_for_free'),
+
     path('checkout/<str:obj_type>/<int:pk>/', views.checkout, name='checkout'),
     path('checkout_session/<str:obj_type>/<int:pk>/',views.checkout_session,name='checkout_session'),
     path('checkout/success/<str:obj_type>/<int:pk>/', views.payment_success, name='payment_success'),

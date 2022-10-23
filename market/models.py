@@ -39,6 +39,7 @@ class Listing(models.Model):
     infinite_copies_available = models.BooleanField(default=True, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
     quantity_available = models.IntegerField(default=1, blank=True, null=True)
     quantity_sold = models.IntegerField(default=0, blank=True, null=True)
+    purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)
 
     def __str__(self):
         return self.title
