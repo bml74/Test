@@ -1,4 +1,4 @@
-from turtle import title
+# from turtle import title
 from django.http import JsonResponse
 from django.shortcuts import render
 from googletrans import Translator
