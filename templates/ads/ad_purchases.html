@@ -1,0 +1,155 @@
+{% extends 'market/dashboard/dashboard_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{ header }}
+{% endblock title %}
+
+{% block main %}
+
+
+
+
+
+<div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
+    <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
+        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">Transactions</h1>
+    </div>
+    <div class="_wYiJGbRZyFZeCc8y7Sf _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi">
+      <div class="YRrCJSr_j5nopfm4duUc sJNGKHxFYdN5Nzml5J2j Q_jg_EPdNf9eDMn1mLI2 hD0sTTDgbxakubcHVW2X">
+        <h3 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">Transaction History</h3>
+      </div>
+      <div class="YRrCJSr_j5nopfm4duUc e8VqoQNK0mbkRFDL3LMV">
+        <div class="_IebywwKB6L2zG0BTy63 mveJTCIb2WII7J4sY22F">
+          <div class="VPGGthdu3cy_ZP7AL7dt TK9h2c2b79uBgR_cJzCE u0Aizb1ol0gBXDISYKJM">
+            <div class="wBVMFkIGfrKshbvi2gS1 mngKhi_Rv06PF57lblDI PTS4x_A1HVmoZYJHkYaG">
+              <table class="TK9h2c2b79uBgR_cJzCE Zy1Pypi71Xu6guex6urN NIAblPiyeuYQ0zW671xb PoeKYEQfG4WfmL9xM6vu">
+                <thead class="jtAJHOc7mn7b4IKRO59D jqg6J89cvxmDiFpnV56r">
+                    <tr>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            View details
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Current clicks
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Required clicks
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Current impressions
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Required impressions
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Current unique impressions
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Required unique impressions
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Key metrics
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Total price
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Item type
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Item link
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Purchaser
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Group
+                        </th>
+                        <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                            Date purchased
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody class="_Ybd3WwuTVljUT4vEaM3 _1jTZ8KXRZul60S6czNi">
+                    {% for item in items %}
+                        <tr>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">                            
+                                <a href="{% url 'ad-purchase' item.id %}">View &rarr;</a>
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">                            
+                                {{ item.clicks }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">                            
+                                {{ item.offer.required_clicks }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">                              
+                                {{ item.impressions }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.offer.required_impressions }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.unique_impressions.count }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.offer.required_unique_impressions }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.offer.metric }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                ${{ item.offer.price|floatformat:2 }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.ad_type }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {% if item.ad_type.lower == 'listing' %}
+                                    <a href="{% url 'listing' item.listing_to_be_advertised %}">{{ item.listing_to_be_advertised.title }} (#{{ item.listing_to_be_advertised.title }})</a>
+                                {% elif item.ad_type.lower == 'course' %}
+                                    <a href="{% url 'course_detail' item.course_to_be_advertised %}">{{ item.course_to_be_advertised.title }} (#{{ item.course_to_be_advertised.title }})</a>
+                                {% elif item.ad_type.lower == 'specialization' %}
+                                    <a href="{% url 'specialization_detail' item.specialization_to_be_advertised %}">{{ item.specialization_to_be_advertised.title }} (#{{ item.specialization_to_be_advertised.id }})</a>
+                                {% elif item.ad_type.lower == 'post' %}
+                                    <a href="{% url 'post_detail' item.post_to_be_advertised %}">{{ item.post_to_be_advertised.title }} (#{{ item.post_to_be_advertised.title }})</a>
+                                {% else %}
+                                    N/A (General Advertisement)
+                                {% endif %}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.user_that_purchased_ad }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.group_that_purchased_ad }}
+                            </td>
+                            <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">  
+                                {{ item.date_created }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock main %}
+
+
+
+
