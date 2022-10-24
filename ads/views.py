@@ -99,9 +99,7 @@ class AdPurchaseByUserListView(ListView):
     paginate_by = 10
 
     def test_func(self):
-        # Is user member of group?
-        # Is user creator of group?
-        return True
+        return self.kwargs.get('username') == self.request.user.username
 
     def get_context_data(self, **kwargs):
         context = super(AdPurchaseByUserListView, self).get_context_data(**kwargs)
@@ -119,9 +117,12 @@ class AdPurchaseByGroupListView(ListView):
     paginate_by = 10
 
     def test_func(self):
-        # Is user member of group?
-        # Is user creator of group?
-        return True
+        # Is user member of group? Or is user creator of group?
+        group_that_purchased_ad = self.kwargs.get('group_name')
+        group_profile = get_object_or_404(GroupProfile, group=group_that_purchased_ad)
+        user_in_group = self.request.user.groups.filter(name=group_that_purchased_ad.name).exists() or self.request.user in group_profile.group_members.all()
+        user_created_group = self.request.user == group_profile.group_creator
+        return user_in_group or user_created_group
 
     def get_context_data(self, **kwargs):
         context = super(AdPurchaseByGroupListView, self).get_context_data(**kwargs)
@@ -129,7 +130,6 @@ class AdPurchaseByGroupListView(ListView):
         return context
 
     def get_queryset(self, **kwargs):
-        context = super(AdPurchaseByGroupListView, self).get_context_data(**kwargs)
         return AdPurchase.objects.filter(group_that_purchased_ad=self.kwargs.get('group_name')).order_by('-date_created').all()
 
 
