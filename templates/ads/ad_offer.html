@@ -1,0 +1,106 @@
+{% extends 'market/base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+
+{% block title %}
+Ad Offers
+{% endblock title %}
+
+{% block main %}
+
+
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 border-b border-gray-200 dark:border-gray-800 pl-15vw pr-15vw">
+
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Scampia</span> {{ header }}</h1>
+                            {% if request.user.is_superuser %}
+                            <a href="{% url 'ad-offer-create' %}" type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center text-center">Create ad offer</a>
+                            {% endif %}
+                            <a href="{% url 'ad-offers' %}" type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center text-center">View all ad offers</a>
+                            
+                                                        
+                        </div>
+                
+                        <div id="mainContent" class="pl-15vw pr-15vw">
+
+
+
+
+                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-1 xl:grid-cols-1" id="ad-offers">
+
+                                <div class="p-4 w-full bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                    <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">{{ item.title }}</h5>
+                                    <div class="flex items-baseline text-gray-900 dark:text-white">
+                                        <span class="text-3xl font-semibold">$</span>
+                                        <span class="text-5xl font-extrabold tracking-tight">{{ item.get_price_per_required_metric|floatformat:2 }}</span>
+                                        <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/{% if item.metric == "Impressions" %}impression{% elif item.metric == "Unique Impressions" %}unique impression{% elif item.metric == "Clicks" %}click{% endif %}</span>
+                                    </div>
+                                    {% if item.description %}
+                                        <p class="mt-4 text-base font-normal leading-tight text-gray-500 dark:text-gray-400">{{ item.description|linebreaks|safe }}</p>
+                                    {% endif %}
+                                    <!-- List -->
+                                    <ul role="list" class="my-7 space-y-5">
+                                        <li class="flex space-x-3">
+                                            <!-- Icon -->
+                                            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Check icon</title><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">Required {{ item.metric.lower }}: {{ item.get_required_metric }}</span>
+                                        </li>
+                                        <li class="flex space-x-3">
+                                            <!-- Icon -->
+                                            <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Check icon</title><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                            <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">Total price: ${{ item.get_price|floatformat:2 }}</span>
+                                        </li>
+                                    </ul>
+                                    <a href="#" type="button" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">Choose plan</a>
+                                </div>
+                            
+                            </div>
+
+
+
+
+
+
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main> 
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+
+
+

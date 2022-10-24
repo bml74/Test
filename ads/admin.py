@@ -1,3 +1,6 @@
 from django.contrib import admin
+from .models import AdOffer, AdPurchase
 
-# Register your models here.
+
+admin.site.register(AdOffer)
+admin.site.register(AdPurchase)
