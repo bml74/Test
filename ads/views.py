@@ -158,7 +158,7 @@ class AdPurchaseDetailView(UserPassesTestMixin, DetailView):
 
 class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AdPurchase
-    fields = ['user_that_purchased_ad', 'group_that_purchased_ad', 'offer']
+    fields = ['group_that_purchased_ad', 'offer']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
