@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     'django_countries',
 
     'users',
+    'orgs',
+    'ads',
     'ecoles',
     'maps',
     'posts',
@@ -46,7 +48,6 @@ INSTALLED_APPS = [
     'drive',
     'quizzes',
     'questions',
-    'orgs',
     'personal',
     'market',
 
