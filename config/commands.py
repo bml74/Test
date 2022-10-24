@@ -1,3 +1,6 @@
+# # Command to add environment variable to Heroku:
+# # heroku config:add ENV_VAR_NAME='env_var_12345'
+
 # ecoles = [ 
 #     ["École générale", "general", "https://www.svgrepo.com/show/195313/bank.svg", ""],
 #     ["École des finances", "finance", "https://www.svgrepo.com/show/212692/banking-business-and-finance.svg", "Scampia's École des finances features dozens of specializations and courses as well as databases and interactive learning materials."],

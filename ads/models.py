@@ -3,6 +3,9 @@ from django.contrib.auth.models import User, Group
 from django.db import models
 from django.core.validators import MinValueValidator
 from django.utils import timezone
+from ecoles.models import Specialization, Course
+from posts.models import Post
+from market.models import Listing
 
 
 class AdOffer(models.Model):
@@ -61,6 +64,22 @@ class AdPurchase(models.Model):
     clicks = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     unique_impressions = models.ManyToManyField(User, related_name="unique_impressions", default=None, blank=True)
+    ad_type = models.CharField( 
+        max_length=32,
+        choices=(
+            ("Specialization", "Specialization"), 
+            ("Course", "Course"), 
+            ("Post", "Post"),
+            ("Listing", "Listing"),
+            ("General Advertisement", "General Advertisement"),
+        ),
+        default="General Advertisement",
+    )
+    specialization_to_be_advertised = models.ForeignKey(Specialization, on_delete=models.CASCADE, blank=True, null=True, related_name="specialization_to_be_advertised")
+    course_to_be_advertised = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True, related_name="course_to_be_advertised")
+    listing_to_be_advertised = models.ForeignKey(Listing, on_delete=models.CASCADE, blank=True, null=True, related_name="listing_to_be_advertised")
+    post_to_be_advertised = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True, related_name="post_to_be_advertised")    
+    general_advertisement_text = models.CharField(max_length=128, blank=True, null=True)
 
     def get_metric(self):
         return self.offer.metric

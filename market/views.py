@@ -1,3 +1,4 @@
+import os
 import stripe
 import random
 
@@ -268,8 +269,7 @@ def checkout(request, obj_type, pk):
     return JsonResponse({"Error": "Item retrieval error."})
 
 def checkout_session(request, obj_type, pk):
-    stripe.api_key = 'sk_test_51LiiCfBMfcyp67kCpEr6rBvrRKa09wNHZjJdwND4zNzW2Musu9Kp98JdgjYFSGzTC9gN8XUEAeHXElPPgQe14R480049o6ROo4'
-    stripe.api_key = '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'
+    stripe.api_key = os.environ.get('STRIPE_LIVE_KEY')
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)

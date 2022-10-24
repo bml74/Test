@@ -19,7 +19,7 @@ class AdOfferListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(AdOfferListView, self).get_context_data(**kwargs)
-        context.update({"header": "Ad offers"})
+        context.update({"header": "Ad Offers"})
         return context
 
 
