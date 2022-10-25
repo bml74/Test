@@ -12,6 +12,8 @@ from .models import (
     Category, 
     Field
 )
+from .datatools import generate_recommendations_from_course_object
+
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
@@ -90,6 +92,8 @@ class CategoryDetailView(UserPassesTestMixin, DetailView):
         users_with_requests = category.edit_access_request.all()
         users_with_edit_access = category.allowed_editors.all()
 
+        recs = generate_recommendations_from_course_object(ObjType=Category, obj=category)
+        print(recs)
 
         context = {
             "obj_type": obj_type, 
@@ -103,6 +107,8 @@ class CategoryDetailView(UserPassesTestMixin, DetailView):
             "users_with_edit_access": users_with_edit_access,
 
             "fields": fields,
+
+            "recs": recs
 
         }
         return render(request, 'ecoles/category_and_field_detail_view_base.html', context)

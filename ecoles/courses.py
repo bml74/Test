@@ -19,6 +19,7 @@ from .models import (
     Assignment
 )
 import math
+from .datatools import generate_recommendations_from_course_object
 
 
 class CourseListView(UserPassesTestMixin, ListView):
@@ -187,6 +188,13 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         else:
             group_profile = None
 
+        # Create Pandas dataframe for content-based recommendation system. For now, only title and description are needed.
+        # df = get_df(Course) # Create Pandas DF of all the instances of the obj but put only the columns title and category
+        # (title, cosine_sim, indices) = prep_for_recs(df, course)
+        # recs = get_recs(df, title, cosine_sim, indices)
+        # print(recs)
+        recs = generate_recommendations_from_course_object(ObjType=Course, obj=course)
+        print(recs)
         # # Progress bar:
         # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
         # total_assignments_completed = 0
@@ -242,6 +250,8 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
             "modules": modules,
 
             "all_modules": all_modules,
+
+            "recs": recs
 
         }
         return render(request, 'market/COURSE_DESIGN.html', context)

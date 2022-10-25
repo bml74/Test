@@ -19,6 +19,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from django.contrib.auth.decorators import user_passes_test
 from ecoles.models import Specialization, Course
 from orgs.models import GroupProfile
+from ecoles.datatools import generate_recommendations_from_course_object
 
 
 def learning_carousel(request):
@@ -123,11 +124,16 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         listing = get_object_or_404(Listing, pk=kwargs['pk'])
         all_listings_from_this_creator = Listing.objects.filter(creator=listing.creator)
 
+        recs = generate_recommendations_from_course_object(ObjType=Listing, obj=listing)
+        print(recs)
+
         context = {
             "item": listing, 
             "user_is_creator": listing.creator == request.user,
             "obj_type": "listing",
-            "all_listings_from_this_creator": all_listings_from_this_creator
+            "all_listings_from_this_creator": all_listings_from_this_creator,
+
+            "recs": recs
         }
 
         return render(request, 'market/listing.html', context)

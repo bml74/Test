@@ -15,6 +15,7 @@ from .models import (
     Specialization,
     Course
 )
+from .datatools import generate_recommendations_from_course_object
 
 
 class SpecializationListView(UserPassesTestMixin, ListView):
@@ -145,6 +146,9 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
         else:
             group_profile = None
 
+        recs = generate_recommendations_from_course_object(ObjType=Specialization, obj=specialization)
+        print(recs)
+
         # # Progress bar:
         # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)
         # total_assignments_completed = 0
@@ -183,6 +187,8 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
             "category": category, 
             "field": field, 
             "courses": courses,
+
+            "recs": recs
 
         }
         return render(request, 'market/SPECIALIZATION_DESIGN.html', context)

@@ -14,6 +14,7 @@ from .models import (
     Course
 )
 from django.contrib.auth.models import User
+from .datatools import generate_recommendations_from_course_object
 
 
 class FieldCreateView(LoginRequiredMixin, CreateView):
@@ -95,6 +96,9 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
         users_with_requests = field.edit_access_request.all()
         users_with_edit_access = field.allowed_editors.all()
 
+        recs = generate_recommendations_from_course_object(ObjType=Field, obj=field)
+        print(recs)
+
         context = {
             "obj_type": obj_type, 
             "item": field, 
@@ -109,6 +113,8 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
             "category": category, 
             "specializations": specializations,
             "courses": courses,
+
+            "recs": recs
 
         }
         return render(request, 'ecoles/category_and_field_detail_view_base.html', context)
