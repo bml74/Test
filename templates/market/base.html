@@ -32,14 +32,6 @@
         </div>
     </div>
 
-
-
-
-
-
-  
-
-
     <div class="flex justify-between items-center py-3 px-3 mx-auto w-full max-w-8xl lg:px-4">
         <div class="flex items-center">
             <button data-collapse-toggle="flowbiteMenu" type="button" class="mr-4 pr-4inline-flex justify-center items-center ml-3 text-gray-400 rounded-lg md:hidden hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:text-gray-400 dark:hover:text-white dark:focus:ring-gray-500" aria-controls="flowbiteMenu" aria-expanded="false">
@@ -219,6 +211,74 @@
         </div>
     </footer>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div id="toast-message-cta" style="position: fixed; z-index: 100;" class="corner-toast flex absolute bottom-5 left-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+        <div class="flex">
+            <img class="w-8 h-8 rounded-full shadow-lg" src="https://pbs.twimg.com/profile_images/1281647096312016897/0a8qwD58_400x400.jpg" alt="Advertising image">
+            <div class="ml-3 text-sm font-normal">
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-200 dark:text-indigo-900">Advertisement</span>
+                <p class="mt-2 mb-2 text-sm font-semibold text-gray-900 dark:text-white">GUSA</p>
+                <div class="mb-2 text-sm font-normal">Georgetown undergrads advocating for student interests, student initiatives, and improving the student experience since 1984.</div> 
+                <a href="#" class="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Visit site</a>   
+            </div>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <button type="button" class="btn btn-outline-navy bg-lin-grad noprint" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
+
+    <div style="display: none; position: fixed;" id="chatboxToast" class="corner-toast flex bottom-5 right-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+        <div class="flex">
+            <div class="ml-3 text-sm font-normal toast-body">
+                <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Chat with Bruno</span>
+                <div id="chat">
+                    <div class="chatbox-message bruno-message bg-lin-grad p-2 mt-2 mb-2">
+                        How can I help you?
+                    </div>
+                </div>
+                {% comment %} <div class="mb-2 text-sm font-normal">Hi Neil, thanks for sharing your thoughts regarding Flowbite.</div>  {% endcomment %}
+                {% comment %} <a href="#" class="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Reply</a>    {% endcomment %}
+                <div class="input-group mb-3 mt-2">
+                    <input type="text" class="form-control form-control-sm" id="user-message-text" placeholder="Type your message..." aria-label="User message" aria-describedby="user-message-send">
+                    <button class="btn btn-sm btn-outline-navy" type="button" id="user-message-send"><i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#chatboxToast" aria-label="Close">
+                <span class="sr-only">Close</span>
+                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    {% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> {% endcomment %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+
     <script>
 
 
@@ -267,7 +327,92 @@
     
     </script>
 
+    <script defer>
+        const chatbox_toastTrigger = document.getElementById('chatboxToastBtn');
+        const chatbox_toastLiveExample = document.getElementById('chatboxToast');
+        if (chatbox_toastTrigger) {
+          chatbox_toastTrigger.addEventListener('click', () => {
+            alert("Clicked");
+            if (chatbox_toastTrigger.classList.contains("chatbox-active")) {
+              document.getElementById('chatboxToast').style.display = "none";
+              chatbox_toastTrigger.classList.remove("chatbox-active");
+            } else {
+      
+            
+            chatbox_toastLiveExample.style.display = "inline-block";
+            chatbox_toastTrigger.classList.add("chatbox-active");
+            }
+          })
+        }
+        function closeChatbox() {
+          chatbox_toastLiveExample.style.display = "none";
+          chatbox_toastTrigger.classList.remove("chatbox-active");
+        }
+      
+        /*btn = document.querySelector("chatbox-active");
+        btn.addEventListener('click', () => {
+          document.getElementById('chatboxToast').style.display = "none";
+          btn.classList.remove("chatbox-active");
+        })*/
+      
+    </script>
+    
+    <script defer>          
+    $('#user-message-send').on('click', function (clickEvent) {
+        url = window.location.href;
+        $.ajax({
+            url: `/{{ 'ajax-chatbox' }}/`,
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}', 
+                msg: document.getElementById("user-message-text").value,
+            },
+            error: function(response) {
+                console.log(response);
+            },
+            success: function(response) {
+                console.log(response);
+                console.log("User message: " + response.userMsg);
+                console.log("Chatbox response message: " + response.chatboxMsg);
+    
+                const user_node = document.createElement("div");
+                user_node.classList.add("chatbox-message");
+                user_node.classList.add("user-message");
+                user_node.classList.add("p-2");
+                user_node.classList.add("mt-2");
+                user_node.classList.add("mb-2");
+                const user_text_node = document.createTextNode(response.userMsg);
+                user_node.appendChild(user_text_node);
+                document.getElementById("chat").appendChild(user_node);
+    
+                const bruno_node = document.createElement("div");
+                bruno_node.classList.add("chatbox-message");
+                bruno_node.classList.add("bruno-message");
+                bruno_node.classList.add("bg-lin-grad");
+                bruno_node.classList.add("p-2");
+                bruno_node.classList.add("mt-2");
+                bruno_node.classList.add("mb-2");
+                /* const bruno_text_node = document.createTextNode(response.chatboxMsg);
+                bruno_node.appendChild(bruno_text_node); */
+                bruno_node.innerHTML = response.chatboxMsg;
+                document.getElementById("chat").appendChild(bruno_node);
+                // document.getElementById("translation").innerHTML = response.translated_text;
+    
+                $("#chat").scrollTop($("#chat")[0].scrollHeight);
+    
+                msg: document.getElementById("user-message-text").value = "";
+    
+    
+            }
+        });
+    }); 
+    
+    </script>
+
 {% endblock body %}
+
+
 
 
 

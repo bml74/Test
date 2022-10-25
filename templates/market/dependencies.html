@@ -73,6 +73,40 @@
         div.scrollmenu .horizontal-scroll-listing {
             display: inline-block;
         }
+
+        @media (min-width: 768px) {
+            .corner-toast {
+                width: 30vw !important;
+            }
+        }
+        @media (max-width: 768px) {
+            .corner-toast {
+                width: 90vw !important;
+                bottom: 2vh !important;
+                margin-left: 5vw !important;
+                marhin-right: 5vw !important;
+            }
+        }
+
+        #chatboxToastBtn {
+            padding: 16px 20px;
+            border-radius: 32px;
+            border: 3px solid rgb(0, 38, 84);
+            cursor: pointer;
+            opacity: 0.8;
+            position: fixed;
+            bottom: 23px;
+            right: 28px;
+        }
+  
+        #chatboxToastContainer {
+          bottom: 80px !important;
+        }
+  
+        #chat { max-height: 40vh; overflow-y: scroll; }
+        .bruno-message { border-radius: 8px; float: left; width: 60%; opacity: 0.95 !important; }
+        .user-message { border-radius: 8px; float: right; width: 60%; color: whitesmoke; opacity: 0.8 !important; background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(8,7,97,1) 23%, rgba(8,8,109,1) 30%, rgba(9,9,121,1) 35%, rgba(7,56,152,1) 50%, rgba(5,65,134,1) 58%, rgba(0,212,255,1) 100%); }
+  
         
 
     </style>
@@ -87,39 +121,12 @@
     {% block body %}
     {% endblock body %}
 
-    <style>
-        @media (min-width: 768px) {
-            #toast-message-cta {
-                width: 30vw !important;
-            }
-        }
-        @media (max-width: 768px) {
-            #toast-message-cta {
-                width: 90vw !important;
-                bottom: 2vh !important;
-                margin-left: 5vw !important;
-                marhin-right: 5vw !important;
-            }
-        }
-    </style>
 
 
 
-    <div id="toast-message-cta" style="position: fixed;" class="flex absolute bottom-5 right-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
-        <div class="flex">
-            <img class="w-8 h-8 rounded-full shadow-lg" src="https://pbs.twimg.com/profile_images/1281647096312016897/0a8qwD58_400x400.jpg" alt="Advertising image">
-            <div class="ml-3 text-sm font-normal">
-                <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-200 dark:text-indigo-900">Advertisement</span>
-                <p class="mt-2 mb-2 text-sm font-semibold text-gray-900 dark:text-white">GUSA</p>
-                <div class="mb-2 text-sm font-normal">Georgetown undergrads advocating for student interests, student initiatives, and improving the student experience since 1984.</div> 
-                <a href="#" class="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Visit site</a>   
-            </div>
-            <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-message-cta" aria-label="Close">
-                <span class="sr-only">Close</span>
-                <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-            </button>
-        </div>
-    </div>
+    
+
+
     
     
     
@@ -137,8 +144,16 @@
 <script src="https://flowbite.com/docs/datepicker.js?v=1.5.3a"></script>
 <script src="https://flowbite.com/docs/docs.js?v=1.5.3a"></script>
 
+
+
     {% block JavaScript %}
     {% endblock JavaScript %}
+
+
+
+
+
+
 
 
 </body>
