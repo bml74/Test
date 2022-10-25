@@ -83,7 +83,7 @@ def ajax_chatbox(request):
                 print(res)
                 print(type(res))
         else:
-            chatboxMsg = "Non capisco questa domanda...."
+            chatboxMsg = "Sorry, I don't understand this."
 
         if userMsg == "help":
             chatboxMsg = f"""

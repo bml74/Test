@@ -20,6 +20,7 @@ from .models import (
 )
 import math
 
+
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
     template_name = 'market/COURSE_LIST_DESIGN.html' # ecoles/specialization_and_course_list_view.html
@@ -145,8 +146,6 @@ def get_details(request, modules):
         all_modules[module] = submodules_within_modules            
             
     try:
-        print(total_assignments_completed)
-        print(total_assignments)
         pct_completed = int((total_assignments_completed / (total_assignments)) * 100)
     except ZeroDivisionError:
         pct_completed = 0
