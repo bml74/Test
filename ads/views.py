@@ -30,7 +30,7 @@ class AdOfferDetailView(UserPassesTestMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(AdOfferDetailView, self).get_context_data(**kwargs)
-        context.update({"header": "Ad offer"})
+        context.update({"header": "Ad Offer"})
         return context
 
     def test_func(self):
