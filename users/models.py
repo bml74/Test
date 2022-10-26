@@ -2,6 +2,7 @@ from django.urls import reverse
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django_countries.fields import CountryField
+from django.conf import settings
 
 
 class TwitterHandle(models.Model):
@@ -27,6 +28,7 @@ class Profile(models.Model):
         default="Public",
         blank=False,
     )
+    excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

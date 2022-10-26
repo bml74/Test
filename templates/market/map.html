@@ -1,0 +1,16 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ item.title }} | Map
+{% endblock title %}
+
+{% block main %}
+
+<a href="{{ item.excel_upload.url }}">Download</a>
+
+{% endblock main %}
+
+
+
+

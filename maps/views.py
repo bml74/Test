@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
@@ -9,7 +10,7 @@ from django.views.generic import (
 )
 from config.utils import is_ajax
 from .models import Map, Event
-
+from .forms import MapForm
 
 
 def maps_home(request):
@@ -99,11 +100,10 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        Map = get_object_or_404(Map, pk=kwargs['pk'])
+        map = get_object_or_404(Map, pk=kwargs['pk'])
 
         context = {
-            "item": Map, 
-            "user_is_creator": Map.creator == request.user
+            "item": map, 
         }
 
         return render(request, 'market/map.html', context)
@@ -264,3 +264,39 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 # Function for create_map 
 # Rather than being a view make it a function. When you click save map, send map data and save all that. Also send all events data and save all that.
+
+
+# @login_required
+# def map_create(request):
+#     if request.method == 'POST':
+#         print(request.POST, request.FILES)
+#         form = MapForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('map-create-test')
+#     else:
+#         form = MapForm()
+#     context = {'form': form}
+#     return render(request, 'market/dashboard/form_view.html', context=context)
+
+
+
+class MapCreateTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = Map
+    fields = ['title', 'description', 'image_url', 'excel_upload']
+    template_name = 'market/dashboard/form_view.html'
+
+    # def form_valid(self, form):
+    #     print(form.instance.excel_upload)
+    #     return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super(MapCreateTestView, self).get_context_data(**kwargs)
+        context['header'] = "Create map"
+        context['create'] = True
+        return context
+
+

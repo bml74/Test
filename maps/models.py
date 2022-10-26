@@ -1,11 +1,13 @@
 from django.db import models
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
+from django.urls import reverse
 
 
 class AlternativeCityNames(TaggedItemBase):
     content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
     
+
 class AlternativeRegionNames(TaggedItemBase):
     content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
 
@@ -18,25 +20,11 @@ class Map(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField() # Use Quill
     image_url = models.CharField(max_length=512)
+    excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 
+    def get_absolute_url(self):
+        return reverse('map', kwargs={'pk': self.pk})
 
-class MapGroup(models.Model):
-    title = models.CharField(max_length=64)
-    description = models.TextField()
-
-
-class Marker(models.Model):
-    title = models.CharField(max_length=64)
-    description = models.TextField() # Use Quill
-    link = models.CharField(max_length=512)
-    color = models.CharField(max_length=16, choices=(
-            ("red", "red"),
-            ("green", "green"),
-            ("blue", "blue")
-        )
-    )
-    # icon = 
-    map_group = models.ManyToManyField(MapGroup, blank=True)
 
 
 class Event(models.Model):
@@ -77,10 +65,17 @@ class Event(models.Model):
     number_of_days_after_anchor_date_that_event_started = models.IntegerField(default=0)
     start_date = models.DateField(blank=True, null=True)
     end_date = models.DateField(blank=True, null=True)
+
+    title = models.CharField(max_length=64, default="Title")
+    description = models.TextField(default="Description") # Use Quill
+    link = models.CharField(max_length=512, blank=True, null=True)
+    color = models.CharField(max_length=16, blank=True, null=True, choices=(
+            ("red", "red"),
+            ("green", "green"),
+            ("blue", "blue")
+        )
+    )
     # Others to add for Yahad: Type of place before; Num. Memorials; Occupation_period
-
-
-
     # user
     # group
 

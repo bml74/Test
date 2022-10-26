@@ -12,6 +12,8 @@ urlpatterns = [
     path('update/<int:pk>/', views.MapUpdateView.as_view(), name='map-update'),
     path('delete/<int:pk>/', views.MapDeleteView.as_view(), name='map-delete'),
 
+    path('create-test/', views.MapCreateTestView.as_view(), name='map-create-test'),
+
     path('events/', views.EventListView.as_view(), name='events'),
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event'),
     path('events/create/', views.EventCreateView.as_view(), name='event-create'),
