@@ -45,6 +45,11 @@ def detail(request, pk):
 	all_messages_from_other_user_to_current_user = DirectMessage.objects.filter(sender_of_message=other_user, receiver_of_message=request.user).all()
 	all_messages_between_these_two_users = list(all_messages_from_current_user_to_other_user) + list(all_messages_from_other_user_to_current_user)
 	all_messages_between_these_two_users.sort(key=lambda msg: msg.id)
+
+	# Update unread messages so that seen is True
+	unread_messages = DirectMessage.objects.filter(sender_of_message=other_user, receiver_of_message=request.user, seen=False).all()
+	unread_messages.update(seen=True)
+
 	context = {
 		"logged_in_user": request.user,
 		"other_user": other_user,
