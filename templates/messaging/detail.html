@@ -8,10 +8,6 @@ Messages with {{ other_user.username }}
 
 {% block mainContent %}
 
-<style>
-    .msg-sent { right: 0 !important; background-color: purple; }
-    .msg-received { left:0 !important; }
-</style>
 
 <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
     <div class="flex w-full">
@@ -27,19 +23,18 @@ Messages with {{ other_user.username }}
                             {% for msg in all_messages_between_these_two_users %}
                                     {% if msg.sender_of_message == request.user %}
                                     <div class="mt-3 mb-3">
-                                        <div  style="float: right;" class="msg-sent p-4 space-x-4 w-full max-w-xs text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg divide-x shadow" role="alert">
+                                        <div style="float: right;" class="msg-sent p-4 space-x-4 w-full max-w-xs text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 rounded-lg divide-x shadow">
                                             <div class="pl-4 text-sm font-normal">{{ msg.body }}</div>
                                         </div>
                                     </div>
                                     {% else %}
                                         <div class="mt-3 mb-3">
-                                            <div style="float: left;" class="msg-received bg-lin-grad p-4 space-x-4 w-full max-w-xs text-gray-500 bg-white rounded-lg divide-x divide-gray-200 shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" role="alert">
+                                            <div style="float: left;" class="msg-received bg-lin-grad p-4 space-x-4 w-full max-w-xs text-gray-500 bg-white rounded-lg divide-x divide-gray-200 shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800">
                                                 <div class="pl-4 text-sm font-normal">{{ msg.body }}</div> <!-- flex items-center -->
                                             </div>
                                         </div>
                                     {% endif %}
                             {% endfor %}
-                            <div class="py-1"></div>
                         </div>
 
                 </div>
@@ -91,7 +86,7 @@ Messages with {{ other_user.username }}
     }
 
     inp = document.getElementById("id_body");
-    flowbite_classes = ['block', 'p-2.5', 'w-full', 'text-sm', 'text-gray-900', 'bg-gray-50', 'rounded-lg', 'border', 'border-gray-300', 'focus:ring-blue-500', 'focus:border-blue-500', 'dark:bg-gray-700', 'dark:border-gray-600', 'dark:placeholder-gray-400', 'dark:text-white dark:focus:ring-blue-500', 'dark:focus:border-blue-500'];
+    flowbite_classes = ['block', 'p-2.5', 'w-full', 'text-sm', 'text-gray-900', 'bg-gray-50', 'rounded-lg', 'border', 'border-gray-300', ];
     for (flowbite_class of flowbite_classes) {
         inp.classList.add(flowbite_class);
     }
@@ -102,8 +97,9 @@ Messages with {{ other_user.username }}
 
 <script>
 
+    $("#messages-container").scrollTop($("#messages-container")[0].scrollHeight); // Scroll to bottom
 
-    interval_in_seconds = 1;
+    interval_in_seconds = 10;
     setInterval(getNotifications, interval_in_seconds * 1000); // Run receiveMessages() to get the data every 3 seconds.
 
     function getNotifications () {
@@ -159,7 +155,7 @@ Messages with {{ other_user.username }}
 
     }
 
-    interval_in_seconds = 1;
+    interval_in_seconds = 10;
     setInterval(receiveMessages, interval_in_seconds * 1000); // Run receiveMessages() to get the data every 3 seconds.
 
     let counter = {{ num_messages_from_other_user_to_current_user }};
@@ -181,10 +177,50 @@ Messages with {{ other_user.username }}
                 } else {
                     messages_container = document.getElementById("messages-container");
                     for (newMessage of newMessages) {
-                        msg_div = document.createElement('div');
-                        msg_div.classList.add('msg-received');
-                        msg_div.innerText = newMessage;
-                        messages_container.appendChild(msg_div);
+                        alert('Working');
+
+                        container_div = document.createElement("div"); container_div.classList.add("mt-3"); container_div.classList.add("mb-3");
+
+                        msg_div = document.createElement("div"); msg_div.style.float = "right"; 
+                        msg_div.classList.add("msg-sent"); 
+                        msg_div.classList.add("bg-gradient-to-r"); 
+                        msg_div.classList.add("p-4"); 
+                        msg_div.classList.add("space-x-4"); 
+                        msg_div.classList.add("w-full"); 
+                        msg_div.classList.add("text-white"); 
+                        msg_div.classList.add("max-w-xs");
+                        msg_div.classList.add("shadow");
+                        msg_div.classList.add("from-blue-500");
+                        msg_div.classList.add("via-blue-600");
+                        msg_div.classList.add("to-blue-700");
+                        msg_div.classList.add("divide-x");
+                        /*msg_div.classList.add("hover:bg-gradient-to-br");
+                        msg_div.classList.add("focus:ring-4");
+                        msg_div.classList.add("focus:outline-none");
+                        msg_div.classList.add("focus:ring-blue-300");
+                        msg_div.classList.add("dark:focus:ring-blue-800");
+                        msg_div.classList.add("dark:focus:ring-blue-800");*/
+
+                        
+                        msg_txt_div = document.createElement("div");
+                        msg_txt_div.classList.add("pl-4");
+                        msg_txt_div.classList.add("text-sm");
+                        msg_txt_div.classList.add("font-normal");
+                        txt_node = document.createTextNode(msg.body)
+                        msg_txt_div.appendChild(txt_node);
+
+                        msg_div.appendChild(msg_txt_div);
+                        container_div.appendChild(msg_div);
+                        messages_container.appendChild(container_div);
+
+                        console.log(txt_node);
+                        console.log(msg_txt_div);
+                        console.log(msg_div);
+                        console.log(container_div);
+                        console.log(messages_container);
+
+
+                        
                     }
                     document.getElementById("id_body").value = "";
                 }
