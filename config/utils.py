@@ -1,5 +1,6 @@
 import sys
 import csv
+import pandas as pd
 from googletrans import Translator
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
@@ -15,7 +16,7 @@ def translate_phrase(src="en", dest="en", phrase=""):
     return {"src": res.src, "dest": res.dest, "translated_text": res.text, "original_text": phrase}
 
 
-def download_csv(request, queryset):
+def download_file(request, queryset, CONTENT_TYPE, FILE_TYPE, FILE_EXTENSION):
     if not request.user.is_staff:
         raise PermissionDenied
 
@@ -23,13 +24,42 @@ def download_csv(request, queryset):
     model_fields = model._meta.fields + model._meta.many_to_many
     field_names = [field.name for field in model_fields]
 
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="export.csv"'
+    response = HttpResponse(content_type=f'{CONTENT_TYPE}/{FILE_EXTENSION}')
+    response['Content-Disposition'] = 'attachment; filename="export.{FILE_EXTENSION}"'
 
     # the csv writer
     writer = csv.writer(response, delimiter=",")
     # Write a first row with header information
     writer.writerow(field_names)
+    # Write data rows
+    for row in queryset:
+        values = []
+        for field in field_names:
+            value = getattr(row, field)
+            print(f"VALUE: {value}")
+            if callable(value):
+                try:
+                    value = value() or ''
+                except:
+                    value = 'Error retrieving value'
+            if value is None:
+                value = ''
+            values.append(value)
+        writer.writerow(values)
+    return response
+
+
+def get_as_df(queryset):
+
+    model = queryset.model
+    print(f"MODEL: {model}")
+    model_fields = model._meta.fields + model._meta.many_to_many
+    field_names = [field.name for field in model_fields]
+  
+    df = pd.DataFrame(columns=field_names)
+
+    print(queryset)
+
     # Write data rows
     for row in queryset:
         values = []
@@ -43,5 +73,5 @@ def download_csv(request, queryset):
             if value is None:
                 value = ''
             values.append(value)
-    writer.writerow(values)
-    return response
+        df.loc[len(df.index)] = values
+    return df

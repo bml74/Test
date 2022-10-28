@@ -52,13 +52,16 @@ class Event(models.Model):
         )
     )
     primary_city_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names', blank=True)
+    alternative_city_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative city names')
+    # alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names', blank=True)
 
     primary_region_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_region_names = TaggableManager(through=AlternativeRegionNames, related_name='alternative_region_names', verbose_name='Alternative region names', blank=True)
+    alternative_region_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative region names')
+    # alternative_region_names = TaggableManager(through=AlternativeRegionNames, related_name='alternative_region_names', verbose_name='Alternative region names', blank=True)
 
     primary_country_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_country_names = TaggableManager(through=AlternativeCountryNames, related_name='alternative_country_names', verbose_name='Alternative country names', blank=True)
+    alternative_country_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative country names')
+    # alternative_country_names = TaggableManager(through=AlternativeCountryNames, related_name='alternative_country_names', verbose_name='Alternative country names', blank=True)
 
     address = models.CharField(max_length=256, blank=True, null=True)
     postcode = models.CharField(max_length=256, blank=True, null=True)

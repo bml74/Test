@@ -150,24 +150,35 @@ def process_map_data(df, parent_map):
     print(df.head())
 
 
-def geojson_to_csv(json_data):
-    assert type(json_data) == 'str'
-    print(type(json_data))
+def geojson_to_csv(data_dict):
     data = []
-    list_of_features = json.loads(json_data)["features"]
+    data_dict = dict(data_dict)
+    list_of_features = data_dict["features"]
     for feature in list_of_features:
         properties = feature["properties"]
         geometry = feature["geometry"]
         data.append([
-            geometry.get()[1], # latitude
-            geometry.get()[0], # longitude
-            properties.get('altitude'),
+            geometry.get('coordinates')[1], # latitude
+            geometry.get('coordinates')[0], # longitude
             geometry.get('type'),
-            properties.get('PROPERTY_GOES_HERE'),
+            properties.get('altitude'),
+            properties.get('alternative_id'), properties.get('content_online'),
+            properties.get('dates'), properties.get('hours'), properties.get('day'),
+            properties.get('primary_city_name'), properties.get('alternative_city_names'),
+            properties.get('primary_region_name'), properties.get('alternative_region_names'),
+            properties.get('primary_country_name'), properties.get('alternative_country_names'),
+            properties.get('number_of_sites'), properties.get('number_of_casualties'),
+            properties.get('title'), properties.get('description'),
+            properties.get('start_date'), properties.get('end_date'),
+            properties.get('number_of_days_after_anchor_date_that_event_began'), properties.get('number_of_days_after_anchor_date_that_event_ended'),
+            properties.get('number_of_memorials'), properties.get('type_of_place_before_event'), properties.get('occupation_period'),
+            properties.get('address'), properties.get('postcode'), properties.get('district'), properties.get('neighborhood'), 
+            properties.get('link'), properties.get('marker_color'),
 
         ])
-    df = pd.DataFrame(data, columns=[
-        'latitude', 'longitude', 'altitude', 'geometry',
+    df = pd.DataFrame(data, columns=[ # 32 columns
+        'latitude', 'longitude', 'geometry',
+        'altitude',
         'alternative_id', 'content_online',
         'dates', 'hours', 'day',
         'primary_city_name', 'alternative_city_names',
@@ -178,7 +189,7 @@ def geojson_to_csv(json_data):
         'start_date', 'end_date',
         'number_of_days_after_anchor_date_that_event_began', 'number_of_days_after_anchor_date_that_event_ended',
         'number_of_memorials', 'type_of_place_before_event', 'occupation_period',
-        'address', 'postcode', 'district', 'neighborhood', 'link', 'marker_color'
-
-
+        'address', 'postcode', 'district', 'neighborhood', 
+        'link', 'marker_color'
     ])
+    return df

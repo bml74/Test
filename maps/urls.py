@@ -13,6 +13,7 @@ urlpatterns = [
     path('<int:pk>/', views.MapDetailView.as_view(), name='map'),
     path('<int:pk>/geojson/', views.get_events_as_geojson, name='get_events_as_geojson'),
     path('<int:pk>/export_events_csv/', views.export_events_csv, name='export_events_csv'),
+    path('<int:pk>/events/dataframe/', views.viewEventsInTableInBrowser, name='events-table'),
     path('create/', views.create_map, name='map-create'),
     path('update/<int:pk>/', views.MapUpdateView.as_view(), name='map-update'),
     path('delete/<int:pk>/', views.MapDeleteView.as_view(), name='map-delete'),

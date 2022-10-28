@@ -11,13 +11,14 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
-from config.utils import is_ajax
+from config.utils import is_ajax, get_as_df
 from .models import Map, Event
 from .forms import MapForm
-from config.utils import download_csv
+from config.utils import download_file
 from django.http import HttpResponse
 from .utils import db_model_to_geojson, get_geojson_from_model, process_map_data
 from pprint import pprint
+
 
 
 @staff_member_required
@@ -28,7 +29,7 @@ def maps_admin_panel(request):
 @staff_member_required
 def export_maps_csv(request):
     # Create the HttpResponse object with the appropriate CSV header.
-    data = download_csv(request, queryset=Map.objects.all())
+    data = download_file(request, queryset=Map.objects.all(), CONTENT_TYPE='text', FILE_TYPE='csv', FILE_EXTENSION='csv')
     response = HttpResponse(data, content_type='text/csv')
     return response
 
@@ -46,9 +47,23 @@ def get_events_as_geojson(request, pk):
 def export_events_csv(request, pk):
     map_obj = get_object_or_404(Map, pk=pk)
     events = Event.objects.filter(parent_map=map_obj).all()
-    data = download_csv(request, queryset=events)
+    data = download_file(request, queryset=events, CONTENT_TYPE='text', FILE_TYPE='csv', FILE_EXTENSION='csv')
     response = HttpResponse(data, content_type='text/csv')
     return response
+
+
+def viewEventsInTableInBrowser(request, pk):
+    map_obj = get_object_or_404(Map, pk=pk)
+    events = Event.objects.filter(parent_map=map_obj).all()
+    print(events)
+    print()
+    print(len(events))
+    df = get_as_df(queryset=events)
+    print(df)
+    # Manipulate DataFrame using to_html() function
+    table = df.to_html()
+    return HttpResponse(table)
+
 
 
 def maps_home(request):
