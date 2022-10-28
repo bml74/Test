@@ -20,15 +20,6 @@ def inbox(request):
 	return render(request, "messaging/inbox.html", context=context)
 
 
-def directMessageNotification(request):
-	all_other_users = User.objects.exclude(id=request.user.id)
-	num_unread = []
-	for other_user in all_other_users:
-		msgs = DirectMessage.objects.filter(sender_of_message=other_user, receiver_of_message=request.user, seen=False).all()
-		num_unread.append(msgs.count())
-	return JsonResponse(num_unread, safe=False)
-
-
 @login_required
 def detail(request, pk):
 	other_user = get_object_or_404(User, id=pk)
@@ -50,9 +41,12 @@ def detail(request, pk):
 	unread_messages = DirectMessage.objects.filter(sender_of_message=other_user, receiver_of_message=request.user, seen=False).all()
 	unread_messages.update(seen=True)
 
+	all_other_users = User.objects.exclude(id=request.user.id)
+
 	context = {
 		"logged_in_user": request.user,
 		"other_user": other_user,
+		"all_users": all_other_users,
 		"form": form,
 		"all_messages_between_these_two_users": all_messages_between_these_two_users,
 		"num_messages_from_other_user_to_current_user": all_messages_from_other_user_to_current_user.count()
@@ -77,3 +71,13 @@ def receivedDirectMessages(request, pk):
 	for message in messages_sent_by_other_user:
 		msgs.append(message.body)
 	return JsonResponse(msgs, safe=False)
+
+
+def directMessageNotification(request):
+	all_other_users = User.objects.exclude(id=request.user.id)
+	num_unread = []
+	for other_user in all_other_users:
+		msgs = DirectMessage.objects.filter(sender_of_message=other_user, receiver_of_message=request.user, seen=False).all()
+		num_unread.append(msgs.count())
+	return JsonResponse(num_unread, safe=False)
+

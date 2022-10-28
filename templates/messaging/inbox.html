@@ -1,85 +1,46 @@
-{% extends 'market/base.html' %}
+{% extends 'messaging/messaging_base.html' %}
 {% load static %}
 
 {% block title %}
-Messaginging
+Messaging
 {% endblock title %}
 
-{% block main %}
+{% block mainContent %}
 
-<main class="grow" style="margin: 2%;">
+<main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+    <div class="flex w-full">
 
-    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
-        <div class="lg:flex">
-
-
-
-
-            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-                <div class="flex w-full">
-
-                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+        <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+    
+            <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+        
+                <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Messages</span></h1>
                 
-                        <div class="text-center pb-4 mb-8 border-b border-gray-200 dark:border-gray-800 pl-15vw pr-15vw">
-
-                    
-                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ item.title|safe }}</span></h1>
-                            {% comment %} <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ item.description|safe }}</p> {% endcomment %}
-                            
-                            
-
-                            
-
-
-
-
-
-                        </div>
-                
-                         <div id="mainContent" class="pl-15vw pr-15vw">
-
-
-
-                            
-                            <div class="grid grid-cols-2 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-2" id="inbox-messages">
-                                <div class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                                    {% for user in all_users %}
-                                        <p><a href="{% url 'detail' user.id %}">{{ user.username }}</a>: <div class="msg">0</div></p>
-                                    {% endfor %}
-                                    
-                                </div>
-                                <div class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-                                    uygfgkm
-                                </div>
-                            </div>
-                            
-
-                    
-                        </div> 
-
-                    </div>
-
-
+            </div>
+    
+            <div id="mainContent">
+            
                 
 
-                </div> 
-                
-            </main> 
-
+        
+            </div>
 
         </div>
-    </div>
 
 
     
 
-
-
+    </div> 
+    
 </main>
 
-{% endblock main %}
+{% endblock mainContent %}
+
+
 
 {% block JavaScript %}
+
+<script src="{% static 'scripts/filterList.js' %}"></script>
 
 <script>
     interval_in_seconds = 1;
@@ -103,6 +64,11 @@ Messaginging
 </script>
 
 {% endblock JavaScript %}
+
+
+
+
+
 
 
 

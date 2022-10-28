@@ -1,0 +1,73 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block main %}
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto max-w-8xl">
+        <div class="lg:flex">
+
+
+            <aside style="width: 20vw;" id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-85 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
+                <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
+                    <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
+                        <ul class="mb-0 list-unstyled">
+
+                            <li class="mt-8"> 
+
+                                <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Messages</h5>
+
+                                <div class="w-full sm:w-auto sm:flex mb-2">
+                                    <div class="relative w-full sm:w-64 lg:w-96">
+                                        <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                                        </div>
+                                        <label for="search" class="hidden">Search</label>
+                                        <input id="search" onkeyup='filterList(input_id="search", list_id="users", list_item_class="msg-link", list_item_title_class="message-username")' type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" value="">
+                                    </div>
+                                </div>
+
+                                
+                                <div id="users" class="w-100 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    {% for user in all_users %}
+                                            <a href="{% url 'detail' user.id %}" class="msg-link block py-2 px-4 w-full border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                                <span class="msg inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                                                    0
+                                                </span>   
+                                                &nbsp;
+                                                <span class="message-username">{{ user.username }}  </span>
+                                            </a>
+                                    {% endfor %}
+                                </div>
+
+
+                            </li>
+
+                        </ul>
+                    </nav>
+                </div>
+
+
+            </aside>
+
+
+            {% block mainContent %}
+            {% endblock mainContent %}
+
+        </div>
+    </div>
+
+
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+
+
