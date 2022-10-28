@@ -17,6 +17,8 @@ from .forms import MapForm
 from config.utils import download_csv
 from django.http import HttpResponse
 from .utils import db_model_to_geojson, get_geojson_from_model, process_map_data
+from pprint import pprint
+
 
 @staff_member_required
 def maps_admin_panel(request):
@@ -149,8 +151,10 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         events = Event.objects.filter(parent_map=map_obj).all()
         event_data_dict =  get_geojson_from_model(queryset=events)
         GEOJSON = json.dumps(event_data_dict["features"]) 
-        print(GEOJSON)
+        pprint(GEOJSON)
         print(len(event_data_dict["features"]))
+        print()
+        pprint(event_data_dict["features"][0])
         context = {
             "item": map_obj, 
         }
@@ -350,10 +354,6 @@ class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView
             process_map_data(df, parent_map=self.object)
         self.object = form.save() # Get Map object
         return super().form_valid(form)
-
-    # def form_valid(self, form, **kwargs):
-    #     form.cleaned_data['users'].update(has_paid=True)
-    #     return super().form_valid(form, **kwargs)
 
     def test_func(self):
         return self.request.user.is_superuser

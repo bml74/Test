@@ -53,11 +53,11 @@ def get_geojson_from_model(queryset):
 
 
 def db_model_to_geojson(queryset):
+    """Takes model rows in database and converts it into GEOJSON."""
     geojson =  get_geojson_from_model(queryset=queryset)
     response = HttpResponse(content_type='text/json')
     response['Content-Disposition'] = 'attachment; filename=export.json'
     response = HttpResponse(json.dumps(geojson), content_type='application/json')
-
     return response
 
 
@@ -151,4 +151,34 @@ def process_map_data(df, parent_map):
 
 
 def geojson_to_csv(json_data):
-    pass
+    assert type(json_data) == 'str'
+    print(type(json_data))
+    data = []
+    list_of_features = json.loads(json_data)["features"]
+    for feature in list_of_features:
+        properties = feature["properties"]
+        geometry = feature["geometry"]
+        data.append([
+            geometry.get()[1], # latitude
+            geometry.get()[0], # longitude
+            properties.get('altitude'),
+            geometry.get('type'),
+            properties.get('PROPERTY_GOES_HERE'),
+
+        ])
+    df = pd.DataFrame(data, columns=[
+        'latitude', 'longitude', 'altitude', 'geometry',
+        'alternative_id', 'content_online',
+        'dates', 'hours', 'day',
+        'primary_city_name', 'alternative_city_names',
+        'primary_region_name', 'alternative_region_names',
+        'primary_country_name', 'alternative_country_names',
+        'number_of_sites', 'number_of_casualties',
+        'title', 'description',
+        'start_date', 'end_date',
+        'number_of_days_after_anchor_date_that_event_began', 'number_of_days_after_anchor_date_that_event_ended',
+        'number_of_memorials', 'type_of_place_before_event', 'occupation_period',
+        'address', 'postcode', 'district', 'neighborhood', 'link', 'marker_color'
+
+
+    ])
