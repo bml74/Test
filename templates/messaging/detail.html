@@ -262,9 +262,9 @@ Messages with {{ other_user.username }}
                         
                     }
                     document.getElementById("id_body").value = "";
+                    $("#messages-container").scrollTop($("#messages-container")[0].scrollHeight); // Scroll to bottom
                 }
             }
-            $("#messages-container").scrollTop($("#messages-container")[0].scrollHeight); // Scroll to bottom
             counter = data.length;
         }).catch((error) => {
             console.error('Error: ' + error)

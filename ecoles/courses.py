@@ -19,7 +19,7 @@ from .models import (
     Assignment
 )
 import math
-from .datatools import generate_recommendations_from_course_object
+from .datatools import generate_recommendations_from_queryset
 
 
 class CourseListView(UserPassesTestMixin, ListView):
@@ -193,7 +193,7 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         # (title, cosine_sim, indices) = prep_for_recs(df, course)
         # recs = get_recs(df, title, cosine_sim, indices)
         # print(recs)
-        recs = generate_recommendations_from_course_object(ObjType=Course, obj=course)
+        recs = generate_recommendations_from_queryset(queryset=Course.objects.all(), obj=course)
         print(recs)
         # # Progress bar:
         # total_assignments = 0 # submodules = Submodule.objects.filter(module=module)

@@ -12,7 +12,7 @@ from .models import (
     Category, 
     Field
 )
-from .datatools import generate_recommendations_from_course_object
+from .datatools import generate_recommendations_from_queryset
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
@@ -92,7 +92,7 @@ class CategoryDetailView(UserPassesTestMixin, DetailView):
         users_with_requests = category.edit_access_request.all()
         users_with_edit_access = category.allowed_editors.all()
 
-        recs = generate_recommendations_from_course_object(ObjType=Category, obj=category)
+        recs = generate_recommendations_from_queryset(queryset=Category.objects.all(), obj=category)
         print(recs)
 
         context = {

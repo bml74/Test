@@ -28,7 +28,6 @@ class Profile(models.Model):
         default="Public",
         blank=False,
     )
-    excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

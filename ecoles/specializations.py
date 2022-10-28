@@ -15,7 +15,7 @@ from .models import (
     Specialization,
     Course
 )
-from .datatools import generate_recommendations_from_course_object
+from .datatools import generate_recommendations_from_queryset
 
 
 class SpecializationListView(UserPassesTestMixin, ListView):
@@ -146,7 +146,7 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
         else:
             group_profile = None
 
-        recs = generate_recommendations_from_course_object(ObjType=Specialization, obj=specialization)
+        recs = generate_recommendations_from_queryset(queryset=Specialization.objects.all(), obj=specialization)
         print(recs)
 
         # # Progress bar:

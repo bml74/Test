@@ -14,7 +14,7 @@ from .models import (
     Course
 )
 from django.contrib.auth.models import User
-from .datatools import generate_recommendations_from_course_object
+from .datatools import generate_recommendations_from_queryset
 
 
 class FieldCreateView(LoginRequiredMixin, CreateView):
@@ -96,7 +96,7 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
         users_with_requests = field.edit_access_request.all()
         users_with_edit_access = field.allowed_editors.all()
 
-        recs = generate_recommendations_from_course_object(ObjType=Field, obj=field)
+        recs = generate_recommendations_from_queryset(queryset=Field.objects.all(), obj=field)
         print(recs)
 
         context = {

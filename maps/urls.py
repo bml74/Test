@@ -6,13 +6,18 @@ urlpatterns = [
     path('', views.maps_home, name='maps_home'),
     path('query/', views.maps_query, name='maps_query'),
 
+    path('maps_admin_panel/', views.maps_admin_panel, name='maps_admin_panel'),
+    path('export_maps_csv/', views.export_maps_csv, name='export_maps_csv'),
+
     path('all/', views.MapListView.as_view(), name='maps'),
     path('<int:pk>/', views.MapDetailView.as_view(), name='map'),
+    path('<int:pk>/geojson/', views.get_events_as_geojson, name='get_events_as_geojson'),
+    path('<int:pk>/export_events_csv/', views.export_events_csv, name='export_events_csv'),
     path('create/', views.create_map, name='map-create'),
     path('update/<int:pk>/', views.MapUpdateView.as_view(), name='map-update'),
     path('delete/<int:pk>/', views.MapDeleteView.as_view(), name='map-delete'),
 
-    path('create-test/', views.MapCreateTestView.as_view(), name='map-create-test'),
+    path('import/create/', views.MapCreateViaImportView.as_view(), name='map-create-via-import'),
 
     path('events/', views.EventListView.as_view(), name='events'),
     path('events/<int:pk>/', views.EventDetailView.as_view(), name='event'),

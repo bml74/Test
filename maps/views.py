@@ -1,7 +1,9 @@
 import pandas as pd
+import json
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import (
     ListView,
     DetailView,
@@ -12,11 +14,45 @@ from django.views.generic import (
 from config.utils import is_ajax
 from .models import Map, Event
 from .forms import MapForm
+from config.utils import download_csv
+from django.http import HttpResponse
+from .utils import db_model_to_geojson, get_geojson_from_model, process_map_data
+
+@staff_member_required
+def maps_admin_panel(request):
+    return render(request, 'maps_engine/maps_admin_panel.html')
+
+
+@staff_member_required
+def export_maps_csv(request):
+    # Create the HttpResponse object with the appropriate CSV header.
+    data = download_csv(request, queryset=Map.objects.all())
+    response = HttpResponse(data, content_type='text/csv')
+    return response
+
+
+@login_required # ALso make sure user created map
+def get_events_as_geojson(request, pk):
+    map_obj = get_object_or_404(Map, pk=pk)
+    events = Event.objects.filter(parent_map=map_obj).all()
+    data = db_model_to_geojson(queryset=events)
+    response = HttpResponse(data, content_type='application/json')
+    return response
+
+
+@staff_member_required
+def export_events_csv(request, pk):
+    map_obj = get_object_or_404(Map, pk=pk)
+    events = Event.objects.filter(parent_map=map_obj).all()
+    data = download_csv(request, queryset=events)
+    response = HttpResponse(data, content_type='text/csv')
+    return response
 
 
 def maps_home(request):
     context = {"maps": Map.objects.all()}
     return render(request, "maps_engine/maps_home.html", context)
+
 
 def maps_query(request):
     if request.method == "GET":
@@ -31,6 +67,7 @@ def maps_query(request):
 
             return render(request, 'maps_engine/maps_query.html', context)
     return render(request, 'maps_engine/maps_home.html')
+
 
 def create_map(request):
     if is_ajax(request):
@@ -52,23 +89,30 @@ def create_map(request):
         """)
     return render(request, 'maps_engine/create_map.html')
 
+
 def mapbox_terrain(request):
     return render(request, "maps_engine/mapboxjs/terrain.html")
+
 
 def mapbox_directions(request):
     return render(request, "maps_engine/mapboxjs/directions.html")
 
+
 def mapbox_geocoder(request):
     return render(request, "maps_engine/mapboxjs/geocoder.html")
+
 
 def mapbox_marker_from_geocode(request):
     return render(request, "maps_engine/mapboxjs/marker_from_geocode.html")
 
+
 def mapbox_airports(request):
     return render(request, "maps_engine/mapboxjs/mapbox_airports.html")
 
+
 def yahad_map(request):
     return render(request, "maps_engine/mapboxjs/YAHADMAP.html")
+
 
 def google_map(request):
     return render(request, "maps_engine/googlemaps/google_map.html")
@@ -101,16 +145,19 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        map = get_object_or_404(Map, pk=kwargs['pk'])
-
+        map_obj = get_object_or_404(Map, pk=kwargs['pk'])
+        events = Event.objects.filter(parent_map=map_obj).all()
+        event_data_dict =  get_geojson_from_model(queryset=events)
+        GEOJSON = json.dumps(event_data_dict["features"]) 
+        print(GEOJSON)
+        print(len(event_data_dict["features"]))
         context = {
-            "item": map, 
+            "item": map_obj, 
         }
-
         return render(request, 'market/map.html', context)
 
 
-class MapCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class MapManualCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Map
     fields = ['title', 'description', 'image_url']
     template_name = 'maps_engine/create_map.html'
@@ -123,7 +170,7 @@ class MapCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
-        context = super(MapCreateView, self).get_context_data(**kwargs)
+        context = super(MapManualCreateView, self).get_context_data(**kwargs)
         header = "Create map"
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
@@ -274,123 +321,46 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #         form = MapForm(request.POST, request.FILES)
 #         if form.is_valid():
 #             form.save()
-#             return redirect('map-create-test')
+#             return redirect('map-create-via-import')
 #     else:
 #         form = MapForm()
 #     context = {'form': form}
 #     return render(request, 'market/dashboard/form_view.html', context=context)
 
 
-def process_map_data(df):
-    print(df.columns)
-    print(df.shape)
-    print(df.head(15))
-    print("First row:")
-    print(df.iloc[0])
-    # Delete row if there is no latitude or longitude:
-    df = df[pd.notnull(df['latitude'])]
-    df = df[pd.notnull(df['longitude'])]
-    for index, row in df.iterrows():
-        latitude = row.get('latitude'); longitude = row.get('longitude'); altitude = row.get('altitude'); geometry = row.get('geometry')
-        primary_city_name = row.get('primary_city_name'); alternative_city_names = row.get('alternative_city_names')
-        primary_region_name = row.get('primary_region_name'); alternative_region_names = row.get('alternative_region_names')
-        primary_country_name = row.get('primary_country_name'); alternative_country_names = row.get('alternative_country_names')
-        address = row.get('address'); postcode = row.get('postcode'); district = row.get('district'); neighborhood = row.get('neighborhood')
-        number_of_days_after_anchor_date_that_event_began=int(row.get('number_of_days_after_anchor_date_that_event_began', 0))
-        number_of_days_after_anchor_date_that_event_ended=int(row.get('number_of_days_after_anchor_date_that_event_ended', 0))
-        start_date = row.get('start_date'); end_date = row.get('end_date')
-        title = row.get('title') if row.get('title') is not None else row.get('primary_city_name', '')
-        description = row.get('description', '')
-        link = row.get('link', '')
-        marker_color = row.get('marker_color') if row.get('marker_color') else 'blue'
-        content_online = row.get('content_online', 0)
-        number_of_sites = row.get('number_of_sites', 0)
-        number_of_casualties = row.get('number_of_casualties', 0)
-        alternative_id = row.get('alternative_id')
-        number_of_memorials = row.get('number_of_memorials')
-        type_of_place_before_event = row.get('type_of_place_before_event')
-        occupation_period = row.get('occupation_period')
-
-        print(f"latitude: {latitude}")
-        print(f"longitude: {longitude}")
-        print(f"altitude: {altitude}")
-        print(f"geometry: {geometry}")
-        print(f"primary_city_name: {primary_city_name}")
-        print(f"alternative_city_names: {alternative_city_names}")
-        print(f"primary_region_name: {primary_region_name}")
-        print(f"alternative_region_names: {alternative_region_names}")
-        print(f"primary_country_name: {primary_country_name}")
-        print(f"alternative_country_names: {alternative_country_names}")
-        print(f"address: {address}")
-        print(f"postcode: {postcode}")
-        print(f"district: {district}")
-        print(f"neighborhood: {neighborhood}")
-        print(f"number_of_days_after_anchor_date_that_event_began: {number_of_days_after_anchor_date_that_event_began}")
-        print(f"number_of_days_after_anchor_date_that_event_ended: {number_of_days_after_anchor_date_that_event_ended}")
-        print(f"start_date: {start_date}")
-        print(f"end_date: {end_date}")
-        print(f"title: {title}")
-        print(f"description: {description}")
-        print(f"link: {link}")
-        print(f"marker_color: {marker_color}")
-        print(f"content_online: {content_online}")
-        print(f"number_of_sites: {number_of_sites}")
-        print(f"number_of_casualties: {number_of_casualties}")
-        print(f"alternative_id: {alternative_id}")
-        print(f"number_of_memorials: {number_of_memorials}")
-        print(f"type_of_place_before_event: {type_of_place_before_event}")
-        print(f"occupation_period: {occupation_period}")
-
-        e = Event(
-            latitude=row.get('latitude'), longitude=row.get('longitude'), altitude=row.get('altitude'), geometry=row.get('geometry'), 
-            primary_city_name=row.get('primary_city_name'), alternative_city_names=row.get('alternative_city_names'),
-            primary_region_name=row.get('primary_region_name'), alternative_region_names=row.get('alternative_region_names'),
-            primary_country_name=row.get('primary_country_name'), alternative_country_names=row.get('alternative_country_names'),
-            address=row.get('address'), postcode=row.get('postcode'), district=row.get('district'), neighborhood=row.get('neighborhood'),
-            number_of_days_after_anchor_date_that_event_began=int(row.get('number_of_days_after_anchor_date_that_event_began', 0)), 
-            number_of_days_after_anchor_date_that_event_ended=int(row.get('number_of_days_after_anchor_date_that_event_ended', 0)),
-            start_date=row.get('start_date'), end_date=row.get('end_date'),
-            title=row.get('title') if row.get('title') is not None else row.get('primary_city_name', ''),
-            description=row.get('description', ''),
-            link=row.get('link', ''),
-            marker_color=row.get('marker_color') if row.get('marker_color') else 'blue',
-            content_online=row.get('content_online', 0),
-            number_of_sites=row.get('number_of_sites', 0),
-            number_of_casualties=row.get('number_of_casualties', 0),
-            alternative_id=row.get('alternative_id'),
-            number_of_memorials=row.get('number_of_memorials'),
-            type_of_place_before_event=row.get('type_of_place_before_event'),
-            occupation_period=row.get('occupation_period')
-        )
-        e.save()
-
-    print(df.head())
-
-
-class MapCreateTestView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Map
     fields = ['title', 'description', 'anchor_date', 'image_url', 'excel_upload']
     template_name = 'market/dashboard/form_view.html'
 
-    def form_valid(self, form):
+    def form_valid(self, form, **kwargs):
         FILE = form.instance.excel_upload # Get the file
-        FILE_NAME = FILE.name # Get the file name
-        print(f"FILE_NAME: {FILE_NAME}") # ex. yahad.xlsx
-        FILE_EXTENSION = FILE_NAME.split(".")[-1]
-        if FILE_EXTENSION == "csv":
-            df = pd.read_csv(FILE) 
-        elif FILE_EXTENSION == "xlsx" or FILE_EXTENSION == "xls":
-            df = pd.read_excel(FILE) 
-        process_map_data(df)
+
+        print(f"OBJECT: {self.object}")
+        print(f"OBJECT TYPE: {type(self.object)}")
+        if FILE:
+            FILE_NAME = FILE.name # Get the file name
+            print(f"FILE_NAME: {FILE_NAME}") # ex. yahad.xlsx
+            FILE_EXTENSION = FILE_NAME.split(".")[-1]
+            if FILE_EXTENSION == "csv":
+                df = pd.read_csv(FILE) 
+            elif FILE_EXTENSION == "xlsx" or FILE_EXTENSION == "xls":
+                df = pd.read_excel(FILE) 
+            self.object = form.save() # Get Map object
+            process_map_data(df, parent_map=self.object)
+        self.object = form.save() # Get Map object
         return super().form_valid(form)
+
+    # def form_valid(self, form, **kwargs):
+    #     form.cleaned_data['users'].update(has_paid=True)
+    #     return super().form_valid(form, **kwargs)
 
     def test_func(self):
         return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
-        context = super(MapCreateTestView, self).get_context_data(**kwargs)
+        context = super(MapCreateViaImportView, self).get_context_data(**kwargs)
         context['header'] = "Create map"
         context['create'] = True
         return context
-
 

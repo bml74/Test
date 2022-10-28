@@ -17,25 +17,31 @@ class AlternativeCountryNames(TaggedItemBase):
 
 
 class Map(models.Model): 
-    title = models.CharField(max_length=64, default="Title")
+    title = models.CharField(max_length=64, default="Title", unique=True)
     description = models.TextField(default="Description") 
     image_url = models.CharField(max_length=512, blank=True, null=True)
     anchor_date = models.DateField(default='1945-09-01')
     excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 
+    def __str__(self):
+        return self.title
+    
     def get_absolute_url(self):
         return reverse('map', kwargs={'pk': self.pk})
 
 
 
 class Event(models.Model):
+    parent_map = models.ForeignKey(Map, on_delete=models.CASCADE, blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()
     altitude = models.FloatField(blank=True, null=True)
     geometry = models.CharField(default="Point", max_length=16)
+    alternative_id = models.IntegerField(blank=True, null=True)
     content_online = models.BooleanField(default=False)
-    """
-    day = models.CharField(max_length=12, choices=(
+    dates = models.CharField(max_length=256, blank=True, null=True)
+    hours = models.CharField(max_length=256, blank=True, null=True)
+    day = models.CharField(max_length=12, blank=True, null=True, choices=(
             ("Monday", "Monday"),
             ("Tuesday", "Tuesday"),
             ("Wednesday", "Wednesday"),
@@ -45,15 +51,14 @@ class Event(models.Model):
             ("Sunday", "Sunday")
         )
     )
-    """
     primary_city_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names')
+    alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names', blank=True)
 
     primary_region_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_region_names = TaggableManager(through=AlternativeRegionNames, related_name='alternative_region_names', verbose_name='Alternative region names')
+    alternative_region_names = TaggableManager(through=AlternativeRegionNames, related_name='alternative_region_names', verbose_name='Alternative region names', blank=True)
 
     primary_country_name = models.CharField(max_length=64, blank=True, null=True)
-    alternative_country_names = TaggableManager(through=AlternativeCountryNames, related_name='alternative_country_names', verbose_name='Alternative country names')
+    alternative_country_names = TaggableManager(through=AlternativeCountryNames, related_name='alternative_country_names', verbose_name='Alternative country names', blank=True)
 
     address = models.CharField(max_length=256, blank=True, null=True)
     postcode = models.CharField(max_length=256, blank=True, null=True)
@@ -76,7 +81,6 @@ class Event(models.Model):
     )
     number_of_sites = models.IntegerField(default=1, blank=True, null=True)
     number_of_casualties = models.CharField(max_length=128, default="0", blank=True, null=True)
-    alternative_id = models.IntegerField(blank=True, null=True)
     number_of_memorials = models.IntegerField(blank=True, null=True)
     type_of_place_before_event = models.CharField(max_length=128, default="0", blank=True, null=True)
     occupation_period = models.CharField(max_length=256, blank=True, null=True)

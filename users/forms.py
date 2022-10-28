@@ -24,10 +24,8 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['description', 'country', 'visibility', 'excel_upload']
+        fields = ['description', 'country', 'visibility']
 
 
 class ReferralCodeForm(forms.Form):
     referral_code = forms.CharField(label='Referral code', max_length=32)
-
-

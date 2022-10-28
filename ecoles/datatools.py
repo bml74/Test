@@ -4,9 +4,9 @@ from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 
 
-def get_df(obj):
+def get_df(queryset):
     """Takes in a Model instance such as Course and outputs DF of objects with only title and description columns"""
-    df = pd.DataFrame(list(obj.objects.all().values('title', 'description'))) # Create DF with columns title and description for this model type
+    df = pd.DataFrame(list(queryset.values('title', 'description'))) # Create DF with columns title and description for this model type
     df.index = df.index + 1 # Set index so it starts at 1
     try:
         df.drop(columns=['Unnamed: 0'], inplace=True) # Drop unnecessary column if it exists
@@ -64,7 +64,7 @@ def get_recs(df, title, cosine_sim, indices):
         sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
 
         # Get scores of 10 most similar movies
-        sim_scores = sim_scores[1:7]
+        sim_scores = sim_scores[1:3]
 
         # Get movie indices
         res_indices = [i[0] + 1 for i in sim_scores]
@@ -75,11 +75,15 @@ def get_recs(df, title, cosine_sim, indices):
         return None
 
 
-def generate_recommendations_from_course_object(ObjType, obj):
+def generate_recommendations_from_queryset(queryset, obj):
     # Create Pandas dataframe for content-based recommendation system. For now, only title and description are needed.
-    df = get_df(ObjType) # Create Pandas DF of all the instances of the obj but put only the columns title and category
-    (title, cosine_sim, indices) = prep_for_recs(df, obj)
+    df = get_df(queryset) # Create Pandas DF of all the instances of the obj but put only the columns title and category
+    print(df)
+    title = obj.title
+    cosine_sim = get_cosine_sim_using_tfidf_matrix(df)
+    indices = get_indices_series(df)
+    print(title)
+    print(indices)
     recs = get_recs(df, title, cosine_sim, indices)
-    print("YAY")
     return recs
 

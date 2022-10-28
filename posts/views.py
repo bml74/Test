@@ -11,7 +11,8 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from .models import (Post)
+from .models import Post
+from ecoles.datatools import generate_recommendations_from_queryset
 
 
 class PostListView(ListView):
@@ -61,6 +62,14 @@ class PostDetailView(UserPassesTestMixin, DetailView):
 
     def test_func(self):
         return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        post = get_object_or_404(Post, pk=kwargs['pk'])
+        recs = generate_recommendations_from_queryset(queryset=Post.objects.all(), obj=post)
+        context = {
+            "recs": recs
+        }
+        return render(request, 'market/COURSE_DESIGN.html', context)
 
 
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
