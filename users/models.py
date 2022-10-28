@@ -28,6 +28,7 @@ class Profile(models.Model):
         default="Public",
         blank=False,
     )
+    ACCOUNT_BALANCE = models.IntegerField(default=0)
 
     def __str__(self):
         return f'{self.user.username} Profile'

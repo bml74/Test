@@ -25,8 +25,8 @@ urlpatterns = [
 
     path('checkout/<str:obj_type>/<int:pk>/', views.checkout, name='checkout'),
     path('checkout_session/<str:obj_type>/<int:pk>/',views.checkout_session,name='checkout_session'),
-    path('checkout/success/<str:obj_type>/<int:pk>/', views.payment_success, name='payment_success'),
-    path('checkout/cancel/', views.payment_cancel, name='payment_cancel'),
+    path('success/checkout/<str:obj_type>/<int:pk>/', views.payment_success, name='payment_success'),
+    path('cancel/checkout/', views.payment_cancel, name='payment_cancel'),
     #getting all unverified payments of purchaser
     path('my_payments/', views.my_payments, name='my_payments'),
     #updating unverified payments of purchaser

@@ -39,7 +39,13 @@ Transactions | {{ request.user.username }}
                         End payment sent
                     </th>
                     <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Seller
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
                         Seller verified
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Buyer
                     </th>
                     <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
                         Buyer verified
@@ -82,11 +88,17 @@ Transactions | {{ request.user.username }}
                           {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                          {{ item.seller }}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.seller_verified %}
                             <i class="fas fa-check-circle"></i>
                             {% else %}
                             <i class="fas fa-times-circle"></i>
                             {% endif %}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                          {{ item.purchaser }}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.purchaser_verified %}

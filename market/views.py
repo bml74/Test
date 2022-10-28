@@ -1,7 +1,7 @@
 import os
 import stripe
 import random
-
+from decouple import config
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
@@ -159,7 +159,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         
 
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_authenticated
 
     def get_context_data(self, **kwargs):
         context = super(ListingCreateView, self).get_context_data(**kwargs)
@@ -275,7 +275,13 @@ def checkout(request, obj_type, pk):
     return JsonResponse({"Error": "Item retrieval error."})
 
 def checkout_session(request, obj_type, pk):
-    stripe.api_key = os.environ.get('STRIPE_LIVE_KEY')
+
+    # BASE_DOMAIN = 'https://www.cadebruno.com' # Prod
+    BASE_DOMAIN = 'http://127.0.0.1:8000' # Dev
+
+    # stripe.api_key = config('STRIPE_LIVE_KEY') # Live
+    stripe.api_key = config('STRIPE_TEST_KEY') # Test
+
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
@@ -299,8 +305,8 @@ def checkout_session(request, obj_type, pk):
             }],
             mode='payment',
             #change domain name when you live it
-            success_url=f'https://www.cadebruno.com/market/checkout/success/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=f'https://www.cadebruno.com/checkout/cancel/',
+            success_url=f'{BASE_DOMAIN}/market/success/checkout/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
+            cancel_url=f'{BASE_DOMAIN}/cancel/checkout/',
 
             client_reference_id=pk
 
@@ -358,9 +364,9 @@ def payment_success(request, obj_type, pk):
                 "obj_type": obj_type
             }) 
         else:
-            return render(request, 'payments/cancel.html')
+            return render(request, 'payments/success.html')
     except:
-        return render(request, 'payments/cancel.html')
+        return render(request, 'payments/success.html')
 
 #purchaser unverified payments
 def my_payments(request):
