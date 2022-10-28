@@ -36,7 +36,6 @@ def download_file(request, queryset, CONTENT_TYPE, FILE_TYPE, FILE_EXTENSION):
         values = []
         for field in field_names:
             value = getattr(row, field)
-            print(f"VALUE: {value}")
             if callable(value):
                 try:
                     value = value() or ''
