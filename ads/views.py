@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from config.model_fields import AD_OFFER_FIELDS, AD_PURCHASE_FIELDS
 
 
 class AdOfferListView(ListView):
@@ -39,7 +40,7 @@ class AdOfferDetailView(UserPassesTestMixin, DetailView):
 
 class AdOfferCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AdOffer
-    fields = ['title', 'description', 'price', 'metric', 'required_impressions', 'required_unique_impressions', 'required_clicks']
+    fields = AD_OFFER_FIELDS
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
@@ -58,7 +59,7 @@ class AdOfferCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class AdOfferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AdOffer
-    fields = ['title', 'description', 'price', 'metric', 'required_impressions', 'required_unique_impressions', 'required_clicks']
+    fields = AD_OFFER_FIELDS
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
@@ -158,11 +159,12 @@ class AdPurchaseDetailView(UserPassesTestMixin, DetailView):
 
 class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AdPurchase
-    fields = ['group_that_purchased_ad', 'offer']
+    fields = AD_PURCHASE_FIELDS
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
         form.instance.user_that_purchased_ad = self.request.user
+        # Make sure that if group is selected that user is part of that group:
         group = form.instance.group_that_purchased_ad
         if group is None:
             return super().form_valid(form)
@@ -172,6 +174,10 @@ class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 return super().form_valid(form)
             else:
                 return super().form_invalid(form)
+        # Make sure that if a foreign key object is specified for
+        # the ad type, then the appropriate item was created by
+        # the user.
+
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -186,7 +192,7 @@ class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class AdPurchaseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AdPurchase
-    fields = ['user_that_purchased_ad', 'group_that_purchased_ad', 'offer']
+    fields = AD_PURCHASE_FIELDS
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):

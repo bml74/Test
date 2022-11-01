@@ -57,7 +57,7 @@ class AdOffer(models.Model):
 
 
 class AdPurchase(models.Model):
-    date_created = models.DateTimeField(auto_now_add=True, )
+    date_created = models.DateTimeField(auto_now_add=True)
     user_that_purchased_ad = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_purchased_ad")
     group_that_purchased_ad = models.ForeignKey(Group, on_delete=models.CASCADE, blank=True, null=True, related_name="group_that_purchased_ad")
     offer = models.ForeignKey(AdOffer, on_delete=models.CASCADE, null=True, related_name="ad_offer")
