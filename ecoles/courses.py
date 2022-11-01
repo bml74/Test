@@ -20,6 +20,9 @@ from .models import (
 )
 import math
 from .datatools import generate_recommendations_from_queryset
+from config.abstract_settings.model_fields import COURSES_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.utils import userIsPartOfGroup, userCreatedGroup
 
 
 class CourseListView(UserPassesTestMixin, ListView):
@@ -152,7 +155,8 @@ def get_details(request, modules):
         pct_completed = 0
     
     return (all_modules, pct_completed)
-        
+
+      
 class CourseDetailView(UserPassesTestMixin, DetailView):
     model = Course # Commit...
 
@@ -338,8 +342,8 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
 
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
-    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
-    template_name = 'market/dashboard/form_view.html'
+    fields = COURSES_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -366,8 +370,8 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 
 class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Course
-    fields = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
-    template_name = 'market/dashboard/form_view.html'
+    fields = COURSES_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user

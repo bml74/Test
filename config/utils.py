@@ -4,6 +4,8 @@ import pandas as pd
 from googletrans import Translator
 from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
+from django.shortcuts import get_object_or_404
+from orgs.models import GroupProfile
 
 
 def is_ajax(request):
@@ -74,3 +76,15 @@ def get_as_df(queryset):
             values.append(value)
         df.loc[len(df.index)] = values
     return df
+
+
+def getGroupProfile(group):
+    return get_object_or_404(GroupProfile, group=group)
+
+def userIsPartOfGroup(user, group):
+    group_profile = getGroupProfile(group)
+    return group_profile.group_members.filter(id=user.id).exists() or user.groups.filter(id=group.id).exists()
+
+def userCreatedGroup(user, group):
+    group_profile = getGroupProfile(group)
+    return user == group_profile.group_creator

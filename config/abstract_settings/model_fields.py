@@ -1,4 +1,5 @@
-# For ads
+""" For ads app. """
+
 AD_PURCHASE_FIELDS = [
         'group_that_purchased_ad', 
         'offer', 
@@ -19,3 +20,7 @@ AD_OFFER_FIELDS = [
     'required_unique_impressions', 
     'required_clicks'
 ]
+
+""" For ecoles app. """
+
+COURSES_FIELDS = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']

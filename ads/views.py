@@ -9,7 +9,7 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from config.model_fields import AD_OFFER_FIELDS, AD_PURCHASE_FIELDS
+from config.abstract_settings.model_fields import AD_OFFER_FIELDS, AD_PURCHASE_FIELDS
 
 
 class AdOfferListView(ListView):

@@ -1,0 +1,1 @@
+FORM_VIEW_TEMPLATE_NAME = 'market/dashboard/form_view.html'
