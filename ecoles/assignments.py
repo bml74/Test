@@ -28,7 +28,8 @@ from youtube_transcript_api import YouTubeTranscriptApi
 import requests
 from bs4 import BeautifulSoup as bs
 from strfseconds import strfseconds
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+from config.abstract_settings.model_fields import ASSIGNMENT_FIELDS
 
 
 def toggle_complete(request, id):
@@ -350,7 +351,7 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
 
 class AssignmentCreateView(LoginRequiredMixin, CreateView):    
     model = Assignment
-    fields = ['title', 'due_date', 'description', 'language', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter', 'article_by_url', 'article_id']
+    fields = ASSIGNMENT_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -374,7 +375,7 @@ class AssignmentCreateView(LoginRequiredMixin, CreateView):
 
 class AssignmentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Assignment
-    fields = ['title', 'due_date', 'description', 'language', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter']
+    fields = ASSIGNMENT_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -399,7 +400,7 @@ class AssignmentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Assignment
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user is creator or an allowed editor.

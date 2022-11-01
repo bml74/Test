@@ -22,5 +22,11 @@ AD_OFFER_FIELDS = [
 ]
 
 """ For ecoles app. """
-
-COURSES_FIELDS = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
+CATEGORY_FIELDS = ['title', 'description', 'creator']
+FIELD_FIELDS = ['title', 'category', 'description', 'creator']
+SPECIALIZATION_FIELDS = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
+COURSE_FIELDS = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
+MODULE_FIELDS = ['title', 'course', 'description']
+SUBMODULE_FIELDS = ['title', 'module', 'description']
+ASSIGNMENT_FIELDS = ['title', 'due_date', 'description', 'language', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter', 'article_by_url', 'article_id']
+TASK_FIELDS = ['task_type', 'due_date', 'assignment', 'completed']

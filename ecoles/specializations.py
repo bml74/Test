@@ -16,14 +16,14 @@ from .models import (
     Course
 )
 from .datatools import generate_recommendations_from_queryset
-from config.abstract_settings.model_fields import COURSES_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
-from config.utils import userIsPartOfGroup, userCreatedGroup
+from config.abstract_settings.model_fields import SPECIALIZATION_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME, ITEM_LIST_TEMPLATE_NAME
+from config.utils import formValid
 
 
 class SpecializationListView(UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def test_func(self):
@@ -41,7 +41,7 @@ class SpecializationListView(UserPassesTestMixin, ListView):
 
 class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -69,7 +69,7 @@ class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, L
 
 class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -92,7 +92,7 @@ class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, Li
 
 class EditAccessSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Specialization
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -199,18 +199,13 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
 
 class SpecializationCreateView(LoginRequiredMixin, CreateView):
     model = Specialization
-    fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
+    fields = SPECIALIZATION_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
-        group = form.instance.group
-        if group is not None:
-            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
-                return super().form_valid(form)
-            return super().form_invalid(form)
-        return super().form_valid(form)
+        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
 
     def test_func(self):
@@ -225,18 +220,13 @@ class SpecializationCreateView(LoginRequiredMixin, CreateView):
 
 class SpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Specialization
-    fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
+    fields = SPECIALIZATION_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
-        group = form.instance.group
-        if group is not None:
-            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
-                return super().form_valid(form)
-            return super().form_invalid(form)
-        return super().form_valid(form)
+        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
     def test_func(self):
         # Check if user enrolled in the course.
@@ -254,7 +244,7 @@ class SpecializationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVi
     model = Specialization
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user enrolled in the course.

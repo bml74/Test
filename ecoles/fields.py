@@ -15,12 +15,13 @@ from .models import (
 )
 from django.contrib.auth.models import User
 from .datatools import generate_recommendations_from_queryset
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+from config.abstract_settings.model_fields import FIELD_FIELDS
 
 
 class FieldCreateView(LoginRequiredMixin, CreateView):
     model = Field
-    fields = ['title', 'category', 'description', 'creator']
+    fields = FIELD_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -40,7 +41,7 @@ class FieldCreateView(LoginRequiredMixin, CreateView):
 
 class FieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Field
-    fields = ['title', 'category', 'description', 'creator']
+    fields = FIELD_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -64,7 +65,7 @@ class FieldDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Field
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user enrolled in the course.

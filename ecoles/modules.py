@@ -16,7 +16,8 @@ from .models import (
     Submodule,
     Assignment
 )
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.model_fields import MODULE_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 
 
 class ModuleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -106,7 +107,7 @@ class ModuleDetailView(UserPassesTestMixin, DetailView):
 
 class ModuleCreateView(LoginRequiredMixin, CreateView):
     model = Module
-    fields = ['title', 'course', 'description'] # , 'visibility'
+    fields = MODULE_FIELDS # , 'visibility'
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -127,7 +128,7 @@ class ModuleCreateView(LoginRequiredMixin, CreateView):
 
 class ModuleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Module
-    fields = ['title', 'course', 'description'] # , 'visibility'
+    fields = MODULE_FIELDS # , 'visibility'
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -150,7 +151,7 @@ class ModuleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Module
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user is creator or an allowed editor.

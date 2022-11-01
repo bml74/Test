@@ -89,10 +89,13 @@ def userCreatedGroup(user, group):
     group_profile = getGroupProfile(group)
     return user == group_profile.group_creator
 
-def returnFormValidIfUserInGroupSpecified(user, group, form):
+def formValid(user, group):
     # Takes a user and group. If group has been specified, makes sure user
     # is part of group. If so, returns form is valid.
-    pass
+    if group:
+        return True if userIsPartOfGroup(user, group) or userCreatedGroup(user, group) else False
+    return True
+    
 
 """
 # Old:

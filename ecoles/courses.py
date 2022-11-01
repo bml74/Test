@@ -20,14 +20,14 @@ from .models import (
 )
 import math
 from .datatools import generate_recommendations_from_queryset
-from config.abstract_settings.model_fields import COURSES_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
-from config.utils import userIsPartOfGroup, userCreatedGroup
+from config.abstract_settings.model_fields import COURSE_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME, ITEM_LIST_TEMPLATE_NAME
+from config.utils import formValid
 
 
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'market/COURSE_LIST_DESIGN.html' # ecoles/specialization_and_course_list_view.html
+    template_name = ITEM_LIST_TEMPLATE_NAME # ecoles/specialization_and_course_list_view.html
     context_object_name = 'items'
 
     def test_func(self):
@@ -45,7 +45,7 @@ class CourseListView(UserPassesTestMixin, ListView):
 
 class EnrolledCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -73,7 +73,7 @@ class EnrolledCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView)
 
 class CreatedCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -96,7 +96,7 @@ class CreatedCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
 class EditAccessCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Course
-    template_name = 'market/COURSE_LIST_DESIGN.html'
+    template_name = ITEM_LIST_TEMPLATE_NAME
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -342,18 +342,13 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
 
 class CourseCreateView(LoginRequiredMixin, CreateView):
     model = Course
-    fields = COURSES_FIELDS
+    fields = COURSE_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
-        group = form.instance.group
-        if group is not None:
-            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
-                return super().form_valid(form)
-            return super().form_invalid(form)
-        return super().form_valid(form)
+        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -367,18 +362,13 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 
 class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Course
-    fields = COURSES_FIELDS
+    fields = COURSE_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
-        group = form.instance.group
-        if group is not None:
-            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
-                return super().form_valid(form)
-            return super().form_invalid(form)
-        return super().form_valid(form)
+        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
     def test_func(self):
         # Check if user created the course.
@@ -396,7 +386,7 @@ class CourseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Course
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         course = Course.objects.filter(id=self.kwargs['pk'])[0]

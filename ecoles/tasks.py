@@ -17,8 +17,8 @@ from .models import (
     Assignment,
     Task,
 )
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
-
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+from config.abstract_settings.model_fields import TASK_FIELDS
 
 class TaskListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Task
@@ -90,7 +90,7 @@ class TaskDetailView(UserPassesTestMixin, DetailView):
 
 class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
-    fields = ['task_type', 'due_date', 'assignment']
+    fields = TASK_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -114,7 +114,7 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
 
 class TaskUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Task
-    fields = ['task_type', 'due_date', 'assignment', 'completed']
+    fields = TASK_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -140,7 +140,7 @@ class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Task
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user is creator or an allowed editor.

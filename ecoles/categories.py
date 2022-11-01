@@ -13,12 +13,13 @@ from .models import (
     Field
 )
 from .datatools import generate_recommendations_from_queryset
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+from config.abstract_settings.model_fields import CATEGORY_FIELDS
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
-    fields = ['title', 'description', 'creator']
+    fields = CATEGORY_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -38,7 +39,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Category
-    fields = ['title', 'description', 'creator']
+    fields = CATEGORY_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -62,7 +63,7 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Category
     success_url = '/ecoles/'
     context_object_name = 'item'
-    template_name = 'ecoles/confirm_delete_view.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         # Check if user enrolled in the course.
