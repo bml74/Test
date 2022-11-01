@@ -32,6 +32,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.abstract_settings.model_fields import ASSIGNMENT_FIELDS
 
 
+SINGULAR_NAME = "Assignment"
+PLURAL_NAME = "Assignments"
+
+
 def toggle_complete(request, id):
     obj = get_object_or_404(Assignment, id=id)
     if obj.completed.filter(id=request.user.id).exists():
@@ -118,7 +122,7 @@ class AssignmentListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         submodule = get_object_or_404(Submodule, id=self.kwargs.get('submodule_id'))
         module = submodule.module
         course = module.course
-        title = "Assignments | " + submodule.title + " | " + module.title + " | " + course.title
+        title = f"{PLURAL_NAME} | " + submodule.title + " | " + module.title + " | " + course.title
         context.update({"obj_type": "assignment", "title": title, "header": title, "course": course, "module": module, "submodule": submodule})
         return context
 
@@ -239,7 +243,7 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
 
 
         context = {
-            "obj_type": "assignment", 
+            "obj_type": SINGULAR_NAME.lower(), 
             "item": assignment, 
             "assignment": assignment,
             "allowed_to_edit": allowed_to_edit,
@@ -268,9 +272,9 @@ class AssignmentDetailView(UserPassesTestMixin, DetailView):
         # Get assignment note if it exists:
         try:
             assignment_note = AssignmentNote.objects.filter(assignment=assignment).filter(creator=self.request.user).first()
-            context.update({"assignment_note": assignment_note})
+            context.update({"assignment note": assignment_note})
         except AttributeError:
-            context.update({"assignment_note": None})
+            context.update({"assignment note": None})
 
         if assignment.assignment_type == "Youtube Video Transcript ID":
             video_id = assignment.youtube_video_transcript_id
@@ -367,7 +371,7 @@ class AssignmentCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssignmentCreateView, self).get_context_data(**kwargs)
-        obj_type = "assignment"
+        obj_type = SINGULAR_NAME.lower()
         context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
         return context
 
@@ -391,7 +395,7 @@ class AssignmentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(AssignmentUpdateView, self).get_context_data(**kwargs)
-        obj_type = "assignment"
+        obj_type = SINGULAR_NAME.lower()
         context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
         return context
 
@@ -411,5 +415,5 @@ class AssignmentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(AssignmentDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "assignment"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context

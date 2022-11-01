@@ -62,6 +62,9 @@ Transactions | {{ request.user.username }}
                     <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
                         Action
                     </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                      Note
+                    </th>
                   </tr>
                 </thead>
                 <tbody class="_Ybd3WwuTVljUT4vEaM3 _1jTZ8KXRZul60S6czNi">
@@ -82,9 +85,9 @@ Transactions | {{ request.user.username }}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                           {% if item.end_payment_sent %}
-                          <i class="fas fa-check-circle"></i>
+                          <i class="fas fa-check-circle green"></i>
                           {% else %}
-                          <i class="fas fa-times-circle"></i>
+                          <i class="fas fa-times-circle red"></i>
                           {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
@@ -92,9 +95,9 @@ Transactions | {{ request.user.username }}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.seller_verified %}
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle green"></i>
                             {% else %}
-                            <i class="fas fa-times-circle"></i>
+                            <i class="fas fa-times-circle red"></i>
                             {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
@@ -102,9 +105,9 @@ Transactions | {{ request.user.username }}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.purchaser_verified %}
-                            <i class="fas fa-check-circle"></i>
+                            <i class="fas fa-check-circle green"></i>
                             {% else %}
-                            <i class="fas fa-times-circle"></i>
+                            <i class="fas fa-times-circle red"></i>
                             {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL PeR2JZ9BZHYIH8Ea3F36 BHrWGjM1Iab_fAz0_91H XIIs8ZOri3wm8Wnj9N_y">
@@ -121,21 +124,61 @@ Transactions | {{ request.user.username }}
                             {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">
-                            {% if item.purchaser_verified %}
-                            <a href="{% url 'reject_transaction' item.id %}">
-                                <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
-                            </a>
-                            {% elif item.purchaser_verified is None %}
-                            <a href="{% url 'confirm_transaction' item.id %}">
-                              <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
-                            </a>
-                            <a href="{% url 'reject_transaction' item.id %}">
-                                <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
-                            </a>
+                            {% if request.user == item.purchaser %}
+                                {% if item.purchaser_verified %}
+                                <a href="{% url 'reject_transaction' item.id %}">
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
+                                </a>
+                                {% elif item.purchaser_verified is None %}
+                                <a href="{% url 'confirm_transaction' item.id %}">
+                                  <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
+                                </a>
+                                <a href="{% url 'reject_transaction' item.id %}">
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'confirm_transaction' item.id %}">
+                                  <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
+                                </a>
+                                {% endif %}
                             {% else %}
-                            <a href="{% url 'confirm_transaction' item.id %}">
-                              <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
-                            </a>
+                                {% if item.seller_verified %}
+                                <a href="{% url 'reject_transaction' item.id %}">
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
+                                </a>
+                                {% elif item.seller_verified is None %}
+                                <a href="{% url 'confirm_transaction' item.id %}">
+                                  <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
+                                </a>
+                                <a href="{% url 'reject_transaction' item.id %}">
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">Reject</span>
+                                </a>
+                                {% else %}
+                                <a href="{% url 'confirm_transaction' item.id %}">
+                                  <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">Confirm</span>
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">
+                            {% if request.user == item.purchaser %} 
+                                You are the <strong>purchaser</strong> of this item
+                                {% if item.purchaser_verified %}
+                                    <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">and have approved the transaction.</span>
+                                {% elif item.purchaser_verified is None %}
+                                    and have not approved of or rejected the transaction. 
+                                {% else %}
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">and have rejected the transaction.</span>
+                                {% endif %}
+                            {% elif request.user == item.seller %}
+                                You are the <strong>seller</strong> of this item
+                                {% if item.seller_verified %}
+                                    <span class="bg-green-100 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-green-200 dark:text-green-900">and have approved the transaction.</span>
+                                {% elif item.seller_verified is None %}
+                                    and have not approved of or rejected the transaction. 
+                                {% else %}
+                                    <span class="bg-red-100 text-red-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-red-200 dark:text-red-900">and have rejected the transaction.</span>
+                                {% endif %}
                             {% endif %}
                         </td>
                     </tr>

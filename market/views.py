@@ -364,19 +364,27 @@ def payment_success(request, obj_type, pk):
 def my_payments(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
     # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
-    return render(request,'payments/my_payments.html',{'items': Transaction.objects.filter(purchaser=request.user)})
+    items = set(list(Transaction.objects.filter(purchaser=request.user)) + list(Transaction.objects.filter(seller=request.user)))
+    return render(request,'payments/my_payments.html',{'items': items})
+
+def my_sales(request):
+    items = list(Transaction.objects.filter(seller=request.user))
+    return render(request,'payments/my_sales.html',{'items': items})
 
 def confirm_transaction(request, transaction_id):
     transaction_data=Transaction.objects.get(pk=transaction_id)
-    transaction_data.purchaser_verified = True
+    if request.user == transaction_data.purchaser:
+        transaction_data.purchaser_verified = True
+    else:
+        transaction_data.seller_verified = True
     transaction_data.save()
     return redirect('my_payments')
 
 def reject_transaction(request, transaction_id):
     transaction_data=Transaction.objects.get(pk=transaction_id)
-    transaction_data.purchaser_verified = False
+    if request.user == transaction_data.purchaser:
+        transaction_data.purchaser_verified = False
+    else:
+        transaction_data.seller_verified = False
     transaction_data.save()
     return redirect('my_payments')
-
-
-#fetch unverified payments for seller

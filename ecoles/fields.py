@@ -19,6 +19,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.abstract_settings.model_fields import FIELD_FIELDS
 
 
+SINGULAR_NAME = "Field"
+PLURAL_NAME = "Fields"
+
+
 class FieldCreateView(LoginRequiredMixin, CreateView):
     model = Field
     fields = FIELD_FIELDS
@@ -33,9 +37,9 @@ class FieldCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(FieldCreateView, self).get_context_data(**kwargs)
-        header = "Create field"
+        header = f"Create {SINGULAR_NAME.lower()}"
         context.update({"header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -55,9 +59,9 @@ class FieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(FieldUpdateView, self).get_context_data(**kwargs)
-        header = "Update field"
+        header = f"Update {SINGULAR_NAME.lower()}"
         context.update({"header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -74,7 +78,7 @@ class FieldDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(FieldDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -85,7 +89,7 @@ class FieldDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        obj_type = "field"
+        obj_type = SINGULAR_NAME.lower()
         field = get_object_or_404(Field, pk=kwargs['pk'])
         user_enrolled = request.user in field.students.all() 
         allowed_to_edit = request.user in field.allowed_editors.all()
@@ -133,10 +137,10 @@ class FieldListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(FieldListView, self).get_context_data(**kwargs)
-        title = "Fields"
-        header = "View all fields"
+        title = PLURAL_NAME.capitalize()
+        header = f"View all {PLURAL_NAME.lower()}"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def get_queryset(self):
@@ -155,10 +159,10 @@ class EnrolledFieldsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(EnrolledFieldsListView, self).get_context_data(**kwargs)
-        title = "Enrolled | Fields"
-        header = "Fields I'm enrolled in"
+        title = f"Enrolled | {PLURAL_NAME.capitalize()}"
+        header = f"{PLURAL_NAME.capitalize()} I'm enrolled in"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):
@@ -183,10 +187,9 @@ class CreatedFieldsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CreatedFieldsListView, self).get_context_data(**kwargs)
-        title = "Fields created by " + self.kwargs.get('username')
-        header = "Fields created by " + self.kwargs.get('username')
+        title = header = f"{PLURAL_NAME.capitalize()} created by " + self.kwargs.get('username')
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):
@@ -207,10 +210,10 @@ class EditAccessFieldsListView(LoginRequiredMixin, UserPassesTestMixin, ListView
 
     def get_context_data(self, **kwargs):
         context = super(EditAccessFieldsListView, self).get_context_data(**kwargs)
-        title = "Edit Access | Fields"
-        header = "Fields I Can Edit"
+        title = f"Edit Access | {PLURAL_NAME.capitalize()}"
+        header = f"{PLURAL_NAME.capitalize()} I Can Edit"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "field"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):

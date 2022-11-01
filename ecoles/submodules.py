@@ -20,6 +20,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.abstract_settings.model_fields import SUBMODULE_FIELDS
 
 
+SINGULAR_NAME = "Submodule"
+PLURAL_NAME = "Submodules"
+
+
 class SubmoduleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Submodule
     template_name = 'ecoles/submodules/submodule_list_view.html'
@@ -34,8 +38,8 @@ class SubmoduleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         context = super(SubmoduleListView, self).get_context_data(**kwargs)
         module = get_object_or_404(Module, id=self.kwargs.get('module_id'))
         course = module.course
-        title = "Submodules | " + module.title + " | " + course.title
-        context.update({"obj_type": "submodule", "title": title, "header": title, "course": course, "module": module})
+        title = f"{PLURAL_NAME} | " + module.title + " | " + course.title
+        context.update({"obj_type": SINGULAR_NAME.lower(), "title": title, "header": title, "course": course, "module": module})
         return context
 
     def test_func(self):
@@ -80,7 +84,7 @@ class SubmoduleDetailView(UserPassesTestMixin, DetailView):
         #     pct_completed = 0
 
         context = {
-            "obj_type": "submodule", 
+            "obj_type": SINGULAR_NAME.lower(), 
             "item": submodule, 
             "submodule": submodule,
             "allowed_to_edit": allowed_to_edit,
@@ -114,8 +118,8 @@ class SubmoduleCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(SubmoduleCreateView, self).get_context_data(**kwargs)
-        obj_type = "submodule"
-        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Create {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -136,8 +140,8 @@ class SubmoduleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(SubmoduleUpdateView, self).get_context_data(**kwargs)
-        obj_type = "submodule"
-        context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Update {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -155,7 +159,7 @@ class SubmoduleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(SubmoduleDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "submodule"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 

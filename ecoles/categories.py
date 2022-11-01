@@ -17,6 +17,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.abstract_settings.model_fields import CATEGORY_FIELDS
 
 
+SINGULAR_NAME = "Category"
+PLURAL_NAME = "Categories"
+
+
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     fields = CATEGORY_FIELDS
@@ -31,9 +35,9 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryCreateView, self).get_context_data(**kwargs)
-        header = "Create category"
+        header = f"Create {SINGULAR_NAME.lower()}"
         context.update({"header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -53,9 +57,9 @@ class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryUpdateView, self).get_context_data(**kwargs)
-        header = "Update category"
+        header = f"Update {SINGULAR_NAME.lower()}"
         context.update({"header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -72,7 +76,7 @@ class CategoryDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
@@ -83,7 +87,7 @@ class CategoryDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        obj_type = "category"
+        obj_type = SINGULAR_NAME.lower()
         category = get_object_or_404(Category, pk=kwargs['pk'])
         user_enrolled = request.user in category.students.all()
         allowed_to_edit = request.user in category.allowed_editors.all()
@@ -126,10 +130,10 @@ class CategoryListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CategoryListView, self).get_context_data(**kwargs)
-        title = "Categories"
-        header = "View all categories"
+        title = PLURAL_NAME.capitalize()
+        header = f"View all {PLURAL_NAME.lower()}"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def get_queryset(self):
@@ -148,10 +152,10 @@ class EnrolledCategoriesListView(LoginRequiredMixin, UserPassesTestMixin, ListVi
 
     def get_context_data(self, **kwargs):
         context = super(EnrolledCategoriesListView, self).get_context_data(**kwargs)
-        title = "Enrolled | Categories"
-        header = "Categories I'm enrolled in"
+        title = f"Enrolled | {PLURAL_NAME.capitalize()}"
+        header = f"{PLURAL_NAME.capitalize()} I'm enrolled in"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):
@@ -176,10 +180,10 @@ class CreatedCategoriesListView(LoginRequiredMixin, UserPassesTestMixin, ListVie
 
     def get_context_data(self, **kwargs):
         context = super(CreatedCategoriesListView, self).get_context_data(**kwargs)
-        title = "Categories created by " + self.kwargs.get('username')
-        header = "Categories created by " + self.kwargs.get('username')
+        title = f"{PLURAL_NAME.capitalize()} created by " + self.kwargs.get('username')
+        header = f"{PLURAL_NAME.capitalize()} created by " + self.kwargs.get('username')
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):
@@ -200,10 +204,10 @@ class EditAccessCategoriesListView(LoginRequiredMixin, UserPassesTestMixin, List
 
     def get_context_data(self, **kwargs):
         context = super(EditAccessCategoriesListView, self).get_context_data(**kwargs)
-        title = "Edit Access | Categories"
-        header = "Categories I Can Edit"
+        title = f"Edit Access | {PLURAL_NAME.capitalize()}"
+        header = f"{PLURAL_NAME.capitalize()} I Can Edit"
         context.update({"title": title, "header": header})
-        context.update({"obj_type": "category"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
     def test_func(self):

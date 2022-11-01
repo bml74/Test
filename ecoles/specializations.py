@@ -21,6 +21,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.utils import formValid
 
 
+SINGULAR_NAME = "Specialization"
+PLURAL_NAME = "Specializations"
+
+
 class SpecializationListView(UserPassesTestMixin, ListView):
     model = Specialization
     template_name = ITEM_LIST_TEMPLATE_NAME
@@ -31,8 +35,8 @@ class SpecializationListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(SpecializationListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
-        context.update({"obj_type": obj_type, "num_results": len(Specialization.objects.all()), "header": f"{obj_type.capitalize()}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "num_results": len(Specialization.objects.all()), "header": SINGULAR_NAME})
         return context
 
     def get_queryset(self):
@@ -51,10 +55,10 @@ class EnrolledSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, L
 
     def get_context_data(self, **kwargs):
         context = super(EnrolledSpecializationsListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         items = list(Specialization.objects.filter(students=user_in_url))
-        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I'm enrolled in"})
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{PLURAL_NAME} I'm enrolled in"})
         return context
 
     def test_func(self):
@@ -79,10 +83,10 @@ class CreatedSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin, Li
 
     def get_context_data(self, **kwargs):
         context = super(CreatedSpecializationsListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         items = list(Specialization.objects.filter(creator=user_in_url))
-        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I've created"})
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{PLURAL_NAME} I've created"})
         return context
 
     def test_func(self):
@@ -103,11 +107,11 @@ class EditAccessSpecializationsListView(LoginRequiredMixin, UserPassesTestMixin,
 
     def get_context_data(self, **kwargs):
         context = super(EditAccessSpecializationsListView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         created = list(Specialization.objects.filter(creator=user_in_url))
         items = list(user_in_url.specialization_allowed_editors.all()) + created
-        context.update({"obj_type": obj_type, "num_results": len(set(items)), "header": f"{obj_type.capitalize()}s I can edit"})
+        context.update({"obj_type": obj_type, "num_results": len(set(items)), "header": f"{PLURAL_NAME.capitalize()} I can edit"})
         return context
 
     def test_func(self):
@@ -122,7 +126,7 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        obj_type = "specialization"
+        obj_type = SINGULAR_NAME.lower()
         specialization = get_object_or_404(Specialization, pk=kwargs['pk'])
         user_enrolled = request.user in specialization.students.all() 
         allowed_to_edit = request.user in specialization.allowed_editors.all()
@@ -213,8 +217,8 @@ class SpecializationCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(SpecializationCreateView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Create {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -235,8 +239,8 @@ class SpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateVi
 
     def get_context_data(self, **kwargs):
         context = super(SpecializationUpdateView, self).get_context_data(**kwargs)
-        obj_type = "specialization"
-        context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Update {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -253,7 +257,7 @@ class SpecializationDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteVi
 
     def get_context_data(self, **kwargs):
         context = super(SpecializationDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "specialization"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 

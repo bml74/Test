@@ -20,6 +20,10 @@ from config.abstract_settings.model_fields import MODULE_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 
 
+SINGULAR_NAME = "Module"
+PLURAL_NAME = "Modules"
+
+
 class ModuleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = Module
     template_name = 'ecoles/modules/module_list_view.html'
@@ -33,8 +37,8 @@ class ModuleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(ModuleListView, self).get_context_data(**kwargs)
         course = get_object_or_404(Course, id=self.kwargs.get('course_id'))
-        title = "Modules | " + course.title
-        context.update({"obj_type": "module", "title": title, "header": title, "course": course})
+        title = f"{PLURAL_NAME} | " + course.title
+        context.update({"obj_type": SINGULAR_NAME.lower(), "title": title, "header": title, "course": course})
         return context
 
 
@@ -89,7 +93,7 @@ class ModuleDetailView(UserPassesTestMixin, DetailView):
             pct_completed = 0
 
         context = {
-            "obj_type": "module", 
+            "obj_type": SINGULAR_NAME.lower(), 
             "item": module, 
             "module": module, 
             "allowed_to_edit": allowed_to_edit,
@@ -121,8 +125,8 @@ class ModuleCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ModuleCreateView, self).get_context_data(**kwargs)
-        obj_type = "module"
-        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Create {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -142,8 +146,8 @@ class ModuleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(ModuleUpdateView, self).get_context_data(**kwargs)
-        obj_type = "module"
-        context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Update {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -160,7 +164,7 @@ class ModuleDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(ModuleDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "module"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 

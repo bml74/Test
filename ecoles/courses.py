@@ -25,6 +25,10 @@ from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CON
 from config.utils import formValid
 
 
+SINGULAR_NAME = "Course"
+PLURAL_NAME = "Courses"
+
+
 class CourseListView(UserPassesTestMixin, ListView):
     model = Course
     template_name = ITEM_LIST_TEMPLATE_NAME # ecoles/specialization_and_course_list_view.html
@@ -35,8 +39,8 @@ class CourseListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseListView, self).get_context_data(**kwargs)
-        obj_type = "course"
-        context.update({"obj_type": obj_type, "num_results": len(Course.objects.all()), "header": f"{obj_type.capitalize()}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "num_results": len(Course.objects.all()), "header": SINGULAR_NAME})
         return context
 
     def get_queryset(self):
@@ -55,10 +59,10 @@ class EnrolledCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView)
 
     def get_context_data(self, **kwargs):
         context = super(EnrolledCoursesListView, self).get_context_data(**kwargs)
-        obj_type = "course"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         items = list(Course.objects.filter(students=user_in_url))
-        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I'm enrolled in"})
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{PLURAL_NAME} I'm enrolled in"})
         return context
 
     def test_func(self):
@@ -83,10 +87,10 @@ class CreatedCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(CreatedCoursesListView, self).get_context_data(**kwargs)
-        obj_type = "course"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         items = list(Course.objects.filter(creator=user_in_url))
-        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{obj_type.capitalize()}s I've created"})
+        context.update({"obj_type": obj_type, "num_results": len(items), "header": f"{PLURAL_NAME} I've created"})
         return context
 
     def test_func(self):
@@ -107,11 +111,11 @@ class EditAccessCoursesListView(LoginRequiredMixin, UserPassesTestMixin, ListVie
 
     def get_context_data(self, **kwargs):
         context = super(EditAccessCoursesListView, self).get_context_data(**kwargs)
-        obj_type = "course"
+        obj_type = SINGULAR_NAME.lower()
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
         created = list(Course.objects.filter(creator=user_in_url))
         items = list(user_in_url.course_allowed_editors.all()) + created
-        context.update({"obj_type": obj_type, "num_results": len(set(items)), "header": f"{obj_type.capitalize()}s I can edit"})
+        context.update({"obj_type": obj_type, "num_results": len(set(items)), "header": f"{PLURAL_NAME} I can edit"})
         return context
 
     def test_func(self):
@@ -164,7 +168,7 @@ class CourseDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        obj_type = "course"
+        obj_type = SINGULAR_NAME.lower()
         course = get_object_or_404(Course, pk=kwargs['pk'])
         user_enrolled = request.user in course.students.all() 
         allowed_to_edit = request.user in course.allowed_editors.all()
@@ -268,7 +272,7 @@ class CourseInfoDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        obj_type = "course"
+        obj_type = SINGULAR_NAME.lower()
         course = get_object_or_404(Course, pk=kwargs['pk'])
         user_enrolled = request.user in course.students.all() 
         allowed_to_edit = request.user in course.allowed_editors.all()
@@ -355,8 +359,8 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseCreateView, self).get_context_data(**kwargs)
-        obj_type = "course"
-        context.update({"obj_type": obj_type, "header": f"Create {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Create {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -377,8 +381,8 @@ class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseUpdateView, self).get_context_data(**kwargs)
-        obj_type = "course"
-        context.update({"obj_type": obj_type, "header": f"Update {obj_type}"})
+        obj_type = SINGULAR_NAME.lower()
+        context.update({"obj_type": obj_type, "header": f"Update {SINGULAR_NAME.lower()}"})
         return context
 
 
@@ -394,7 +398,7 @@ class CourseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(CourseDeleteView, self).get_context_data(**kwargs)
-        context.update({"obj_type": "course"})
+        context.update({"obj_type": SINGULAR_NAME.lower()})
         return context
 
 
