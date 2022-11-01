@@ -349,14 +349,11 @@ class CourseCreateView(LoginRequiredMixin, CreateView):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -377,14 +374,11 @@ class CourseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         # Check if user created the course.

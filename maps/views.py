@@ -18,7 +18,7 @@ from config.utils import download_file
 from django.http import HttpResponse, JsonResponse
 from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data
 from pprint import pprint
-
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 @staff_member_required
@@ -228,7 +228,7 @@ class MapManualCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class MapUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Map
     fields = ['title', 'description', 'map_image']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -303,7 +303,7 @@ class EventDetailView(UserPassesTestMixin, DetailView):
 class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Event
     fields = ['title', 'description', 'price', 'date_due', 'visibility', 'Event_category', 'non_fungible_order', 'quantity_available', 'Event_medium']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -323,7 +323,7 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
     fields = ['title', 'description', 'price', 'date_due', 'visibility', 'Event_category', 'non_fungible_order', 'quantity_available', 'Event_medium']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
@@ -373,13 +373,13 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 #     else:
 #         form = MapForm()
 #     context = {'form': form}
-#     return render(request, 'market/dashboard/form_view.html', context=context)
+#     return render(request, FORM_VIEW_TEMPLATE_NAME, context=context)
 
 
 class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Map
     fields = ['title', 'description', 'anchor_date', 'map_image', 'excel_upload']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form, **kwargs):
         FILE = form.instance.excel_upload # Get the file

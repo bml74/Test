@@ -88,3 +88,23 @@ def userIsPartOfGroup(user, group):
 def userCreatedGroup(user, group):
     group_profile = getGroupProfile(group)
     return user == group_profile.group_creator
+
+def returnFormValidIfUserInGroupSpecified(user, group, form):
+    # Takes a user and group. If group has been specified, makes sure user
+    # is part of group. If so, returns form is valid.
+    pass
+
+"""
+# Old:
+
+group = form.instance.group
+        if group is None:
+            return super().form_valid(form)
+        else: # Group is selected 
+            group_profile = get_object_or_404(GroupProfile, group=group)
+            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+                return super().form_valid(form)
+            else:
+                return super().form_invalid(form)
+
+"""

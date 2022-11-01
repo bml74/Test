@@ -15,12 +15,13 @@ from .models import (
 )
 from django.contrib.auth.models import User
 from .datatools import generate_recommendations_from_queryset
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 class FieldCreateView(LoginRequiredMixin, CreateView):
     model = Field
     fields = ['title', 'category', 'description', 'creator']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -40,7 +41,7 @@ class FieldCreateView(LoginRequiredMixin, CreateView):
 class FieldUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Field
     fields = ['title', 'category', 'description', 'creator']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user

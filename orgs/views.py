@@ -15,16 +15,15 @@ from django.views.generic import (
 from market.models import Listing
 from ecoles.models import Specialization, Course
 from posts.models import Post
-
 from .models import GroupProfile, GroupFollowRequest, GroupMembershipRequest
-
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     model = Group
     fields = ['name']
-    template_name = 'market/dashboard/form_view.html'#'groups/new_group.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME#'groups/new_group.html'
 
     def get_context_data(self, **kwargs):
         context = super(GroupCreateView, self).get_context_data(**kwargs)

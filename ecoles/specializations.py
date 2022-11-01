@@ -16,6 +16,9 @@ from .models import (
     Course
 )
 from .datatools import generate_recommendations_from_queryset
+from config.abstract_settings.model_fields import COURSES_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.utils import userIsPartOfGroup, userCreatedGroup
 
 
 class SpecializationListView(UserPassesTestMixin, ListView):
@@ -197,20 +200,18 @@ class SpecializationDetailView(UserPassesTestMixin, DetailView):
 class SpecializationCreateView(LoginRequiredMixin, CreateView):
     model = Specialization
     fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
+
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -225,20 +226,17 @@ class SpecializationCreateView(LoginRequiredMixin, CreateView):
 class SpecializationUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Specialization
     fields = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         # Check if user enrolled in the course.

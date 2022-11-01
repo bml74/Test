@@ -16,6 +16,7 @@ from .models import (
     Submodule,
     Assignment
 )
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 class ModuleListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
@@ -106,7 +107,7 @@ class ModuleDetailView(UserPassesTestMixin, DetailView):
 class ModuleCreateView(LoginRequiredMixin, CreateView):
     model = Module
     fields = ['title', 'course', 'description'] # , 'visibility'
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -127,7 +128,7 @@ class ModuleCreateView(LoginRequiredMixin, CreateView):
 class ModuleUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Module
     fields = ['title', 'course', 'description'] # , 'visibility'
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user

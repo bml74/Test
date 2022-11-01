@@ -10,6 +10,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from config.abstract_settings.model_fields import AD_OFFER_FIELDS, AD_PURCHASE_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 class AdOfferListView(ListView):
@@ -41,7 +42,7 @@ class AdOfferDetailView(UserPassesTestMixin, DetailView):
 class AdOfferCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AdOffer
     fields = AD_OFFER_FIELDS
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -60,7 +61,7 @@ class AdOfferCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class AdOfferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AdOffer
     fields = AD_OFFER_FIELDS
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         return super().form_valid(form)
@@ -160,7 +161,7 @@ class AdPurchaseDetailView(UserPassesTestMixin, DetailView):
 class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = AdPurchase
     fields = AD_PURCHASE_FIELDS
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.user_that_purchased_ad = self.request.user
@@ -193,7 +194,7 @@ class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class AdPurchaseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = AdPurchase
     fields = AD_PURCHASE_FIELDS
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         user_created_ad_purchase = form.instance.user_that_purchased_ad == self.request.user # Boolean: Did user create the original AdPurchase object?

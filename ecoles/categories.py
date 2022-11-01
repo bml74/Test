@@ -13,12 +13,13 @@ from .models import (
     Field
 )
 from .datatools import generate_recommendations_from_queryset
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
 
 
 class CategoryCreateView(LoginRequiredMixin, CreateView):
     model = Category
     fields = ['title', 'description', 'creator']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -38,7 +39,7 @@ class CategoryCreateView(LoginRequiredMixin, CreateView):
 class CategoryUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Category
     fields = ['title', 'description', 'creator']
-    template_name = 'market/dashboard/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user

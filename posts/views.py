@@ -13,6 +13,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import Post
 from ecoles.datatools import generate_recommendations_from_queryset
+from config.abstract_settings.model_fields import COURSES_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.utils import userIsPartOfGroup, userCreatedGroup
 
 
 class PostListView(ListView):
@@ -81,14 +84,11 @@ class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.author = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         return self.request.user.is_superuser
@@ -110,14 +110,11 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         form.instance.author = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         group = form.instance.group
-        if group is None:
-            return super().form_valid(form)
-        else: # Group is selected 
-            group_profile = get_object_or_404(GroupProfile, group=group)
-            if form.instance.creator == group_profile.group_creator or group_profile.group_members.filter(id=form.instance.creator.id).exists():
+        if group is not None:
+            if userIsPartOfGroup(form.instance.creator, group) or userCreatedGroup(form.instance.creator, group):
                 return super().form_valid(form)
-            else:
-                return super().form_invalid(form)
+            return super().form_invalid(form)
+        return super().form_valid(form)
 
     def test_func(self):
         return self.request.user == self.get_object().author
