@@ -28,7 +28,7 @@ class Listing(models.Model):
     )
     listing_category = models.CharField(
         max_length=100,
-        choices=(("General", "General"), ("Homework", "Homework"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
+        choices=(("General", "General"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
         default="General",
     )
     listing_medium = models.CharField(
