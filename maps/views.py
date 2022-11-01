@@ -15,8 +15,8 @@ from config.utils import is_ajax, get_as_df
 from .models import Map, Event
 from .forms import MapForm
 from config.utils import download_file
-from django.http import HttpResponse
-from .utils import db_model_to_geojson, get_geojson_from_model, process_map_data
+from django.http import HttpResponse, JsonResponse
+from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data
 from pprint import pprint
 
 
@@ -90,7 +90,7 @@ def create_map(request):
     if is_ajax(request):
         title = request.GET.get('title') if request.GET.get('title') else None
         description = request.GET.get('description') if request.GET.get('description') else None
-        image_url = request.GET.get('image_url') if request.GET.get('image_url') else None
+        # image_url = request.GET.get('image_url') if request.GET.get('image_url') else None
         # FOR DATES:
         # d0 = date(2008, 8, 18)
         # d1 = date(2008, 9, 26)
@@ -102,7 +102,6 @@ def create_map(request):
         print(f"""
         TITLE: {title}
         DESCRIPTION: {description}
-        IMAGE URL: {image_url}
         """)
     return render(request, 'maps_engine/create_map.html')
 
@@ -164,7 +163,7 @@ class MapDetailView(UserPassesTestMixin, DetailView):
     def get(self, request, *args, **kwargs):
         map_obj = get_object_or_404(Map, pk=kwargs['pk'])
         events = Event.objects.filter(parent_map=map_obj).all()
-        event_data_dict =  get_geojson_from_model(queryset=events)
+        event_data_dict =  get_geojson_in_dict_form_from_model(queryset=events)
         GEOJSON = json.dumps(event_data_dict["features"]) 
         pprint(GEOJSON)
         print(len(event_data_dict["features"]))
@@ -176,9 +175,39 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         return render(request, 'market/map.html', context)
 
 
+def get_geojson_data_for_js(request, pk):
+    map_obj = get_object_or_404(Map, pk=pk)
+    events = Event.objects.filter(parent_map=map_obj).all()
+    my_dict = get_geojson_in_dict_form_from_model(events)
+    geojson = json.dumps(my_dict["features"][0])
+    return JsonResponse(geojson, safe=False)
+
+class MapRenderDetailView(UserPassesTestMixin, DetailView):
+    model = Map
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        map_obj = get_object_or_404(Map, pk=kwargs['pk'])
+        events = Event.objects.filter(parent_map=map_obj).all()
+        event_data_dict =  get_geojson_in_dict_form_from_model(queryset=events)
+        GEOJSON = json.dumps(event_data_dict) 
+        pprint(GEOJSON)
+        print(len(event_data_dict["features"]))
+        print()
+        pprint(event_data_dict["features"][0])
+        context = {
+            "item": map_obj, 
+            "GEOJSON": GEOJSON,
+            "events": events
+        }
+        return render(request, 'maps_engine/mapboxjs/map_detail.html', context)
+
+
 class MapManualCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Map
-    fields = ['title', 'description', 'image_url']
+    fields = ['title', 'description', 'map_image']
     template_name = 'maps_engine/create_map.html'
 
     def form_valid(self, form):
@@ -198,7 +227,7 @@ class MapManualCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class MapUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Map
-    fields = ['title', 'description', 'image_url']
+    fields = ['title', 'description', 'map_image']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form):
@@ -349,7 +378,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Map
-    fields = ['title', 'description', 'anchor_date', 'image_url', 'excel_upload']
+    fields = ['title', 'description', 'anchor_date', 'map_image', 'excel_upload']
     template_name = 'market/dashboard/form_view.html'
 
     def form_valid(self, form, **kwargs):

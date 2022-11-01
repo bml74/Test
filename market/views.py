@@ -156,7 +156,6 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 return super().form_valid(form)
             else:
                 return super().form_invalid(form)
-        
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -270,6 +269,11 @@ def checkout(request, obj_type, pk):
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item is not None:
+
+        # If user created item, then don't let them view checkout page and purchase.
+        if item.creator == request.user:
+            return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
+
         context = {"item": item, "obj_type": obj_type}
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
@@ -290,7 +294,8 @@ def checkout_session(request, obj_type, pk):
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item: # if item is not None
-        print(obj_type * 100)
+        if item.creator == request.user:
+            return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
@@ -364,9 +369,9 @@ def payment_success(request, obj_type, pk):
                 "obj_type": obj_type
             }) 
         else:
-            return render(request, 'payments/success.html')
+            return render(request, 'payments/cancel.html')
     except:
-        return render(request, 'payments/success.html')
+        return render(request, 'payments/cancel.html')
 
 #purchaser unverified payments
 def my_payments(request):

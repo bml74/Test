@@ -50,7 +50,7 @@ class AdOffer(models.Model):
             return 0
 
     def __str__(self):
-        return self.title
+        return f"{self.title} (Total Price: ${self.price})"
 
     def get_absolute_url(self):
         return reverse('ad-offer', kwargs={'pk': self.pk})

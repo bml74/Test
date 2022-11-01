@@ -174,11 +174,11 @@ class AdPurchaseCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                 return super().form_invalid(form)
 
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_authenticated
 
     def get_context_data(self, **kwargs):
         context = super(AdPurchaseCreateView, self).get_context_data(**kwargs)
-        header = "Create ad purchase"
+        header = "Purchase ad (to view plans, click <a href='/ads/offers/'><u>here</u></a>)"
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context

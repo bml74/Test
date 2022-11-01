@@ -19,7 +19,7 @@ class AlternativeCountryNames(TaggedItemBase):
 class Map(models.Model): 
     title = models.CharField(max_length=64, default="Title", unique=True)
     description = models.TextField(default="Description") 
-    image_url = models.CharField(max_length=512, blank=True, null=True)
+    map_image = models.FileField(upload_to='map_images', blank=True, null=True)
     anchor_date = models.DateField(default='1945-09-01')
     excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 

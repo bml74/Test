@@ -1,0 +1,927 @@
+<html lang="en">
+{% load static %}
+
+
+    <head>
+
+        <!-- https://docs.mapbox.com/help/tutorials/show-changes-over-time/ -->
+        <!-- https://docs.mapbox.com/mapbox-gl-js/api/map/#map -->
+
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="apple-touch-icon" sizes="57x57" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="60x60" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="72x72" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="76x76" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="114x114" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="120x120" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="144x144" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="152x152" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="apple-touch-icon" sizes="180x180" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="icon" type="image/png" sizes="192x192" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="icon" type="image/png" sizes="32x32" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="icon" type="image/png" sizes="96x96" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+        <link rel="icon" type="image/png" sizes="16x16" href="https://www.svgrepo.com/show/76153/sailboat.svg">
+    
+        <title>{{ item.title }}</title>
+        <meta charset='utf-8' />
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+        <script src='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js'></script>
+        <link href='https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css' rel='stylesheet' />
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+        <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.css" type="text/css">
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css">
+
+        <link rel="stylesheet" type="text/css" href="{% static 'maps/styles/yahad.css' %}">
+        <style>
+
+            /*
+            #marker {
+                background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
+                background-size: cover;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+        
+            
+            .table>:not(:first-child) { border-top: 1px solid lightgrey !important; }
+
+            .marker {
+                background-image: url('https://yahadmap.org//favicon.ico');
+                background-size: cover;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                cursor: pointer;
+            }
+            */
+
+            .mapboxgl-popup-close-button { color: black; }
+            .mapboxgl-popup-content { 
+                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif !important; 
+                color: black; 
+                border-radius: 10px; 
+                border: 2px solid #214561 !important;
+            }
+            .mapboxgl-popup-content #popup-title { font-weight: 900 !important; color: black !important; }
+            .mapboxgl-popup { width: 200px; }
+            * {
+                color: white;
+            }
+            input, select { color: black !important; }
+            #console { border-radius: 10px; }
+            .mapboxgl-ctrl-geocoder--suggestion-title, .mapboxgl-ctrl-geocoder--suggestion-address { color: black !important; }
+
+        </style>
+
+    </head>
+
+
+    <body>
+
+        <div id='map'></div>
+        <div id='console' style="overflow-y: scroll !important; height: 92% !important; background-color: #214561 !important;">
+
+            
+            {% if item.map_image %}
+                {% if item.map_image.url %}
+                    <img src="{{ item.map_image.url }}" alt="" style="width: 100%; height: auto;">
+                {% endif %}
+            {% endif %}
+
+            <div class="text-center mt-4">
+                <h1 id="console-header">{{ item.title }}</h1>
+            </div>
+
+            <div class="" style="text-align: justify; text-justify: auto; font-size: 11px;">
+                {{ item.description|safe }}
+            </div>  
+            
+            <hr>    
+            
+            <div class="py-2"></div>
+
+            <div class="session">
+                {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}" class="btn btn-dark w-100"><i class="fas fa-arrow-left" style="color: white;"></i>&emsp;Return to site</a>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn btn-dark w-100"><i class="fas fa-arrow-left" style="color: white;"></i>&emsp;Return to site</a>
+                {% endif %}
+            </div>
+
+
+
+
+            <!--<div class='session' id='victims-colors'>
+                <h2>Victims</h2>
+                <div class="container">
+                    <div class='row colors' style="width: 110%; margin-right: 0!important; padding-right: 0!important;" id='colors'>
+                    </div>
+                </div>
+                <div class='row labels'>
+                    <div class='label'>0-100</div>
+                    <div class='label'>100-200</div>
+                    <div class='label'>201-500</div>
+                    <div class='label'>501-1000</div>
+                    <div class='label'>1001+</div>
+                    <div class='label'>10001+</div>
+                </div>
+            </div>-->
+
+            <hr>
+
+            <div class="session">
+                <p><small class="">Hover over a circle to see data on an event below, or click on the circle to view all available details.</small></p>
+                <small class=""><strong>Event data:</strong></small>
+
+                <div class="py-2"></div>
+
+                <div id="event-geographic-data">
+                    <table class="table table-dark table-striped">
+                        <tbody>
+                            <tr>
+                                <td><strong><small>City:</small></strong></td>
+                                <td><small></small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Region:</small></strong></td>
+                                <td><small></small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Country:</small></strong></td>
+                                <td><small></small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="session">
+                <p><small class="">Click anywhere on the map to see its location data.</small></p>
+                <small class=""><strong>My cursor's location data:</strong></small>
+
+                <div class="py-2"></div>
+
+                <div id="place-data">
+                <table class="table table-dark table-striped">
+                    <tbody>
+                        <tr>
+                            <td><strong><small>Longitude:</small></strong></td>
+                            <td><small>...</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong><small>Latitude:</small></strong></td>
+                            <td><small>...</small></td>
+                        </tr>
+                    <tr>
+                        <td><strong><small>Place:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong><small>Address:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong><small>Neighborhood:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong><small>Postcode:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong><small>Region:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    <tr>
+                        <td><strong><small>Country:</small></strong></td>
+                        <td><small>...</small></td>
+                    </tr>
+                    </tbody>
+                </table>
+            
+                </div>
+            </div>
+
+            <hr>
+
+            <small class=""><strong>Timeline</strong></small>
+
+            {% comment %} <div class='session w-100' id='sliderbar'>
+                <small class=""><strong>Hour: </strong><label id='active-hour'>12PM</label></small>
+                <input id='slider' type="range" class="form-range" min='0' max='23' step='1' value='12'>
+            </div> {% endcomment %}
+
+            <div class='session w-100' id='date-sliderbar'>
+                <small class=""><strong>Date: </strong><label id='active-date'>01 September 1939</label></small>
+                <input id='date-slider' type="range" class="form-range" min='0' max='2193' step='1' value='0'>
+            </div>
+
+            <hr>
+
+            <small class=""><strong>Search events by city</strong></small>
+
+            <div class="session">
+                <input type="text" class="text-input" id="city-query-input" name="city" placeholder="Enter location">
+                <button class="btn btn-sm btn-primary w-100 mt-2" id="search-city-btn">Search</button>
+                <div id="results"></div>
+            </div>
+
+            <div class='session'>
+                <label for="date-val"><small class=""><strong>Date: </strong></small></label>
+                <input type="date" id="date-val"
+                value=""
+                min="1939-09-01" max="1945-09-02">
+            </div>
+
+            {% comment %} <div class='session'>
+                <label for="start-date">Start date</label>
+                <input type="date" id="start-date"
+                value=""
+                min="1939-09-01" max="1945-09-02">
+            </div>
+            <div class='session'>
+                <label for="end-date">End date</label>
+                <input type="date" id="end-date"
+                value=""
+                min="1939-09-01" max="1945-09-02">
+            </div> {% endcomment %}
+
+            <div class='session'>
+                <select class="form-select form-select-sm" aria-label="Default select example" id="countries">
+                    <option selected disabled>Country</option>
+                    <option value="all">All</option>
+                    <option value="ukraine">Ukraine</option>
+                    <option value="belarus">Belarus</option>
+                    <option value="romania">Romania</option>
+                </select>
+
+            </div>
+
+            <div class='session'>
+                <select class="form-select form-select-sm" aria-label="Default select example" id="days">
+                    <option selected disabled>Day of the week</option>
+                    <option value="all">All</option>
+                    <option value="weekday">Weekday</option>
+                    <option value="weekend">Weekend</option>
+                    <option value="Mon">Monday</option>
+                    <option value="Tue">Tuesday</option>
+                    <option value="Wed">Wednesday</option>
+                    <option value="Thu">Thursday</option>
+                    <option value="Fri">Friday</option>
+                    <option value="Sat">Saturday</option>
+                    <option value="Sun">Sunday</option>
+                </select>
+            </div>
+
+            <button class="btn btn-sm btn-primary w-100 mt-2" id="filter-btn">Filter</button>
+
+            <hr>
+
+            <button class="btn btn-sm btn-primary w-100 mt-2" id="reset-all-filters-btn">Reset all filters</button>
+
+            <hr>
+
+            <small class=""><strong>Settings</strong></small>
+
+            <div class="py-2"></div>
+
+            <div class='session'>
+                <select class="form-select form-select-sm" aria-label="Default select example" id="languages">
+                    <option selected disabled>Language</option>
+                    <option value="en">English (Default)</option>
+                    <option value="it">Italian</option>
+                    <option value="de">German</option>
+                    <option value="fr">French</option>
+                    <option value="ru">Russian</option>
+                    <option value="es">Spanish</option>
+                </select>
+            </div>
+
+            <div class='session'>
+                <!-- See a list of Mapbox-hosted public styles at -->
+                <!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles OR https://docs.mapbox.com/api/maps/styles/ -->
+                <select class="form-select form-select-sm" aria-label="Default select example" id="styles">
+                    <option selected disabled>Map style</option>
+                    <option value="light-v10">Light (Default)</option>
+                    <option value="satellite-v9">Satellite</option>
+                    <option value="dark-v10">Dark</option>
+                    <option value="streets-v11">Streets</option>
+                    <option value="outdoors-v11">Outdoors</option>
+                    <option value="satellite-streets-v11">Satellite Streets</option>
+                    <option value="navigation-day-v1">Navigation Day</option>
+                    <option value="navigation-night-v1">Navigation Night</option>
+                </select>
+            </div>
+
+            <hr>
+
+            <small class=""><strong>Details</strong></small>
+
+            <div class="py-2"></div>
+
+            <div class="session" id="place-data">
+                <table class="table table-dark table-striped">
+                    <tbody>
+                        <tr>
+                            <td><strong><small>Total number of documented execution sites:</small></strong></td>
+                            <td><small>1911</small></td>
+                        </tr>
+                        <tr>
+                            <td><strong><small>Sites available for consultation:</small></strong></td>
+                            <td><small>1135</small></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <img src="https://www.svgrepo.com/show/407314/red-circle.svg" alt="" width="10" height="10"> <small class="">Execution sites of victims online</small>
+                <br>
+                <img src="https://www.svgrepo.com/show/404854/blue-circle.svg" alt="" width="10" height="10"> <small class="">Execution sites of victims soon online</small>
+            </div>
+
+            <div class="py-2">
+                <img src="{% static 'maps/yiu.png' %}" alt="" style="width: 100%; height: auto;">
+
+                {% comment %} <img src="https://pershingsquarefoundation.org/wp-content/uploads/2016/10/Yahad-In-Unum.jpg" alt="" style="width: 100%; height: auto;"> {% endcomment %}
+            </div>
+            
+
+        </div>
+
+        <script src="{% static 'maps/scripts/get_access_token.js' %}"></script>
+        <script src="{% static 'maps/scripts/geocoder.js' %}"></script>
+        <script src="{% static 'maps/scripts/reverse_geocoder.js' %}"></script>
+        <script src="{% static 'maps/scripts/geocoder_search.js' %}"></script>
+        <script src="{% static 'maps/scripts/get_long_and_lat.js' %}"></script>
+        <script src="{% static 'maps/scripts/get_click_loc.js' %}"></script>
+
+        <!-- Load the `mapbox-gl-geocoder` plugin. -->
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
+
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/es6-promise@4/dist/es6-promise.auto.min.js"></script>
+
+        <!-- moment.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+        <script type="text/javascript">            
+
+
+            // https://www.w3schools.com/jsref/jsref_obj_date.asp // DATES
+
+            mapboxgl.accessToken = getMapboxAccessToken(); 'pk.eyJ1IjoiYm1sNzQiLCJhIjoiY2t6cmN5djB2NnJuMjJzdHZhYmRoeTltNCJ9.AW3ZM0ZGP8tXwWDbri969Q';
+
+            const map = new mapboxgl.Map({
+            container: 'map', // container element id
+            style: 'mapbox://styles/mapbox/light-v10',
+            // center: [-74.0059, 40.7128], // initial map center in [lon, lat]
+            center: [30.4492, 50.4713],
+            zoom: 4,
+            minZoom: 2,
+            renderWorldCopies: false
+            });
+
+            let default_filters = {
+                // DEFAULT FILTERS:
+                "type": "all",
+                "day": filterDay = ['!=', ['string', ['get', 'Day']], 'placeholder'], // ANY DAY [i.e., all days]
+                "date": filterDay = ['!=', ['string', ['get', 'Dates']], 'placeholder'], // ANY DAY [i.e., all days]
+                "country": ['!=', ['string', ['get', 'Country']], 'placeholder'] // Any country
+            };
+
+
+            function addLayer (my_filter) {
+
+                // Filters to determine number of casualties. For example, mag1 filter checks if Casualties are under 5.
+                const mag1 = ['<', ['get', 'Casualty'], 5];
+                const mag2 = ['all', ['>=', ['get', 'Casualty'], 5], ['<', ['get', 'Casualty'], 20]];
+                const mag3 = ['all', ['>=', ['get', 'Casualty'], 20], ['<', ['get', 'Casualty'], 100]];
+                const mag4 = ['all', ['>=', ['get', 'Casualty'], 100], ['<', ['get', 'Casualty'], 500]];
+                const mag5 = ['>=', ['get', 'mCasualtyag'], 500];
+
+                const MAP_ID = "{{ item.id }}";
+
+                geojson = JSON.stringify("{{ GEOJSON|escapejs|safe }}");
+
+                console.log(geojson);
+    
+                obj = JSON.parse(geojson); // JS oject    
+
+                let map_url = window.location.href.replace("render", "get_geojson_data_for_js");
+                console.log(map_url);
+                let response = fetch(map_url)
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log(data);
+                    console.log(typeof(data));
+                    return data;
+                    // map.addSource('drone', { type: 'geojson', data: data });
+                });
+                /*let data = 
+                  response.headers.get('content-type').includes('json')
+                  ? response.json() // this will parse your JSON if the proper content-type header is set!
+                  : response.text()
+                ;
+                let data = response.headers.get('content-type').includes('json');
+                console.log(data);
+                console.log(typeof(data));*/
+                /*map.addSource('drone', { type: 'geojson', data: 
+                JSON.stringify(obj)
+                });*/
+              
+
+
+                map.addLayer({
+                id: 'collisions',
+                type: 'circle',
+                source: "drone",
+
+                // // '/maps/31/geojson/' // Data source "{% static 'maps/yahad.geojson'|safe %}"
+
+                paint: {
+
+                    "circle-radius": [
+                        'case', 
+                        mag1, 4,
+                        mag2, 6,
+                        mag3, 8,
+                        mag4, 10,
+                        12 // Other (like an "else" statement)
+                        ],
+
+
+                    // 'circle-color': [ // BY COUNTRY
+                    // 'match',
+                    // ['get', 'Country'],
+                    // 'Belarus', '#fbb03b',
+                    // 'Ukraine', '#223b53',
+                    // 'Romania', '#fff'
+                    // '#ccc' // other 
+                    // ],
+                    'circle-color': [ // IF DATA AVAILABLE
+                    'match',
+                    ['get', 'Content_Online'],
+                    1, '#EC0C0C', // If content is online (i.e., if Yahad Map dot is red)
+                    0, '#0CC2EC', // If content is not yet available online (i.e., if Yahad Map dot is red)
+                    '#ccc'
+                    ],
+                    'circle-opacity': 0.8
+                },
+                filter: [my_filter.type, my_filter.day, my_filter.date, my_filter.country]
+
+                
+                });
+            };
+
+
+            // WHen style is loaded, load default filter (which is 'all' events)
+            map.on('style.load', () => {addLayer(default_filters); document.getElementById('filter-btn').click(); });
+
+
+            // Change map style when user wants
+            let layerList = document.getElementById('styles');
+            layerList.addEventListener('change', (event) => {
+                
+                const map_style = event.target.value;
+                map.setStyle('mapbox://styles/mapbox/' + map_style);
+            });
+
+
+            {% comment %} // Hour slider
+            document.getElementById('slider').addEventListener('input', (event) => {
+                const hour = parseInt(event.target.value);
+                // update the map
+                map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);
+
+                // converting 0-23 hour to AMPM format
+                const ampm = hour >= 12 ? 'PM' : 'AM';
+                const hour12 = hour % 12 ? hour % 12 : 12;
+
+                // update text in the UI
+                document.getElementById('active-hour').innerText = hour12 + ampm;
+
+            }); {% endcomment %}
+
+            const wwii_start = moment([1939, 08, 01]); 
+
+            // Day slider
+            document.getElementById('date-slider').addEventListener('input', (event) => {
+                const days_since_wwii_start = parseInt(event.target.value);
+
+                let new_date = moment(wwii_start, "YYYY-MM-DD").add(days_since_wwii_start, 'days');
+
+                console.log(days_since_wwii_start);
+                console.log(new_date);
+    
+                var dateString = new_date.format('YYYY-MM-DD');
+                console.log(dateString); // Output: 2020-07-21
+
+                console.log(dateString);
+
+                all_filters = ['all'];
+                selectedDateGreaterThanOrEqualToStart = [">=", ["number", days_since_wwii_start], ["number", ["get", "Start"]]]
+                selectedDateLessThanOrEqualToEnd = ["<=", ["number", days_since_wwii_start], ["number", ["get", "End"]]]
+                all_filters.push(selectedDateGreaterThanOrEqualToStart);
+                all_filters.push(selectedDateLessThanOrEqualToEnd);
+                map.setFilter('collisions', all_filters); 
+                //map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);
+                //filterDate = ['match', ['get', 'Date'], [dateString], true, false];
+                /*filterDate = ['in', dateString, ['get', 'Dates']]
+                map.setFilter('collisions', filterDate);*/
+
+                // update text in the UI
+                document.getElementById('active-date').innerText = new_date.format('LL');
+
+            });
+
+
+
+            document.getElementById("reset-all-filters-btn").addEventListener('click', (event) => {
+                // This makes it easy: All you have to do is specify one filter that represents all features, and it resets.
+                map.setFilter('collisions', ['all', default_filters.country]);
+                // Then just reset the values:
+                document.getElementById("city-query-input").value = "";
+                document.getElementById("date-slider").value = 0;
+                document.getElementById('active-date').innerText = wwii_start.format('LL');
+                document.getElementById("countries").value = "all";
+                document.getElementById("days").value = "all";
+                document.getElementById("date-val").value = "";
+                document.getElementById("start-date").value = "";
+                document.getElementById("end-date").value = "";
+            });
+
+            document.getElementById("search-city-btn").addEventListener('click', (event) => {
+                let query = document.getElementById("city-query-input").value.toLowerCase();
+                filterCity = ['match', ['get', 'City'], [query], true, false];
+                map.setFilter('collisions', ['all', filterCity]);
+                console.log(filterCity);
+            });
+
+            document.getElementById("filter-btn").addEventListener('click', (e) => {
+
+                let country = document.getElementById("countries").value;
+
+                console.log(country);
+
+                switch (country) {
+                    case 'ukraine':
+                        filterCountry = ['match', ['get', 'Country'], ['ukraine'], true, false];
+                        /* map.flyTo({
+                            center: e.features[0].geometry.coordinates
+                        }); */
+                        // map.setZoom(10);
+                        break;
+                    case 'belarus':
+                        filterCountry = ['match', ['get', 'Country'], ['belarus'], true, false];
+                        break;
+                    case 'romania':
+                        filterCountry = ['match', ['get', 'Country'], ['romania'], true, false];
+                        break; 
+                    case 'country':
+                    default:
+                        filterCountry = ['!=', ['string', ['get', 'Country']], 'placeholder'];
+                }
+
+                let day = document.getElementById("days").value;
+                switch (day) {
+                    case 'all':
+                        filterDay = ['!=', ['string', ['get', 'Day']], 'placeholder'];
+                        break;
+                    case 'weekday':
+                        filterDay = ['match', ['get', 'Day'], ['Sat', 'Sun'], false, true];
+                        break;
+                    case 'weekend':
+                        filterDay = ['match', ['get', 'Day'], ['Sat', 'Sun'], true, false];
+                        break;
+                    case 'Mon':
+                    case 'Tue':
+                    case 'Wed':
+                    case 'Thu':
+                    case 'Fri':
+                    case 'Sat':
+                    case 'Sun':
+                        filterDay = ['match', ['get', 'Day'], [day], true, false];
+                        break;
+                    default:
+                        filterDay = ['!=', ['string', ['get', 'Day']], 'placeholder'];
+                }
+
+                all_filters = ['all', filterCountry, filterDay];
+
+                date_val = document.getElementById("date-val").value;
+                if (date_val != "" && date_val) {
+
+                    // For just one date by specific match:
+                    /*
+                    filterDate = ['in', date_val, ['get', 'Dates']]
+                    console.log(date_val);
+                    all_filters.push(filterDate);
+                    */
+                    
+                    days_since_wwii_began = parseInt(Math.abs(moment.duration(wwii_start.diff(date_val)).asDays()));
+                    console.log(`Days since WWII began: ${days_since_wwii_began}`);
+
+                    selectedDateGreaterThanOrEqualToStart = [">=", ["number", days_since_wwii_began], ["number", ["get", "Start"]]]
+                    selectedDateLessThanOrEqualToEnd = ["<=", ["number", days_since_wwii_began], ["number", ["get", "End"]]]
+                    all_filters.push(selectedDateGreaterThanOrEqualToStart);
+                    all_filters.push(selectedDateLessThanOrEqualToEnd);
+
+                } 
+
+                map.setFilter('collisions', all_filters);
+
+                // Change language as well:
+                let language = document.getElementById('languages').value;
+                map.setLayoutProperty('country-label', 'text-field', [
+                    'get',
+                    `name_${language}`
+                ]);
+
+            });      
+
+            // Set language
+            document.getElementById('languages').addEventListener('change', (event) => {
+                let language = event.target.value; 
+                map.setLayoutProperty('country-label', 'text-field', [
+                'get',
+                `name_${language}`
+                ]);
+            });
+
+
+
+
+
+            map.on('click', function (e) {
+                getClickLocation(e); // Get click position and log.
+                coords = getLongitudeAndLatitude(e); // Get longitude and latitude. Returns array in form [lng, lat]
+                lng = coords[0]; lat = coords[1]; 
+                console.log(`Longitude: ${lng} | Latitude: ${lat}`)
+                url = "https://api.mapbox.com/geocoding/v5/mapbox.places/" + lng + "%2C%20" + lat + ".json?access_token=" + mapboxgl.accessToken;
+                fetch(url)
+                .then(response => response.json())
+                .then(function (data) {
+                    loc_data = new Object();
+                    for (feature of data.features) {
+                        loc_data[feature.place_type[0].toLowerCase()] = feature.place_name;
+                    };
+                    console.log(loc_data);
+
+                    document.getElementById("place-data").innerHTML = `
+
+                        <table class="table table-dark table-striped">
+                            <tbody>
+                                <tr>
+                                    <td><strong><small>Longitude:</small></strong></td>
+                                    <td><small>${lng.toFixed(4)}</small></td>
+                                </tr>
+                                <tr>
+                                    <td><strong><small>Latitude:</small></strong></td>
+                                    <td><small>${lat.toFixed(4)}</small></td>
+                                </tr>
+                            <tr>
+                                <td><strong><small>Place:</small></strong></td>
+                                <td><small>${loc_data.place}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Address:</small></strong></td>
+                                <td><small>${loc_data.address}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Neighborhood:</small></strong></td>
+                                <td><small>${loc_data.neighborhood}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Postcode:</small></strong></td>
+                                <td><small>${loc_data.postcode}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Region:</small></strong></td>
+                                <td><small>${loc_data.region}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Country:</small></strong></td>
+                                <td><small>${loc_data.country}</small></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    
+                    `;
+
+                    
+            
+                    
+            
+                    // return loc_data;
+            
+                });
+
+            });
+
+            
+            
+
+            // Center on feature (https://docs.mapbox.com/mapbox-gl-js/example/center-on-feature/):
+            map.on('click', 'collisions', (e) => {
+                map.flyTo({
+                    center: e.features[0].geometry.coordinates
+                });
+                window.open("http://google.com/search?q=" + e.features[0].properties.City.toLowerCase(), '_blank');
+            });
+
+
+
+
+
+            // POPUPS:
+            const popup = new mapboxgl.Popup({
+                closeButton: true,
+                closeOnClick: true
+            });
+            
+            // When hovering over a feature....
+            map.on('mouseenter', 'collisions', (e) => {
+
+                console.log(e.features[0].properties);
+                console.log("^^^^^");
+                
+
+
+                // 1. WORK WITH TABLE
+
+                // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
+                map.getCanvas().style.cursor = 'pointer';
+
+
+                div = document.getElementById("event-geographic-data");
+                div.innerHTML = `
+                    <table class="table table-dark table-striped">
+                        <tbody>
+                            <tr>
+                                <td><strong><small>City:</small></strong></td>
+                                <td><small>${e.features[0].properties.City.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Region:</small></strong></td>
+                                <td><small>${e.features[0].properties.Region.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Country:</small></strong></td>
+                                <td><small>${e.features[0].properties.Country.toUpperCase()}</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                `;
+
+
+                
+
+
+
+                // 2. POPUPS
+        
+                // Copy coordinates array.
+                let coordinates = e.features[0].geometry.coordinates.slice();
+                let description = `
+                    <div id="popup-title">${e.features[0].properties.City.toUpperCase()}</div>
+                    <hr>
+                    <p class="text-dark">Start: ${e.features[0].properties.Start}</p>
+                    <p class="text-dark">End: ${e.features[0].properties.End}</p>
+                    <hr>
+                    <table class="table table-dark table-striped">
+                        <tbody>
+                            <tr>
+                                <td><strong><small>City:</small></strong></td>
+                                <td><small>${e.features[0].properties.City.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Region:</small></strong></td>
+                                <td><small>${e.features[0].properties.Region.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Country:</small></strong></td>
+                                <td><small>${e.features[0].properties.Country.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Execution sites:</small></strong></td>
+                                <td><small>${e.features[0].properties.Num_Sites}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Victims:</small></strong></td>
+                                <td><small>${e.features[0].properties.Casualty}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Details Available:</small></strong></td>
+                                <td><small id="content-available-popup"></small></td> 
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <br>
+
+                    Description: ${e.features[0].properties.Description}
+                `; 
+                
+                
+                    
+                // Ensure that if the map is zoomed out such that multiple
+                // copies of the feature are visible, the popup appears
+                // over the copy being pointed to.
+                while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                }
+                                
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(coordinates).setHTML(description).addTo(map);
+
+                document.getElementById("content-available-popup").innerHTML = (e.features[0].properties.Content_Online == 1) ? "Yes" : "No"; // Set whether details are available in popup
+
+                            
+            });
+            
+            // Change it back to a pointer when it leaves.
+            map.on('mouseleave', 'collisions', () => {
+                map.getCanvas().style.cursor = '';
+            });
+
+
+
+            
+
+
+
+
+
+
+
+
+            // Add the geocoder search bar to the map (default in top right of map).
+            geocoder_search_engine();    
+
+
+
+            // MULTIPLE FILTERS: map.setFilter('collisions', ['all', filterCountry, filter]);
+
+            // const filter = map.getFilter('collisions');
+            // console.log("FILTER");
+            // console.log(filter);
+            // filterCountry = ['match', ['get', 'Country'], ['Belarus'], true, false];
+            // map.setFilter('collisions', ['all', filterCountry, filter]);
+
+
+            // TO FILTER CITY OTHER NAMES: filterCountry = ['in', 'Bousk', ['get', 'Other_Names']]
+            //document.getElementById("colors").style.padding = "0px 0px 0px 10px";
+            //document.getElementById("victims-colors").style.display = 'none';
+
+            /* map.on('mouseleave', 'collisions', () => {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+            }); */
+                
+
+
+
+        
+
+
+        </script>
+
+        
+
+
+
+    </body>
+</html>
+
+
+
+
+
+<!--
+
+TO DO:
+
+The thing you have to do for the maps is make it so that it can show multiple days at once. For example 
+Babi Yar took place over multiple days. Don’t just show the first day on the map; show all. D-Day was just 
+the beginning day of a longer battle at Normandie; show all the days. DONE!!!
+
+Also: Add autocomplete. 
+
+Search results?
+
+Filter by other city names (ex. Kyiv, Kiev' Chisinau, Kishinev; etc.)
+
+-->

@@ -4,7 +4,7 @@ from .models import Event
 from django.http import HttpResponse
 
 
-def get_geojson_from_model(queryset):
+def get_geojson_in_dict_form_from_model(queryset):
     """Returns dict."""
     FEATURES = []
     for row in queryset:
@@ -54,7 +54,7 @@ def get_geojson_from_model(queryset):
 
 def db_model_to_geojson(queryset):
     """Takes model rows in database and converts it into GEOJSON."""
-    geojson =  get_geojson_from_model(queryset=queryset)
+    geojson =  get_geojson_in_dict_form_from_model(queryset=queryset)
     response = HttpResponse(content_type='text/json')
     response['Content-Disposition'] = 'attachment; filename=export.json'
     response = HttpResponse(json.dumps(geojson), content_type='application/json')
