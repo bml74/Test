@@ -3,11 +3,17 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 
 
+
+class Room(models.Model):
+    title = models.CharField(max_length=128, unique=True)
+
+
 class DirectMessage(models.Model):
     date_time_sent = models.DateTimeField(auto_now_add=True)
     body = models.TextField(default="")
     sender_of_message = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender_of_message")
-    receiver_of_message = models.ForeignKey(User, on_delete=models.CASCADE, related_name="receiver_of_message")
+    receiver_of_message = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="receiver_of_message")
+    room = models.ForeignKey(Room, on_delete=models.CASCADE, blank=True, null=True, related_name="receiver_of_message")
     seen = models.BooleanField(default=False)
 
     def __str__(self):

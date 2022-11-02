@@ -2,11 +2,11 @@ import json
 from django.dispatch import receiver
 
 from django.shortcuts import get_object_or_404, render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 
-from .models import DirectMessage
+from .models import DirectMessage, Room
 from .forms import DirectMessageForm
 
 
@@ -81,3 +81,53 @@ def directMessageNotification(request):
 		num_unread.append(msgs.count())
 	return JsonResponse(num_unread, safe=False)
 
+
+@login_required
+def enter_room(request):
+	return render(request, "messaging/home.html")
+
+
+def room(request, pk):
+    username = request.GET.get('username')
+    room_details = Room.objects.get(id=pk)
+    return render(request, 'messaging/room.html', {
+        'username': username,
+        'room': room_details,
+        'room_details': room_details,
+		'room_id': room_details.id
+    })
+
+def checkview(request):
+	room = request.POST['room_name']
+	username = request.POST['username']
+
+	if Room.objects.filter(title=room).exists():
+		room_obj = Room.objects.filter(title=room).first()
+		return redirect('/messaging/room/'+str(room_obj.id)+'/?username='+username)
+	else:
+		new_room = Room.objects.create(title=room)
+		new_room.save()
+		return redirect('/messaging/room/'+str(new_room.id)+'/?username='+username)
+
+
+def send(request):
+	message = request.POST['message']
+	username = request.POST['username']
+	room_id = request.POST['room_id']
+	room = Room.objects.get(id=room_id)
+
+	new_message = DirectMessage.objects.create(body=message, sender_of_message=request.user, room=room)
+	new_message.save()
+	return HttpResponse('Message sent successfully')
+
+def getMessages(request, room_id):
+	room = Room.objects.get(id=room_id)
+	messages = DirectMessage.objects.filter(room=room)
+	print(room)
+	print(messages)
+	msgs = [{
+		"body": message.body,
+		"sender": get_object_or_404(User, id=message.sender_of_message.id).username,
+		"timestamp": message.date_time_sent
+	} for message in messages]
+	return JsonResponse({"messages":msgs})
