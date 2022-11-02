@@ -75,10 +75,10 @@ class AdPurchase(models.Model):
         ),
         default="General Advertisement",
     )
-    specialization_to_be_advertised = models.ForeignKey(Specialization, on_delete=models.CASCADE, blank=True, null=True, related_name="specialization_to_be_advertised")
-    course_to_be_advertised = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True, related_name="course_to_be_advertised")
-    listing_to_be_advertised = models.ForeignKey(Listing, on_delete=models.CASCADE, blank=True, null=True, related_name="listing_to_be_advertised")
-    post_to_be_advertised = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True, related_name="post_to_be_advertised")    
+    # specialization_to_be_advertised = models.ForeignKey(Specialization, on_delete=models.CASCADE, blank=True, null=True, related_name="specialization_to_be_advertised")
+    # course_to_be_advertised = models.ForeignKey(Course, on_delete=models.CASCADE, blank=True, null=True, related_name="course_to_be_advertised")
+    # listing_to_be_advertised = models.ForeignKey(Listing, on_delete=models.CASCADE, blank=True, null=True, related_name="listing_to_be_advertised")
+    # post_to_be_advertised = models.ForeignKey(Post, on_delete=models.CASCADE, blank=True, null=True, related_name="post_to_be_advertised")    
     general_advertisement_text = models.CharField(max_length=128, blank=True, null=True)
 
     def get_metric(self):
