@@ -26,10 +26,10 @@ Ad Purchase
                     Clicks: {{ item.clicks }} (out of {{ item.offer.required_clicks }} required)
                 </dd>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    Impressions: {{ item.impressions }} (out of {{ item.offer.required_impressions }} required)
+                    Impressions: {{ item.impressions }} (out of {{ item.offer.required_ad_impressions }} required)
                 </dd>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    Unique impressions: {{ item.unique_impressions.count }} (out of {{ item.offer.required_unique_impressions }} required)
+                    Unique impressions: {{ item.unique_impressions.count }} (out of {{ item.offer.required_unique_ad_impressions }} required)
                 </dd>
             </div>
         </dl>
@@ -45,10 +45,10 @@ Ad Purchase
                     Required clicks: {{ item.offer.required_clicks }}
                 </dd>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    Required impressions: {{ item.offer.required_impressions }}
+                    Required impressions: {{ item.offer.required_ad_impressions }}
                 </dd>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    Required unique impressions: {{ item.offer.required_unique_impressions }}
+                    Required unique impressions: {{ item.offer.required_unique_ad_impressions }}
                 </dd>
             </div>
 
@@ -92,20 +92,20 @@ Ad Purchase
             <div class="flex flex-col pb-3 dark:text-white mb-2rem">
                 <dt class="mb-1 text-gray-500 md:text-lg yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Advertising Type</dt>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    {{ item.ad_type }}
+                    {{ item.advertisement_type }}
                 </dd>
             </div>
 
             <div class="flex flex-col pb-3 dark:text-white mb-2rem">
                 <dt class="mb-1 text-gray-500 md:text-lg yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Link to item</dt>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    {% if item.ad_type.lower == 'listing' %}
+                    {% if item.advertisement_type.lower == 'listing' %}
                         <a href="{% url 'listing' item.listing_to_be_advertised %}">{{ item.listing_to_be_advertised.title }} (#{{ item.listing_to_be_advertised.title }})</a>
-                    {% elif item.ad_type.lower == 'course' %}
+                    {% elif item.advertisement_type.lower == 'course' %}
                         <a href="{% url 'course_detail' item.course_to_be_advertised %}">{{ item.course_to_be_advertised.title }} (#{{ item.course_to_be_advertised.title }})</a>
-                    {% elif item.ad_type.lower == 'specialization' %}
+                    {% elif item.advertisement_type.lower == 'specialization' %}
                         <a href="{% url 'specialization_detail' item.specialization_to_be_advertised %}">{{ item.specialization_to_be_advertised.title }} (#{{ item.specialization_to_be_advertised.id }})</a>
-                    {% elif item.ad_type.lower == 'post' %}
+                    {% elif item.advertisement_type.lower == 'post' %}
                         <a href="{% url 'post_detail' item.post_to_be_advertised %}">{{ item.post_to_be_advertised.title }} (#{{ item.post_to_be_advertised.title }})</a>
                     {% else %}
                         N/A (General Advertisement)

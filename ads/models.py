@@ -20,8 +20,8 @@ class AdOffer(models.Model):
         blank=False,
     )
     # Add required metric
-    required_impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
-    required_unique_impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    required_ad_impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    required_unique_ad_impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     required_clicks = models.IntegerField(default=0, validators=[MinValueValidator(0)])
 
     def get_metric(self):
@@ -32,18 +32,18 @@ class AdOffer(models.Model):
 
     def get_required_metric(self):
         if self.get_metric() == "Impressions":
-            return self.required_impressions
+            return self.required_ad_impressions
         elif self.get_metric() == "Unique Impressions":
-            return self.required_unique_impressions
+            return self.required_unique_ad_impressions
         elif self.get_metric() == "Clicks":
             return self.required_clicks
 
     def get_price_per_required_metric(self):
         try:
             if self.get_metric() == "Impressions":
-                return self.get_price() / self.required_impressions
+                return self.get_price() / self.required_ad_impressions
             elif self.get_metric() == "Unique Impressions":
-                return self.get_price() / self.required_unique_impressions
+                return self.get_price() / self.required_unique_ad_impressions
             elif self.get_metric() == "Clicks":
                 return self.get_price() / self.required_clicks
         except ZeroDivisionError:
@@ -64,7 +64,7 @@ class AdPurchase(models.Model):
     clicks = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     unique_impressions = models.ManyToManyField(User, related_name="unique_impressions", default=None, blank=True)
-    ad_type = models.CharField( 
+    advertisement_type = models.CharField( 
         max_length=32,
         choices=(
             ("Specialization", "Specialization"), 
