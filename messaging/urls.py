@@ -9,7 +9,7 @@ urlpatterns = [
 	path('sent/<int:pk>/', views.sentDirectMessage, name='sent_direct_message'),
 	path('received/<int:pk>/', views.receivedDirectMessages, name='received_direct_messages'),
 
-	path('enter/room/', views.enter_room, name='enter_room'),
+	path('rooms/', views.enter_room, name='enter_room'),
 	path('room/<int:pk>/', views.room, name='room'),
 	path('checkview/', views.checkview, name='checkview'),
 	path('send/', views.send, name='send'),
