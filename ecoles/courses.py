@@ -40,7 +40,7 @@ class CourseListView(UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(CourseListView, self).get_context_data(**kwargs)
         obj_type = SINGULAR_NAME.lower()
-        context.update({"obj_type": obj_type, "num_results": len(Course.objects.all()), "header": SINGULAR_NAME})
+        context.update({"obj_type": obj_type, "num_results": len(Course.objects.all()), "header": PLURAL_NAME})
         return context
 
     def get_queryset(self):
