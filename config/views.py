@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from ecoles.models import Category, Field, Specialization, Course
 from market.models import Listing
+from decouple import config
 
 
 @login_required

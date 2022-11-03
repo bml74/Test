@@ -1,4 +1,4 @@
-import os
+import os, sys
 import stripe
 import random
 from decouple import config
@@ -269,11 +269,14 @@ def checkout(request, obj_type, pk):
 
 def checkout_session(request, obj_type, pk):
 
-    # BASE_DOMAIN = 'https://www.cadebruno.com' # Prod
-    BASE_DOMAIN = 'http://127.0.0.1:8000' # Dev
+    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 
-    stripe.api_key = config('STRIPE_LIVE_KEY') # Live
-    # stripe.api_key = config('STRIPE_TEST_KEY') # Test
+    if RUNNING_DEVSERVER:
+        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        stripe.api_key = config('STRIPE_TEST_KEY') 
+    else:
+        BASE_DOMAIN = 'https://www.cadebruno.com'
+        stripe.api_key = config('STRIPE_LIVE_KEY')
 
     item = None
     if obj_type == 'listing':
