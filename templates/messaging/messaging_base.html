@@ -24,21 +24,33 @@
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
                                         </div>
                                         <label for="search" class="hidden">Search</label>
-                                        <input id="search" onkeyup='filterList(input_id="search", list_id="users", list_item_class="msg-link", list_item_title_class="message-username")' type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" value="">
+                                        <input id="search" onkeyup='filterList(input_id="search", list_id="messages_list", list_item_class="msg-link", list_item_title_class="message-username")' type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search" value="">
                                     </div>
                                 </div>
 
                                 
-                                <div id="users" class="w-100 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    {% for user in all_users %}
-                                            <a href="{% url 'detail' user.id %}" class="msg-link block py-2 px-4 w-full border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
-                                                <span class="msg inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
-                                                    0
-                                                </span>   
-                                                &nbsp;
-                                                <span class="message-username">{{ user.username }}  </span>
-                                            </a>
-                                    {% endfor %}
+                                <div id="messages_list" class="w-100 text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                    {% if direct_message %}
+                                        {% if all_users %}
+                                            {% for user in all_users %}
+                                                <a href="{% url 'detail' user.id %}" class="msg-link block py-2 px-4 w-full border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                                    <span class="msg inline-flex justify-center items-center ml-2 w-4 h-4 text-xs font-semibold text-blue-800 bg-blue-200 rounded-full">
+                                                        0
+                                                    </span>   
+                                                    &nbsp;
+                                                    <span class="message-username">{{ user.username }}  </span>
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% else %} <!-- If for groups -->
+                                        {% if rooms_that_user_is_a_member_of_or_user_created %}
+                                            {% for room in rooms_that_user_is_a_member_of_or_user_created %}
+                                                <a href="{% url 'room' room.id %}" class="msg-link block py-2 px-4 w-full border-b border-gray-200 cursor-pointer hover:bg-gray-100 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-700 focus:text-blue-700 dark:border-gray-600 dark:hover:bg-gray-600 dark:hover:text-white dark:focus:ring-gray-500 dark:focus:text-white">
+                                                    <span class="message-username">{{ room.title }}  </span>
+                                                </a>
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
                                 </div>
 
 

@@ -17,6 +17,7 @@ from ecoles.models import Specialization, Course
 from posts.models import Post
 from .models import GroupProfile, GroupFollowRequest, GroupMembershipRequest
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.utils import get_group_and_group_profile_from_group_id
 
 
 class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -221,14 +222,6 @@ class UserGroupsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
         if user_in_url == self.request.user:
             return True
         return False
-
-
-def get_group_and_group_profile_from_group_id(group_id):
-    # First get the Group in question
-    group_obj = Group.objects.filter(id=group_id).first()
-    # Then get the group's profile
-    group_profile_obj = GroupProfile.objects.filter(group=group_obj).first()
-    return (group_obj, group_profile_obj)
 
 
 @login_required

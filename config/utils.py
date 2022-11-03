@@ -6,6 +6,7 @@ from django.http import HttpResponse
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from orgs.models import GroupProfile
+from django.contrib.auth.models import Group
 
 
 def is_ajax(request):
@@ -111,3 +112,11 @@ group = form.instance.group
                 return super().form_invalid(form)
 
 """
+
+
+def get_group_and_group_profile_from_group_id(group_id):
+    # First get the Group in question
+    group_obj = Group.objects.filter(id=group_id).first()
+    # Then get the group's profile
+    group_profile_obj = GroupProfile.objects.filter(group=group_obj).first()
+    return (group_obj, group_profile_obj)

@@ -14,8 +14,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import Post
 from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import COURSE_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.utils import formValid
+
+
 class PostListView(ListView):
     """
     Displays all posts by anyone.
@@ -76,7 +78,7 @@ class PostDetailView(UserPassesTestMixin, DetailView):
 class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Post
     fields = ['title', 'group', 'content']
-    template_name = 'views/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -97,7 +99,7 @@ class PostCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'group', 'content']
-    template_name = 'views/form_view.html'
+    template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -120,7 +122,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
     context_object_name = 'item'
-    template_name = 'views/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().author

@@ -167,9 +167,17 @@ def referral(request):
                     messages.success(request, f'That referral code from {referralObj.generatedBy} is valid and has been applied! You and {referralObj.generatedBy} have each received {NUM_CREDITS_TO_ADD} tokens.')
                     # Add 100 tokens to both accounts
                     profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
-                    profileOfUserWhoGeneratedCode.credits += 100; profileOfUserWhoGeneratedCode.save()
-                    profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
-                    profileOfUserWhoUsedCode.credits += 100; profileOfUserWhoUsedCode.save()
+                    profileOfUserWhoGeneratedCode.credits += NUM_CREDITS_TO_ADD
+                    profileOfUserWhoGeneratedCode.save()
+                    print(profileOfUserWhoGeneratedCode)
+                    print(profileOfUserWhoGeneratedCode.credits)
+                    if True:
+                        profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
+                        print(profileOfUserWhoUsedCode)
+                        print(profileOfUserWhoUsedCode.credits)
+                        profile.credits = int(profile.credits) + 100
+                        print(profileOfUserWhoUsedCode)
+                        print(profileOfUserWhoUsedCode.credits)
                     # Modify referralObj field 
                     # Save request.user as usedBy
                     referralObj.usedBy.add(request.user)

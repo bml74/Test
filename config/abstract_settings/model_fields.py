@@ -59,3 +59,6 @@ LISTING_FIELDS = [
     'listing_medium', 
     'listing_type',
 ]
+
+""" For messaging app. """
+ROOM_FIELDS = ['title', 'room_group_profile']

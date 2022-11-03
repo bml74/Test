@@ -16,7 +16,6 @@ urlpatterns = [
 
     # Admin
     path('dashboard/', views.dashboard, name='user-dashboard'),
-    path('my/listings/', views.my_listings, name='my_listings'),
     path('all/transactions/', views.transactions_admin, name='transactions-admin'),
     path('transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction'),
 

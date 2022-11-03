@@ -272,8 +272,8 @@ def checkout_session(request, obj_type, pk):
     # BASE_DOMAIN = 'https://www.cadebruno.com' # Prod
     BASE_DOMAIN = 'http://127.0.0.1:8000' # Dev
 
-    # stripe.api_key = config('STRIPE_LIVE_KEY') # Live
-    stripe.api_key = config('STRIPE_TEST_KEY') # Test
+    stripe.api_key = config('STRIPE_LIVE_KEY') # Live
+    # stripe.api_key = config('STRIPE_TEST_KEY') # Test
 
     item = None
     if obj_type == 'listing':
