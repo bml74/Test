@@ -388,3 +388,13 @@ def reject_transaction(request, transaction_id):
         transaction_data.seller_verified = False
     transaction_data.save()
     return redirect('my_payments')
+
+
+"""
+Tutoring:
+- User signs up with georgetown.edu address
+- Specifies they want to be a tutor
+- Sends transcript
+- We check that they completed the classes necessary
+- If yes then we allow them to be a tutor
+"""

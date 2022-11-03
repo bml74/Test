@@ -42,9 +42,9 @@
         
             <div class="flex justify-between items-center">
             <a href="/" class="flex">
-                <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Scampia Logo" />
+                <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="HoyaBay Logo" />
                 <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Scampia</span> <!-- self-center text-2xl font-semibold whitespace-nowrap dark:text-white -->
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">HoyaBay</span> <!-- self-center text-2xl font-semibold whitespace-nowrap dark:text-white -->
                 </h1>
             </a>
             </div>
@@ -60,9 +60,9 @@
   
         <div class="flex items-center" id="">
             <ul id="flowbiteMenu" class="hidden flex-col pt-6 lg:flex-row lg:self-center lg:py-0 lg:flex">
-            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0">
+            {% comment %} <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0">
                 <a href="{% url 'ecoles-home' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Learning</a>
-            </li>
+            </li> {% endcomment %}
             <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
                 <a href="{% url 'listings' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Market</a>
             </li>
@@ -131,8 +131,8 @@
             <div class="grid gap-12 xl:grid-cols-6 xl:gap-24">
                 <div class="col-span-2">
                     <a href="/" class="flex mb-5">
-                    <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Scampia Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Scampia</span>
+                    <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="HoyaBay Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">HoyaBay</span>
                     </a>
                     <p class="mb-3 max-w-lg text-gray-600 dark:text-gray-400">Flowbite is a library of interactive UI components built with Tailwind CSS that can get you started building websites faster and more efficiently.</p>
                     <p class="max-w-lg text-gray-600 dark:text-gray-400">Code licensed <a href="https://github.com/themesberg/flowbite/blob/main/LICENSE.md" class="text-blue-600 dark:text-blue-500 hover:underline" rel="nofollow">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" class="text-blue-600 hover:underline dark:text-blue-500" rel="nofollow">CC BY 3.0</a>.</p>
