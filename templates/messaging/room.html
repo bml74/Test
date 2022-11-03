@@ -153,7 +153,7 @@ setInterval(function(){
             csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
-         //alert(data)
+         console.log(data)
       }
     });
     document.getElementById('message').value = ''

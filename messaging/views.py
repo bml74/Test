@@ -88,24 +88,24 @@ def enter_room(request):
 
 
 def room(request, pk):
-    username = request.GET.get('username')
-    room_details = Room.objects.get(id=pk)
+    # username = request.GET.get('username')
+    room = Room.objects.get(id=pk)
     return render(request, 'messaging/room.html', {
-        'username': username,
-        'room': room_details,
-        'room_details': room_details,
-		'room_id': room_details.id
+        'username': request.user.username,
+        'room': room,
+        'room_details': room,
+		'room_id': room.id
     })
 
 def checkview(request):
-	room = request.POST['room_name']
+	room_name = request.POST['room_name']
 	username = request.POST['username']
 
-	if Room.objects.filter(title=room).exists():
-		room_obj = Room.objects.filter(title=room).first()
+	if Room.objects.filter(title=room_name).exists():
+		room_obj = Room.objects.filter(title=room_name).first()
 		return redirect('/messaging/room/'+str(room_obj.id)+'/?username='+username)
 	else:
-		new_room = Room.objects.create(title=room)
+		new_room = Room.objects.create(title=room_name)
 		new_room.save()
 		return redirect('/messaging/room/'+str(new_room.id)+'/?username='+username)
 
