@@ -28,5 +28,34 @@ SPECIALIZATION_FIELDS = ['title', 'field', 'visibility', 'description', 'difficu
 COURSE_FIELDS = ['title', 'field', 'visibility', 'difficulty_level', 'description', 'specialization', 'group']
 MODULE_FIELDS = ['title', 'course', 'description']
 SUBMODULE_FIELDS = ['title', 'module', 'description']
-ASSIGNMENT_FIELDS = ['title', 'due_date', 'description', 'language', 'submodule', 'estimated_minutes_to_complete', 'assignment_type', 'text', 'internal_link', 'external_reading_link', 'external_link', 'iframe_link', 'youtube_video_link', 'youtube_video_transcript_id', 'corsican_bible_chapter', 'article_by_url', 'article_id']
+ASSIGNMENT_FIELDS = [
+    'title', 'due_date', 'description', 'language', 
+    'submodule', 
+    'estimated_minutes_to_complete', 
+    'assignment_type', 
+    'text', 
+    'internal_link', 
+    'external_reading_link', 
+    'external_link', 
+    'iframe_link', 
+    'youtube_video_link', 
+    'youtube_video_transcript_id', 
+    'corsican_bible_chapter', 
+    'article_by_url', 
+    'article_id'
+]
 TASK_FIELDS = ['task_type', 'due_date', 'assignment', 'completed']
+
+""" For market app. """
+LISTING_FIELDS = [
+    'title', 'description', 
+    'price', 
+    'date_due', 
+    'visibility', 
+    'group',
+    'listing_category', 
+    'infinite_copies_available', 
+    'quantity_available', 
+    'listing_medium', 
+    'listing_type',
+]

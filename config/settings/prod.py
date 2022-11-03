@@ -12,7 +12,8 @@ ALLOWED_HOSTS = [
     'cadebruno.com',
     'malagosto.com',
     'parisorleans.com',
-    'parisorléans.com'
+    'parisorléans.com',
+    'hoyabay.com'
 ]
 
 # Heroku Logging

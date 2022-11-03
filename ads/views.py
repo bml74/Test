@@ -10,7 +10,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from config.abstract_settings.model_fields import AD_OFFER_FIELDS, AD_PURCHASE_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 
 
 class AdOfferListView(ListView):
@@ -81,7 +81,7 @@ class AdOfferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = AdOffer
     success_url = '/'
     context_object_name = 'item'
-    template_name = 'market/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().author
@@ -223,7 +223,7 @@ class AdPurchaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = AdPurchase
     success_url = '/'
     context_object_name = 'item'
-    template_name = 'market/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().author
@@ -234,6 +234,4 @@ class AdPurchaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         title = f"Ad purchase: {item.title}"
         context.update({"type": "ad purchase", "title": title})
         return context
-
-
 

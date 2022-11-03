@@ -99,20 +99,22 @@ def room(request, pk):
 
 def checkview(request):
 	room_name = request.POST['room_name']
-	username = request.POST['username']
+	# username = request.POST['username']
 
 	if Room.objects.filter(title=room_name).exists():
 		room_obj = Room.objects.filter(title=room_name).first()
-		return redirect('/messaging/room/'+str(room_obj.id)+'/?username='+username)
+		# return redirect('/messaging/room/'+str(room_obj.id)+'/?username='+username)
+		return redirect("room", pk=room_obj.id)
 	else:
 		new_room = Room.objects.create(title=room_name)
 		new_room.save()
-		return redirect('/messaging/room/'+str(new_room.id)+'/?username='+username)
+		# return redirect('/messaging/room/'+str(new_room.id)+'/?username='+username)
+		return redirect("room", pk=new_room.id)
 
 
 def send(request):
 	message = request.POST['message']
-	username = request.POST['username']
+	# username = request.POST['username']
 	room_id = request.POST['room_id']
 	room = Room.objects.get(id=room_id)
 

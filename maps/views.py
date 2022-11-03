@@ -18,7 +18,7 @@ from config.utils import download_file
 from django.http import HttpResponse, JsonResponse
 from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data
 from pprint import pprint
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 
 
 @staff_member_required
@@ -250,7 +250,7 @@ class MapDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Map
     success_url = '/maps/'
     context_object_name = 'item'
-    template_name = 'market/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().creator
@@ -344,7 +344,7 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event
     success_url = '/maps/'
     context_object_name = 'item'
-    template_name = 'market/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().creator

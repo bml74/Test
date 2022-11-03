@@ -15,13 +15,12 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import JsonResponse
 from django.contrib.auth.decorators import user_passes_test
 from ecoles.models import Specialization, Course
-from orgs.models import GroupProfile
 from ecoles.datatools import generate_recommendations_from_queryset
-from config.abstract_settings.model_fields import COURSE_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
+from config.abstract_settings.model_fields import LISTING_FIELDS
+from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.utils import formValid
 
 
@@ -32,6 +31,7 @@ def learning_carousel(request):
 def dashboard(request):
     return render(request, "market/dashboard/dashboard.html")
 
+
 @login_required
 def my_listings(request):
     listings = Listing.objects.filter(creator=request.user)
@@ -39,6 +39,7 @@ def my_listings(request):
         "items": listings
     }
     return render(request, "market/dashboard/user_listings.html", context)
+
 
 @login_required
 @user_passes_test(lambda u: u.is_superuser)
@@ -144,7 +145,7 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 
 class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'infinite_copies_available', 'quantity_available', 'listing_medium', 'group']
+    fields = LISTING_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME 
 
     def form_valid(self, form):
@@ -165,7 +166,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Listing
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'listing_category', 'infinite_copies_available', 'quantity_available', 'listing_medium', 'group']
+    fields = LISTING_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
@@ -189,7 +190,7 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Listing
     success_url = '/market/listings/'
     context_object_name = 'item'
-    template_name = 'market/confirm_delete.html'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
         return self.request.user == self.get_object().creator
@@ -265,6 +266,7 @@ def checkout(request, obj_type, pk):
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
 
+
 def checkout_session(request, obj_type, pk):
 
     # BASE_DOMAIN = 'https://www.cadebruno.com' # Prod
@@ -306,9 +308,11 @@ def checkout_session(request, obj_type, pk):
         return redirect(session.url, code=303)
     return JsonResponse({"Error": "Item retrieval error."})
 
+
 #on stripe cancel payment
 def payment_cancel(request):
     return render(request, "payments/cancel.html")
+
 
 #generate transaction id
 def generate_transaction_id(length):
@@ -316,6 +320,7 @@ def generate_transaction_id(length):
     import random
     gen_text = ''.join((random.choice(set_number)) for i in range(length))
     return gen_text
+
 
 #stripe success payment
 def payment_success(request, obj_type, pk):
@@ -360,6 +365,7 @@ def payment_success(request, obj_type, pk):
     except:
         return render(request, 'payments/cancel.html')
 
+
 #purchaser unverified payments
 def my_payments(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
@@ -367,9 +373,11 @@ def my_payments(request):
     items = set(list(Transaction.objects.filter(purchaser=request.user)) + list(Transaction.objects.filter(seller=request.user)))
     return render(request,'payments/my_payments.html',{'items': items})
 
+
 def my_sales(request):
     items = list(Transaction.objects.filter(seller=request.user))
     return render(request,'payments/my_sales.html',{'items': items})
+
 
 def confirm_transaction(request, transaction_id):
     transaction_data=Transaction.objects.get(pk=transaction_id)
@@ -379,6 +387,7 @@ def confirm_transaction(request, transaction_id):
         transaction_data.seller_verified = True
     transaction_data.save()
     return redirect('my_payments')
+
 
 def reject_transaction(request, transaction_id):
     transaction_data=Transaction.objects.get(pk=transaction_id)
