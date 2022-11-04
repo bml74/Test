@@ -20,11 +20,11 @@ urlpatterns = [
 	path('send/', views.send, name='send'),
     path('getMessages/<int:room_id>/', views.getMessages, name='getMessages'),
 
-	path('my/rooms/', views.UserRoomListView.as_view(), name='room-list-by-user'),
-	path('rooms/', views.RoomListView.as_view(), name='room-list'),
-    path('room/<int:pk>/', views.RoomDetailView.as_view(), name='room-detail'),
-	path('rooms/new/', views.RoomCreateView.as_view(), name='room-create'), # Create new post
-    path('rooms/update/<int:pk>/', views.RoomUpdateView.as_view(), name='room-update'), # Update specific post (if user on page is same one who created the original post)
-    path('rooms/delete/<int:pk>/', views.RoomDeleteView.as_view(), name='room-delete'), # Delete specific post (if user on page is same one who created the original post)
+	path('my/channels/<str:username>/', views.UserRoomListView.as_view(), name='room-list-by-user'),
+	path('explore/channels/', views.RoomListView.as_view(), name='room-list'),
+    path('detail/channel/<int:pk>/', views.RoomDetailView.as_view(), name='room-detail'),
+	path('channel/new/', views.RoomCreateView.as_view(), name='room-create'), # Create new post
+    path('update/channel/<int:pk>/', views.RoomUpdateView.as_view(), name='room-update'), # Update specific post (if user on page is same one who created the original post)
+    path('delete/channel/<int:pk>/', views.RoomDeleteView.as_view(), name='room-delete'), # Delete specific post (if user on page is same one who created the original post)
 
 ]

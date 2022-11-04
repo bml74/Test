@@ -1,6 +1,35 @@
 {% extends 'market/base.html' %}
 {% load static %}
 
+
+{% block secondary_header %}
+
+
+<nav class="bg-gray-50 dark:bg-gray-700 justify-center">
+    <div class="py-3 px-4 mx-auto max-w-screen-xl md:px-6 justify-center">
+        <div class="flex items-center justify-center">
+            <ul class="flex flex-row mt-0 mr-6 space-x-8 text-sm font-medium">
+                <li>
+                    <a href="{% url 'inbox' %}" class="text-gray-900 dark:text-white hover:underline">Direct messages</a>
+                </li>
+                <li>
+                    <a href="{% url 'room-list-by-user' request.user.username %}" class="text-gray-900 dark:text-white hover:underline">My channels</a>
+                </li>
+                <li>
+                    <a href="{% url 'room-list' %}" class="text-gray-900 dark:text-white hover:underline">Explore channels</a>
+                </li>
+                <li>
+                    <a href="{% url 'room-create' %}" class="text-gray-900 dark:text-white hover:underline">Create channel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+{% endblock secondary_header %}
+
+
 {% block main %}
 
 <main class="grow" style="margin: 2%;">

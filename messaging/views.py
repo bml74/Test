@@ -205,9 +205,9 @@ class RoomDetailView(UserPassesTestMixin, DetailView):
 	model = Room
 	context_object_name = 'item'
 
-	def test_func(self, request):
+	def test_func(self):
 		room = get_object_or_404(Room, id=self.kwargs['pk'])
-		if self.request.user in room.room_members:
+		if self.request.user in room.room_members.all() or self.request.user == room.room_creator:
 			return True
 		return False
 
@@ -315,7 +315,7 @@ class UserRoomListView(ListView):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))
 		rooms_that_user_is_a_member_of_or_user_created = set(list(Room.objects.filter(room_members=user.id)) + list(Room.objects.filter(room_creator=user)))
 		context = {
-			"header": f"Rooms that I am a member of or have created", 
+			"header": f"My channels", 
 			"rooms_that_user_is_a_member_of_or_user_created": rooms_that_user_is_a_member_of_or_user_created,
 			"direct_message": False,
 		}
