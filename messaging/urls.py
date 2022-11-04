@@ -15,7 +15,7 @@ urlpatterns = [
     path('<str:username>/room/<int:room_id>/request/membership/withdraw/', views.withdraw_room_membership_request, name='withdraw_room_membership_request'),
     path('<str:username>/room/<int:room_id>/request/membership/accept/', views.accept_room_membership_request, name='accept_room_membership_request'),
 
-	path('room/<int:pk>/', views.room, name='room'),
+	# path('room/<int:pk>/', views.room, name='room'),
 	path('checkview/', views.checkview, name='checkview'),
 	path('send/', views.send, name='send'),
     path('getMessages/<int:room_id>/', views.getMessages, name='getMessages'),

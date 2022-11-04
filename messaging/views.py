@@ -149,56 +149,70 @@ def getMessages(request, room_id):
 
 @login_required
 def room_membership(request, username, room_id):
-    room = get_object_or_404(Room, id=room_id)
-    user = get_object_or_404(User, username=username)
-    if room.room_members.filter(id=user.id).exists():
-        room.room_members.remove(user)
-    else:
-        room.room_members.add(user)
-    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+	room = get_object_or_404(Room, id=room_id)
+	user = get_object_or_404(User, username=username)
+	if room.room_members.filter(id=user.id).exists():
+		room.room_members.remove(user)
+	else:
+		room.room_members.add(user)
+	# Delete request if it exists:
+	if room.membership_requesters.filter(id=user.id).exists():
+		room.membership_requesters.remove(user)
+	return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
 # Membership request: Create membership request object
 @login_required
 def request_room_membership(request, room_id):
-    room = get_object_or_404(Room, id=room_id)
+	room = get_object_or_404(Room, id=room_id)
     # Boolean filters:
-    user_is_member = request.user in room.room_members.all()
-    request_exists = RoomMembershipRequest.objects.filter(user_requesting_to_become_room_member=request.user, room_receiving_membership_request=room).exists()
+	user_is_member = request.user in room.room_members.all()
+	request_exists = RoomMembershipRequest.objects.filter(user_requesting_to_become_room_member=request.user, room_receiving_membership_request=room).exists()
     # If user is not a member and user has not made a request for this group so far, create request and save.
-    if not user_is_member and not request_exists:
-        group_request = RoomMembershipRequest(user_requesting_to_become_room_member=request.user, room_receiving_membership_request=room)
-        group_request.save()
-    return redirect('rooms_that_user_is_a_member_of_or_user_created', username=request.user.username)
+	if not user_is_member and not request_exists:
+		group_request = RoomMembershipRequest(user_requesting_to_become_room_member=request.user, room_receiving_membership_request=room)
+		group_request.save()
+		room.membership_requesters.add(request.user)
+		room.save()
+	return redirect('room-list')
 
 
 def delete_membership_request(username, room_receiving_request):
-    user = get_object_or_404(User, username=username)
-    membership_request = get_object_or_404(RoomMembershipRequest, user_requesting_to_become_room_member=user, room_receiving_membership_request=room_receiving_request)
-    membership_request.delete()
+	user = get_object_or_404(User, username=username)
+	membership_request = get_object_or_404(RoomMembershipRequest, user_requesting_to_become_room_member=user, room_receiving_membership_request=room_receiving_request)
+	room_receiving_request.membership_requesters.remove(user)
+	membership_request.delete()
 
 
 # Withdraw membership request: Delete membership request object
 @login_required
 def withdraw_room_membership_request(request, username, room_id):
-    room = get_object_or_404(Room, id=room_id)
-    user = get_object_or_404(User, username=username)
-    user_is_member = user in room.room_members.all()
-    request_exists = RoomMembershipRequest.objects.filter(user_requesting_to_become_room_member=user, room_receiving_membership_request=room).exists()
-    # If user is not a member and user has not made a request for this group so far, create request and save.
-    if not user_is_member and request_exists:
-        delete_membership_request(username, room)
-    return redirect('rooms_that_user_is_a_member_of_or_user_created', username=user.username)
+	print("CP1")
+	room = get_object_or_404(Room, id=room_id)
+	user = get_object_or_404(User, username=username)
+	print(room)
+	print(user)
+	user_is_member = user in room.room_members.all()
+	request_exists = RoomMembershipRequest.objects.filter(user_requesting_to_become_room_member=user, room_receiving_membership_request=room).exists()
+	print(user_is_member)
+	print(request_exists)
+    # If user is not a member and user has made a request for this group, delete request and save.
+	if not user_is_member and request_exists:
+		print("CP2")
+		delete_membership_request(username, room)
+		room.membership_requesters.remove(user)
+	return redirect('room-list')
 
 
 # Accept memebrship request: Add to MTM field and delete membership request object
 @login_required
 def accept_room_membership_request(request, username, room_id):
-    room = get_object_or_404(Room, id=room_id)
+	room = get_object_or_404(Room, id=room_id)
     # Add membership
-    room_membership(request, username, room_id)
-    delete_membership_request(username, room)
-    return redirect('room', pk=room_id)
+	room_membership(request, username, room_id)
+	delete_membership_request(username, room)
+	room.membership_requesters.remove(request.user)
+	return redirect('room-detail', pk=room_id)
 
 
 class RoomDetailView(UserPassesTestMixin, DetailView):
@@ -213,12 +227,14 @@ class RoomDetailView(UserPassesTestMixin, DetailView):
 
 	def get(self, request, *args, **kwargs):
 		room = get_object_or_404(Room, pk=kwargs['pk'])
+		membership_requests = RoomMembershipRequest.objects.filter(room_receiving_membership_request=room).all()
 		return render(request, 'messaging/room.html', {
 			'username': request.user.username,
 			'room': room,
 			'room_details': room,
 			'room_id': room.id,
-			"direct_message": True
+			"direct_message": True,
+			"membership_requests": membership_requests
     	})
 
 
@@ -298,7 +314,14 @@ class RoomListView(ListView):
 	def get_context_data(self, **kwargs):
 		context = super(RoomListView, self).get_context_data(**kwargs)
 		rooms_that_user_is_a_member_of_or_user_created = set(list(Room.objects.filter(room_members=self.request.user.id)) + list(Room.objects.filter(room_creator=self.request.user)))
-		context.update({"header": "Explore all rooms", "direct_message": False, "rooms_that_user_is_a_member_of_or_user_created": rooms_that_user_is_a_member_of_or_user_created})
+		rooms = Room.objects.all()
+		context.update({
+			"header": "Explore all channels", 
+			"direct_message": False, 
+			"rooms": rooms, 
+			"rooms_that_user_is_a_member_of_or_user_created": rooms_that_user_is_a_member_of_or_user_created,
+			"num_results": len(list(rooms))
+		})
 		return context
 
 
@@ -316,8 +339,10 @@ class UserRoomListView(ListView):
 		rooms_that_user_is_a_member_of_or_user_created = set(list(Room.objects.filter(room_members=user.id)) + list(Room.objects.filter(room_creator=user)))
 		context = {
 			"header": f"My channels", 
+			"rooms": rooms_that_user_is_a_member_of_or_user_created,
 			"rooms_that_user_is_a_member_of_or_user_created": rooms_that_user_is_a_member_of_or_user_created,
 			"direct_message": False,
+			"num_results": len(list(rooms_that_user_is_a_member_of_or_user_created))
 		}
 		return render(request, "messaging/room_list_view.html", context=context)
 

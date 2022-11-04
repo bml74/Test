@@ -99,5 +99,6 @@ def ajax_chatbox(request):
 
         return JsonResponse(chatbox_dict)
 
+
 def vue_example(request):
     return render(request, 'asdf.html')
