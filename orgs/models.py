@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
+from django.utils import timezone
 
 
 class GroupProfile(models.Model):
@@ -61,3 +62,16 @@ class GroupMembershipRequest(models.Model):
     date_time_requested = models.DateTimeField(auto_now_add=True) 
     user_requesting_to_become_member = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_requesting_to_become_member") 
     group_receiving_membership_request = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_receiving_membership_request") 
+
+
+class PaymentToGroup(models.Model):
+    title = models.CharField(max_length=128, default="Group Payment")
+    description = models.TextField(blank=True, null=True)
+    price = models.FloatField(default=0.0)
+    group = models.ForeignKey(Group, on_delete=models.CASCADE)
+    due_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
+    members_who_have_paid = models.ManyToManyField(
+        User,
+        default=None,
+        blank=True
+    )
