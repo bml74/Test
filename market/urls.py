@@ -7,10 +7,12 @@ urlpatterns = [
     # Listings
     path('listings/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),
-    path('listings/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
-    path('listings/create/', views.ListingCreateView.as_view(), name='listing-create'),
-    path('listings/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
-    path('listings/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
+    path('listing/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
+    path('listing/create/', views.ListingCreateView.as_view(), name='listing-create'),
+    path('listing/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
+    path('listing/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
+
+    path('groups/listing/<int:pk>/', views.ListingForGroupMembersDetailView.as_view(), name='listing-for-group-members-detail'),
 
     path('lc/', views.learning_carousel, name='learning_carousel'),
 

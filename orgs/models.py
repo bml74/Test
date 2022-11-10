@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User, Group
 from django.utils import timezone
+from django.urls import reverse 
 
 
 class GroupProfile(models.Model):
@@ -64,7 +65,7 @@ class GroupMembershipRequest(models.Model):
     group_receiving_membership_request = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="group_receiving_membership_request") 
 
 
-class PaymentToGroup(models.Model):
+class ListingForGroupMembers(models.Model):
     title = models.CharField(max_length=128, default="Group Payment")
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(default=0.0)
@@ -75,3 +76,12 @@ class PaymentToGroup(models.Model):
         default=None,
         blank=True
     )
+
+    def get_absolute_url(self):
+        return reverse('listing-for-group-members-detail', kwargs={'pk': self.pk})
+
+
+
+class RequestForPaymentToGroupMember(models.Model):
+    user_receiving_request = models.ForeignKey(User, on_delete=models.CASCADE)
+    listing_for_group_members = models.ForeignKey(ListingForGroupMembers, on_delete=models.CASCADE)

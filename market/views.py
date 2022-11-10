@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
 from .models import Listing, Transaction
+from orgs.models import GroupProfile, ListingForGroupMembers, RequestForPaymentToGroupMember
 from django.views.generic import (
     ListView,
     DetailView,
@@ -22,6 +23,13 @@ from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import LISTING_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.utils import formValid
+from .utils import (
+    print_divider,
+    get_group_and_group_profile_and_listing_from_listing_id,
+    get_data_on_listing_for_group_members,
+    create_payment_request_from_group_member,
+    remove_payment_request_from_group_member
+)
 
 
 def learning_carousel(request):
@@ -410,3 +418,30 @@ Tutoring:
 - We check that they completed the classes necessary
 - If yes then we allow them to be a tutor
 """
+
+
+class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
+    model = ListingForGroupMembers
+
+    def test_func(self):
+        (group, group_profile, listing_for_group_members) = get_group_and_group_profile_and_listing_from_listing_id(ListingForGroupMembers_obj_id=self.kwargs['pk'])
+        return self.request.user.is_authenticated and self.request.user in group_profile.group_members.all()
+
+    def get(self, request, *args, **kwargs):
+        (group, group_profile, listing_for_group_members, list_of_members_who_have_paid, list_of_members_who_have_not_paid) = get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id=kwargs['pk'])
+
+        user_is_creator_of_group = self.request.user == group_profile.group_creator
+
+        context = {
+            "item": listing_for_group_members,
+            "obj_type": "listing",
+            "group": group,
+            "group_profile": group_profile,
+            "user_is_creator_of_group": user_is_creator_of_group,
+            "members": group_profile.group_members.all(),
+            "list_of_members_who_have_paid": list_of_members_who_have_paid,
+            "list_of_members_who_have_not_paid": list_of_members_who_have_not_paid
+        }
+
+        return render(request, 'market/listing_for_group_members.html', context)
+

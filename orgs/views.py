@@ -17,7 +17,8 @@ from ecoles.models import Specialization, Course
 from posts.models import Post
 from .models import GroupProfile, GroupFollowRequest, GroupMembershipRequest
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME
-from config.utils import get_group_and_group_profile_from_group_id
+from config.utils import get_group_and_group_profile_from_group_id, getGroupProfile
+from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 
 
 class GroupCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -58,8 +59,9 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         group = get_object_or_404(Group, pk=kwargs['pk'])
+        group_profile = getGroupProfile(group=group)
         users_in_group = group.user_set.all()
-        logged_in_user_in_group = True if request.user in users_in_group else False
+        logged_in_user_in_group = True if request.user in users_in_group or request.user in group_profile.group_members.all() else False
 
         # followers_of_group = GroupFollowersCount.objects.filter(group_being_followed=group)
         # num_followers_of_group = len(followers_of_group)
@@ -79,7 +81,7 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
         # else:
         #     follow_button_val = "Follow"
 
-        group_profile = get_object_or_404(GroupProfile, group=group)
+        group_listings = ListingForGroupMembers.objects.filter(group=group).all()
 
         listings = Listing.objects.filter(group=group)
         if len(listings) > 10:
@@ -109,7 +111,9 @@ class GroupDetailView(UserPassesTestMixin, DetailView):
             "first_few_news": news,
 
             "user_has_made_membership_request": GroupMembershipRequest.objects.filter(user_requesting_to_become_member=request.user, group_receiving_membership_request=group).exists(),
-            "membership_requests": GroupMembershipRequest.objects.all()
+            "membership_requests": GroupMembershipRequest.objects.all(),
+
+            "group_listings": group_listings
 
         }
 
