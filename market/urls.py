@@ -35,6 +35,9 @@ urlpatterns = [
     path('reject_transaction/<int:transaction_id>/', views.reject_transaction, name='reject_transaction'),
 
     path('request_payment/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.request_payment, name='request_payment'),
+    path('reject_payment_request/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.reject_payment_request, name='reject_payment_request'),
+    
+    path('my/payment_requests/', views.RequestForPaymentToGroupMemberListView.as_view(), name='payment_requests'),
 
 
 ]

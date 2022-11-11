@@ -28,6 +28,7 @@ def get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id):
     (group, group_profile, listing_for_group_members) = get_group_and_group_profile_and_listing_from_listing_id(ListingForGroupMembers_obj_id)
 
     for member in listing_for_group_members.members_who_have_paid.all():
+        print(member)
         assert(member in group_profile.group_members.all() or member == group_profile.group_creator)
     
     list_of_members = list(group_profile.group_members.all())
@@ -54,7 +55,8 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
         new_payment_request.save()
 
 
-def remove_payment_request_from_group_member(user_sending_request, user_receiving_request, listing_for_group_members):
+def remove_payment_request_from_group_member(user_sending_request, user_receiving_request, ListingForGroupMembers_obj_id):
+    listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=ListingForGroupMembers_obj_id)
     payment_request = get_object_or_404(
         RequestForPaymentToGroupMember,
         user_receiving_request=user_receiving_request,

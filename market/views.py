@@ -463,3 +463,40 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
         ListingForGroupMembers_obj_id=listing_for_group_members_id
     ) # Function returns a Bool.
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+def reject_payment_request(request, group_id, user_id, listing_for_group_members_id):
+    (group, group_profile) = get_group_and_group_profile_from_group_id(
+        group_id=group_id
+    )
+    user_sending_request = group_profile.group_creator
+    user_receiving_request = get_object_or_404(User, id=user_id)
+    remove_payment_request_from_group_member(
+        user_sending_request=user_sending_request,
+        user_receiving_request=user_receiving_request,
+        ListingForGroupMembers_obj_id=listing_for_group_members_id
+    ) # Function returns a Bool.
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
+    model = RequestForPaymentToGroupMember
+    template_name = 'market/payment_requests.html'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super(RequestForPaymentToGroupMemberListView, self).get_context_data(**kwargs)
+        context.update({
+            "payment_requests": RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all(),
+            "obj_type": "listing_for_group_members"
+        })
+        return context
+
+    def get_queryset(self):
+        reqs = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
+        print(reqs)
+        return reqs
+
+
