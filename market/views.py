@@ -215,6 +215,9 @@ def purchase_logic(request, obj_type, item_id):
     if obj_type == 'listing':
         item = Listing.objects.get(pk=item_id)
         item.purchasers.add(request.user)
+    elif obj_type == 'listing_for_group_members':
+        item = ListingForGroupMembers.objects.get(pk=item_id)
+        item.members_who_have_paid.add(request.user)
     # If obj_type is course or specialization then also enroll
     elif obj_type == 'course':
         item = Course.objects.get(pk=item_id)
@@ -259,16 +262,19 @@ def checkout(request, obj_type, pk):
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
+    elif obj_type == 'listing_for_group_members':
+        item = ListingForGroupMembers.objects.get(pk=pk)
     elif obj_type == 'course':
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item is not None:
-
-        # If user created item, then don't let them view checkout page and purchase.
-        if item.creator == request.user:
-            return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
-
+        try:
+            # If user created item, then don't let them view checkout page and purchase.
+            if item.creator == request.user:
+                return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
+        except:
+            pass
         context = {"item": item, "obj_type": obj_type}
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
@@ -288,20 +294,25 @@ def checkout_session(request, obj_type, pk):
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
+    elif obj_type == 'listing_for_group_members':
+        item = ListingForGroupMembers.objects.get(pk=pk)
+        print(item)
+        print("from checkout_session function")
     elif obj_type == 'course':
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item: # if item is not None
-        if item.creator == request.user:
-            return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
+        if obj_type in ['listing', 'course', 'specialization']:
+            if item.creator == request.user:
+                return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
                 'price_data': {
                     'currency': 'usd',
                     'product_data': {
-                        'name': f"{item.title} ({obj_type})",
+                        'name': f"{item.title} ({' '.join(obj_type.split('_'))})",
                     },
                     'unit_amount': int(float(item.price * 100)),
                 },
@@ -339,17 +350,24 @@ def payment_success(request, obj_type, pk):
         item_id = session.client_reference_id
         item = None
         if obj_type == 'listing':
-            item = Listing.objects.get(pk=item_id)
+            item = Listing.objects.get(pk=pk)
+        elif obj_type == 'listing_for_group_members':
+            item = ListingForGroupMembers.objects.get(pk=pk)
+            # If there are existing requests, delete.
+            if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
+                for req in RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).all():
+                    req.delete()
+            item.members_who_have_paid.add(request.user)
         # If obj_type is course or specialization then also enroll
         elif obj_type == 'course':
-            item = Course.objects.get(pk=item_id)
+            item = Course.objects.get(pk=pk)
             # If obj_type is course then enroll in that course
             if not item.students.filter(id=request.user.id).exists():
                 item.students.add(request.user)
             if not item.purchasers.filter(id=request.user.id).exists():
                 item.purchasers.add(request.user)
         elif obj_type == 'specialization':
-            item = Specialization.objects.get(pk=item_id)
+            item = Specialization.objects.get(pk=pk)
             # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
             if not item.students.filter(id=request.user.id).exists():
                 item.students.add(request.user)
@@ -363,12 +381,38 @@ def payment_success(request, obj_type, pk):
 
 
         if item is not None:
+
             # Generate Transaction record
             transaction_no = generate_transaction_id(10)
-            Transaction.objects.create(transaction_obj_type=obj_type, transaction_obj_id=item.id, title=item.title, seller=item.creator, purchaser=request.user, transaction_id=transaction_no, value=item.price, description=f'Purchase of {obj_type}').save()
+
+            print(item)
+            print(type(item))
+            print("from payment success function")
+            print(obj_type)
+            print(item.id)
+            print(item.title)
+            print(item.price)
+
+            t = Transaction(
+                transaction_obj_type=obj_type, 
+                transaction_obj_id=item.pk, 
+                title=item.title, 
+                purchaser=request.user, 
+                transaction_id=transaction_no, 
+                value=float(item.price), 
+                description=f'Purchase of obj_type'
+            )
+            try:
+                if item.creator:
+                    t.seller = item.creator
+            except:
+                pass
+
+            t.save()
             # Render template
+            print(t)
             return render(request, 'payments/success.html', context={
-                "obj_type": obj_type
+                "obj_type":  obj_type
             }) 
         else:
             return render(request, 'payments/cancel.html')
@@ -492,6 +536,14 @@ class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
             "payment_requests": RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all(),
             "obj_type": "listing_for_group_members"
         })
+
+        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+
+        if RUNNING_DEVSERVER:
+            print('STRIPE_TEST_KEY') 
+        else:
+            print('STRIPE_LIVE_KEY')
+
         return context
 
     def get_queryset(self):
