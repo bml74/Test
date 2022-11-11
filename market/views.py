@@ -1,6 +1,5 @@
 import os, sys
 import stripe
-import random
 from decouple import config
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
@@ -16,13 +15,13 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test
 from ecoles.models import Specialization, Course
 from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import LISTING_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
-from config.utils import formValid
+from config.utils import formValid, get_group_and_group_profile_from_group_id
 from .utils import (
     print_divider,
     get_group_and_group_profile_and_listing_from_listing_id,
@@ -432,6 +431,11 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
 
         user_is_creator_of_group = self.request.user == group_profile.group_creator
 
+        existing_requests_for_this_listing = list(
+            RequestForPaymentToGroupMember.objects.filter(listing_for_group_members=listing_for_group_members).all()
+        )
+        users_who_have_received_payment_request = [req.user_receiving_request for req in existing_requests_for_this_listing]
+
         context = {
             "item": listing_for_group_members,
             "obj_type": "listing",
@@ -440,8 +444,22 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
             "user_is_creator_of_group": user_is_creator_of_group,
             "members": group_profile.group_members.all(),
             "list_of_members_who_have_paid": list_of_members_who_have_paid,
-            "list_of_members_who_have_not_paid": list_of_members_who_have_not_paid
+            "list_of_members_who_have_not_paid": list_of_members_who_have_not_paid,
+            "users_who_have_received_payment_request": users_who_have_received_payment_request
         }
 
         return render(request, 'market/listing_for_group_members.html', context)
 
+
+def request_payment(request, group_id, user_id, listing_for_group_members_id):
+    (group, group_profile) = get_group_and_group_profile_from_group_id(
+        group_id=group_id
+    )
+    user_sending_request = group_profile.group_creator
+    user_receiving_request = get_object_or_404(User, id=user_id)
+    create_payment_request_from_group_member(
+        user_sending_request=user_sending_request,
+        user_receiving_request=user_receiving_request,
+        ListingForGroupMembers_obj_id=listing_for_group_members_id
+    ) # Function returns a Bool.
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])

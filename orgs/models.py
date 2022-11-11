@@ -77,6 +77,9 @@ class ListingForGroupMembers(models.Model):
         blank=True
     )
 
+    def __str__(self):
+        return f"{self.title}"
+
     def get_absolute_url(self):
         return reverse('listing-for-group-members-detail', kwargs={'pk': self.pk})
 
@@ -85,3 +88,6 @@ class ListingForGroupMembers(models.Model):
 class RequestForPaymentToGroupMember(models.Model):
     user_receiving_request = models.ForeignKey(User, on_delete=models.CASCADE)
     listing_for_group_members = models.ForeignKey(ListingForGroupMembers, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.listing_for_group_members.group} requests ${self.listing_for_group_members.price:.2f} from {self.user_receiving_request} for: {self.listing_for_group_members.title}"

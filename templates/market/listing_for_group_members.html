@@ -131,9 +131,13 @@
                                                                         </td>
                                                                         <td class="py-4 px-6">
                                                                             {% if member in list_of_members_who_have_paid %}
-                                                                                No action required
+                                                                                
                                                                             {% elif member in list_of_members_who_have_not_paid %}
-                                                                                <a href="#" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 dark:hover:bg-blue-300">Request payment</a>
+                                                                                {% if member in users_who_have_received_payment_request %}
+                                                                                    Request already sent
+                                                                                {% else %}
+                                                                                    <a href="{% url 'request_payment' group_id=item.group.id user_id=member.id listing_for_group_members_id=item.id %}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 dark:hover:bg-blue-300">Request payment</a>
+                                                                                {% endif %}
                                                                             {% endif %}
                                                                         </td>
                                                                     </tr>
