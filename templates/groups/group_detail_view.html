@@ -97,11 +97,6 @@
                                         <button id="group-member-listings-tab" data-tabs-target="#group-member-listings" type="button" role="tab" aria-controls="group-member-listings" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Listings for members</button>
                                     </li>
                                     {% endif %}
-                                    {% if user_is_creator %}
-                                    <li class="mr-2">
-                                        <button id="creator-group-member-listings-tab" data-tabs-target="#creator-group-member-listings" type="button" role="tab" aria-controls="creator-group-member-listings" aria-selected="false" class="inline-block p-4 hover:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700">Admin</button>
-                                    </li>
-                                    {% endif %}
                                 </ul>
                                 <div id="defaultTabContent">
 
@@ -244,9 +239,18 @@
 
                                     {% if logged_in_user_in_group %}
                                     <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="group-member-listings" role="tabpanel" aria-labelledby="group-member-listings-tab">
+                                        {% if user_is_creator %}
+                                            <div>
+                                                <a href="{% url 'listing-for-group-members-create' item.id %}" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    Create&nbsp;
+                                                    <i class="fas fa-plus-circle"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
+
                                         <div class="flex justify-between">
                                             {% if group_listings %}
-                                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="specializations-of-group">
+                                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings-of-group-for-members">
                                                 {% for item in group_listings %}
                                                         <div class="p-6 max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                                                             <a href="{% url 'listing-for-group-members-detail' item.id %}">
@@ -262,16 +266,8 @@
                                                 {% endfor %}
                                             </div>
                                         {% else %}
-                                            {{ item.group }} has not created any specializations.
+                                            <p class="mt-4">{{ item.group }} has not created any listings for its members.</p>
                                         {% endif %}
-                                        </div>
-                                    </div>
-                                    {% endif %}
-
-                                    {% if user_is_creator %}
-                                    <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="creator-group-member-listings" role="tabpanel" aria-labelledby="creator-group-member-listings-tab">
-                                        <div class="flex justify-between">
-                                            xyz
                                         </div>
                                     </div>
                                     {% endif %}
@@ -375,7 +371,7 @@
             <!-- Modal header -->
             <div class="py-4 px-6 rounded-t border-b dark:border-gray-600">
                 <h3 class="text-base font-semibold text-gray-900 lg:text-xl dark:text-white">
-                    Members of {{ item.group }}
+                    Followers of {{ item.group }}
                 </h3>
             </div>
             <!-- Modal body -->

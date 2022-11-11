@@ -37,29 +37,31 @@ Payment requests
                                         <h2 class="pt-4 mb-3 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Payment requests</h2>
                                         {% if payment_requests %}
 
-                                            <div class="grid grid-cols-2 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-2" id="members-of-group">
+                                        {{ payment_requests }}
+
+                                        <div class="grid grid-cols-2 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-2" id="members-of-group">
 
 
-                                                <div class="overflow-x-auto relative">
-                                                    {% for payment_request in payment_requests %}
+                                            <div class="overflow-x-auto relative">
+                                                {% for payment_request in payment_requests %}
 
-                                                        <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-                                                            <div class="flex flex-col items-center pb-10">
-                                                                {% comment %} <img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image"> {% endcomment %}
-                                                                <h5 class="mt-4 mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ payment_request.listing_for_group_members.group }}</h5>
-                                                                <span class="text-sm text-gray-500 dark:text-gray-400">requests ${{ payment_request.listing_for_group_members.price|floatformat:2 }}</span>
-                                                                <span class="text-sm text-gray-500 dark:text-gray-400">for {{ payment_request.listing_for_group_members.title }}</span>
-                                                                <div class="flex mt-4 space-x-3 md:mt-6">
-                                                                    <a href="{% url 'checkout' obj_type=obj_type pk=payment_request.listing_for_group_members.id %}" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pay</a>
-                                                                    <a href="{% url 'reject_payment_request' group_id=payment_request.listing_for_group_members.group.id user_id=request.user.id listing_for_group_members_id=payment_request.listing_for_group_members.id %}" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Reject</a>
-                                                                </div>
+                                                    <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+                                                        <div class="flex flex-col items-center pb-10">
+                                                            {% comment %} <img class="mb-3 w-24 h-24 rounded-full shadow-lg" src="/docs/images/people/profile-picture-3.jpg" alt="Bonnie image"> {% endcomment %}
+                                                            <h5 class="mt-4 mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ payment_request.listing_for_group_members.group }}</h5>
+                                                            <span class="text-sm text-gray-500 dark:text-gray-400">requests ${{ payment_request.listing_for_group_members.price|floatformat:2 }}</span>
+                                                            <span class="text-sm text-gray-500 dark:text-gray-400">for {{ payment_request.listing_for_group_members.title }}</span>
+                                                            <div class="flex mt-4 space-x-3 md:mt-6">
+                                                                <a href="{% url 'checkout' obj_type=obj_type pk=payment_request.listing_for_group_members.id %}" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Pay</a>
+                                                                <a href="{% url 'reject_payment_request' group_id=payment_request.listing_for_group_members.group.id user_id=request.user.id listing_for_group_members_id=payment_request.listing_for_group_members.id %}" class="inline-flex items-center py-2 px-4 text-sm font-medium text-center text-gray-900 bg-white rounded-lg border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">Reject</a>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                    {% endfor %}
-                                                </div>
-
+                                                {% endfor %}
                                             </div>
+
+                                        </div>
                                         {% else %}
                                             No payment requests available.
                                         {% endif %}

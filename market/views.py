@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
 from .models import Listing, Transaction
-from orgs.models import GroupProfile, ListingForGroupMembers, RequestForPaymentToGroupMember
+from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from django.views.generic import (
     ListView,
     DetailView,
@@ -19,11 +19,16 @@ from django.http import JsonResponse, HttpResponseRedirect
 from django.contrib.auth.decorators import user_passes_test
 from ecoles.models import Specialization, Course
 from ecoles.datatools import generate_recommendations_from_queryset
-from config.abstract_settings.model_fields import LISTING_FIELDS
-from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
-from config.utils import formValid, get_group_and_group_profile_from_group_id
+from config.abstract_settings.model_fields import (
+    LISTING_FIELDS,
+    LISTING_FOR_GROUP_MEMBERS_FIELDS
+)
+from config.abstract_settings.template_names import (
+    FORM_VIEW_TEMPLATE_NAME, 
+    CONFIRM_DELETE_TEMPLATE_NAME
+)
+from config.utils import formValid, get_group_and_group_profile_from_group_id, getGroupProfile, is_ajax
 from .utils import (
-    print_divider,
     get_group_and_group_profile_and_listing_from_listing_id,
     get_data_on_listing_for_group_members,
     create_payment_request_from_group_member,
@@ -321,7 +326,7 @@ def checkout_session(request, obj_type, pk):
             mode='payment',
             #change domain name when you live it
             success_url=f'{BASE_DOMAIN}/market/success/checkout/' + obj_type + "/" + str(pk) + '?session_id={CHECKOUT_SESSION_ID}',
-            cancel_url=f'{BASE_DOMAIN}/cancel/checkout/',
+            cancel_url=f'{BASE_DOMAIN}/market/cancel/checkout/',
 
             client_reference_id=pk
 
@@ -467,11 +472,11 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
     model = ListingForGroupMembers
 
     def test_func(self):
-        (group, group_profile, listing_for_group_members) = get_group_and_group_profile_and_listing_from_listing_id(ListingForGroupMembers_obj_id=self.kwargs['pk'])
+        (group, group_profile, listing_for_group_members) = get_group_and_group_profile_and_listing_from_listing_id(ListingForGroupMembers_obj_id=int(self.kwargs['pk']))
         return self.request.user.is_authenticated and self.request.user in group_profile.group_members.all()
 
     def get(self, request, *args, **kwargs):
-        (group, group_profile, listing_for_group_members, list_of_members_who_have_paid, list_of_members_who_have_not_paid) = get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id=kwargs['pk'])
+        (group, group_profile, listing_for_group_members, list_of_members_who_have_paid, list_of_members_who_have_not_paid) = get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id=int(kwargs['pk']))
 
         user_is_creator_of_group = self.request.user == group_profile.group_creator
 
@@ -482,15 +487,35 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
 
         context = {
             "item": listing_for_group_members,
-            "obj_type": "listing",
+            "obj_type": "listing_for_group_members",
             "group": group,
             "group_profile": group_profile,
             "user_is_creator_of_group": user_is_creator_of_group,
             "members": group_profile.group_members.all(),
             "list_of_members_who_have_paid": list_of_members_who_have_paid,
             "list_of_members_who_have_not_paid": list_of_members_who_have_not_paid,
-            "users_who_have_received_payment_request": users_who_have_received_payment_request
+            "users_who_have_received_payment_request": users_who_have_received_payment_request,
+            "user_is_attending_event": "true" if request.user in listing_for_group_members.members_attending_event.all() else "false"
         }
+
+        if is_ajax(request):
+            user_is_attending_event = request.GET.get('user_is_attending_event')
+            print(".")
+            print(user_is_attending_event)
+            username_of_attending_event = request.GET.get('username_of_attending_event')
+            print(username_of_attending_event)
+            user = get_object_or_404(User, username=username_of_attending_event)
+            print(".")
+            listing_for_group_members_id = request.GET.get('listing_for_group_members_id')
+            listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
+            if user_is_attending_event == "true":
+                listing_for_group_members.members_attending_event.add(request.user)
+                context.update({"user_is_attending_event": "true"})
+                return JsonResponse({"user_is_attending_event": "true"})
+            else:
+                listing_for_group_members.members_attending_event.remove(request.user)
+                context.update({"user_is_attending_event": "false"})
+                return JsonResponse({"user_is_attending_event": "false"})
 
         return render(request, 'market/listing_for_group_members.html', context)
 
@@ -533,22 +558,89 @@ class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super(RequestForPaymentToGroupMemberListView, self).get_context_data(**kwargs)
         context.update({
-            "payment_requests": RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all(),
             "obj_type": "listing_for_group_members"
         })
 
         RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 
         if RUNNING_DEVSERVER:
-            print('STRIPE_TEST_KEY') 
+            print('PMT_TEST_KEY') 
         else:
-            print('STRIPE_LIVE_KEY')
+            print('PMT_LIVE_KEY')
 
         return context
 
     def get_queryset(self):
         reqs = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
-        print(reqs)
         return reqs
+
+
+class ListingForGroupMembersCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = ListingForGroupMembers
+    fields = LISTING_FOR_GROUP_MEMBERS_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME 
+
+    def form_valid(self, form):
+        form.instance.group = get_object_or_404(Group, id=self.kwargs.get('group_id'))
+        group = form.instance.group
+        group_profile = getGroupProfile(group=group)
+        user = self.request.user
+        if user == group_profile.group_creator:
+            return super().form_valid(form) 
+        super().form_invalid(form)
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingForGroupMembersCreateView, self).get_context_data(**kwargs)
+        header = "Create listing for group members"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class ListingForGroupMembersUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ListingForGroupMembers
+    fields = LISTING_FOR_GROUP_MEMBERS_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        form.instance.group = get_object_or_404(Group, id=self.kwargs.get('group_id'))
+        group = form.instance.group
+        group_profile = getGroupProfile(group=group)
+        user = self.request.user
+        if user == group_profile.group_creator:
+            return super().form_valid(form) 
+        super().form_invalid(form)
+
+    def test_func(self):
+        return self.request.user == self.get_object().creator
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingForGroupMembersUpdateView, self).get_context_data(**kwargs)
+        header = "Create listing for group members"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class ListingForGroupMembersDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = ListingForGroupMembers
+    success_url = '/market/listings/'
+    context_object_name = 'item'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
+
+    def test_func(self):
+        return self.request.user == self.get_object().group.group_creator
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingForGroupMembersDeleteView, self).get_context_data(**kwargs)
+        item = get_object_or_404(ListingForGroupMembers, id=self.kwargs.get('pk'))
+        title = f"Listing for group members: {item.title}"
+        context.update({"type": "listing_for_group_members", "title": title})
+        return context
+
+
 
 

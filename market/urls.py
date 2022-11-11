@@ -39,5 +39,10 @@ urlpatterns = [
     
     path('my/payment_requests/', views.RequestForPaymentToGroupMemberListView.as_view(), name='payment_requests'),
 
+    path('create/listing/group/<int:group_id>/', views.ListingForGroupMembersCreateView.as_view(), name='listing-for-group-members-create'),
+    path('update/listing/<int:pk>/group/<int:group_id>/', views.ListingForGroupMembersUpdateView.as_view(), name='listing-for-group-members-update'),
+    path('delete/listing/<int:pk>/group/<int:group_id>/', views.ListingForGroupMembersDeleteView.as_view(), name='listing-for-group-members-delete'),
+
+    # path('event-attendance/<str:username>/listing_for_group_members/<int:listing_id>/', views.event_attendance, name='event-attendance'),
 
 ]

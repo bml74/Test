@@ -70,11 +70,27 @@ class ListingForGroupMembers(models.Model):
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(default=0.0)
     group = models.ForeignKey(Group, on_delete=models.CASCADE)
-    due_date = models.DateTimeField(null=True, blank=True, default=timezone.now)
+    due_date = models.DateField(null=True, blank=True)
     members_who_have_paid = models.ManyToManyField(
         User,
         default=None,
-        blank=True
+        blank=True,
+        related_name="members_who_have_paid"
+    )
+    listing_for_group_members_type = models.CharField(
+        max_length=100,
+        choices=(
+            ("Social dues", "Social dues"),
+            ("Event", "Event"),
+            ("Other", "Other")
+        ),
+        default="Social dues",
+    )
+    members_attending_event = models.ManyToManyField(
+        User,
+        default=None,
+        blank=True,
+        related_name="members_attending_event"
     )
 
     def __str__(self):

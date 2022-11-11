@@ -21,7 +21,9 @@ AD_OFFER_FIELDS = [
     'required_clicks'
 ]
 
+
 """ For ecoles app. """
+
 CATEGORY_FIELDS = ['title', 'description', 'creator']
 FIELD_FIELDS = ['title', 'category', 'description', 'creator']
 SPECIALIZATION_FIELDS = ['title', 'field', 'visibility', 'description', 'difficulty_level', 'group']
@@ -46,7 +48,9 @@ ASSIGNMENT_FIELDS = [
 ]
 TASK_FIELDS = ['task_type', 'due_date', 'assignment', 'completed']
 
+
 """ For market app. """
+
 LISTING_FIELDS = [
     'title', 'description', 
     'price', 
@@ -60,5 +64,18 @@ LISTING_FIELDS = [
     'listing_type',
 ]
 
+
 """ For messaging app. """
+
 ROOM_FIELDS = ['title', 'room_group_profile']
+
+
+""" For orgs app. """
+
+LISTING_FOR_GROUP_MEMBERS_FIELDS = [
+    'title',
+    'description',
+    'price',
+    'due_date',
+    'listing_for_group_members_type'
+]

@@ -94,6 +94,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'market.context_processors.get_num_notifications',
             ],
             'libraries':{
             'auth_extras': 'config.templatetags.auth_extras',
