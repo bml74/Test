@@ -1,0 +1,119 @@
+{
+    "type": "FeatureCollection",
+        "features": 
+        
+        [
+            {
+                "type": "Feature",
+                "properties": {
+                    "content_online": 1,
+                    "Dates": ["1939-10-02"],
+                    "Hour": 16,
+                    "day": "Fri",
+                    "primary_city_name": "kyiv",
+                    "primary_region_name": "",
+                    "primary_country_name": "ukraine",
+                    "number_of_sites": 1,
+                    "number_of_casualties": 150,
+                    "description": "Find out more about the fate of the local Jews in this town.",
+                    "number_of_days_after_anchor_date_that_event_began": 0,
+                    "number_of_days_after_anchor_date_that_event_ended": 30
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.4492, 50.4713]
+                }
+            }, 
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "content_online": 0,
+                    "Dates": ["1939-10-03"],
+                    "Hour": 16,
+                    "day": "Sat",
+                    "primary_city_name": "kherson",
+                    "primary_region_name": "",
+                    "primary_country_name": "ukraine",
+                    "number_of_sites": 1,
+                    "number_of_casualties": 22,
+                    "description": "Find out more about the fate of the local Jews in this town.",
+                    "number_of_days_after_anchor_date_that_event_began": 11,
+                    "number_of_days_after_anchor_date_that_event_ended": 34
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [32.6169, 46.6354]
+                }
+            },
+
+
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "content_online": 0,
+                    "Dates": ["1939-10-07"],
+                    "Hour": 5,
+                    "day": "Tue",
+                    "primary_city_name": "tiraspol",
+                    "primary_region_name": "",
+                    "primary_country_name": "moldova",
+                    "number_of_sites": 1,
+                    "number_of_casualties": 997,
+                    "description": "Find out more about the fate of the local Jews in this town.",
+                    "number_of_days_after_anchor_date_that_event_began": 94,
+                    "number_of_days_after_anchor_date_that_event_ended": 107
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [29.5968, 46.8482]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "content_online": 0,
+                    "Dates": ["1939-10-07"],
+                    "Hour": 5,
+                    "day": "Tue",
+                    "primary_city_name": "liepaja",
+                    "primary_region_name": "",
+                    "primary_country_name": "latvia",
+                    "number_of_sites": 1,
+                    "number_of_casualties": 997,
+                    "description": "Find out more about the fate of the local Jews in this town.",
+                    "number_of_days_after_anchor_date_that_event_began": 100,
+                    "number_of_days_after_anchor_date_that_event_ended": 106
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [21.0108, 56.5047]
+                }
+            },
+
+            {
+                "type": "Feature",
+                "properties": {
+                    "content_online": 1,
+                    "Dates": ["1939-10-09"],
+                    "Hour": 5,
+                    "day": "Tue",
+                    "primary_city_name": "uman'",
+                    "primary_region_name": "",
+                    "primary_country_name": "ukraine",
+                    "number_of_sites": 1,
+                    "number_of_casualties": 5006,
+                    "description": "Find out more about the fate of the local Jews in this town.",
+                    "number_of_days_after_anchor_date_that_event_began": 100,
+                    "number_of_days_after_anchor_date_that_event_ended": 104
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [30.2215, 48.7487]
+                }
+            }
+
+        ]
+}
