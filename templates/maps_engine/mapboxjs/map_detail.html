@@ -406,7 +406,7 @@
                 "type": "all",
                 "day": ['!=', ['string', ['get', 'day']], 'placeholder'], // ANY DAY [i.e., all days] 
                 "country": ['!=', ['string', ['get', 'primary_country_name']], 'placeholder'] // Any country
-                // "date": filterDay = ['!=', ['string', ['get', 'Dates']], 'placeholder'], // ANY DAY [i.e., all days] 
+                // "date": filterDay = ['!=', ['string', ['get', 'dates']], 'placeholder'], // ANY DAY [i.e., all days] 
             };
 
 
@@ -426,7 +426,7 @@
                     type: 'circle',
                     source: {
                         type: 'geojson',
-                        data: "/maps/1/geojson/" // "{% static 'maps/yahad_new.geojson'|safe %}" // Data source
+                        data: `/maps/geojson/${MAP_ID}/` // "{% static 'maps/yahad_new.geojson'|safe %}" // Data source
                 },
 
                 //'https://rwbruno.s3.amazonaws.com/map_excel_files/yahad.geojson' // "{% static 'maps/yahad.geojson'|safe %}"// "{{ item.excel_upload.url|safe }}" // "{% static 'maps/yahad.geojson'|safe %}" // Data source 
@@ -502,9 +502,9 @@
                 all_filters.push(selectedDateGreaterThanOrEqualToStart);
                 all_filters.push(selectedDateLessThanOrEqualToEnd);
                 map.setFilter('collisions', all_filters); 
-                //map.setFilter('collisions', ['==', ['number', ['get', 'Hour']], hour]);
+                //map.setFilter('collisions', ['==', ['number', ['get', 'hours']], hour]);
                 //filterDate = ['match', ['get', 'Date'], [dateString], true, false];
-                /*filterDate = ['in', dateString, ['get', 'Dates']]
+                /*filterDate = ['in', dateString, ['get', 'dates']]
                 map.setFilter('collisions', filterDate);*/
 
                 // update text in the UI

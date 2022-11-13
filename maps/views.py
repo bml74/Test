@@ -40,8 +40,11 @@ def export_maps_csv(request):
 @login_required # ALso make sure user created map
 def get_events_as_geojson(request, pk):
     map_obj = get_object_or_404(Map, pk=pk)
+    print(map_obj)
     events = Event.objects.filter(parent_map=map_obj).all()
-    data = db_model_to_geojson(queryset=events)
+    print("LEN")
+    print(len(events))
+    data = db_model_to_geojson(map_obj=map_obj)
     response = HttpResponse(data, content_type='application/json')
     return response
 
@@ -165,8 +168,7 @@ class MapDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         map_obj = get_object_or_404(Map, pk=kwargs['pk'])
-        events = Event.objects.filter(parent_map=map_obj).all()
-        event_data_dict =  get_geojson_in_dict_form_from_model(queryset=events)
+        event_data_dict =  get_geojson_in_dict_form_from_model(map_obj=map_obj)
         GEOJSON = json.dumps(event_data_dict["features"]) 
         pprint(GEOJSON)
         print(len(event_data_dict["features"]))
@@ -191,8 +193,7 @@ class MapDetailView(UserPassesTestMixin, DetailView):
 
 def get_geojson_data_for_js(request, pk):
     map_obj = get_object_or_404(Map, pk=pk)
-    events = Event.objects.filter(parent_map=map_obj).all()
-    my_dict = get_geojson_in_dict_form_from_model(events)
+    my_dict = get_geojson_in_dict_form_from_model(map_obj=map_obj)
     geojson = json.dumps(my_dict["features"][0])
     return JsonResponse(geojson, safe=False)
 
@@ -204,17 +205,16 @@ class MapRenderDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         map_obj = get_object_or_404(Map, pk=kwargs['pk'])
-        events = Event.objects.filter(parent_map=map_obj).all()
-        event_data_dict =  get_geojson_in_dict_form_from_model(queryset=events)
+        # events = Event.objects.filter(parent_map=map_obj).all()
+        event_data_dict =  get_geojson_in_dict_form_from_model(map_obj=map_obj)
         GEOJSON = json.dumps(event_data_dict) 
-        pprint(GEOJSON)
-        print(len(event_data_dict["features"]))
-        print()
-        pprint(event_data_dict["features"][0])
+        # pprint(GEOJSON)
+        # print(len(event_data_dict["features"]))
+        # print()
+        pprint(len(event_data_dict["features"]))
         context = {
             "item": map_obj, 
             "GEOJSON": GEOJSON,
-            "events": events
         }
         return render(request, 'maps_engine/mapboxjs/map_detail.html', context)
 

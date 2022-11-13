@@ -12,9 +12,9 @@ urlpatterns = [
     path('all/', views.MapListView.as_view(), name='maps'),
 
     path('<int:pk>/', views.MapDetailView.as_view(), name='map'),
-    path('<int:pk>/geojson/', views.get_events_as_geojson, name='get_events_as_geojson'),
-    path('<int:pk>/export_events_csv/', views.export_events_csv, name='export_events_csv'),
-    path('<int:pk>/events/dataframe/', views.viewEventsInTableInBrowser, name='events-table'),
+    path('geojson/<int:pk>/', views.get_events_as_geojson, name='get_events_as_geojson'),
+    path('export_events_csv/<int:pk>/', views.export_events_csv, name='export_events_csv'),
+    path('events/dataframe/<int:pk>/', views.viewEventsInTableInBrowser, name='events-table'),
 
     path('render/<int:pk>/', views.MapRenderDetailView.as_view(), name='map-render'), 
     path('get_geojson_data_for_js/<int:pk>/', views.get_geojson_data_for_js, name='get_geojson_data_for_js'),

@@ -8,7 +8,7 @@
                 "properties": {
                     "content_online": "yes",
                     "Dates": ["1939-10-02"],
-                    "Hour": 16,
+                    "hours": 16,
                     "day": "Fri",
                     "primary_city_name": "kyiv",
                     "primary_region_name": "",
@@ -30,7 +30,7 @@
                 "properties": {
                     "content_online": "no",
                     "Dates": ["1939-10-03"],
-                    "Hour": 16,
+                    "hours": 16,
                     "day": "Sat",
                     "primary_city_name": "kherson",
                     "primary_region_name": "",
@@ -54,7 +54,7 @@
                 "properties": {
                     "content_online": "no",
                     "Dates": ["1939-10-07"],
-                    "Hour": 5,
+                    "hours": 5,
                     "day": "Tue",
                     "primary_city_name": "tiraspol",
                     "primary_region_name": "",
@@ -76,7 +76,7 @@
                 "properties": {
                     "content_online": "yes",
                     "Dates": ["1939-10-07"],
-                    "Hour": 5,
+                    "hours": 5,
                     "day": "Tue",
                     "primary_city_name": "liepaja",
                     "primary_region_name": "",
@@ -98,7 +98,7 @@
                 "properties": {
                     "content_online": "yes",
                     "Dates": ["1939-10-09"],
-                    "Hour": 5,
+                    "hours": 5,
                     "day": "Tue",
                     "primary_city_name": "uman'",
                     "primary_region_name": "",

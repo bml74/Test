@@ -1,19 +1,39 @@
 import json
 import pandas as pd
-from .models import Event
+from .models import Event, Map
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 
 
-def get_geojson_in_dict_form_from_model(queryset):
+def get_geojson_in_dict_form_from_model(map_obj):
     """Returns dict."""
     FEATURES = []
+
+    queryset = Event.objects.filter(parent_map=map_obj).all()
+
+    print("LEN QUERYSET UTILS FUNC:")
+    print(len(queryset))
+
     for row in queryset:
+
+        # print("___________")
+        # print(row.longitude)
+        # print(row.longitude)
+        # print(row.primary_city_name)
+        # print('x')
+        # print("___________")
+
+        try:
+            num_casualties = int(row.number_of_casualties)
+        except:
+            num_casualties = row.number_of_casualties
+
         FEATURES.append({
             "type": "Feature",
             "properties": {
                 "parent_map": row.parent_map.title,
                 "altitude": row.altitude,
-                "content_online": row.content_online,
+                "content_online": "yes" if row.content_online else "no",
                 "dates": row.dates,
                 "hours": row.hours,
                 "day": row.day,
@@ -36,7 +56,7 @@ def get_geojson_in_dict_form_from_model(queryset):
                 "link": row.link,
                 "marker_color": row.marker_color,
                 "number_of_sites": row.number_of_sites,
-                "number_of_casualties": row.number_of_casualties,
+                "number_of_casualties": num_casualties,
                 "alternative_id": row.alternative_id,
                 "number_of_memorials": row.number_of_memorials,
                 "type_of_place_before_event": row.type_of_place_before_event,
@@ -52,9 +72,9 @@ def get_geojson_in_dict_form_from_model(queryset):
     return geojson
 
 
-def db_model_to_geojson(queryset):
+def db_model_to_geojson(map_obj):
     """Takes model rows in database and converts it into GEOJSON."""
-    geojson =  get_geojson_in_dict_form_from_model(queryset=queryset)
+    geojson =  get_geojson_in_dict_form_from_model(map_obj=map_obj)
     response = HttpResponse(content_type='text/json')
     response['Content-Disposition'] = 'attachment; filename=export.json'
     response = HttpResponse(json.dumps(geojson), content_type='application/json')
@@ -124,6 +144,11 @@ def process_map_data(df, parent_map):
         print(f"type_of_place_before_event: {type_of_place_before_event}")
         print(f"occupation_period: {occupation_period}")
 
+        if row.get('content_online', 0) == "yes":
+            content_online = True
+        else:
+            content_online = False
+
         e = Event(
             parent_map=parent_map,
             latitude=row.get('latitude'), longitude=row.get('longitude'), altitude=row.get('altitude'), geometry=row.get('geometry'), 
@@ -138,7 +163,7 @@ def process_map_data(df, parent_map):
             description=row.get('description', ''),
             link=row.get('link', ''),
             marker_color=row.get('marker_color') if row.get('marker_color') else 'blue',
-            content_online=row.get('content_online', 0),
+            content_online=content_online,
             number_of_sites=row.get('number_of_sites', 0),
             number_of_casualties=row.get('number_of_casualties', 0),
             alternative_id=row.get('alternative_id'),
