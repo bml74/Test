@@ -269,7 +269,7 @@
 
             </div>
 
-            <div class='session'>
+            {% comment %} <div class='session'>
                 <select class="form-select form-select-sm" aria-label="Default select example" id="days">
                     <option selected disabled>Day of the week</option>
                     <option value="all">All</option>
@@ -283,7 +283,7 @@
                     <option value="Sat">Saturday</option>
                     <option value="Sun">Sunday</option>
                 </select>
-            </div>
+            </div> {% endcomment %}
 
             <button class="btn btn-sm btn-primary w-100 mt-2" id="filter-btn">Filter</button>
 
@@ -366,7 +366,8 @@
         <script src="{% static 'maps/scripts/get_long_and_lat.js' %}"></script>
         <script src="{% static 'maps/scripts/get_click_loc.js' %}"></script>
         <script src="{% static 'maps/scripts/set_language.js' %}"></script>
-        <script src="{% static 'maps/scripts/center_on_point.js' %}"></script>
+        <script src="{% static 'maps/scripts/country_filter.js' %}"></script>
+        <script src="{% static 'maps/scripts/day_filter.js' %}"></script>
 
         <!-- Load the `mapbox-gl-geocoder` plugin. -->
         <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.2/mapbox-gl-geocoder.min.js"></script>
@@ -425,7 +426,7 @@
                     type: 'circle',
                     source: {
                         type: 'geojson',
-                        data: "{% static 'maps/yahad_new.geojson'|safe %}" // Data source
+                        data: "/maps/1/geojson/" // "{% static 'maps/yahad_new.geojson'|safe %}" // Data source
                 },
 
                 //'https://rwbruno.s3.amazonaws.com/map_excel_files/yahad.geojson' // "{% static 'maps/yahad.geojson'|safe %}"// "{{ item.excel_upload.url|safe }}" // "{% static 'maps/yahad.geojson'|safe %}" // Data source 
@@ -448,9 +449,9 @@
                     'circle-color': [ // IF DATA AVAILABLE
                     'match',
                     ['get', 'content_online'],
-                    1, '#EC0C0C', // If content is online (i.e., if Yahad Map dot is red)
-                    0, '#0CC2EC', // If content is not yet available online (i.e., if Yahad Map dot is red)
-                    '#ccc'
+                    "yes", '#EC0C0C', // If content is online (i.e., if Yahad Map dot is red)
+                    "no", '#0CC2EC', // If content is not yet available online (i.e., if Yahad Map dot is red)
+                    'black'
                     ],
                     'circle-opacity': 0.8
                 },
@@ -458,9 +459,7 @@
                     my_filter.type, 
                     my_filter.day,
                     my_filter.country
-                    //['!=', ['string', ['get', 'day']], 'placeholder'],
-                    //['!=', ['string', ['get', 'primary_country_name']], 'placeholder']
-                ] // my_filter.date
+                ] 
 
                 
                 });
@@ -524,68 +523,28 @@
                 document.getElementById("countries").value = "all";
                 document.getElementById("days").value = "all";
                 document.getElementById("date-val").value = "";
-                // document.getElementById("start-date").value = "";
-                // document.getElementById("end-date").value = "";
             }); 
             
 
-            {% comment %} document.getElementById("search-city-btn").addEventListener('click', (event) => {
+            document.getElementById("search-city-btn").addEventListener('click', (event) => {
                 let query = document.getElementById("city-query-input").value.toLowerCase();
                 filterCity = ['match', ['get', 'primary_city_name'], [query], true, false];
                 map.setFilter('collisions', ['all', filterCity]);
                 console.log(filterCity);
-            }); {% endcomment %}
+            });
 
-            {% comment %} document.getElementById("filter-btn").addEventListener('click', (e) => {
+            document.getElementById("filter-btn").addEventListener('click', (e) => {
 
                 let country = document.getElementById("countries").value;
+                filterCountry = getCountryFile(country);
 
-                console.log(country);
+                all_filters = ['all', filterCountry];
 
-                switch (country) {
-                    case 'ukraine':
-                        filterCountry = ['match', ['get', 'primary_country_name'], ['ukraine'], true, false];
-                        /* map.flyTo({
-                            center: e.features[0].geometry.coordinates
-                        }); */
-                        // map.setZoom(10);
-                        break;
-                    case 'belarus':
-                        filterCountry = ['match', ['get', 'primary_country_name'], ['belarus'], true, false];
-                        break;
-                    case 'romania':
-                        filterCountry = ['match', ['get', 'primary_country_name'], ['romania'], true, false];
-                        break; 
-                    case 'country':
-                    default:
-                        filterCountry = ['!=', ['string', ['get', 'primary_country_name']], 'placeholder'];
-                }
+                // // TO ADD THE DAY FILTER:
+                // let day = document.getElementById("days").value;
+                // filterDay = getDayFilter(day);
 
-                let day = document.getElementById("days").value;
-                switch (day) {
-                    case 'all':
-                        filterDay = ['!=', ['string', ['get', 'day']], 'placeholder'];
-                        break;
-                    case 'weekday':
-                        filterDay = ['match', ['get', 'day'], ['Sat', 'Sun'], false, true];
-                        break;
-                    case 'weekend':
-                        filterDay = ['match', ['get', 'day'], ['Sat', 'Sun'], true, false];
-                        break;
-                    case 'Mon':
-                    case 'Tue':
-                    case 'Wed':
-                    case 'Thu':
-                    case 'Fri':
-                    case 'Sat':
-                    case 'Sun':
-                        filterDay = ['match', ['get', 'day'], [day], true, false];
-                        break;
-                    default:
-                        filterDay = ['!=', ['string', ['get', 'day']], 'placeholder'];
-                }
-
-                all_filters = ['all', filterCountry, filterDay];
+                // all_filters = ['all', filterCountry, filterDay];
 
                 date_val = document.getElementById("date-val").value;
                 if (date_val != "" && date_val) {
@@ -611,7 +570,7 @@
                     `name_${language}`
                 ]);
 
-            });       {% endcomment %}
+            });       
 
 
 
@@ -683,14 +642,13 @@
 
             }); 
 
-            
-            
 
-            
-            
-
-
-
+            map.on('click', 'collisions', (e) => {
+                // Center on feature (https://docs.mapbox.com/mapbox-gl-js/example/center-on-feature/)
+                map.flyTo({
+                    center: e.features[0].geometry.coordinates
+                });
+            }); 
 
 
             // POPUPS:
@@ -805,26 +763,7 @@
                 map.getCanvas().style.cursor = '';
             }); 
 
-
-
-            
-
-
-
-
-
-
-
-
             geocoder_search_engine();    
-
-
-
-
-
-
-        
-
 
         </script>
 

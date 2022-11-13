@@ -6,7 +6,7 @@
             {
                 "type": "Feature",
                 "properties": {
-                    "content_online": 1,
+                    "content_online": "yes",
                     "Dates": ["1939-10-02"],
                     "Hour": 16,
                     "day": "Fri",
@@ -28,7 +28,7 @@
             {
                 "type": "Feature",
                 "properties": {
-                    "content_online": 0,
+                    "content_online": "no",
                     "Dates": ["1939-10-03"],
                     "Hour": 16,
                     "day": "Sat",
@@ -52,7 +52,7 @@
             {
                 "type": "Feature",
                 "properties": {
-                    "content_online": 0,
+                    "content_online": "no",
                     "Dates": ["1939-10-07"],
                     "Hour": 5,
                     "day": "Tue",
@@ -74,7 +74,7 @@
             {
                 "type": "Feature",
                 "properties": {
-                    "content_online": 0,
+                    "content_online": "yes",
                     "Dates": ["1939-10-07"],
                     "Hour": 5,
                     "day": "Tue",
@@ -96,7 +96,7 @@
             {
                 "type": "Feature",
                 "properties": {
-                    "content_online": 1,
+                    "content_online": "yes",
                     "Dates": ["1939-10-09"],
                     "Hour": 5,
                     "day": "Tue",
