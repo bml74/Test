@@ -1,5 +1,6 @@
 import pandas as pd
 import json
+from decouple import config
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -16,9 +17,11 @@ from .models import Map, Event
 from .forms import MapForm
 from config.utils import download_file
 from django.http import HttpResponse, JsonResponse
-from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data
+from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data, get_csv_in_dict_form_from_model, geojson_to_csv
 from pprint import pprint
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+import json
+import boto3
 
 
 @staff_member_required
@@ -172,7 +175,18 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         context = {
             "item": map_obj, 
         }
-        return render(request, 'market/map.html', context)
+
+        # s3 = boto3.resource('s3')
+        # bucket_name = config('AWS_STORAGE_BUCKET_NAME')
+        # obj = s3.Bucket(bucket_name).Object(map_obj.excel_upload.url)
+        # jsonStr = obj.get()['Body'].read().decode('utf-8')
+        # jsonObj = json.loads(jsonStr)
+        print('x')
+        print(map_obj.excel_upload.url)
+        print('y')
+        # df = pd.read_excel(map_obj.excel_upload.url)
+        # print(df)
+        return render(request, 'maps_engine/map.html', context)
 
 
 def get_geojson_data_for_js(request, pk):
@@ -394,6 +408,8 @@ class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView
                 df = pd.read_csv(FILE) 
             elif FILE_EXTENSION == "xlsx" or FILE_EXTENSION == "xls":
                 df = pd.read_excel(FILE) 
+            # elif FILE_EXTENSION == "json" or FILE_EXTENSION == "geojson":
+            #     df = geojson_to_csv(data_dict=FILE)
             self.object = form.save() # Get Map object
             process_map_data(df, parent_map=self.object)
         self.object = form.save() # Get Map object

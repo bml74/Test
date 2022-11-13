@@ -89,7 +89,7 @@
                                         </p>
 
                                         {% if request.user in item.members_who_have_paid.all %}
-                                            <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
+                                            <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already paid the fee</a>
                                         {% else %}
                                             <a href="{% url 'checkout' obj_type item.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Pay (${{ item.price|floatformat:2 }})</a>
                                         {% endif %}
@@ -100,13 +100,7 @@
                                                 <input id="attendance-checkbox" type="checkbox" value="" class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                 <label for="attendance-checkbox" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">I am attending</label>
                                             </div>
-                                            <p id="attendance-description">
-                                                {% if request.user in list_of_members_who_have_not_paid and user_is_attending_event == "true" %}
-                                                    If you are planning to attend this event, make sure you pay the fee!
-                                                {% elif request.user in list_of_members_who_have_paid and user_is_attending_event == "false" %} 
-                                                    You have paid the fee for this event, but haven't yet said whether you're coming! If you still planning to come to the event, click on the checkbox above.
-                                                {% endif %}
-                                            </p>
+                                            <p id="attendance-description" class="mt-3"></p>
                                         </div>
                                         {% endif %}
 
@@ -136,6 +130,9 @@
                                                                 <th scope="col" class="py-3 px-6">
                                                                     Action
                                                                 </th>
+                                                                <th scope="col" class="py-3 px-6">
+                                                                    Attendance status
+                                                                </th>
                                                             </tr>
                                                         </thead>
                                                         {% for member in members %}
@@ -162,6 +159,9 @@
                                                                                     <a href="{% url 'request_payment' group_id=item.group.id user_id=member.id listing_for_group_members_id=item.id %}" class="bg-blue-100 hover:bg-blue-200 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 dark:hover:bg-blue-300">Request payment</a>
                                                                                 {% endif %}
                                                                             {% endif %}
+                                                                        </td>
+                                                                        <td class="py-4 px-6" id="attendance-status">
+                                                                            
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>
@@ -209,23 +209,41 @@
 {% block JavaScript %}
 <script>
 
-    console.log("wwwwww");
+    const attendance_checkbox = document.getElementById("attendance-checkbox");
+    const attendance_description = document.getElementById("attendance-description");
+    const attendance_status = document.getElementById("attendance-status");
+    let list_of_members_who_have_paid = "{{ list_of_members_who_have_paid|safe }}";
+    let list_of_members_who_have_not_paid = "{{ list_of_members_who_have_not_paid|safe }}";
+    let user = "{{ request.user|safe }}";
 
     let user_is_attending_this_event;
-    user_is_attending_this_event == "{{ user_is_attending_event|safe }}";
+    user_is_attending_this_event = "{{ user_is_attending_event|safe }}";
+    console.log(user_is_attending_this_event);
+    console.log(typeof(user_is_attending_this_event));
     if (user_is_attending_this_event == "true") {
-        alert("WOW");
+        document.getElementById("attendance-checkbox").checked = true;
+    }
+
+    if (user_is_attending_this_event == "true") {
+        attendance_checkbox.checked = true;
+        attendance_status.innerHTML = "<i class='fas fa-check-circle'></i>&nbsp;Attending";
+        if (list_of_members_who_have_not_paid.includes(user)) {
+            attendance_description.innerHTML = "If you are planning to attend this event, make sure you pay the fee!";
+        } else {
+            attendance_description.innerHTML = "<i class='fas fa-check-circle'></i> You have paid for this event and are attending!";
+        }
     } else {
-        alert("NO");
-    } 
+        attendance_checkbox.checked = false;
+        attendance_status.innerHTML = "<i class='fas fa-times-circle'></i>&nbsp;Not attending";
+        if (list_of_members_who_have_paid.includes(user)) {
+            attendance_description.innerHTML = "You have paid the fee for this event, but haven't yet said whether you're coming! If you still planning to come to the event, click on the checkbox above.";
+        } else {
+            attendance_description.innerHTML = "<i class='fas fa-times-circle'></i> You have not paid for this event and are not attending.";
+        }
+    }
 
     $('#attendance-checkbox').on('change', function (clickEvent) {
-        url = window.location.href;
-        const attendance_checkbox = document.getElementById("attendance-checkbox");
-        const attendance_description = document.getElementById("attendance-description");
-        console.log("-----");
-        console.log(attendance_checkbox.checked);
-        console.log("-----");
+
         $.ajax({
             url: window.location.href,
             type: 'get',
@@ -239,7 +257,6 @@
                 console.log(response);
             },
             success: function(response) {
-                console.log("x");
                 console.log(response);
                 let user_is_attending_event;
                 if (response.user_is_attending_event == "true") {
@@ -247,23 +264,29 @@
                 } else {
                     user_is_attending_event = "false";
                 }
-                if (user_is_attending_event) {
+                if (user_is_attending_event == "true") {
                     attendance_checkbox.checked = true;
+                    attendance_status.innerHTML = "<i class='fas fa-check-circle'></i>&nbsp;Attending";
+                    if (list_of_members_who_have_not_paid.includes(user)) {
+                        attendance_description.innerHTML = "If you are planning to attend this event, make sure you pay the fee!";
+                    } else {
+                        attendance_description.innerHTML = "You have paid for this event and are attending!";
+                    }
                 } else {
                     attendance_checkbox.checked = false;
+                    attendance_status.innerHTML = "<i class='fas fa-times-circle'></i>&nbsp;Not attending";
+                    if (list_of_members_who_have_paid.includes(user)) {
+                        attendance_description.innerHTML = "You have paid the fee for this event, but haven't yet said whether you're coming! If you still planning to come to the event, click on the checkbox above.";
+                    } else {
+                        attendance_description.innerHTML = "You have not paid for this event and are not attending.";
+                    }
                 }
-                let list_of_members_who_have_paid = "{{ list_of_members_who_have_paid|safe }}";
-                let list_of_members_who_have_not_paid = "{{ list_of_members_who_have_not_paid|safe }}";
-                let user = "{{ request.user|safe }}";
+                
                 console.log(list_of_members_who_have_paid);
                 console.log(list_of_members_who_have_not_paid);
-                console.log(list_of_members_who_have_paid.includes(user));
+                console.log("test: ", list_of_members_who_have_paid.includes(user));
                 console.log(user_is_attending_event);
-                if (list_of_members_who_have_not_paid.includes(user) && user_is_attending_event) {
-                    attendance_description.innerText = "If you are planning to attend this event, make sure you pay the fee!";
-                } else if (list_of_members_who_have_paid.includes(user) && !user_is_attending_event) {
-                    attendance_description.innerText = "You have paid the fee for this event, but haven't yet said whether you're coming! If you still planning to come to the event, click on the checkbox above.";
-                }
+                
             }
         });
     }); 

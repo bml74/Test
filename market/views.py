@@ -485,6 +485,8 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
         )
         users_who_have_received_payment_request = [req.user_receiving_request for req in existing_requests_for_this_listing]
 
+        list_of_members_attending = list(listing_for_group_members.members_attending_event.all())
+
         context = {
             "item": listing_for_group_members,
             "obj_type": "listing_for_group_members",
@@ -495,7 +497,8 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
             "list_of_members_who_have_paid": list_of_members_who_have_paid,
             "list_of_members_who_have_not_paid": list_of_members_who_have_not_paid,
             "users_who_have_received_payment_request": users_who_have_received_payment_request,
-            "user_is_attending_event": "true" if request.user in listing_for_group_members.members_attending_event.all() else "false"
+            "user_is_attending_event": "true" if request.user in listing_for_group_members.members_attending_event.all() else "false",
+            "list_of_members_attending": list_of_members_attending
         }
 
         if is_ajax(request):

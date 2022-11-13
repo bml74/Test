@@ -63,7 +63,8 @@ def db_model_to_geojson(queryset):
 
 def process_map_data(df, parent_map):
     """
-    Takes a dataframe and creates a new Event object for each row in the DF."""
+    Takes a dataframe and creates a new Event object for each row in the DF.
+    """
     print(df.columns)
     print(df.shape)
     print(df.head(15))
@@ -193,3 +194,52 @@ def geojson_to_csv(data_dict):
         'link', 'marker_color'
     ])
     return df
+
+
+def get_csv_in_dict_form_from_model(df):
+    """Returns dict."""
+    FEATURES = []
+    for row in df.iterrows():
+        FEATURES.append({
+            "type": "Feature",
+            "properties": {
+                "parent_map": row.parent_map.title,
+                "altitude": row.altitude,
+                "content_online": row.content_online,
+                "dates": row.dates,
+                "hours": row.hours,
+                "day": row.day,
+                "primary_city_name": row.primary_city_name,
+                "alternative_city_names": row.alternative_city_names,
+                "primary_region_name": row.primary_region_name,
+                "alternative_region_names": row.alternative_region_names,
+                "primary_country_name": row.primary_country_name,
+                "alternative_country_names": row.alternative_country_names,
+                "address": row.address,
+                "postcode": row.postcode,
+                "district": row.district,
+                "neighborhood": row.neighborhood,
+                "number_of_days_after_anchor_date_that_event_began": row.number_of_days_after_anchor_date_that_event_began,
+                "number_of_days_after_anchor_date_that_event_ended": row.number_of_days_after_anchor_date_that_event_ended,
+                "start_date": str(row.start_date),
+                "end_date": str(row.end_date),
+                "title": row.title,
+                "description": row.description,
+                "link": row.link,
+                "marker_color": row.marker_color,
+                "number_of_sites": row.number_of_sites,
+                "number_of_casualties": row.number_of_casualties,
+                "alternative_id": row.alternative_id,
+                "number_of_memorials": row.number_of_memorials,
+                "type_of_place_before_event": row.type_of_place_before_event,
+                "occupation_period": row.occupation_period,
+            },
+            "geometry": {
+                "type": row.geometry,
+                "coordinates": [row.longitude, row.latitude]
+            }
+        })
+
+    geojson =  {"type": "FeatureCollection", "features": FEATURES}
+    return geojson
+

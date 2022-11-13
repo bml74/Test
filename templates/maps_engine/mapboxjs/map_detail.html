@@ -376,7 +376,23 @@
         <!-- moment.js -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-        <script type="text/javascript">            
+        <script src="https://sdk.amazonaws.com/js/aws-sdk-2.1.12.min.js"></script>
+
+        
+
+
+        <script type="text/javascript">   
+            
+            let u = "{% static 'maps/yahad.geojson'|safe %}";
+            console.log("");
+            console.log("");
+            console.log("");
+            console.log("");
+            console.log(u);
+            console.log("");
+            console.log("");
+            console.log("");
+            console.log("");
 
 
             // https://www.w3schools.com/jsref/jsref_obj_date.asp // DATES
@@ -419,16 +435,41 @@
     
                 obj = JSON.parse(geojson); // JS oject    
 
+                /*
                 let map_url = window.location.href.replace("render", "get_geojson_data_for_js");
+                // map_url = "{{ item.excel_upload.url|safe }}";
+                // console.log("{{ item.excel_upload.url|safe }}");
                 console.log(map_url);
-                let response = fetch(map_url)
+                let response = fetch(map_url, {mode: 'cors'})
                 .then((response) => response.json())
                 .then((data) => {
                     console.log(data);
                     console.log(typeof(data));
                     return data;
                     // map.addSource('drone', { type: 'geojson', data: data });
+                });*/
+
+                /*
+                var s3 = new AWS.S3({apiVersion: '2006-03-01'});
+                var params = {Bucket: 'rwbruno', Key: 'map_excel_files/yahad.xlsx'};
+
+                AWS.config.update({
+                    accessKeyId: "AKIA54PDKJLIEJK7KU6I",
+                    secretAccessKey: "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",
+                    "region": "us-east-1" 
                 });
+
+                s3.getObject(params , function (err, data) {
+
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(data.Body.toString());
+                    }
+
+                }) */
+
+
                 /*let data = 
                   response.headers.get('content-type').includes('json')
                   ? response.json() // this will parse your JSON if the proper content-type header is set!
@@ -436,17 +477,21 @@
                 ;
                 let data = response.headers.get('content-type').includes('json');
                 console.log(data);
-                console.log(typeof(data));*/
-                /*map.addSource('drone', { type: 'geojson', data: 
+                console.log(typeof(data));
+                map.addSource('drone', { type: 'geojson', data: 
                 JSON.stringify(obj)
-                });*/
+                }); */
               
 
 
                 map.addLayer({
                 id: 'collisions',
                 type: 'circle',
-                source: "drone",
+                // source: "drone",
+                source: {
+                    type: 'geojson',
+                    data: 'https://rwbruno.s3.amazonaws.com/map_excel_files/yahad.geojson' // "{% static 'maps/yahad.geojson'|safe %}"// "{{ item.excel_upload.url|safe }}" // "{% static 'maps/yahad.geojson'|safe %}" // Data source 
+                },
 
                 // // '/maps/31/geojson/' // Data source "{% static 'maps/yahad.geojson'|safe %}"
 
