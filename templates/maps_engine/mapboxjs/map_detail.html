@@ -1,7 +1,6 @@
 <html lang="en">
 {% load static %}
 
-
     <head>
 
         <!-- https://docs.mapbox.com/help/tutorials/show-changes-over-time/ -->
@@ -40,48 +39,6 @@
         <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.4.2/mapbox-gl-geocoder.css">
 
         <link rel="stylesheet" type="text/css" href="{% static 'maps/styles/yahad.css' %}">
-        <style>
-
-            /*
-            #marker {
-                background-image: url('https://docs.mapbox.com/mapbox-gl-js/assets/washington-monument.jpg');
-                background-size: cover;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                cursor: pointer;
-            }
-        
-            
-            .table>:not(:first-child) { border-top: 1px solid lightgrey !important; }
-
-            .marker {
-                background-image: url('https://yahadmap.org//favicon.ico');
-                background-size: cover;
-                width: 50px;
-                height: 50px;
-                border-radius: 50%;
-                cursor: pointer;
-            }
-            */
-
-            .mapboxgl-popup-close-button { color: black; }
-            .mapboxgl-popup-content { 
-                font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif !important; 
-                color: black; 
-                border-radius: 10px; 
-                border: 2px solid #214561 !important;
-            }
-            .mapboxgl-popup-content #popup-title { font-weight: 900 !important; color: black !important; }
-            .mapboxgl-popup { width: 200px; }
-            * {
-                color: white;
-            }
-            input, select { color: black !important; }
-            #console { border-radius: 10px; }
-            .mapboxgl-ctrl-geocoder--suggestion-title, .mapboxgl-ctrl-geocoder--suggestion-address { color: black !important; }
-
-        </style>
 
     </head>
 
@@ -212,7 +169,7 @@
 
             <div class='session w-100' id='date-sliderbar'>
                 <small class=""><strong>Date: </strong><label id='active-date'></label></small>
-                <input id='date-slider' type="range" class="form-range" min='0' max='2193' step='1' value='0'>
+                <input id='date-slider' type="range" class="form-range" min='0' max='' step='1' value='0'>
             </div>
 
             <hr>
@@ -410,14 +367,13 @@
             let string_end_date = "{{ last_date|safe }}";
             let end_anchor_date = convertHyphenatedDateToMomentJSDate(string_end_date);
 
+            dateVal = document.getElementById("date-val");
+            dateVal.setAttribute("min", string_anchor_date);
+            dateVal.setAttribute("max", string_end_date);
+
             document.getElementById('active-date').innerText = beginning_anchor_date.format('LL'); // let beginning_anchor_date = moment([1939, 08, 01]); 
 
             let num_days_between_start_and_end = parseInt(Math.abs(moment.duration(beginning_anchor_date.diff(end_anchor_date)).asDays()));;
-            console.log(num_days_between_start_and_end);
-
-            console.log(beginning_anchor_date);
-            console.log(end_anchor_date);
-
             document.getElementById("date-slider").setAttribute("max", num_days_between_start_and_end);
 
 
@@ -666,12 +622,7 @@
             
             // When hovering over a feature....
             map.on('mouseenter', 'collisions', (e) => {
-
-                console.log(e.features[0].properties);
-                console.log("^^^^^");
                 
-
-
                 // 1. WORK WITH TABLE
 
                 // Change the cursor to a pointer when the it enters a feature in the 'circle' layer.
@@ -707,8 +658,25 @@
         
                 // Copy coordinates array.
                 let coordinates = e.features[0].geometry.coordinates.slice();
+
+                let number_of_days_after_anchor_date_that_event_began = e.features[0].properties.number_of_days_after_anchor_date_that_event_began;
+                let number_of_days_after_anchor_date_that_event_ended = e.features[0].properties.number_of_days_after_anchor_date_that_event_ended;
+                
+                string_anchor_date = "{{ anchor_date|safe }}";
+                let startAnchor = convertHyphenatedDateToMomentJSDate(string_anchor_date);
+
+                string_anchor_date = "{{ anchor_date|safe }}";
+                let endAnchor = convertHyphenatedDateToMomentJSDate(string_anchor_date);
+
+                let startDate = startAnchor.add(parseInt(number_of_days_after_anchor_date_that_event_began), 'days').format('DD MMMM YYYY');
+                let endDate = endAnchor.add(parseInt(number_of_days_after_anchor_date_that_event_ended), 'days').format('DD MMMM YYYY');
+                console.log("Start Date: ");
+                console.log(startDate);
+                console.log("End Date: ");
+                console.log(endDate);
+
                 let description = `
-                    <div id="popup-title">${e.features[0].properties.primary_city_name.toUpperCase()}</div>
+                    <div id="popup-title" class="">${e.features[0].properties.primary_city_name.toUpperCase()}</div>
                     <hr>
                     <p class="text-dark">Start: ${e.features[0].properties.number_of_days_after_anchor_date_that_event_began}</p>
                     <p class="text-dark">End: ${e.features[0].properties.number_of_days_after_anchor_date_that_event_ended}</p>
@@ -726,6 +694,14 @@
                             <tr>
                                 <td><strong><small>Country:</small></strong></td>
                                 <td><small>${e.features[0].properties.primary_country_name.toUpperCase()}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>Start Date:</small></strong></td>
+                                <td><small>${startDate}</small></td>
+                            </tr>
+                            <tr>
+                                <td><strong><small>End Date:</small></strong></td>
+                                <td><small>${endDate}</small></td>
                             </tr>
                             <tr>
                                 <td><strong><small>Execution sites:</small></strong></td>
@@ -768,7 +744,7 @@
             // Change it back to a pointer when it leaves.
             map.on('mouseleave', 'collisions', () => {
                 map.getCanvas().style.cursor = '';
-            }); 
+            });
 
             geocoder_search_engine();    
 
