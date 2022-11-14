@@ -2,6 +2,8 @@ from django.db import models
 from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from django.urls import reverse
+from django.contrib.auth.models import User
+from django_countries.fields import CountryField
 
 
 class AlternativeCityNames(TaggedItemBase):
@@ -60,7 +62,7 @@ class Event(models.Model):
     alternative_region_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative region names')
     # alternative_region_names = TaggableManager(through=AlternativeRegionNames, related_name='alternative_region_names', verbose_name='Alternative region names', blank=True)
 
-    primary_country_name = models.CharField(max_length=64, blank=True, null=True)
+    primary_country_name = models.CharField(max_length=64, blank=True, null=True, default="Ukraine")
     alternative_country_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative country names')
     # alternative_country_names = TaggableManager(through=AlternativeCountryNames, related_name='alternative_country_names', verbose_name='Alternative country names', blank=True)
 
@@ -86,8 +88,18 @@ class Event(models.Model):
     number_of_sites = models.IntegerField(default=1, blank=True, null=True)
     number_of_casualties = models.CharField(max_length=128, default="0", blank=True, null=True)
     number_of_memorials = models.IntegerField(blank=True, null=True)
-    type_of_place_before_event = models.CharField(max_length=128, default="0", blank=True, null=True)
+    type_of_place_before_event = models.CharField(max_length=128, default="", blank=True, null=True)
     occupation_period = models.CharField(max_length=256, blank=True, null=True)
+    map_event_followers = models.ManyToManyField(
+        User, 
+        related_name="map_event_followers", 
+        default=None, 
+        blank=True
+    )
+
+    def __str__(self) -> str:
+        return self.primary_city_name
+
     # Others to add for Yahad: Type of place before; Num. Memorials; Occupation_period
     # user
     # group
