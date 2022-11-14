@@ -13,13 +13,18 @@ from django.views.generic import (
     DeleteView,
 )
 from config.utils import is_ajax, get_as_df
-from .models import Map, Event
+from .models import Map, Event, EventImage, EventVideo
 from .forms import MapForm
 from config.utils import download_file
 from django.http import HttpResponse, JsonResponse
 from .utils import db_model_to_geojson, get_geojson_in_dict_form_from_model, process_map_data, get_csv_in_dict_form_from_model, geojson_to_csv
 from pprint import pprint
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
+from config.abstract_settings.model_fields import (
+    EVENT_FIELDS,
+    EVENT_IMAGE_FIELDS,
+    EVENT_VIDEO_FIELDS
+)
 import json
 import boto3
 
@@ -272,8 +277,8 @@ class MapDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(MapDeleteView, self).get_context_data(**kwargs)
-        transaction = get_object_or_404(Map, id=self.kwargs.get('pk'))
-        title = f"Map: {transaction.title}"
+        item = get_object_or_404(Map, id=self.kwargs.get('pk'))
+        title = f"Map: {item.title}"
         context.update({"type": "map", "title": title})
         return context
 
@@ -336,15 +341,16 @@ class EventInDetailView(UserPassesTestMixin, DetailView):
 
 class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Event
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'Event_category', 'non_fungible_order', 'quantity_available', 'Event_medium']
+    fields = EVENT_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user.is_superuser
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
 
     def get_context_data(self, **kwargs):
         context = super(EventCreateView, self).get_context_data(**kwargs)
@@ -356,15 +362,16 @@ class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
-    fields = ['title', 'description', 'price', 'date_due', 'visibility', 'Event_category', 'non_fungible_order', 'quantity_available', 'Event_medium']
+    fields = EVENT_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
-        form.instance.creator = self.request.user
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user == self.get_object().creator
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
 
     def get_context_data(self, **kwargs):
         context = super(EventUpdateView, self).get_context_data(**kwargs)
@@ -381,12 +388,14 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
-        return self.request.user == self.get_object().creator
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
 
     def get_context_data(self, **kwargs):
         context = super(EventDeleteView, self).get_context_data(**kwargs)
-        transaction = get_object_or_404(Event, id=self.kwargs.get('pk'))
-        title = f"Event: {transaction.title}"
+        item = get_object_or_404(Event, id=self.kwargs.get('pk'))
+        title = f"Event: {item.title}"
         context.update({"type": "event", "title": title})
         return context
 
@@ -442,5 +451,127 @@ class MapCreateViaImportView(LoginRequiredMixin, UserPassesTestMixin, CreateView
         context = super(MapCreateViaImportView, self).get_context_data(**kwargs)
         context['header'] = "Create map"
         context['create'] = True
+        return context
+
+
+class EventImageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = EventImage
+    fields = EVENT_IMAGE_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        event = get_object_or_404(EventImage, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventImageCreateView, self).get_context_data(**kwargs)
+        header = "Add image to this event"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class EventImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Event
+    fields = EVENT_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventImageUpdateView, self).get_context_data(**kwargs)
+        header = "Update event image"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class EventImageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Event
+    success_url = '/maps/'
+    context_object_name = 'item'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
+
+    def test_func(self):
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventImageDeleteView, self).get_context_data(**kwargs)
+        item = get_object_or_404(Event, id=self.kwargs.get('pk'))
+        title = f"Event image from event: {item.title}"
+        context.update({"type": "event", "title": title})
+        return context
+
+
+class EventVideoCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = EventVideo
+    fields = EVENT_VIDEO_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventVideoCreateView, self).get_context_data(**kwargs)
+        header = "Add video to this event"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class EventVideoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = EventVideo
+    fields = EVENT_VIDEO_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventVideoUpdateView, self).get_context_data(**kwargs)
+        header = "Update event video"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class EventVideoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = EventVideo
+    success_url = '/maps/'
+    context_object_name = 'item'
+    template_name = CONFIRM_DELETE_TEMPLATE_NAME
+
+    def test_func(self):
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
+        map_obj = event.parent_map
+        return self.request.user == map_obj.creator
+
+    def get_context_data(self, **kwargs):
+        context = super(EventVideoDeleteView, self).get_context_data(**kwargs)
+        item = get_object_or_404(Event, id=self.kwargs.get('pk'))
+        title = f"Event video from event: {item.title}"
+        context.update({"type": "event", "title": title})
         return context
 

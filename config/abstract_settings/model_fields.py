@@ -79,3 +79,42 @@ LISTING_FOR_GROUP_MEMBERS_FIELDS = [
     'due_date',
     'listing_for_group_members_type'
 ]
+
+""" For market app. """
+
+EVENT_FIELDS = [
+    "parent_map",
+    "latitude",
+    "longitude",
+    "altitude",
+    "alternative_id",
+    "content_online",
+    "dates",
+    "hours",
+    "day",
+    "primary_city_name",
+    "alternative_city_names",
+    "primary_region_name",
+    "alternative_region_names",
+    "primary_country_name",
+    "alternative_country_names",
+    "address",
+    "postcode",
+    "district",
+    "neighborhood",
+    "number_of_days_after_anchor_date_that_event_began",
+    "number_of_days_after_anchor_date_that_event_ended",
+    "start_date",
+    "end_date",
+    "title",
+    "description",
+    "number_of_sites",
+    "number_of_casualties",
+    "number_of_memorials",
+    "type_of_place_before_event",
+    "occupation_period",
+]
+
+EVENT_IMAGE_FIELDS = ["event", "link"]
+
+EVENT_VIDEO_FIELDS = ["event", "link"]

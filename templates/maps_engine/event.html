@@ -136,15 +136,7 @@
                                                 {{ item.title }}
                                             </td>
                                             <td class="py-4 px-6">
-                                                <p class="flex items-center text-sm font-light text-gray-500 dark:text-gray-400 dashed-underline"><a data-popover-target="popover-description" data-popover-placement="bottom-end" type="button">View<span class="sr-only">Show information</span></a></p>
-                                                <div data-popover id="popover-description" role="tooltip" class="inline-block absolute invisible z-10 w-72 text-sm font-light text-gray-500 bg-white rounded-lg border border-gray-200 shadow-sm opacity-0 transition-opacity duration-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                                                    <div class="p-3 space-y-2">
-                                                        <h3 class="font-semibold text-gray-900 dark:text-white">{{ item.title }}</h3>
-                                                        {{ item.description|linebreaks|safe }}
-                                                        <a href="{% url 'event-in-detail' item.id %}" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700">Read more <svg class="ml-1 w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></a>
-                                                    </div>
-                                                    <div data-popper-arrow></div>
-                                                </div>
+                                                <a href="{% url 'event-in-detail' item.id %}" class="dashed-underline">View</a>
                                             </td>
                                             <td class="py-4 px-6">
                                                 {{ item.content_online }}

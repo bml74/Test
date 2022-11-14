@@ -152,13 +152,15 @@
                 <div class=" max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16" style="width: 40vw !important;">
     
                     <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                        <h1 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" id="content">Tailwind CSS Sidebar - Flowbite</h1>
-                        <p class="mb-4 text-lg text-gray-500 dark:text-gray-400">Use the sidebar component to show a list of menu items and multi-level dropdown items on either side of the page to navigate on your website</p>
+                        <h1 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" id="content">{{ item.title }}</h1>
+                        <p class="mb-4 text-lg text-gray-500 dark:text-gray-400">{{ item.primary_city_name.upper }}, {{ item.primary_country_name.upper }}</p>
                     </div>
 
                     <div id="mainContent">
 
-                        <p>The sidebar component can be used as a complementary element relative to the navbar shown on either the left or right side of the page used for the navigation on your web application, including menu items, multi-level dropdown items, call to actions elements, and more.</p>
+                        {{ item.description|safe|linebreaks }}
+
+                        {% comment %} <p>The sidebar component can be used as a complementary element relative to the navbar shown on either the left or right side of the page used for the navigation on your web application, including menu items, multi-level dropdown items, call to actions elements, and more.</p>
 
                         <h2 class="relative group">Default sidebar
                             <span id="default-sidebar" class="absolute -top-[140px]"></span> 
@@ -177,7 +179,7 @@
                             <span id="default-sidebar" class="absolute -top-[140px]"></span> 
                             <a class="ml-2 text-blue-700 opacity-0 transition-opacity dark:text-blue-500 group-hover:opacity-100" href="#default-sidebar" aria-label="Link to this section: Default sidebar">#</a>
                         </h2>
-                        <p>Use this example to show a responsive list of menu items inside the sidebar with icons and labels.</p>
+                        <p>Use this example to show a responsive list of menu items inside the sidebar with icons and labels.</p> {% endcomment %}
 
                         
 
