@@ -31,7 +31,13 @@ urlpatterns = [
     path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name='event-update'),
     path('events/delete/<int:pk>/', views.EventDeleteView.as_view(), name='event-delete'),
 
+    path('create/images/event/<int:event_id>/', views.EventImageCreateView.as_view(), name='event-image-create'),
+    path('update/<int:pk>/images/event/<int:event_id>/', views.EventImageUpdateView.as_view(), name='event-image-update'),
+    path('delete/<int:pk>/images/event/<int:event_id>/', views.EventImageDeleteView.as_view(), name='event-image-delete'),
 
+    path('create/videos/event/<int:event_id>/', views.EventVideoCreateView.as_view(), name='event-video-create'),
+    path('update/<int:pk>/videos/event/<int:event_id>/', views.EventVideoUpdateView.as_view(), name='event-video-update'),
+    path('delete/<int:pk>/videos/event/<int:event_id>/', views.EventVideoDeleteView.as_view(), name='event-video-delete'),
 
     path('mapbox/terrain/', views.mapbox_terrain, name='mapbox_terrain'),
     path('mapbox/directions/', views.mapbox_directions, name='mapbox_directions'),

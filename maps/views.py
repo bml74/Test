@@ -331,9 +331,14 @@ class EventInDetailView(UserPassesTestMixin, DetailView):
         event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
         parent_map = event.parent_map
 
+        images = EventImage.objects.filter(event=event).all()
+        videos = EventVideo.objects.filter(event=event).all()
+
         context = {
             "item": event, 
-            "user_is_creator_of_map": parent_map.creator == request.user
+            "user_is_creator_of_map": parent_map.creator == request.user,
+            "images": images,
+            "videos": videos
         }
 
         return render(request, 'maps_engine/event_in_detail.html', context)
