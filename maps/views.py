@@ -211,10 +211,11 @@ class MapRenderDetailView(UserPassesTestMixin, DetailView):
         # pprint(GEOJSON)
         # print(len(event_data_dict["features"]))
         # print()
-        pprint(len(event_data_dict["features"]))
         context = {
             "item": map_obj, 
             "GEOJSON": GEOJSON,
+            "anchor_date": map_obj.anchor_date,
+            "last_date": map_obj.last_date
         }
         return render(request, 'maps_engine/mapboxjs/map_detail.html', context)
 

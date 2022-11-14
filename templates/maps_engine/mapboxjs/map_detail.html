@@ -106,19 +106,8 @@
                 {{ item.description|safe }}
             </div>  
             
-            <hr>    
             
-            <div class="py-2"></div>
-
-            <div class="session">
-                {% if user.is_authenticated %}
-                <a href="{% url 'dashboard' %}" class="btn btn-dark w-100"><i class="fas fa-arrow-left" style="color: white;"></i>&emsp;Return to site</a>
-                {% else %}
-                <a href="{% url 'login' %}" class="btn btn-dark w-100"><i class="fas fa-arrow-left" style="color: white;"></i>&emsp;Return to site</a>
-                {% endif %}
-            </div>
-
-
+            <hr>
 
 
             <!--<div class='session' id='victims-colors'>
@@ -136,8 +125,6 @@
                     <div class='label'>10001+</div>
                 </div>
             </div>-->
-
-            <hr>
 
             <div class="session">
                 <p><small class="">Hover over a circle to see data on an event below, or click on the circle to view all available details.</small></p>
@@ -224,7 +211,7 @@
             </div> {% endcomment %}
 
             <div class='session w-100' id='date-sliderbar'>
-                <small class=""><strong>Date: </strong><label id='active-date'>01 September 1939</label></small>
+                <small class=""><strong>Date: </strong><label id='active-date'></label></small>
                 <input id='date-slider' type="range" class="form-range" min='0' max='2193' step='1' value='0'>
             </div>
 
@@ -393,8 +380,7 @@
 
             const map = new mapboxgl.Map({
             container: 'map', // container element id
-            style: 'mapbox://styles/mapbox/light-v10',
-            // center: [-74.0059, 40.7128], // initial map center in [lon, lat]
+            style: 'mapbox://styles/mapbox/light-v10', // Initial map center in [lon, lat]
             center: [30.4492, 50.4713],
             zoom: 4,
             minZoom: 2,
@@ -409,8 +395,33 @@
                 // "date": filterDay = ['!=', ['string', ['get', 'dates']], 'placeholder'], // ANY DAY [i.e., all days] 
             };
 
+            function convertHyphenatedDateToMomentJSDate(hyphenated_date) {
+                let date_split = hyphenated_date.split("-");
+                let yyyy = parseInt(date_split[0]); 
+                let mm = parseInt(date_split[1]) - 1; // Moment.js convention to subtract 1 because January is 0, so the months are 0 to 11.
+                let dd = parseInt(date_split[2]);
+                momentjs_date = moment([yyyy, mm, dd]);
+                return momentjs_date;
+            }
 
-            function addLayer (my_filter) {
+            let string_anchor_date = "{{ anchor_date|safe }}";
+            let beginning_anchor_date = convertHyphenatedDateToMomentJSDate(string_anchor_date);
+
+            let string_end_date = "{{ last_date|safe }}";
+            let end_anchor_date = convertHyphenatedDateToMomentJSDate(string_end_date);
+
+            document.getElementById('active-date').innerText = beginning_anchor_date.format('LL'); // let beginning_anchor_date = moment([1939, 08, 01]); 
+
+            let num_days_between_start_and_end = parseInt(Math.abs(moment.duration(beginning_anchor_date.diff(end_anchor_date)).asDays()));;
+            console.log(num_days_between_start_and_end);
+
+            console.log(beginning_anchor_date);
+            console.log(end_anchor_date);
+
+            document.getElementById("date-slider").setAttribute("max", num_days_between_start_and_end);
+
+
+            function addLayer(my_filter) {
 
                 // Filters to determine number of casualties. For example, mag1 filter checks if Casualties are under 5.
                 const mag1 = ['<', ['get', 'number_of_casualties'], 5];
@@ -479,16 +490,13 @@
             });
 
 
-
-            const wwii_start = moment([1939, 08, 01]); 
-
             // Day slider
             document.getElementById('date-slider').addEventListener('input', (event) => {
-                const days_since_wwii_start = parseInt(event.target.value);
+                const days_since_beginning_anchor_date = parseInt(event.target.value);
 
-                let new_date = moment(wwii_start, "YYYY-MM-DD").add(days_since_wwii_start, 'days');
+                let new_date = moment(beginning_anchor_date, "YYYY-MM-DD").add(days_since_beginning_anchor_date, 'days');
 
-                console.log(days_since_wwii_start);
+                console.log(days_since_beginning_anchor_date);
                 console.log(new_date);
     
                 var dateString = new_date.format('YYYY-MM-DD');
@@ -497,8 +505,8 @@
                 console.log(dateString);
 
                 all_filters = ['all'];
-                selectedDateGreaterThanOrEqualToStart = [">=", ["number", days_since_wwii_start], ["number", ["get", "number_of_days_after_anchor_date_that_event_began"]]]
-                selectedDateLessThanOrEqualToEnd = ["<=", ["number", days_since_wwii_start], ["number", ["get", "number_of_days_after_anchor_date_that_event_ended"]]]
+                selectedDateGreaterThanOrEqualToStart = [">=", ["number", days_since_beginning_anchor_date], ["number", ["get", "number_of_days_after_anchor_date_that_event_began"]]]
+                selectedDateLessThanOrEqualToEnd = ["<=", ["number", days_since_beginning_anchor_date], ["number", ["get", "number_of_days_after_anchor_date_that_event_ended"]]]
                 all_filters.push(selectedDateGreaterThanOrEqualToStart);
                 all_filters.push(selectedDateLessThanOrEqualToEnd);
                 map.setFilter('collisions', all_filters); 
@@ -519,7 +527,7 @@
                 // Then just reset the values:
                 document.getElementById("city-query-input").value = "";
                 document.getElementById("date-slider").value = 0;
-                document.getElementById('active-date').innerText = wwii_start.format('LL');
+                document.getElementById('active-date').innerText = beginning_anchor_date.format('LL');
                 document.getElementById("countries").value = "all";
                 document.getElementById("days").value = "all";
                 document.getElementById("date-val").value = "";
@@ -551,8 +559,7 @@
 
  
                     
-                    days_since_wwii_began = parseInt(Math.abs(moment.duration(wwii_start.diff(date_val)).asDays()));
-                    console.log(`Days since WWII began: ${days_since_wwii_began}`);
+                    days_since_wwii_began = parseInt(Math.abs(moment.duration(beginning_anchor_date.diff(date_val)).asDays()));
 
                     selectedDateGreaterThanOrEqualToStart = [">=", ["number", days_since_wwii_began], ["number", ["get", "number_of_days_after_anchor_date_that_event_began"]]]
                     selectedDateLessThanOrEqualToEnd = ["<=", ["number", days_since_wwii_began], ["number", ["get", "number_of_days_after_anchor_date_that_event_ended"]]]

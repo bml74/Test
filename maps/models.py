@@ -20,7 +20,8 @@ class Map(models.Model):
     title = models.CharField(max_length=64, default="Title", unique=True)
     description = models.TextField(default="Description") 
     map_image = models.FileField(upload_to='map_images', blank=True, null=True)
-    anchor_date = models.DateField(default='1945-09-01')
+    anchor_date = models.DateField(default='1939-09-01')
+    last_date = models.DateField(default='1945-05-01')
     excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
 
     def __str__(self):
@@ -76,7 +77,7 @@ class Event(models.Model):
     title = models.CharField(max_length=64, default="Title", blank=True, null=True)
     description = models.TextField(default="Description", blank=True, null=True) # Use Quill
     link = models.CharField(max_length=512, blank=True, null=True)
-    marker_color = models.CharField(max_length=16, default="blue", choices=(
+    marker_color = models.CharField(max_length=16, blank=True, null=True, choices=(
             ("red", "red"),
             ("green", "green"),
             ("blue", "blue")
