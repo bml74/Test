@@ -305,14 +305,33 @@ class EventDetailView(UserPassesTestMixin, DetailView):
         return self.request.user.is_authenticated
 
     def get(self, request, *args, **kwargs):
-        Event = get_object_or_404(Event, pk=kwargs['pk'])
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
+        parent_map = event.parent_map
 
         context = {
-            "item": Event, 
-            "user_is_creator": Event.creator == request.user
+            "item": event, 
+            "user_is_creator_of_map": parent_map.creator == request.user
         }
 
-        return render(request, 'market/event.html', context)
+        return render(request, 'maps_engine/event.html', context)
+
+
+class EventInDetailView(UserPassesTestMixin, DetailView):
+    model = Event
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
+        parent_map = event.parent_map
+
+        context = {
+            "item": event, 
+            "user_is_creator_of_map": parent_map.creator == request.user
+        }
+
+        return render(request, 'maps_engine/event_in_detail.html', context)
 
 
 class EventCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):

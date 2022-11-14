@@ -1,0 +1,253 @@
+{% extends 'market/base.html' %}
+{% load static %}
+
+{% block title %}
+{{ item.title }} | Event
+{% endblock title %}
+
+{% block main %}
+
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+            
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 border-b border-gray-200 dark:border-gray-800 pl-15vw pr-15vw">
+
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ item.title }}</span></h1>
+
+                            <a type="button" href="{% url 'map' item.parent_map.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Go to parent map</a>
+                            {% if user_is_creator_of_map %}
+                                <a type="button" href="{% url 'event-update' item.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Update event</a>
+                                <a type="button" href="{% url 'event-delete' item.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete event</a>
+                            {% endif %}
+                            
+                            
+                                                        
+                        </div>
+
+                
+                        <div id="mainContent" class="pl-15vw pr-15vw">
+
+
+                            <div class="overflow-x-auto" style="height: auto;">
+                                <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                        <tr>
+                                            <th scope="col" class="py-3 px-6">
+                                                Parent map
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Title
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Description
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Details available?
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Latitude
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Latitude
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Altitude
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                City
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Alternative city names
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Region
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Alternative region names
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Country
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Alternative country names
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Address
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Postcode
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Neighborhood
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                District
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Map anchor date
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Num. days after anchor that event began
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Num. days after anchor that event ended
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Start date
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                End date
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Number of sites
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Number of casualties
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Number of memorials
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Type of place before event
+                                            </th>
+                                            <th scope="col" class="py-3 px-6">
+                                                Occupation period
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <td class="py-4 px-6">
+                                                <a href="{% url 'map' item.parent_map.id %}">{{ item.parent_map.title }}</a>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.title }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                <p class="flex items-center text-sm font-light text-gray-500 dark:text-gray-400 dashed-underline"><a data-popover-target="popover-description" data-popover-placement="bottom-end" type="button">View<span class="sr-only">Show information</span></a></p>
+                                                <div data-popover id="popover-description" role="tooltip" class="inline-block absolute invisible z-10 w-72 text-sm font-light text-gray-500 bg-white rounded-lg border border-gray-200 shadow-sm opacity-0 transition-opacity duration-300 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+                                                    <div class="p-3 space-y-2">
+                                                        <h3 class="font-semibold text-gray-900 dark:text-white">{{ item.title }}</h3>
+                                                        {{ item.description|linebreaks|safe }}
+                                                        <a href="{% url 'event-in-detail' item.id %}" class="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700">Read more <svg class="ml-1 w-4 h-4" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></a>
+                                                    </div>
+                                                    <div data-popper-arrow></div>
+                                                </div>
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.content_online }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.latitude|floatformat:4 }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.longitude|floatformat:4 }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.altitude|floatformat:4 }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.primary_city_name }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.alternative_city_names }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.primary_region_name }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.alternative_region_names }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.primary_country_name }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.alternative_country_names }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.address }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.postcode }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.district }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.neighborhood }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.parent_map.anchor_date }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.number_of_days_after_anchor_date_that_event_began }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.number_of_days_after_anchor_date_that_event_ended }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.start_date }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.end_date }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.number_of_sites }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.number_of_casualties }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.number_of_memorials }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.type_of_place_before_event }}
+                                            </td>
+                                            <td class="py-4 px-6">
+                                                {{ item.occupation_period }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main> 
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+
+
+

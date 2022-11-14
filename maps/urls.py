@@ -15,7 +15,6 @@ urlpatterns = [
     path('geojson/<int:pk>/', views.get_events_as_geojson, name='get_events_as_geojson'),
     path('export_events_csv/<int:pk>/', views.export_events_csv, name='export_events_csv'),
     path('events/dataframe/<int:pk>/', views.viewEventsInTableInBrowser, name='events-table'),
-
     path('render/<int:pk>/', views.MapRenderDetailView.as_view(), name='map-render'), 
     path('get_geojson_data_for_js/<int:pk>/', views.get_geojson_data_for_js, name='get_geojson_data_for_js'),
 
@@ -26,7 +25,8 @@ urlpatterns = [
     path('import/create/', views.MapCreateViaImportView.as_view(), name='map-create-via-import'),
 
     path('events/', views.EventListView.as_view(), name='events'),
-    path('events/<int:pk>/', views.EventDetailView.as_view(), name='event'),
+    path('event/<int:pk>/', views.EventDetailView.as_view(), name='event'),
+    path('in/detail/event/<int:pk>/', views.EventInDetailView.as_view(), name='event-in-detail'),
     path('events/create/', views.EventCreateView.as_view(), name='event-create'),
     path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name='event-update'),
     path('events/delete/<int:pk>/', views.EventDeleteView.as_view(), name='event-delete'),

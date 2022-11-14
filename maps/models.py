@@ -1,21 +1,7 @@
 from django.db import models
-from taggit.managers import TaggableManager
 from taggit.models import TaggedItemBase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from django_countries.fields import CountryField
-
-
-class AlternativeCityNames(TaggedItemBase):
-    content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
-    
-
-class AlternativeRegionNames(TaggedItemBase):
-    content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
-
-
-class AlternativeCountryNames(TaggedItemBase):
-    content_object = models.ForeignKey('Event', on_delete=models.CASCADE)
 
 
 class Map(models.Model): 
@@ -25,6 +11,7 @@ class Map(models.Model):
     anchor_date = models.DateField(default='1939-09-01')
     last_date = models.DateField(default='1945-05-01')
     excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return self.title
@@ -97,11 +84,8 @@ class Event(models.Model):
         blank=True
     )
 
-    def __str__(self) -> str:
+    def __str__(self):
         return self.primary_city_name
 
-    # Others to add for Yahad: Type of place before; Num. Memorials; Occupation_period
-    # user
-    # group
-
-
+    def get_absolute_url(self):
+        return reverse('event', kwargs={'pk': self.pk})
