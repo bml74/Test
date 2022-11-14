@@ -94,6 +94,8 @@ class Event(models.Model):
 class EventImage(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
+    title = models.CharField(max_length=256, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('event', kwargs={'pk': self.event.pk})
@@ -102,6 +104,8 @@ class EventImage(models.Model):
 class EventVideo(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
+    title = models.CharField(max_length=256, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse('event', kwargs={'pk': self.event.pk})

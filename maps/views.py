@@ -334,6 +334,11 @@ class EventInDetailView(UserPassesTestMixin, DetailView):
         images = EventImage.objects.filter(event=event).all()
         videos = EventVideo.objects.filter(event=event).all()
 
+        for video in videos:
+            video_split = video.link.split("watch?v=")
+            video.link = video_split[0] + "embed/" + video_split[1]
+            
+
         context = {
             "item": event, 
             "user_is_creator_of_map": parent_map.creator == request.user,

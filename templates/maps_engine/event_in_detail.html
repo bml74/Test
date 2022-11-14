@@ -12,9 +12,8 @@
 <title>{{ item.title }} | Event</title>
 
 <link rel="canonical" href="https://flowbite.com/docs/components/sidebar/">
-
-
-
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css" integrity="sha512-tN7Ec6zAFaVSG3TpNAKtk4DOHNpSwKHxxrsiw4GHKESGPs5njn/0sMCUMl2svV4wo4BK/rCP7juYz+zx+l6oeQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@alpha" />
@@ -132,18 +131,6 @@
 
     <div class="w-full px-4 mx-auto max-w-6xl">
     <div class="lg:flex">
-        
-        {% comment %} <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
-        <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
-            <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
-                <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
-                    <ul class="mb-0 list-unstyled"></ul>
-                </nav>
-            </div>
-
-
-        </aside> {% endcomment %}
-
 
         <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
             <div class="flex w-full">
@@ -151,41 +138,494 @@
             
                 <div class=" max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16" style="width: 40vw !important;">
     
-                    <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                    <div class="mb-4">
                         <h1 class="inline-block mb-2 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white" id="content">{{ item.title }}</h1>
-                        <p class="mb-4 text-lg text-gray-500 dark:text-gray-400">{{ item.primary_city_name.upper }}, {{ item.primary_country_name.upper }}</p>
+                        <p class="mb-2 text-lg text-gray-500 dark:text-gray-400">{{ item.primary_city_name.upper }}, {{ item.primary_country_name.upper }}</p>
+                    </div>
+
+                    <div>
+                        <a type="button" href="{% url 'map' item.parent_map.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">View map</a>
+                        {% if user_is_creator_of_map %}
+                            <a type="button" href="{% url 'event-update' item.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Update event&nbsp;&nbsp;<i class="fas fa-pencil-alt"></i></a>
+                            <a type="button" href="{% url 'event-delete' item.id %}" class="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Delete event&nbsp;&nbsp;<i class="fas fa-trash"></i></a>
+                        {% endif %}
                     </div>
 
                     <div id="mainContent">
 
-                        {{ item.description|safe|linebreaks }}
-
-                        {{ images }}
-
-                        {{ videos }}
-
-                        {% comment %} <p>The sidebar component can be used as a complementary element relative to the navbar shown on either the left or right side of the page used for the navigation on your web application, including menu items, multi-level dropdown items, call to actions elements, and more.</p>
-
-                        <h2 class="relative group">Default sidebar
-                            <span id="default-sidebar" class="absolute -top-[140px]"></span> 
-                            <a class="ml-2 text-blue-700 opacity-0 transition-opacity dark:text-blue-500 group-hover:opacity-100" href="#default-sidebar" aria-label="Link to this section: Default sidebar">#</a>
-                        </h2>
-                        <p>Use this example to show a responsive list of menu items inside the sidebar with icons and labels.</p>
-
-                        <h2 class="relative group">Default sidebar
-                            <span id="default-sidebar" class="absolute -top-[140px]"></span> 
-                            <a class="ml-2 text-blue-700 opacity-0 transition-opacity dark:text-blue-500 group-hover:opacity-100" href="#default-sidebar" aria-label="Link to this section: Default sidebar">#</a>
-                        </h2>
-                        <p>Use this example to show a responsive list of menu items inside the sidebar with icons and labels.</p>
-
-
-                        <h2 class="relative group">Default sidebar
-                            <span id="default-sidebar" class="absolute -top-[140px]"></span> 
-                            <a class="ml-2 text-blue-700 opacity-0 transition-opacity dark:text-blue-500 group-hover:opacity-100" href="#default-sidebar" aria-label="Link to this section: Default sidebar">#</a>
-                        </h2>
-                        <p>Use this example to show a responsive list of menu items inside the sidebar with icons and labels.</p> {% endcomment %}
-
+                        <div class="mb-4 border-b border-gray-200 dark:border-gray-700">
+                            <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2 text-blue-600 hover:text-blue-600 dark:text-blue-500 dark:hover:text-blue-500 border-blue-600 dark:border-blue-500" id="profile-tab" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">Text</button>
+                                </li>
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300 dark:border-transparent text-gray-500 dark:text-gray-400 border-gray-100 dark:border-gray-700" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">Watch</button>
+                                </li>
+                                <li class="mr-2" role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">Images</button>
+                                </li>
+                                <li role="presentation">
+                                    <button class="inline-block p-4 rounded-t-lg border-b-2 border-transparent hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300" id="contacts-tab" data-tabs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Settings</button>
+                                </li>    
+                            </ul>
+                        </div>
                         
+                        <div id="myTabContent">
+                            <div class="p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <style>
+                                    h1 { font-weight: 800; font-size: 24px; }
+                                    h2 { font-weight: 700; font-size: 20px; }
+                                </style>
+                                {% if item.description %}
+                                    {{ item.description|safe|linebreaks }} 
+                                {% endif %}
+
+                            </div>
+                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="dashboard" role="tabpanel" aria-labelledby="dashboard-tab">
+
+                                {% for video in videos %}
+                                    <div>
+                                        <iframe width="100%" height="300" src="{{ video.link|safe }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                        {% if video.title %}
+                                        <p class="mt-3"><strong class="font-medium text-gray-800 dark:text-white">{{ video.title|safe|linebreaks }}</p>
+                                        {% endif %}
+                                        {% if video.description %}
+                                        <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">{{ video.description|safe }}</p>
+                                        {% endif %}
+                                        <div class="py-4"></div>    
+                                    </div>
+                                {% endfor %}
+
+                            </div>
+                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="settings" role="tabpanel" aria-labelledby="settings-tab">
+                                {% for image in images %}
+                                    <img src="{{ image.link|safe }}" alt="">
+                                    {% if image.title %}
+                                    <p class="mt-3"><strong class="font-medium text-gray-800 dark:text-white">{{ image.title|safe|linebreaks }}</p>
+                                    {% endif %}
+                                    {% if image.description %}
+                                    <p class="mb-4 text-sm text-gray-500 dark:text-gray-400">{{ image.description|safe }}</p>
+                                    {% endif %}
+                                    <div class="py-4"></div>
+                                {% endfor %}
+                            </div>
+                            <div class="hidden p-4 bg-gray-50 rounded-lg dark:bg-gray-800" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+
+                                <ul class="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
+
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Parent map
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    <a href="{% url 'map' item.parent_map.id %}">{{ item.parent_map.title }}</a>
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Title
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.title }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Content available online?
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.content_online }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Latitude
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.latitude|floatformat:4 }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Longitude
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.longitude|floatformat:4 }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Altitude
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.altitude  %}
+                                                        {{ item.altitude|floatformat:4 }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    City
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.primary_city_name.upper }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Alternative city names
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.alternative_city_names  %}
+                                                        {{ item.alternative_city_names.upper }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Region
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.primary_region_name.upper }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Alternative region names
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.alternative_region_names  %}
+                                                        {{ item.alternative_region_names.upper }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Country
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {{ item.primary_country_name.upper }}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Alternative country names
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.alternative_country_names  %}
+                                                        {{ item.alternative_country_names.upper }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Address
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.address  %}
+                                                        {{ item.address }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Postcode
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.postcode  %}
+                                                        {{ item.postcode }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Neighborhood
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.neighborhood  %}
+                                                        {{ item.neighborhood }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    District
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.district  %}
+                                                        {{ item.district }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Start date
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.start_date  %}
+                                                        {{ item.start_date }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    End date
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.end_date  %}
+                                                        {{ item.end_date }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Number of sites
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.number_of_sites  %}
+                                                        {{ item.number_of_sites }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Number of casualties
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.number_of_casualties  %}
+                                                        {{ item.number_of_casualties }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Number of memorials
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.number_of_memorials  %}
+                                                        {{ item.number_of_memorials }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Type of place before event
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.type_of_place_before_event  %}
+                                                        {{ item.type_of_place_before_event }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Occupation period
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.occupation_period  %}
+                                                        {{ item.occupation_period }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                
+                                
+                                </ul>
+                        
+                            </div>
+
+                        </div>
+
 
                     </div>
 
@@ -238,7 +678,7 @@
                     
                 </div>
 
-                
+    
             </div>
         </main>
     

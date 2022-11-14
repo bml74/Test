@@ -15,14 +15,7 @@ def get_geojson_in_dict_form_from_model(map_obj):
     print(len(queryset))
 
     for row in queryset:
-
-        # print("___________")
-        # print(row.longitude)
-        # print(row.longitude)
-        # print(row.primary_city_name)
-        # print('x')
-        # print("___________")
-
+        
         try:
             num_casualties = int(row.number_of_casualties)
         except:

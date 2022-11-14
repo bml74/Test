@@ -115,6 +115,6 @@ EVENT_FIELDS = [
     "occupation_period",
 ]
 
-EVENT_IMAGE_FIELDS = ["event", "link"]
+EVENT_IMAGE_FIELDS = ["event", "link", "title", "description"]
 
-EVENT_VIDEO_FIELDS = ["event", "link"]
+EVENT_VIDEO_FIELDS = ["event", "link", "title", "description"]
