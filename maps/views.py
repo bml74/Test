@@ -479,7 +479,7 @@ class EventImageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
 
 class EventImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
-    model = Event
+    model = EventImage
     fields = EVENT_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME
 
@@ -501,7 +501,7 @@ class EventImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
 
 class EventImageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
-    model = Event
+    model = EventImage
     success_url = '/maps/'
     context_object_name = 'item'
     template_name = CONFIRM_DELETE_TEMPLATE_NAME
@@ -513,8 +513,8 @@ class EventImageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(EventImageDeleteView, self).get_context_data(**kwargs)
-        item = get_object_or_404(Event, id=self.kwargs.get('pk'))
-        title = f"Event image from event: {item.title}"
+        item = get_object_or_404(EventImage, id=self.kwargs.get('pk'))
+        title = f"Event image #{item.id}"
         context.update({"type": "event", "title": title})
         return context
 
@@ -576,8 +576,8 @@ class EventVideoDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super(EventVideoDeleteView, self).get_context_data(**kwargs)
-        item = get_object_or_404(Event, id=self.kwargs.get('pk'))
-        title = f"Event video from event: {item.title}"
+        item = get_object_or_404(EventVideo, id=self.kwargs.get('pk'))
+        title = f"Event video #{item.id}"
         context.update({"type": "event", "title": title})
         return context
 
