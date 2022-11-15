@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Map(models.Model): 
     title = models.CharField(max_length=64, default="Title", unique=True)
     description = models.TextField(default="Description") 
-    map_image = models.FileField(upload_to='map_images', blank=True, null=True)
+    map_image = models.FileField(upload_to='maps/maps/images', blank=True, null=True)
     anchor_date = models.DateField(default='1939-09-01')
     last_date = models.DateField(default='1945-05-01')
     excel_upload = models.FileField(upload_to='map_excel_files', blank=True, null=True)
@@ -94,6 +94,7 @@ class Event(models.Model):
 class EventImage(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
+    image_file = models.FileField(upload_to='maps/events/images', blank=True, null=True)
     title = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
@@ -104,6 +105,7 @@ class EventImage(models.Model):
 class EventVideo(models.Model):
     event = models.ForeignKey(Event, on_delete=models.CASCADE, blank=True, null=True)
     link = models.URLField(blank=True, null=True)
+    video_file = models.FileField(upload_to='maps/events/videos', blank=True, null=True)
     title = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
 
