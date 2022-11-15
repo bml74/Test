@@ -528,6 +528,62 @@
                                         <div class="flex items-center space-x-4">
                                             <div class="flex-1 min-w-0">
                                                 <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Anchor date
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if map_anchor_date  %}
+                                                        {{ map_anchor_date }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Number of days after anchor date that event began
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.number_of_days_after_anchor_date_that_event_began  %}
+                                                        {{ item.number_of_days_after_anchor_date_that_event_began }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                                                    Number of days after anchor date that event ended
+                                                </p>
+                                                <p class="truncate">
+                                                <div class="font-semibold text-gray-900 dark:text-white">
+                                                    {% if item.number_of_days_after_anchor_date_that_event_ended  %}
+                                                        {{ item.number_of_days_after_anchor_date_that_event_ended }}
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </div>
+                                                </p> 
+                                            </div>
+                                        </div>
+                                    </li>
+
+                                    <li class="pb-3 sm:pb-4">
+                                        <div class="flex items-center space-x-4">
+                                            <div class="flex-1 min-w-0">
+                                                <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
                                                     Start date
                                                 </p>
                                                 <p class="truncate">

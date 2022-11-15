@@ -24,6 +24,7 @@ def get_geojson_in_dict_form_from_model(map_obj):
         FEATURES.append({
             "type": "Feature",
             "properties": {
+                "id": row.id,
                 "parent_map": row.parent_map.title,
                 "altitude": row.altitude,
                 "content_online": "yes" if row.content_online else "no",

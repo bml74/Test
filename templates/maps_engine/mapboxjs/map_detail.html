@@ -675,8 +675,12 @@
                 console.log("End Date: ");
                 console.log(endDate);
 
+                let event_id = parseInt(e.features[0].properties.id);
+                console.log("event_id", event_id);
+
                 let description = `
                     <div id="popup-title" class="">${e.features[0].properties.primary_city_name.toUpperCase()}</div>
+                    <a type="button" class="btn btn-primary btn-sm mt-2 mb-4" href="/maps/in/detail/event/${event_id}/">View in detail&rarr;</a>
                     <table class="table table-dark table-striped">
                         <tbody>
                             <tr>
