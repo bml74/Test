@@ -97,6 +97,7 @@ class EventImage(models.Model):
     image_file = models.FileField(upload_to='maps/events/images', blank=True, null=True)
     title = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    # Add is_file BooleanField?
 
     def get_absolute_url(self):
         return reverse('event-in-detail', kwargs={'pk': self.event.pk})
@@ -108,6 +109,7 @@ class EventVideo(models.Model):
     video_file = models.FileField(upload_to='maps/events/videos', blank=True, null=True)
     title = models.CharField(max_length=256, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
+    # Add is_file BooleanField?
 
     def get_absolute_url(self):
         return reverse('event-in-detail', kwargs={'pk': self.event.pk})
