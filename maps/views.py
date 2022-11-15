@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 from decouple import config
+from django.contrib.auth.models import User
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -145,24 +146,27 @@ def google_map(request):
     return render(request, "maps_engine/googlemaps/google_map.html")
 
 
-class MapListView(UserPassesTestMixin, ListView):
+class MapListByUserView(UserPassesTestMixin, ListView):
     model = Map
-    template_name = 'market/Maps.html'
+    template_name = 'market/map_list_view.html'
     context_object_name = 'items'
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return self.request.user == user
 
     def get_context_data(self, **kwargs):
-        context = super(MapListView, self).get_context_data(**kwargs)
-        num_results = len(Map.objects.all())
+        context = super(MapListByUserView, self).get_context_data(**kwargs)
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        num_results = len(Map.objects.filter(creator=user))
         context.update({
             "num_results": num_results
         })
         return context
 
     def get_queryset(self):
-        return Map.objects.order_by('-title')
+        user = get_object_or_404(User, username=self.kwargs.get("username"))
+        return Map.objects.filter(creator=user).all().order_by('title')
 
 
 class MapDetailView(UserPassesTestMixin, DetailView):

@@ -18,6 +18,7 @@ urlpatterns = [
     path('render/<int:pk>/', views.MapRenderDetailView.as_view(), name='map-render'), 
     path('get_geojson_data_for_js/<int:pk>/', views.get_geojson_data_for_js, name='get_geojson_data_for_js'),
 
+    path('maps/<str:username>/', views.MapListByUserView.as_view(), name='map-list-by-user'),
     path('create/', views.create_map, name='map-create'),
     path('update/<int:pk>/', views.MapUpdateView.as_view(), name='map-update'),
     path('delete/<int:pk>/', views.MapDeleteView.as_view(), name='map-delete'),
