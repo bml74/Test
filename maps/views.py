@@ -174,6 +174,7 @@ class MapDetailView(UserPassesTestMixin, DetailView):
     def get(self, request, *args, **kwargs):
         map_obj = get_object_or_404(Map, pk=kwargs['pk'])
         event_data_dict =  get_geojson_in_dict_form_from_model(map_obj=map_obj)
+        events = list(Event.objects.filter(parent_map=map_obj).all())
         GEOJSON = json.dumps(event_data_dict["features"]) 
         pprint(GEOJSON)
         print(len(event_data_dict["features"]))
@@ -181,18 +182,9 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         pprint(event_data_dict["features"][0])
         context = {
             "item": map_obj, 
+            "events": events
         }
 
-        # s3 = boto3.resource('s3')
-        # bucket_name = config('AWS_STORAGE_BUCKET_NAME')
-        # obj = s3.Bucket(bucket_name).Object(map_obj.excel_upload.url)
-        # jsonStr = obj.get()['Body'].read().decode('utf-8')
-        # jsonObj = json.loads(jsonStr)
-        print('x')
-        print(map_obj.excel_upload.url)
-        print('y')
-        # df = pd.read_excel(map_obj.excel_upload.url)
-        # print(df)
         return render(request, 'maps_engine/map.html', context)
 
 
@@ -470,10 +462,11 @@ class EventImageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
+        form.instance.event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
         return super().form_valid(form)
 
     def test_func(self):
-        event = get_object_or_404(EventImage, pk=self.kwargs.get('event_id'))
+        event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
         map_obj = event.parent_map
         return self.request.user == map_obj.creator
 
@@ -491,6 +484,7 @@ class EventImageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
+        form.instance.event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
         return super().form_valid(form)
 
     def test_func(self):
@@ -531,6 +525,7 @@ class EventVideoCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
+        form.instance.event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
         return super().form_valid(form)
 
     def test_func(self):
@@ -552,6 +547,7 @@ class EventVideoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     template_name = FORM_VIEW_TEMPLATE_NAME
 
     def form_valid(self, form):
+        form.instance.event = get_object_or_404(Event, pk=self.kwargs.get('event_id'))
         return super().form_valid(form)
 
     def test_func(self):
