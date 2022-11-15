@@ -479,13 +479,13 @@
 
             document.getElementById("reset-all-filters-btn").addEventListener('click', (event) => {
                 // This makes it easy: All you have to do is specify one filter that represents all features, and it resets.
-                map.setFilter('collisions', ['!=', ['string', ['get', 'day']], 'placeholder']);
+                map.setFilter('collisions', ['!=', ['string', ['get', 'primary_country_name']], 'placeholder']);
                 // Then just reset the values:
                 document.getElementById("city-query-input").value = "";
                 document.getElementById("date-slider").value = 0;
                 document.getElementById('active-date').innerText = beginning_anchor_date.format('LL');
                 document.getElementById("countries").value = "all";
-                document.getElementById("days").value = "all";
+                // document.getElementById("days").value = "all";
                 document.getElementById("date-val").value = "";
             }); 
             
@@ -496,6 +496,7 @@
                 map.setFilter('collisions', ['all', filterCity]);
                 console.log(filterCity);
             });
+
 
             document.getElementById("filter-btn").addEventListener('click', (e) => {
 
@@ -534,10 +535,6 @@
                 ]);
 
             });       
-
-
-
-
 
 
             map.on('click', function (e) {
@@ -620,6 +617,7 @@
                 closeOnClick: true
             }); 
             
+
             // When hovering over a feature....
             map.on('mouseenter', 'collisions', (e) => {
                 

@@ -88,7 +88,7 @@ class Event(models.Model):
         return self.primary_city_name
 
     def get_absolute_url(self):
-        return reverse('event', kwargs={'pk': self.pk})
+        return reverse('event-in-detail', kwargs={'pk': self.pk})
 
 
 class EventImage(models.Model):
@@ -98,7 +98,7 @@ class EventImage(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('event', kwargs={'pk': self.event.pk})
+        return reverse('event-in-detail', kwargs={'pk': self.event.pk})
 
 
 class EventVideo(models.Model):
@@ -108,5 +108,5 @@ class EventVideo(models.Model):
     description = models.TextField(blank=True, null=True)
 
     def get_absolute_url(self):
-        return reverse('event', kwargs={'pk': self.event.pk})
+        return reverse('event-in-detail', kwargs={'pk': self.event.pk})
 

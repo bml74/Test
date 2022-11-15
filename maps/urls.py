@@ -24,8 +24,6 @@ urlpatterns = [
 
     path('import/create/', views.MapCreateViaImportView.as_view(), name='map-create-via-import'),
 
-    path('events/', views.EventListView.as_view(), name='events'),
-    path('event/<int:pk>/', views.EventDetailView.as_view(), name='event'),
     path('in/detail/event/<int:pk>/', views.EventInDetailView.as_view(), name='event-in-detail'),
     path('events/create/', views.EventCreateView.as_view(), name='event-create'),
     path('events/update/<int:pk>/', views.EventUpdateView.as_view(), name='event-update'),

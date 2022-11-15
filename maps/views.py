@@ -188,6 +188,7 @@ class MapDetailView(UserPassesTestMixin, DetailView):
         return render(request, 'maps_engine/map.html', context)
 
 
+@login_required
 def get_geojson_data_for_js(request, pk):
     map_obj = get_object_or_404(Map, pk=pk)
     my_dict = get_geojson_in_dict_form_from_model(map_obj=map_obj)
@@ -273,44 +274,6 @@ class MapDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         title = f"Map: {item.title}"
         context.update({"type": "map", "title": title})
         return context
-
-
-class EventListView(UserPassesTestMixin, ListView):
-    model = Event
-    template_name = 'market/Events.html'
-    context_object_name = 'items'
-
-    def test_func(self):
-        return self.request.user.is_authenticated
-
-    def get_context_data(self, **kwargs):
-        context = super(EventListView, self).get_context_data(**kwargs)
-        num_results = len(Event.objects.all())
-        context.update({
-            "num_results": num_results
-        })
-        return context
-
-    def get_queryset(self):
-        return Event.objects.order_by('-title')
-
-
-class EventDetailView(UserPassesTestMixin, DetailView):
-    model = Event
-
-    def test_func(self):
-        return self.request.user.is_authenticated
-
-    def get(self, request, *args, **kwargs):
-        event = get_object_or_404(Event, pk=self.kwargs.get('pk'))
-        parent_map = event.parent_map
-
-        context = {
-            "item": event, 
-            "user_is_creator_of_map": parent_map.creator == request.user
-        }
-
-        return render(request, 'maps_engine/event.html', context)
 
 
 class EventInDetailView(UserPassesTestMixin, DetailView):
