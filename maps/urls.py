@@ -9,8 +9,6 @@ urlpatterns = [
     path('maps_admin_panel/', views.maps_admin_panel, name='maps_admin_panel'),
     path('export_maps_csv/', views.export_maps_csv, name='export_maps_csv'),
 
-    path('all/', views.MapListView.as_view(), name='maps'),
-
     path('<int:pk>/', views.MapDetailView.as_view(), name='map'),
     path('geojson/<int:pk>/', views.get_events_as_geojson, name='get_events_as_geojson'),
     path('export_events_csv/<int:pk>/', views.export_events_csv, name='export_events_csv'),
