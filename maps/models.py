@@ -29,18 +29,18 @@ class Event(models.Model):
     geometry = models.CharField(default="Point", max_length=16)
     alternative_id = models.IntegerField(blank=True, null=True)
     content_online = models.BooleanField(default=False)
-    dates = models.CharField(max_length=256, blank=True, null=True)
-    hours = models.CharField(max_length=256, blank=True, null=True)
-    day = models.CharField(max_length=12, blank=True, null=True, choices=(
-            ("Monday", "Monday"),
-            ("Tuesday", "Tuesday"),
-            ("Wednesday", "Wednesday"),
-            ("Thursday", "Thursday"),
-            ("Friday", "Friday"),
-            ("Saturday", "Saturday"),
-            ("Sunday", "Sunday")
-        )
-    )
+    # dates = models.CharField(max_length=256, blank=True, null=True)
+    # hours = models.CharField(max_length=256, blank=True, null=True)
+    # day = models.CharField(max_length=12, blank=True, null=True, choices=(
+    #         ("Monday", "Monday"),
+    #         ("Tuesday", "Tuesday"),
+    #         ("Wednesday", "Wednesday"),
+    #         ("Thursday", "Thursday"),
+    #         ("Friday", "Friday"),
+    #         ("Saturday", "Saturday"),
+    #         ("Sunday", "Sunday")
+    #     )
+    # )
     primary_city_name = models.CharField(max_length=64, blank=True, null=True)
     alternative_city_names = models.CharField(max_length=256, blank=True, null=True, verbose_name='Alternative city names')
     # alternative_city_names = TaggableManager(through=AlternativeCityNames, related_name='alternative_city_names', verbose_name='Alternative city names', blank=True)
