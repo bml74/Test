@@ -167,9 +167,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Custom Authentication
 
-LOGIN_URL = 'two_factor:login'
+LOGIN_URL = 'login'#'two_factor:login'
 LOGIN_REDIRECT_URL = 'profile'
-LOGOUT_REDIRECT_URL = 'two_factor:login'
+LOGOUT_REDIRECT_URL = 'login'#'two_factor:login'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
