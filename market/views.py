@@ -166,7 +166,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        return self.request.user.is_authenticated 
 
     def get_context_data(self, **kwargs):
         context = super(ListingCreateView, self).get_context_data(**kwargs)
