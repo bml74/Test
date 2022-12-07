@@ -293,7 +293,7 @@ def checkout_session(request, obj_type, pk):
         BASE_DOMAIN = 'http://127.0.0.1:8000' 
         stripe.api_key = config('STRIPE_TEST_KEY') 
     else:
-        BASE_DOMAIN = 'https://www.cadebruno.com'
+        BASE_DOMAIN = 'https://www.hoyabay.com'
         stripe.api_key = config('STRIPE_LIVE_KEY')
 
     item = None
