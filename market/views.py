@@ -160,7 +160,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     fields = LISTING_FIELDS
     template_name = FORM_VIEW_TEMPLATE_NAME 
 
-    def form_valid(self, form):
+    def form_valid(self, form): 
         form.instance.creator = self.request.user
         # If user has chosen a group, make sure the user is a member of that group:
         return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
