@@ -34,6 +34,11 @@ urlpatterns = [
     path('confirm_transaction/<int:transaction_id>/', views.confirm_transaction, name='confirm_transaction'),
     path('reject_transaction/<int:transaction_id>/', views.reject_transaction, name='reject_transaction'),
 
+    path('connect/stripe/', views.connect_to_stripe_page, name='connect-to-stripe-page'),
+
+    path('my_purchases/', views.my_purchases, name='my_purchases'),
+    path('my_sales/', views.my_sales, name='my_sales'),
+
     path('request_payment/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.request_payment, name='request_payment'),
     path('reject_payment_request/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.reject_payment_request, name='reject_payment_request'),
     

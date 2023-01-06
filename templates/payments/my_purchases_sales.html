@@ -1,0 +1,103 @@
+{% extends 'market/dashboard/dashboard_base.html' %}
+{% load static %}
+{% load humanize %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+{{ header }}
+{% endblock title %}
+
+{% block main %}
+
+
+
+
+
+<div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
+    <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
+        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">{{ header }}</h1>
+    </div>
+    <div class="_wYiJGbRZyFZeCc8y7Sf _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi">
+      <div class="YRrCJSr_j5nopfm4duUc sJNGKHxFYdN5Nzml5J2j Q_jg_EPdNf9eDMn1mLI2 hD0sTTDgbxakubcHVW2X">
+        <h3 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">{{ header }}</h3>
+      </div>
+      <div class="YRrCJSr_j5nopfm4duUc e8VqoQNK0mbkRFDL3LMV">
+        <div class="_IebywwKB6L2zG0BTy63 mveJTCIb2WII7J4sY22F">
+          <div class="VPGGthdu3cy_ZP7AL7dt TK9h2c2b79uBgR_cJzCE u0Aizb1ol0gBXDISYKJM">
+            <div class="wBVMFkIGfrKshbvi2gS1 mngKhi_Rv06PF57lblDI PTS4x_A1HVmoZYJHkYaG">
+              <table class="TK9h2c2b79uBgR_cJzCE Zy1Pypi71Xu6guex6urN NIAblPiyeuYQ0zW671xb PoeKYEQfG4WfmL9xM6vu">
+                <thead class="jtAJHOc7mn7b4IKRO59D jqg6J89cvxmDiFpnV56r">
+                  <tr>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Item
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Type
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Seller
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Buyer
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Transaction date
+                    </th>
+                    <th scope="col" class="_wYiJGbRZyFZeCc8y7Sf gMXmdpOPfqG_3CKkL0VD ezMFUVl744lvw6ht0lFe _fj5qD1qKucIHy44xhzZ upQp7iWehfaU8VTbfx_w PeR2JZ9BZHYIH8Ea3F36 sdSaZcRa4_We5kKaX4pf XIIs8ZOri3wm8Wnj9N_y">
+                        Amount
+                    </th>
+                  </tr>
+                </thead>
+                <tbody class="_Ybd3WwuTVljUT4vEaM3 _1jTZ8KXRZul60S6czNi">
+                    {% for item in items %}
+                    <tr>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                            {% if item.transaction_obj_type == 'listing' %}
+                            <a href="{% url 'listing' item.transaction_obj_id %}">{{ item.title }}</a>
+                            {% elif item.transaction_obj_type == 'course' %}
+                            <a href="{% url 'course_detail' item.transaction_obj_id %}">{{ item.title }}</a>
+                            {% elif item.transaction_obj_type == 'specialization' %}
+                            <a href="{% url 'specialization_detail' item.transaction_obj_id %}">{{ item.title }}</a>
+                            {% endif %}
+                        </td>
+
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">
+                          <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-200 dark:text-indigo-900">{{ item.transaction_obj_type.capitalize }}</span>
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                          {{ item.seller }}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                          {{ item.purchaser }}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL PeR2JZ9BZHYIH8Ea3F36 BHrWGjM1Iab_fAz0_91H XIIs8ZOri3wm8Wnj9N_y">
+                            {{ item.inserted_on }}
+                        </td>
+                        <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
+                            ${{ item.value|floatformat:2 }}
+                        </td> 
+                    </tr>
+                    {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+{% endblock main %}
+
+
+
+

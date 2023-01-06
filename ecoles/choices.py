@@ -2,7 +2,7 @@ from django.db.models import TextChoices
 
 
 class Visibility(TextChoices):
-    INVISIBLE = 'Invisible'
+    # INVISIBLE = 'Invisible'
     PRIVATE = 'Private'
     PUBLIC = 'Public'
     ANONYMOUS = 'Anonymous'

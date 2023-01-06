@@ -45,6 +45,11 @@ def dashboard(request):
 
 
 @login_required
+def connect_to_stripe_page(request):
+    return render(request, "market/stripe_connect.html")
+
+
+@login_required
 def my_listings(request):
     listings = Listing.objects.filter(creator=request.user)
     context = {
@@ -433,9 +438,16 @@ def my_payments(request):
     return render(request,'payments/my_payments.html',{'items': items})
 
 
+def my_purchases(request):
+    # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
+    # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
+    items = list(Transaction.objects.filter(purchaser=request.user).order_by('-inserted_on'))
+    return render(request,'payments/my_purchases_sales.html',{"items": items, "header": "My purchases"})
+
+
 def my_sales(request):
-    items = list(Transaction.objects.filter(seller=request.user))
-    return render(request,'payments/my_sales.html',{'items': items})
+    items = list(Transaction.objects.filter(seller=request.user).order_by('-inserted_on'))
+    return render(request,'payments/my_purchases_sales.html',{"items": items, "header": "My sales"})
 
 
 def confirm_transaction(request, transaction_id):

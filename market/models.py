@@ -17,7 +17,7 @@ class Listing(models.Model):
     visibility = models.CharField(
         max_length=100,
         choices=Visibility.choices,
-        default=Visibility.ANONYMOUS,
+        default=Visibility.PUBLIC,
         blank=False,
         null=False
     )
