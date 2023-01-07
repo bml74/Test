@@ -44,8 +44,19 @@ def dashboard(request):
     return render(request, "market/dashboard/dashboard.html")
 
 
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+load_dotenv()
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
+
+
 @login_required
 def connect_to_stripe_page(request):
+    
     return render(request, "market/stripe_connect.html")
 
 

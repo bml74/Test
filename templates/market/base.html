@@ -70,6 +70,9 @@
                 <a href="{% url 'profile' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Account</a>
             </li>
             <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
+                <a href="{% url 'groups_list_view' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Groups</a>
+            </li>
+            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
                 <a href="{% url 'ad-offers' %}" class="text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500">Advertise</a>
             </li>
             {% if request.user.is_superuser %}

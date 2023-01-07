@@ -66,8 +66,9 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
         new_payment_request.save()
     # Send email
     try:
-        message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails="unit1789@gmail.com", subject=f"{user_sending_request} has requested a payment", html_content='Click <a>here</a> to pay this request.')
-        sg = SendGridAPIClient(config("SENDGRID_API_KEY"))
+        print(os.getenv("SENDER_EMAIL_ADDRESS"))
+        message = Mail(from_email="bml74@georgetown.edu", to_emails="unit1789@gmail.com", subject=f"bml74 has requested a payment", html_content='Click <a>here</a> to pay this request.')
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
         print(response.status_code)
         print(response.body)
