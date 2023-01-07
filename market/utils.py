@@ -1,7 +1,18 @@
+import os
+from decouple import config
+
 from django.shortcuts import get_object_or_404
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from config.utils import getGroupProfile
 
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
+
+load_dotenv()
+
+SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
+SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 
 
 def print_divider():
@@ -53,6 +64,18 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
             listing_for_group_members=listing_for_group_members
         )
         new_payment_request.save()
+    # Send email
+    try:
+        message = Mail(from_email=SENDER_EMAIL_ADDRESS, to_emails="unit1789@gmail.com", subject=f"{user_sending_request} has requested a payment", html_content='Click <a>here</a> to pay this request.')
+        sg = SendGridAPIClient(config("SENDGRID_API_KEY"))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
+
+
 
 
 def remove_payment_request_from_group_member(user_sending_request, user_receiving_request, ListingForGroupMembers_obj_id):

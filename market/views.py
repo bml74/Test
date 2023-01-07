@@ -566,6 +566,7 @@ def reject_payment_request(request, group_id, user_id, listing_for_group_members
 class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
     model = RequestForPaymentToGroupMember
     template_name = 'market/payment_requests.html'
+    context_object_name = "payment_requests"
 
     def test_func(self):
         return self.request.user.is_authenticated

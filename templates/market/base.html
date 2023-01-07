@@ -234,7 +234,7 @@
 
 
 
-    <div id="toast-message-cta" style="position: fixed; z-index: 100;" class="corner-toast flex absolute bottom-5 left-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
+    {% comment %} <div id="toast-message-cta" style="position: fixed; z-index: 100;" class="corner-toast flex absolute bottom-5 left-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
         <div class="flex">
             <img class="w-8 h-8 rounded-full shadow-lg" src="https://pbs.twimg.com/profile_images/1281647096312016897/0a8qwD58_400x400.jpg" alt="Advertising image">
             <div class="ml-3 text-sm font-normal">
@@ -248,9 +248,9 @@
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
         </div>
-    </div>
+    </div> {% endcomment %}
 
-    <button type="button" class="btn btn-outline-navy bg-lin-grad noprint" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
+    {% comment %} <button type="button" class="btn btn-outline-navy bg-lin-grad noprint" id="chatboxToastBtn"><i class="fas fa-comment"></i></button>
 
     <div style="display: none; position: fixed;" id="chatboxToast" class="corner-toast flex bottom-5 right-5 items-center p-4 text-gray-500 bg-white rounded-lg shadow dark:bg-gray-800 dark:text-gray-400" role="alert">
         <div class="flex">
@@ -261,11 +261,6 @@
                         How can I help you?
                     </div>
                 </div>
-                {% comment %} <div class="mb-2 text-sm font-normal">Hi Neil, thanks for sharing your thoughts regarding Flowbite.</div>  {% endcomment %}
-                {% comment %} <a href="#" class="inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Reply</a>    {% endcomment %}
-                {% comment %} <div class="input-group mb-3 mt-2">
-                    <input type="text" class="form-control form-control-sm" id="user-message-text" placeholder="Type your message..." aria-label="User message" aria-describedby="user-message-send">
-                </div> {% endcomment %}
 
             
         
@@ -275,9 +270,6 @@
                 <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
             </button>
         </div>
-        {% comment %} <div class="mb-6">
-            <input style="width: 100% !important;" type="text" id="user-message-text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Type here...." required>        
-        </div>  {% endcomment %}
         <div class="mb-2">
             <div class="flex items-center py-2 px-3 rounded-lg bg-gray-50 dark:bg-gray-700">
                 <textarea id="user-message-text" rows="1" class="block mx-4 p-2.5 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-800 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Your message..."></textarea>
@@ -289,7 +281,7 @@
 
         </div>
 
-    </div>
+    </div> {% endcomment %}
 
 
 
