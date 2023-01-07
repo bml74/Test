@@ -66,8 +66,13 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
         new_payment_request.save()
     # Send email
     try:
-        print(os.getenv("SENDER_EMAIL_ADDRESS"))
-        message = Mail(from_email="bml74@georgetown.edu", to_emails="unit1789@gmail.com", subject=f"bml74 has requested a payment", html_content='Click <a>here</a> to pay this request.')
+        import sys
+        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+        if RUNNING_DEVSERVER:
+            BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        else:
+            BASE_DOMAIN = 'https://www.hoyabay.com'
+        message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=f"{group.name} has requested a payment", html_content=f'Click <a href="{BASE_DOMAIN}/market/checkout/listing_for_group_members/{ListingForGroupMembers_obj_id}/">here</a> to pay this request.')
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
         print(response.status_code)

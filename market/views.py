@@ -56,7 +56,6 @@ SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
 
 @login_required
 def connect_to_stripe_page(request):
-    
     return render(request, "market/stripe_connect.html")
 
 
