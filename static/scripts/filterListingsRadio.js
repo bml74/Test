@@ -1,10 +1,16 @@
 function resetFilter() {
+
     let all_listings = document.querySelectorAll(".listing");
 
     // First reset all listings' visibility so that they are displayed:
     for (listing of all_listings) {
         listing.style.display = 'block';
     }
+
+    // let radios = radio_div.querySelectorAll(".listing-type-radio");
+    // for(var i=0;i<radios.length;i++) {
+    //     radios[i].checked = false;
+    // }
 
     return all_listings;
 }

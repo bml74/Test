@@ -54,7 +54,7 @@ TASK_FIELDS = ['task_type', 'due_date', 'assignment', 'completed']
 LISTING_FIELDS = [
     'title', 'description', 
     'price', 
-    'date_due', 
+    # 'listing_ends_on', 
     'visibility', 
     'group',
     'listing_category', 

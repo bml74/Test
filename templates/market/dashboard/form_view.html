@@ -32,6 +32,20 @@
 </div>
 
 <script>
+    let id_infinite_copies_available = document.getElementById("id_infinite_copies_available");
+    let div_id_quantity_available = document.getElementById("div_id_quantity_available");
+    function checkQuantity() {
+        //let id_infinite_copies_available = document.getElementById("id_infinite_copies_available");
+        if (id_infinite_copies_available.checked === true) {
+            div_id_quantity_available.style.display = "none";
+        } else {
+            div_id_quantity_available.style.display = "block";
+        }
+    }
+    id_infinite_copies_available.addEventListener("change", checkQuantity);
+</script>
+
+<script>
     labels = document.getElementsByTagName("label");
     console.log(labels);
     console.log(labels.length);

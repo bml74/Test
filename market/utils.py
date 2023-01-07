@@ -88,3 +88,14 @@ def remove_payment_request_from_group_member(user_sending_request, user_receivin
     payment_request.delete()
 
 
+def allowSaleBasedOnQuantity(listing):
+    """If there are infinite copies available, allow sale. If finite copies but quantity is available, allow sale."""
+    infinite_copies_available = True
+    quantity_available = 5
+    return True if listing.infinite_copies_available or listing.quantity_available > 0 else False
+
+
+def handleQuantity(listing):
+    """If infinite copies nothing needs to be done. Else decrement quantity available and increment quantity sold."""
+    listing.quantity_available -= 1
+    listing.quantity_sold += 1
