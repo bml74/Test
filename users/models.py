@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import User, Group
 from django_countries.fields import CountryField
 from django.conf import settings
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class TwitterHandle(models.Model):
@@ -33,6 +34,12 @@ class Profile(models.Model):
 
     def __str__(self):
         return f'{self.user.username} Profile'
+
+
+class Rating(models.Model):
+    rater = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="rater")
+    user_being_rated = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_being_rated")
+    rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
 
 class ReferralCode(models.Model):

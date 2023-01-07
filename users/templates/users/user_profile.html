@@ -71,7 +71,8 @@
                 <button type="submit" id="follow-button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Follow</button>  
                 {% endif %}
             </form>
-            {% else %} <!-- IF USER IS PRIVATE-->
+            {% endif %}
+            {% if profile_of_user.visibility != "Public" %}
                 {% if logged_in_user_follows_user_with_profile_being_viewed %} <!-- IF ALREADY FOLLOWS USER -->
                 <form action="{% url 'followers_count' %}" method="POST">
                     {% csrf_token %}
@@ -116,9 +117,11 @@
 
         <div class="py-2"></div>
 
+        {% comment %} <p style="color: #6c757d!important;">Rate this seller below:</p> {% endcomment %}
+
         {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}
 
-            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE"><i class="fas fa-lock"></i> @{{ user_with_profile_being_viewed }}'s' account is private. Follow them to view more.</h3>
+            <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE"><i class="fas fa-lock"></i> This account is private. Follow @{{ user_with_profile_being_viewed }} to view more.</h3>
 
         {% else %}
 
@@ -275,6 +278,10 @@
 
 
 {% endblock main %}
+
+{% block JavaScript %}
+
+{% endblock JavaScript %}
 
 
 
