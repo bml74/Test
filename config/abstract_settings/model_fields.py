@@ -77,7 +77,7 @@ LISTING_FOR_GROUP_MEMBERS_FIELDS = [
     'description',
     'price',
     'due_date',
-    'listing_for_group_members_type'
+    'listing_type'
 ]
 
 """ For market app. """

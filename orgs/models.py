@@ -77,7 +77,7 @@ class ListingForGroupMembers(models.Model):
         blank=True,
         related_name="members_who_have_paid"
     )
-    listing_for_group_members_type = models.CharField(
+    listing_type = models.CharField(
         max_length=100,
         choices=(
             ("Social dues", "Social dues"),
