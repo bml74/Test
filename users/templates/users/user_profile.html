@@ -1,4 +1,4 @@
-{% extends 'market/dashboard/dashboard_base.html' %}
+{% extends  'market/dashboard/dashboard_base.html' %}
 {% load static %}
 {% load humanize %}
 {% load crispy_forms_tags %}
@@ -12,6 +12,8 @@
 {% endblock external_css %}
 
 {% block main %}
+
+
 
 
 <div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
@@ -119,6 +121,23 @@
 
         {% comment %} <p style="color: #6c757d!important;">Rate this seller below:</p> {% endcomment %}
 
+        {% comment %} <form action="" class="rate-form" method="POST" id="{{ user_with_profile_being_viewed.id }}">
+            {% csrf_token %}
+            <button class="fa fa-star checked" id="first" onmouseover="starStyling(this)" onclick="rateUser(this)"></button>
+            <button class="fa fa-star checked" id="second" onmouseover="starStyling(this)"></button>
+            <button type="submit" class="fa fa-star checked" id="third" onmouseover="starStyling(this)"></button>
+            <button type="submit" class="fa fa-star" id="fourth" onmouseover="starStyling(this)"></button>
+            <button type="submit" class="fa fa-star" id="fifth" onmouseover="starStyling(this)"></button>
+        </form>
+        <div id="confirm-box"></div> {% endcomment %}
+
+        
+
+
+      
+
+        
+
         {% if profile_of_user.visibility == "Private" and not logged_in_user_follows_user_with_profile_being_viewed and user_with_profile_being_viewed != logged_in_user %}
 
             <h3 class="hD0sTTDgbxakubcHVW2X vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj OyABRrnTV_kvHV7dJ0uE"><i class="fas fa-lock"></i> This account is private. Follow @{{ user_with_profile_being_viewed }} to view more.</h3>
@@ -151,6 +170,20 @@
         {% endif %} 
 
     </div>
+
+
+    <div class="mt-4 pt-4">
+        <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rate your experience with this seller</label>
+        <select id="rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-4">
+            <option selected disabled>Select a rating</option>
+            <option value="5">5: Excellent</option>
+            <option value="4">4: Very good</option>
+            <option value="3">3: OK</option>
+            <option value="2">2: Poor</option>
+            <option value="1">1: Very bad</option>
+        </select>
+    </div>
+
 </div>
 
 
@@ -275,14 +308,118 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+{% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> {% endcomment %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+<script>
+    selectEl = document.getElementById("rating");
+    selectEl.addEventListener("change", (e) => {
+        alert("h");
+    });
+</script>
+
+{% comment %} <script>
+
+    const one = document.getElementById("first");
+    const two = document.getElementById("second");
+    const three = document.getElementById("third");
+    const four = document.getElementById("fourth");
+    const five = document.getElementById("fifth");
+
+    // one.style.color = "#FFA41C";
+
+    /* 
+    function reset() {
+        one.classList.remove("checked");
+        two.classList.remove("checked");
+        three.classList.remove("checked");
+        four.classList.remove("checked");
+        five.classList.remove("checked");
+    }
+    */
+
+    const form = document.querySelector(".rate-form");
+    const confirmBox = document.getElementById("confirm-box");
+    const csrf = document.getElementsByName("csrfmiddlewaretoken");
+    console.log(csrf);
+
+
+    function handleStarSelect(size) {
+        const children = form.children;
+        for (let i = 0; i < children.length; i++) {
+            if (i <= size) {
+                children[i].classList.add("checked");
+            } else {
+                children[i].classList.remove("checked");
+            }
+        }
+    }
+    
+
+    function starStyling(rating) {
+        // console.log(rating.id);
+        //reset();
+        let a = document.getElementById("first");
+        let b = document.getElementById("second");
+        let c = document.getElementById("third");
+        let d = document.getElementById("fourth");
+        let e = document.getElementById("fifth");
+        switch(rating.id.trim()) {
+            case 'first':
+                handleStarSelect(1);
+                break;
+            case 'second':
+                handleStarSelect(2);
+                break;
+            case 'third':
+                handleStarSelect(3);
+                break;
+            case 'fourth':
+                handleStarSelect(4);
+                break;
+            case 'fifth':
+                handleStarSelect(5);
+                break;
+            default:
+                console.log("Working.");
+        }
+
+    }
+
+    let i1 = document.getElementById("first");
+    let i2 = document.getElementById("second");
+    let i3 = document.getElementById("third");
+    let i4 = document.getElementById("fourth");
+    let i5 = document.getElementById("fifth");
+    arr = [i1, i2, i3, i4, i5];
+    i1.addEventListener('click', (event) => {
+        alert('x');
+    });
+
+
+
+    
+</script> {% endcomment %}
+
+{% comment %} <script>
+    function rateUser(rating) {
+        let f1 = document.getElementById("first");
+        let f2 = document.getElementById("second");
+        let f3 = document.getElementById("third");
+        let f4 = document.getElementById("fourth");
+        let f5 = document.getElementById("fifth");
+        alert('fjlhwe');
+        let val = rating.id.trim();
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            const id = e.target.id;
+            alert(id);
+        }); 
+    }
+</script> {% endcomment %}
 
 {% endblock main %}
-
-{% block JavaScript %}
-
-{% endblock JavaScript %}
-
-
-
 

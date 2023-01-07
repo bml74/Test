@@ -41,6 +41,9 @@ class Rating(models.Model):
     user_being_rated = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_being_rated")
     rating = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
 
+    def __str__(self):
+        return f"{self.rater} gives {self.user_being_rated} a rating of {self.rating}/5."
+
 
 class ReferralCode(models.Model):
     referral_code = models.CharField(max_length=16, blank=True, null=True, unique=True)

@@ -14,6 +14,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
+from config.utils import is_ajax
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
 def register(request):
@@ -67,6 +69,19 @@ def user_profile(request, username):
         "logged_in_user_has_sent_follow_request": FollowRequest.objects.filter(user_requesting_to_follow=logged_in_user, user_receiving_follow_request=user_with_profile_being_viewed).exists()
 
     }
+
+    if is_ajax(request=request):
+        if request.GET.get('original_text'):
+            original_text = request.GET.get('original_text')
+            src = request.GET.get('src')
+            dest = request.GET.get('dest')
+            print(src)
+            print(dest)
+            print(original_text)
+            translation_dict = {"src": res.src, "dest": res.dest, "translated_text": res.text, "original_text": original_text}
+            print(translation_dict)
+            return JsonResponse(translation_dict)
+
     return render(request, 'users/user_profile.html', context)
 
 
