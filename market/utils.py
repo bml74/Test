@@ -72,7 +72,21 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
             BASE_DOMAIN = 'http://127.0.0.1:8000' 
         else:
             BASE_DOMAIN = 'https://www.hoyabay.com'
-        message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=f"{group.name} has requested a payment", html_content=f'Click <a href="{BASE_DOMAIN}/market/checkout/listing_for_group_members/{ListingForGroupMembers_obj_id}/">here</a> to pay this request.')
+        title = listing_for_group_members.title
+        price = "%.2f" % listing_for_group_members.price
+        subject = f"{group.name} has requested a payment"
+        html_content = f"""
+        <p>
+            {group.name} has requested that you pay ${price} for {title}.
+        </p>
+        <p>
+            Click <a href="{BASE_DOMAIN}/market/checkout/listing_for_group_members/{ListingForGroupMembers_obj_id}/">here</a> to pay this request.
+        </p>
+        <p>
+            To reject this request, click <a href="{BASE_DOMAIN}/market/my/payment_requests/">here</a>.
+        </p>
+        """
+        message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
         print(response.status_code)
