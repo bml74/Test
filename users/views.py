@@ -18,6 +18,15 @@ from config.utils import is_ajax
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
+def getOverallRating(user_being_rated):
+        overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
+        overall_rating = 0
+        for r in overall_ratings:
+            overall_rating += r.rating
+        overall_rating /= len(overall_ratings)
+        return overall_rating
+
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -93,11 +102,7 @@ def user_profile(request, username):
             return JsonResponse(ratings_dict)
 
     if Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).exists():
-        overall_ratings = Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).all()
-        overall_rating = 0
-        for r in overall_ratings:
-            overall_rating += r.rating
-        overall_rating /= len(overall_ratings)
+        overall_rating = getOverallRating(user_being_rated=user_with_profile_being_viewed)
         user_has_been_rated = True
     else:
         overall_rating = "NA"
