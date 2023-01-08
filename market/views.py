@@ -158,13 +158,18 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         recs = generate_recommendations_from_queryset(queryset=Listing.objects.all(), obj=listing)
         print(recs)
 
+        from users.views import getOverallRating
+        overall_rating = getOverallRating(user_being_rated=listing.creator)
+
         context = {
             "item": listing, 
             "user_is_creator": listing.creator == request.user,
             "obj_type": "listing",
             "all_listings_from_this_creator": all_listings_from_this_creator,
 
-            "recs": recs
+            "recs": recs,
+
+            "overall_rating": overall_rating
         }
 
         return render(request, 'market/listing.html', context)

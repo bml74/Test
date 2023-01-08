@@ -92,12 +92,7 @@ def user_profile(request, username):
             else:
                 r = Rating(rating=rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed)
                 r.save()
-            overall_ratings = Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).all()
-            overall_rating = 0
-            for r in overall_ratings:
-                overall_rating += r.rating
-            overall_rating /= len(overall_ratings)
-            print(rating)
+            overall_rating = getOverallRating(user_being_rated=user_with_profile_being_viewed)
             ratings_dict = {"rating": '{0:.1f}'.format(rating), "overall_rating": '{0:.1f}'.format(overall_rating)}
             return JsonResponse(ratings_dict)
 
