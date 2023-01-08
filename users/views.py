@@ -19,12 +19,14 @@ from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 
 
 def getOverallRating(user_being_rated):
-        overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
+    overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
+    if overall_ratings:
         overall_rating = 0
         for r in overall_ratings:
             overall_rating += r.rating
         overall_rating /= len(overall_ratings)
         return overall_rating
+    return 0
 
 
 def register(request):
