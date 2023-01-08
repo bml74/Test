@@ -173,14 +173,28 @@
 
 
     <div class="mt-4 pt-4">
+        <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            {% if user_has_been_rated %}
+                This seller's overall rating: <span id="overall-rating">{{ overall_rating|floatformat:1 }}</span>/5
+            {% else %}
+                This seller hasn't yet been rated.
+            {% endif %}
+        </p>
+        <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            {% if logged_in_user_has_rated %}
+                Your rating of this seller: <span id="my-rating">{{ rating|floatformat:1 }}</span>/5
+            {% else %}
+                You haven't yet rated this seller.
+            {% endif %}
+        </p>
         <label for="rating" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rate your experience with this seller</label>
         <select id="rating" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mb-4">
-            <option selected disabled>Select a rating</option>
-            <option value="5">5: Excellent</option>
-            <option value="4">4: Very good</option>
-            <option value="3">3: OK</option>
-            <option value="2">2: Poor</option>
-            <option value="1">1: Very bad</option>
+            <option disabled>Select a rating</option>
+            <option value="5" id="5">5: Excellent</option>
+            <option value="4" id="4">4: Very good</option>
+            <option value="3" id="3">3: OK</option>
+            <option value="2" id="2">2: Poor</option>
+            <option value="1" id="1">1: Very bad</option>
         </select>
     </div>
 
@@ -308,16 +322,47 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-{% comment %} <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> {% endcomment %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+
+    let currentRating = "{{ rating|safe }}";
+    switch(currentRating) {
+        case "1.0":
+            document.getElementById("1").selected = true;
+            break;
+        case "2.0":
+            document.getElementById("2").selected = true;
+            break;
+        case "3.0":
+            document.getElementById("3").selected = true;
+            break;
+        case "4.0":
+            document.getElementById("4").selected = true;
+            break;
+        case "5.0":
+            document.getElementById("5").selected = true;
+            break;
+    }
+
     selectEl = document.getElementById("rating");
+    user_with_profile_being_viewed = "{{ user_with_profile_being_viewed|safe }}";
     selectEl.addEventListener("change", (e) => {
-        alert("h");
+        $.ajax({
+            url: `/profile/${user_with_profile_being_viewed}/`,
+            type: 'get',
+            dataType: 'json',
+            data: {
+                rating: selectEl.value,
+            },
+            error: function(response) {
+                console.log(response);
+            },
+            success: function(response) {
+                document.getElementById("overall-rating").innerHTML = response.overall_rating; 
+                document.getElementById("my-rating").innerHTML = response.rating;
+            }
+        });
     });
 </script>
 

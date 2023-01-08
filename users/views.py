@@ -1,6 +1,6 @@
 from users.utils import get_user_followers_data
 from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
-from .models import FollowersCount, FollowRequest, Profile, ReferralCode
+from .models import FollowersCount, FollowRequest, Profile, ReferralCode, Rating
 from .utils import (
     get_user_followers_data,
     get_groups_that_user_created,
@@ -71,16 +71,50 @@ def user_profile(request, username):
     }
 
     if is_ajax(request=request):
-        if request.GET.get('original_text'):
-            original_text = request.GET.get('original_text')
-            src = request.GET.get('src')
-            dest = request.GET.get('dest')
-            print(src)
-            print(dest)
-            print(original_text)
-            translation_dict = {"src": res.src, "dest": res.dest, "translated_text": res.text, "original_text": original_text}
-            print(translation_dict)
-            return JsonResponse(translation_dict)
+        if request.GET.get('rating'):
+            rating = int(request.GET.get('rating'))
+            if Rating.objects.filter(rater=logged_in_user, user_being_rated=user_with_profile_being_viewed).exists():
+                r = get_object_or_404(Rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed)
+                print("RRRR")
+                print(r)
+                print("RRRR")
+                r.rating = rating
+                r.save()
+            else:
+                r = Rating(rating=rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed)
+                r.save()
+            overall_ratings = Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).all()
+            overall_rating = 0
+            for r in overall_ratings:
+                overall_rating += r.rating
+            overall_rating /= len(overall_ratings)
+            print(rating)
+            ratings_dict = {"rating": '{0:.1f}'.format(rating), "overall_rating": '{0:.1f}'.format(overall_rating)}
+            return JsonResponse(ratings_dict)
+
+    if Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).exists():
+        overall_ratings = Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).all()
+        overall_rating = 0
+        for r in overall_ratings:
+            overall_rating += r.rating
+        overall_rating /= len(overall_ratings)
+        user_has_been_rated = True
+    else:
+        overall_rating = "NA"
+        user_has_been_rated = False
+    if Rating.objects.filter(rater=logged_in_user, user_being_rated=user_with_profile_being_viewed).exists():
+        rating = get_object_or_404(Rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed).rating
+        logged_in_user_has_rated = True
+    else:
+        rating = "NA"
+        logged_in_user_has_rated = False
+    
+    context.update({
+        "overall_rating": '{0:.1f}'.format(overall_rating),
+        "rating": '{0:.1f}'.format(rating),
+        "user_has_been_rated": user_has_been_rated,
+        "logged_in_user_has_rated": logged_in_user_has_rated
+    })
 
     return render(request, 'users/user_profile.html', context)
 
