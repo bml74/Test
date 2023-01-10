@@ -31,6 +31,7 @@ class Profile(models.Model):
     )
     ACCOUNT_BALANCE = models.FloatField(default=0.0)
     venmoHandle = models.CharField(max_length=256, blank=True, null=True)
+    stripe_account_id = models.CharField(max_length=256, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'
