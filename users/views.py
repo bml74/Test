@@ -1,3 +1,6 @@
+import sys
+from decouple import config
+import stripe
 from users.utils import get_user_followers_data
 from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import FollowersCount, FollowRequest, Profile, ReferralCode, Rating
@@ -16,7 +19,6 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from config.utils import is_ajax
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-
 
 def getOverallRating(user_being_rated):
     overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
@@ -120,7 +122,6 @@ def user_profile(request, username):
 
     return render(request, 'users/user_profile.html', context)
 
-
 @login_required
 def profile(request):
 
@@ -151,6 +152,14 @@ def profile(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
 
+    stripe_login_link = None
+    try:
+        stripe.api_key = config('STRIPE_TEST_KEY') 
+        login_link = stripe.Account.create_login_link(request.user.profile.stripe_account_id)
+        stripe_login_link = login_link.url + '#/account'
+    except:
+        print('stripe account does not exist')
+
     context = {
         'u_form': u_form,
         'p_form': p_form,
@@ -171,11 +180,50 @@ def profile(request):
         "num_followers": num_followers,
         "users_that_user_with_profile_being_viewed_is_following": users_that_user_with_profile_being_viewed_is_following,
         "num_following": num_following,
-        "follow_requests": follow_requests
+        "follow_requests": follow_requests,
+
+        'stripe_login_link': stripe_login_link
     }
 
     return render(request, 'users/profile.html', context)
 
+@login_required
+def profileConnectToStripe(request):    
+    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+
+    if RUNNING_DEVSERVER:
+        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        stripe.api_key = config('STRIPE_TEST_KEY') 
+    else:
+        BASE_DOMAIN = 'https://www.hoyabay.com'
+        stripe.api_key = config('STRIPE_LIVE_KEY')
+
+    stripeAccount = stripe.Account.create(
+        type="express",
+        country="US",
+        email=request.user.email,
+        capabilities={
+            "card_payments": {"requested": True},
+            "transfers": {"requested": True},
+        },
+    )
+
+    accountLinks = stripe.AccountLink.create(
+        account=stripeAccount.id,
+        refresh_url= BASE_DOMAIN + "/profile",
+        return_url= BASE_DOMAIN + "/profile/stripe-connect-callback/" + stripeAccount.id,
+        type="account_onboarding",
+    )
+
+    return redirect(accountLinks.url)
+
+@login_required
+def profileStripeConnectCallback(request, stripe_account_id):
+    user_profile = get_object_or_404(Profile, user=request.user)
+    user_profile.stripe_account_id = stripe_account_id
+    user_profile.save()
+
+    return profile(request)
 
 @login_required
 def referral(request):
