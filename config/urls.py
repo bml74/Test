@@ -42,6 +42,8 @@ urlpatterns = [
     path('password-reset-complete/', auth_views.PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'), name='password_reset_complete'),
     path('', include(tf_urls)),
     path('profile/', user_views.profile, name='profile'),
+    path('profile/connect-to-stripe', user_views.profileConnectToStripe, name='profile_connect_to_stripe'),
+    path('profile/stripe-connect-callback/<str:stripe_account_id>/', user_views.profileStripeConnectCallback, name='stripe_connect_callback'),
     path('referral/', user_views.referral, name='referral'),
     path('profile/<str:username>/', user_views.user_profile, name='user_profile'),
 
