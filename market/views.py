@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
+from users.models import Profile
 from .models import Listing, Transaction
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from django.views.generic import (
@@ -285,8 +286,33 @@ def purchase_item_for_free(request, obj_type, pk):
 #checkout call
 def checkout(request, obj_type, pk):
     item = None
+    payment_intent_client_secret = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
+        creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
+
+        if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
+            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+
+            if RUNNING_DEVSERVER:
+                stripe.api_key = config('STRIPE_TEST_KEY') 
+            else:
+                stripe.api_key = config('STRIPE_LIVE_KEY')
+
+            commission_fee = 0.10 # 10% commission fee
+            price_rounded = round(item.price, 2)
+            total_payment_amount = int(price_rounded * 100)
+            payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
+
+            payment_intent = stripe.PaymentIntent.create(
+                amount=total_payment_amount,
+                currency='usd',
+                transfer_data={
+                    'amount': payout_amount,
+                    'destination': creator_user_profile.stripe_account_id
+                }
+            )
+            payment_intent_client_secret = payment_intent.client_secret
     elif obj_type == 'listing_for_group_members':
         item = ListingForGroupMembers.objects.get(pk=pk)
     elif obj_type == 'course':
@@ -300,7 +326,7 @@ def checkout(request, obj_type, pk):
                 return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
         except:
             pass
-        context = {"item": item, "obj_type": obj_type}
+        context = {"item": item, "obj_type": obj_type, "payment_intent_client_secret": payment_intent_client_secret}
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
 
