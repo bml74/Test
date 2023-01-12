@@ -2,8 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator
-
 from ecoles.choices import Visibility
+from config.choices import GeorgetownLocations
 
 
 class Listing(models.Model):
@@ -39,13 +39,29 @@ class Listing(models.Model):
     infinite_copies_available = models.BooleanField(default=False, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
     quantity_available = models.IntegerField(default=1, blank=True, null=True, validators=[MinValueValidator(0.00)])
     quantity_sold = models.IntegerField(default=0, blank=True, null=True, validators=[MinValueValidator(0.00)])
-    purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)
+    purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)    
 
     def __str__(self):
         return self.title
 
     def get_absolute_url(self):
         return reverse('listing', kwargs={'pk': self.pk})
+
+
+class SuggestedDelivery(models.Model):
+    georgetown_location = models.CharField(
+        max_length=100,
+        choices=GeorgetownLocations.choices,
+        default=GeorgetownLocations.NONE,
+        blank=True,
+        null=True
+    )
+    suggested_time = models.DateTimeField(auto_now_add=False)
+    listing = models.ForeignKey(Listing, null=True, blank=True, related_name="seller", on_delete=models.PROTECT)
+    seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="seller_of_listing")
+    purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="purchaser_of_listing")
+    seller_verified = models.BooleanField(null=True, blank=True)
+    purchaser_verified = models.BooleanField(null=True, blank=True)
 
 
 class Fundraiser(models.Model):
@@ -78,29 +94,10 @@ class Transaction(models.Model):
     inserted_on = models.DateTimeField(auto_now_add=True)
     end_payment_sent = models.BooleanField(default=False)
 
+    delivery = models.ForeignKey(SuggestedDelivery, on_delete=models.CASCADE, null=True, blank=True, related_name="delivery")
+
     def __str__(self):
         return f"Transaction #{self.transaction_id}"
 
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'pk': self.pk})
-
-"""
-from market.models import Transaction
-from django.contrib.auth.models import User
-u = User.objects.first()
-t = Transaction(
-    transaction_obj_type='listing', 
-    transaction_obj_id=1, 
-    title='TEST TITLE', 
-    purchaser=u, 
-    transaction_id='TEST', 
-    value=934, 
-    description=f'Purchase of listing'
-)
-t.save()
-print(Transaction.objects.last())
-"""
-
-"""
-Professor D'Acunto: Research area on Cultural Finance - Jewish persecution
-"""

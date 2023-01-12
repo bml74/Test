@@ -198,11 +198,13 @@ async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
+    item_id = "{{ item_id }}";
+
     const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "http://127.0.0.1:8000/market/success/checkout/listing/1/?session_id=some_id",
+            return_url: `http://127.0.0.1:8000/market/success/checkout/${obj_type}/${item.id}/?session_id=some_id`,
             receipt_email: emailAddress,
         },
     });

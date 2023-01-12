@@ -28,12 +28,19 @@ from config.abstract_settings.template_names import (
     FORM_VIEW_TEMPLATE_NAME, 
     CONFIRM_DELETE_TEMPLATE_NAME
 )
-from config.utils import formValid, get_group_and_group_profile_from_group_id, getGroupProfile, is_ajax
+from config.utils import (
+    formValid, 
+    get_group_and_group_profile_from_group_id, 
+    getGroupProfile, 
+    is_ajax
+)
 from .utils import (
     get_group_and_group_profile_and_listing_from_listing_id,
     get_data_on_listing_for_group_members,
     create_payment_request_from_group_member,
-    remove_payment_request_from_group_member
+    remove_payment_request_from_group_member,
+    allowSaleBasedOnQuantity,
+    handleQuantity
 )
 
 
@@ -119,7 +126,8 @@ class ListingListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        return Listing.objects.all().exclude(visibility='Invisible').all().order_by('-title')
+        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0)
+        return results.exclude(visibility='Invisible').all().order_by('-title')
 
 
 class ListingsByUserListView(UserPassesTestMixin, ListView):
@@ -354,9 +362,17 @@ def checkout_session(request, obj_type, pk):
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item: # if item is not None
+
+        if obj_type == 'listing':
+            if not allowSaleBasedOnQuantity(item):
+                return JsonResponse({"Error": "There are not enough of these items available."})
+            else: 
+                handleQuantity(item)
+
         if obj_type in ['listing', 'course', 'specialization']:
             if item.creator == request.user:
                 return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
+
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[{
@@ -398,45 +414,45 @@ def generate_transaction_id(length):
 def payment_success(request, obj_type, pk):
     print(f"OBJ TYPE: {obj_type}")
     print(f"PK: {pk}")
+    item = purchase_logic(request, obj_type, item_id=pk)
     try:
         session = stripe.checkout.Session.retrieve(request.GET['session_id'])
         item_id = session.client_reference_id
 
         print(item_id)
-        # item = None
-        # if obj_type == 'listing':
-        #     item = Listing.objects.get(pk=pk)
-        # elif obj_type == 'listing_for_group_members':
-        #     item = ListingForGroupMembers.objects.get(pk=pk)
-        #     # If there are existing requests, delete.
-        #     if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
-        #         for req in RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).all():
-        #             req.delete()
-        #     item.members_who_have_paid.add(request.user)
-        # # If obj_type is course or specialization then also enroll
-        # elif obj_type == 'course':
-        #     item = Course.objects.get(pk=pk)
-        #     # If obj_type is course then enroll in that course
-        #     if not item.students.filter(id=request.user.id).exists():
-        #         item.students.add(request.user)
-        #     if not item.purchasers.filter(id=request.user.id).exists():
-        #         item.purchasers.add(request.user)
-        # elif obj_type == 'specialization':
-        #     item = Specialization.objects.get(pk=pk)
-        #     # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
-        #     if not item.students.filter(id=request.user.id).exists():
-        #         item.students.add(request.user)
-        #     if not item.purchasers.filter(id=request.user.id).exists():
-        #         item.purchasers.add(request.user)
-        #     if isinstance(item, Specialization): # Affirm that obj is of type Specialization
-        #         courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
-        #         for course in courses_within_specialization: # For each of these courses within the specialization
-        #             if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
-        #                 course.students.add(request.user) # Then add user as a student
-        item = Listing.objects.get(pk=1)
-        print('item')
-        print(item)
-        print('item')
+        item = None
+        if obj_type == 'listing':
+            item = Listing.objects.get(pk=pk)
+        elif obj_type == 'listing_for_group_members':
+            item = ListingForGroupMembers.objects.get(pk=pk)
+            # If there are existing requests, delete.
+            if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
+                for req in RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).all():
+                    req.delete()
+            item.members_who_have_paid.add(request.user)
+        # If obj_type is course or specialization then also enroll
+        elif obj_type == 'course':
+            item = Course.objects.get(pk=pk)
+            # If obj_type is course then enroll in that course
+            if not item.students.filter(id=request.user.id).exists():
+                item.students.add(request.user)
+            if not item.purchasers.filter(id=request.user.id).exists():
+                item.purchasers.add(request.user)
+        elif obj_type == 'specialization':
+            item = Specialization.objects.get(pk=pk)
+            # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
+            if not item.students.filter(id=request.user.id).exists():
+                item.students.add(request.user)
+            if not item.purchasers.filter(id=request.user.id).exists():
+                item.purchasers.add(request.user)
+            if isinstance(item, Specialization): # Affirm that obj is of type Specialization
+                courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
+                for course in courses_within_specialization: # For each of these courses within the specialization
+                    if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
+                        course.students.add(request.user) # Then add user as a student
+        print('creator')
+        print(item.creator)
+        print('creator')
 
         if item is not None:
 
@@ -469,11 +485,13 @@ def payment_success(request, obj_type, pk):
             t.save()
 
             return render(request, 'payments/success.html', context={
-                "obj_type":  obj_type
+                "obj_type":  obj_type,
+                "session_id": item_id
             }) 
         else:
             return render(request, 'payments/cancel.html')
-    except:
+    except Exception as e:
+        print(e)
         return render(request, 'payments/cancel.html')
 
 
@@ -623,13 +641,6 @@ class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
         context.update({
             "obj_type": "listing_for_group_members"
         })
-
-        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-
-        if RUNNING_DEVSERVER:
-            print('PMT_TEST_KEY') 
-        else:
-            print('PMT_LIVE_KEY')
 
         return context
 

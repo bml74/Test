@@ -97,7 +97,6 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
 
 
 
-
 def remove_payment_request_from_group_member(user_sending_request, user_receiving_request, ListingForGroupMembers_obj_id):
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=ListingForGroupMembers_obj_id)
     payment_request = get_object_or_404(
@@ -119,3 +118,4 @@ def handleQuantity(listing):
     """If infinite copies nothing needs to be done. Else decrement quantity available and increment quantity sold."""
     listing.quantity_available -= 1
     listing.quantity_sold += 1
+    listing.save()

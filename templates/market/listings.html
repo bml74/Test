@@ -88,11 +88,12 @@ Hoyabay | Listings
                                                 <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
                                             </a>
                                             <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                {% if item.visibility == "Anonymous" %}
+                                                {% comment %} {% if item.visibility == "Anonymous" %}
                                                     Anonymous
                                                 {% else %} <!-- If public or private. -->
                                                     {{ item.creator }}
-                                                {% endif %}
+                                                {% endif %} {% endcomment %}
+                                                {{ item.creator }}
                                             </p>
                                             {% comment %} <div class="flex items-center mt-2.5 mb-5">
                                                 <span class="fa fa-star" id="1-star"></span>

@@ -111,6 +111,38 @@ class Languages(TextChoices):
     ET = 'ee'
 
 
+class GeorgetownLocations(TextChoices):
+    COPLEY = 'Copley'
+    DARNALL = 'Darnall'
+    HARBIN = 'Harbin'
+    NEW_SOUTH = 'New South'
+    ARRUPE = 'Arrupe'
+    VILLAGE_B = 'Village B'
+    VILLAGE_A = 'Village A'
+    HENLE = 'Henle'
+    LXR = 'LXR'
+    KENNEDY = 'Kennedy'
+    MCCARTHY = 'McCarthy'
+    REYNOLDS = 'Reynolds'
+    NEVILS = 'Nevils'
+    VILLAGE_C = 'Village C'
+    TOWNHOUSE = 'Townhouse'
+    OFF_CAMPUS = 'Off Campus'
+    LEOS = 'Leo\'s'
+    HEALY_HALL = 'Healy Hall'
+    HSFC = 'HSFC'
+    LAU = 'Lauinger Library'
+    WHITE_GRAVENOR = 'White-Gravenor'
+    ICC = 'ICC'
+    LEAVEY_CENTER = 'Leavey Center'
+    YATES = 'Yates'
+    NONE = 'None'
+
+
+
+
+
+
 
 
 # AF = 'Afrikaans'
@@ -221,3 +253,4 @@ class Languages(TextChoices):
 # YO = 'Yoruba'
 # ZU = 'Zulu'
 # EE = 'Et'
+
