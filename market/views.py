@@ -396,53 +396,60 @@ def generate_transaction_id(length):
 
 #stripe success payment
 def payment_success(request, obj_type, pk):
+    print(f"OBJ TYPE: {obj_type}")
+    print(f"PK: {pk}")
     try:
         session = stripe.checkout.Session.retrieve(request.GET['session_id'])
         item_id = session.client_reference_id
-        item = None
-        if obj_type == 'listing':
-            item = Listing.objects.get(pk=pk)
-        elif obj_type == 'listing_for_group_members':
-            item = ListingForGroupMembers.objects.get(pk=pk)
-            # If there are existing requests, delete.
-            if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
-                for req in RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).all():
-                    req.delete()
-            item.members_who_have_paid.add(request.user)
-        # If obj_type is course or specialization then also enroll
-        elif obj_type == 'course':
-            item = Course.objects.get(pk=pk)
-            # If obj_type is course then enroll in that course
-            if not item.students.filter(id=request.user.id).exists():
-                item.students.add(request.user)
-            if not item.purchasers.filter(id=request.user.id).exists():
-                item.purchasers.add(request.user)
-        elif obj_type == 'specialization':
-            item = Specialization.objects.get(pk=pk)
-            # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
-            if not item.students.filter(id=request.user.id).exists():
-                item.students.add(request.user)
-            if not item.purchasers.filter(id=request.user.id).exists():
-                item.purchasers.add(request.user)
-            if isinstance(item, Specialization): # Affirm that obj is of type Specialization
-                courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
-                for course in courses_within_specialization: # For each of these courses within the specialization
-                    if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
-                        course.students.add(request.user) # Then add user as a student
 
+        print(item_id)
+        # item = None
+        # if obj_type == 'listing':
+        #     item = Listing.objects.get(pk=pk)
+        # elif obj_type == 'listing_for_group_members':
+        #     item = ListingForGroupMembers.objects.get(pk=pk)
+        #     # If there are existing requests, delete.
+        #     if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
+        #         for req in RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).all():
+        #             req.delete()
+        #     item.members_who_have_paid.add(request.user)
+        # # If obj_type is course or specialization then also enroll
+        # elif obj_type == 'course':
+        #     item = Course.objects.get(pk=pk)
+        #     # If obj_type is course then enroll in that course
+        #     if not item.students.filter(id=request.user.id).exists():
+        #         item.students.add(request.user)
+        #     if not item.purchasers.filter(id=request.user.id).exists():
+        #         item.purchasers.add(request.user)
+        # elif obj_type == 'specialization':
+        #     item = Specialization.objects.get(pk=pk)
+        #     # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
+        #     if not item.students.filter(id=request.user.id).exists():
+        #         item.students.add(request.user)
+        #     if not item.purchasers.filter(id=request.user.id).exists():
+        #         item.purchasers.add(request.user)
+        #     if isinstance(item, Specialization): # Affirm that obj is of type Specialization
+        #         courses_within_specialization = Course.objects.filter(specialization=item) # Get all courses within specialization
+        #         for course in courses_within_specialization: # For each of these courses within the specialization
+        #             if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
+        #                 course.students.add(request.user) # Then add user as a student
+        item = Listing.objects.get(pk=1)
+        print('item')
+        print(item)
+        print('item')
 
         if item is not None:
 
             # Generate Transaction record
             transaction_no = generate_transaction_id(10)
 
-            print(item)
-            print(type(item))
-            print("from payment success function")
-            print(obj_type)
-            print(item.id)
-            print(item.title)
-            print(item.price)
+            # print(item)
+            # print(type(item))
+            # print("from payment success function")
+            # print(obj_type)
+            # print(item.id)
+            # print(item.title)
+            # print(item.price)
 
             t = Transaction(
                 transaction_obj_type=obj_type, 
@@ -451,7 +458,7 @@ def payment_success(request, obj_type, pk):
                 purchaser=request.user, 
                 transaction_id=transaction_no, 
                 value=float(item.price), 
-                description=f'Purchase of obj_type'
+                description=f'Purchase of {obj_type}'
             )
             try:
                 if item.creator:
@@ -460,8 +467,7 @@ def payment_success(request, obj_type, pk):
                 pass
 
             t.save()
-            # Render template
-            print(t)
+
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type
             }) 

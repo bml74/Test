@@ -84,3 +84,23 @@ class Transaction(models.Model):
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'pk': self.pk})
 
+"""
+from market.models import Transaction
+from django.contrib.auth.models import User
+u = User.objects.first()
+t = Transaction(
+    transaction_obj_type='listing', 
+    transaction_obj_id=1, 
+    title='TEST TITLE', 
+    purchaser=u, 
+    transaction_id='TEST', 
+    value=934, 
+    description=f'Purchase of listing'
+)
+t.save()
+print(Transaction.objects.last())
+"""
+
+"""
+Professor D'Acunto: Research area on Cultural Finance - Jewish persecution
+"""
