@@ -122,12 +122,17 @@ class TransactionDeliveryDetailView(UserPassesTestMixin, DetailView):
         transaction = get_object_or_404(Transaction, pk=kwargs['transaction_pk'])
         buyer_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Buyer").all()
         seller_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Seller").all()
+        if transaction.delivery:
+            accepted_delivery = transaction.delivery
+        else: 
+            accepted_delivery = None
         context = {
             "transaction": transaction, 
             "user_is_seller": transaction.seller == request.user,
             "buyer_suggested_deliveries": buyer_suggested_deliveries,
             "seller_suggested_deliveries": seller_suggested_deliveries,
-            "header": f"Delivery for Transaction #{transaction.transaction_id}"
+            "header": f"Delivery for Transaction #{transaction.transaction_id}",
+            "accepted_delivery": accepted_delivery
         }
         return render(request, 'payments/transaction-delivery.html', context)
 
@@ -168,8 +173,15 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
         return context
 
 
-def accept_delivery_suggestion(request):
-    return render(request, 'payments/transaction-delivery.html', context={})
+def set_delivery(request, transaction_pk, suggestion_pk):
+    suggestion = get_object_or_404(SuggestedDelivery, id=suggestion_pk)
+    suggestion.seller_verified = True
+    suggestion.purchaser_verified = True
+    suggestion.save()
+    transaction = get_object_or_404(Transaction, id=transaction_pk)
+    transaction.delivery = suggestion
+    transaction.save()
+    return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
 
 class ListingListView(UserPassesTestMixin, ListView):

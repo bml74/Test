@@ -1,4 +1,4 @@
-{% extends 'market/dashboard/dashboard_base.html' %}
+{% extends 'market/base.html' %}
 {% load static %}
 {% load humanize %}
 {% load crispy_forms_tags %}
@@ -10,69 +10,121 @@
 {% block main %}
 
 
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
 
 
 
-<div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
-    <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
-        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">{{ header }}</h1>
-    </div>
-    <div class="_wYiJGbRZyFZeCc8y7Sf _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi">
-      <div class="YRrCJSr_j5nopfm4duUc sJNGKHxFYdN5Nzml5J2j Q_jg_EPdNf9eDMn1mLI2 hD0sTTDgbxakubcHVW2X">
-        <h3 class="vyo_A8gnQD1QWDPglr3h IOPhczRgtphv6NdNBDjj __9sbu0yrzdhGIkLWNXl OyABRrnTV_kvHV7dJ0uE">{{ header }}</h3>
-      </div>
-      <div class="YRrCJSr_j5nopfm4duUc e8VqoQNK0mbkRFDL3LMV">
-        <div class="_IebywwKB6L2zG0BTy63 mveJTCIb2WII7J4sY22F">
-          <div class="VPGGthdu3cy_ZP7AL7dt TK9h2c2b79uBgR_cJzCE u0Aizb1ol0gBXDISYKJM">
-            <div class="wBVMFkIGfrKshbvi2gS1 mngKhi_Rv06PF57lblDI PTS4x_A1HVmoZYJHkYaG">
 
-                <p class="flex mt-4">
-                    <a href="{% url 'transaction' transaction.id %}" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">&larr;&nbsp;View transaction details</a>
-                </p>
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
 
-                <p class="flex mt-4">
-                    <a href="{% url 'create-delivery-suggestion' transaction.id %}" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Create suggestion</a>
-                </p>
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 pl-15vw pr-15vw">
+
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Delivery Details</span></h1>
+                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400 mb-4">{{ header }}</p>
+
+                            <a href="{% url 'transaction' transaction.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">&larr;&nbsp;View transaction details</a>
+                            <a href="{% url 'create-delivery-suggestion' transaction.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Create suggestion&nbsp;<i class="fas fa-plus-circle"></i></a>
+
+                            <p>
+                                {{ accepted_delivery }}
+                            </p>
+
+                            
+                            
+
+                            
 
 
-                <div>
-                    <div>
-                        Suggested by the purchaser ({{ transaction.purchaser }})
-                        <ul>
-                            {% for suggestion in buyer_suggested_deliveries %}
-                                <li>{{ suggestion.suggested_date_time }} {{ suggestion.id }} {{ suggestion.georgetown_location }}</li>
-                            {% endfor %}
-                        </ul>
+
+
+
+                        </div>
+                
+                         <div id="mainContent" class="pl-15vw pr-15vw">
+
+
+
+                            
+                            <div class="grid grid-cols-3 mt-6 md:grid-cols-2 xl:grid-cols-3">
+
+                                    <div class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                        <span class="font-extrabold tracking-tight">{{ transaction.purchaser }}</span>
+                                        <div class="">
+                                            <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Suggested by the purchaser</h5>
+                                        </div>
+                                        <ul>
+                                            {% for suggestion in buyer_suggested_deliveries %}
+
+                                                <div class="max-w-sm mb-4 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
+                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.georgetown_location }}</p>
+                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.suggested_date_time }}</p>
+                                                    <a href="{% url 'set_delivery' transaction.id suggestion.id %}" class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        Agree
+                                                        <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                    </a>
+                                                    {% if suggestion.purchaser == request.user %}
+                                                    <a href="#" class="mt-2 inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                        Update
+                                                        <svg aria-hidden="true" class="w-4 h-4 ml-2 -mr-1" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                                    </a>
+                                                    {% endif %}
+                                                </div>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+
+                                    <div class="p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                        <span class="font-extrabold tracking-tight">{{ transaction.seller }}</span>
+                                        <div class="">
+                                            <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">Suggested by the seller</h5>
+                                        </div>
+                                        <ul>
+                                            {% for suggestion in seller_suggested_deliveries %}
+                                                <li>{{ suggestion.suggested_date_time }} {{ suggestion.id }} {{ suggestion.georgetown_location }}</li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                            
+                            </div>
+                            
+
+                    
+                        </div> 
+
                     </div>
-                    <div class="py-2"></div>
-                    <div>
-                        Suggested by the seller ({{ transaction.seller }})
-                        <ul>
-                            {% for suggestion in seller_suggested_deliveries %}
-                                <li>{{ suggestion.suggested_date_time }} {{ suggestion.id }} {{ suggestion.georgetown_location }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
 
 
-            </div>
-          </div>
+                
+
+                </div> 
+                
+            </main> 
+
+
         </div>
-      </div>
     </div>
-</div>
+
+
+    
 
 
 
-
-
+</main>
 
 
 
 
 
 {% endblock main %}
+
+
 
 
 
