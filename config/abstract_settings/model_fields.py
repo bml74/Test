@@ -62,6 +62,7 @@ LISTING_FIELDS = [
     'quantity_available', 
     'listing_medium', 
     'listing_type',
+    'image'
 ]
 
 

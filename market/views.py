@@ -174,7 +174,8 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
 
     def get_context_data(self, **kwargs):
         context = super(TransactionDeliveryCreateView, self).get_context_data(**kwargs)
-        header = "Add suggested delivery"
+        transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
+        header = f"Add suggested delivery for Transaction #{transaction.transaction_id}"
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context

@@ -9,6 +9,7 @@ from config.choices import GeorgetownLocations
 
 class Listing(models.Model):
     title = models.CharField(max_length=64, default="Listing", blank=False)
+    image = models.FileField(upload_to='listings/images', blank=True, null=True)
     # image = .....
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(default=50, validators=[MinValueValidator(0.00)])
