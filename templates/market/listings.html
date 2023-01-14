@@ -1,3 +1,4 @@
+
 {% extends 'market/base.html' %}
 {% load static %}
 
@@ -9,7 +10,7 @@ Hoyabay | Listings
 
 <main class="grow" style="margin: 2%;">
 
-    <div class="w-full px-5 mx-auto max-w-8xl">
+    <div class="w-full px-5 mx-auto max-w-8xl"> 
     <div class="lg:flex">
         <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
             <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
@@ -52,132 +53,83 @@ Hoyabay | Listings
         </aside>
 
 
-    <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-        <div class="flex w-full">
+        <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+            <div class="flex w-full">
 
-            <div class="flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
-        
-            <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-        
-                <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay</span> Marketplace</h1>
-                <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Explore a variety of products and services, from used textbooks and tutoring sessions to NFTs and software programs.</p>
-                
-            </div>
+                <div class="flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+            
+                <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+            
+                    <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay</span> Marketplace</h1>
+                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Explore a variety of products and services, from used textbooks and tutoring sessions to NFTs and software programs.</p>
+                    
+                </div>
 
-            <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                <a href="{% url 'listing-create' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create new listing</a>
-            </div>     
-        
-                <div id="mainContent">
+                <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                    <a href="{% url 'listing-create' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create new listing</a>
+                </div>     
+            
+                    <div id="mainContent">
 
-                    <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2>
-                
-                    <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
-                        <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
-                        <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
-                            {% for item in items %}    
-                                {% if item.visibility != "Invisible" %}
-                
-                                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
+                        <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2>
+                    
+                        <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
+                            <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
+                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
+                                {% for item in items %}    
+                                    {% if item.visibility != "Invisible" %}
+                    
+                                        <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
 
-                                        <div class="p-4">
-                                            {% if item.image %}
-                                            <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
-                                            {% endif %}
-                                        </div>
+                                            <div class="p-4">
+                                                {% if item.image %}
+                                                <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                {% endif %}
+                                            </div>
 
-                                        <br>
-                                        <div class="px-2 pb-2">
-                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
-                                        </div>
+                                            <br>
+                                            <div class="px-2 pb-2">
+                                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                            </div>
 
-                                        <div class="px-5 pb-5">
-                                            <a href="{% url 'listing' item.id %}">
-                                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                            </a>
-                                            <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                {% comment %} {% if item.visibility == "Anonymous" %}
-                                                    Anonymous
-                                                {% else %} <!-- If public or private. -->
+                                            <div class="px-5 pb-5">
+                                                <a href="{% url 'listing' item.id %}">
+                                                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                </a>
+                                                <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
                                                     {{ item.creator }}
-                                                {% endif %} {% endcomment %}
-                                                {{ item.creator }}
-                                            </p>
-                                            {% comment %} <div class="flex items-center mt-2.5 mb-5">
-                                                <span class="fa fa-star" id="1-star"></span>
-                                                <span class="fa fa-star" id="2-star"></span>
-                                                <span class="fa fa-star" id="3-star"></span>
-                                                <span class="fa fa-star" id="4-star"></span>
-                                                <span class="fa fa-star" id="5-star"></span>
-                                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ overall_rating }}</span>
-                                            </div>  {% endcomment %}
-                                            <div class="flex justify-between items-center">
-                                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
-                                                <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                </p>
+                                                <div class="flex justify-between items-center">
+                                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                    <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                
-                                {% endif %}
-                            {% endfor %}
-                
-                        </div>
-                    </section>
-         
+                    
+                                    {% endif %}
+                                {% endfor %}
+                    
+                            </div>
+                        </section>
+            
+                    </div>
                 </div>
-            </div>
-        
-            {% comment %} <div class="flex-none hidden w-64 pl-8 mr-8 xl:text-sm xl:block">
-                <div class="flex overflow-y-auto sticky top-28 flex-col justify-between pt-10 pb-6 h-[calc(100vh-5rem)]">
-                        <div class="mb-8">
-                            <h4 class="pl-2.5 mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase dark:text-white lg:text-xs">On this page</h4>
-                            <nav id="TableOfContents">
-                                <ul>
-                                <li><a href="#introduction">Introduction</a></li>
-                                <li><a href="#using-flowbite">Using Flowbite</a></li>
-                                <li><a href="#getting-started">Getting started</a>
-                                <ul>
-                                <li><a href="#require-via-npm">Require via NPM</a></li>
-                                <li><a href="#include-via-cdn">Include via CDN</a></li>
-                                </ul>
-                                </li>
-                                <li><a href="#tailwind-css-20">Tailwind CSS 2.0</a></li>
-                                <li><a href="#tailwind-css-30">Tailwind CSS 3.0</a></li>
-                                <li><a href="#figma">Figma</a></li>
-                                <li><a href="#react">React</a></li>
-                                <li><a href="#nextjs">Next.js</a></li>
-                                <li><a href="#vuejs">Vue.js</a></li>
-                                <li><a href="#laravel">Laravel</a></li>
-                                <li><a href="#svelte">Svelte</a></li>
-                                <li><a href="#ruby-on-rails">Ruby on Rails</a></li>
-                                <li><a href="#django">Django</a></li>
-                                <li><a href="#flask">Flask</a></li>
-                                <li><a href="#pro-version">Pro version</a></li>
-                                <li><a href="#licensing">Licensing</a></li>
-                                <li><a href="#contributions">Contributions</a></li>
-                                <li><a href="#discord-community">Discord community</a></li>
-                                <li><a href="#youtube-channel">YouTube channel</a></li>
-                                <li><a href="#authors">Authors</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-                </div> 
-            </div> {% endcomment %}
-        </div> 
-        
-    </main>
+
+            </div> 
+            
+        </main> 
 
     </div>
-    </div>
 
-    <aside id="copied-code-alert" class="flex fixed bottom-5 left-5 z-50 p-4 bg-gray-100 rounded-lg border border-gray-200 opacity-0 transition-opacity dark:border-gray-700 dshadow-sm dark:bg-gray-800" aria-label="Copied to clipboard success message">
-    <svg class="w-5 h-5 text-green-700 dark:text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
-    <p class="ml-2 text-sm font-medium text-gray-700 dark:text-gray-300">Copied code to clipboard!</p>
-    </aside> 
 
-</main>
+
+</main> 
 
 {% endblock main %}
+
+
+
+
 
 {% block JavaScript %}
 <script src="{% static 'scripts/filterList.js' %}"></script>
