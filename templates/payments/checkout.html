@@ -157,7 +157,7 @@
 <script src="checkout.js" defer></script>
 <script>
 // This is your test publishable API key.
-const stripe = Stripe("pk_test_51LiiCfBMfcyp67kCxxMdGe6DBOVOQtCbKYP9hUWj9hPrkr2nawh46nelUVpwrIRcXwNCqd5YoXA2hF3mN8L4rvpx00bO77ZAaA");  
+const stripe = Stripe("{{ publishable_key|safe }}");  
 
 let elements;
 

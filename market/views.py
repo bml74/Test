@@ -370,8 +370,10 @@ def checkout(request, obj_type, pk):
             RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
             if RUNNING_DEVSERVER:
                 stripe.api_key = config('STRIPE_TEST_KEY') 
+                publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
             else:
                 stripe.api_key = config('STRIPE_LIVE_KEY')
+                publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
 
             commission_fee = 0.10 # 10% commission fee
             price_rounded = round(item.price, 2)
@@ -440,7 +442,8 @@ def checkout(request, obj_type, pk):
             "item": item, 
             "obj_type": obj_type, 
             "payment_intent_id": payment_intent_id,
-            "payment_intent_client_secret": payment_intent_client_secret
+            "payment_intent_client_secret": payment_intent_client_secret,
+            "publishable_key": publishable_key
         }
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
