@@ -27,6 +27,7 @@ urlpatterns = [
     # path('listing/delete/<int:pk>/', views.TransactionDeliveryDeleteView.as_view(), name='delete-delivery-suggestion'),
 
     path('set/delivery/<int:transaction_pk>/<int:suggestion_pk>/', views.set_delivery, name='set_delivery'),
+    path('cancel/delivery/<int:transaction_pk>/<int:suggestion_pk>/', views.cancel_delivery, name='cancel_delivery'),
 
     # Payments
     path('purchase_item_for_free/<str:obj_type>/<int:pk>/', views.purchase_item_for_free, name='purchase_item_for_free'),

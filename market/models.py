@@ -73,7 +73,7 @@ class SuggestedDelivery(models.Model):
     )  
 
     def __str__(self):
-        return f"Suggested delivery by {self.created_by} for Transaction (ID: {self.transaction_id})"
+        return f"Suggested delivery #{self.id} by {self.created_by} for Transaction (ID: {self.transaction_id})"
 
     def get_absolute_url(self):
         return reverse('transaction-delivery', kwargs={'transaction_pk': self.transaction_id})

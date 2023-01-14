@@ -120,6 +120,13 @@ class TransactionDeliveryDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         transaction = get_object_or_404(Transaction, pk=kwargs['transaction_pk'])
+        if transaction.transaction_obj_type != 'listing':
+            return render(request, 'payments/transaction-no-delivery.html')
+        else:
+            listing = get_object_or_404(Listing, id=transaction.transaction_obj_id)
+            if listing.listing_medium == "Digital File(s)" or listing.listing_medium == "Digital Service":
+                return render(request, 'payments/transaction-no-delivery.html')        
+
         buyer_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Buyer").all()
         seller_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Seller").all()
         if transaction.delivery:
@@ -180,6 +187,17 @@ def set_delivery(request, transaction_pk, suggestion_pk):
     suggestion.save()
     transaction = get_object_or_404(Transaction, id=transaction_pk)
     transaction.delivery = suggestion
+    transaction.save()
+    return redirect('transaction-delivery', transaction_pk=transaction_pk)
+
+
+def cancel_delivery(request, transaction_pk, suggestion_pk):
+    suggestion = get_object_or_404(SuggestedDelivery, id=suggestion_pk)
+    suggestion.seller_verified = False
+    suggestion.purchaser_verified = False
+    suggestion.save()
+    transaction = get_object_or_404(Transaction, id=transaction_pk)
+    transaction.delivery = None
     transaction.save()
     return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
