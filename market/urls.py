@@ -21,6 +21,11 @@ urlpatterns = [
     path('all/transactions/', views.transactions_admin, name='transactions-admin'),
     path('transactions/<int:pk>/', views.TransactionDetailView.as_view(), name='transaction'),
 
+    path('delivery/<int:transaction_pk>/', views.TransactionDeliveryDetailView.as_view(), name='transaction-delivery'),
+    path('delivery/<int:transaction_pk>/create/', views.TransactionDeliveryCreateView.as_view(), name='create-delivery-suggestion'),
+    # path('listing/update/<int:pk>/', views.TransactionDeliveryUpdateView.as_view(), name='update-delivery-suggestion'),
+    # path('listing/delete/<int:pk>/', views.TransactionDeliveryDeleteView.as_view(), name='delete-delivery-suggestion'),
+
     # Payments
     path('purchase_item_for_free/<str:obj_type>/<int:pk>/', views.purchase_item_for_free, name='purchase_item_for_free'),
 

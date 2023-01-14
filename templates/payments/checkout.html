@@ -84,9 +84,10 @@
                                         <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.title|safe }}</h2>
                                         <div class="flex flex-wrap justify-left mt-4 mb-4">
                                             <a href="{% url 'listing' item.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">&larr; Back to item page</a>
-                                            {% if request.user in item.purchasers.all %}
+                                            {% comment %} {% if request.user in item.purchasers.all %}
                                                 <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
-                                            {% elif not item.infinite_copies_available and item.quantity_available == 0 %}
+                                            {% endif %} {% endcomment %}
+                                            {% if not item.infinite_copies_available and item.quantity_available == 0 %}
                                                 <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> No more of this item available.</a>
                                             {% else %}
                                                 {% if item.price > 0 %}
@@ -160,6 +161,7 @@ const stripe = Stripe("pk_test_51LiiCfBMfcyp67kCxxMdGe6DBOVOQtCbKYP9hUWj9hPrkr2n
 
 let elements;
 
+const paymentIntentId = '{{ payment_intent_id }}'
 const paymentIntentClientSecret = '{{ payment_intent_client_secret }}'
 
 initialize();
@@ -198,13 +200,13 @@ async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
-    item_id = "{{ item_id }}";
+    const item_id = "{{ item.id }}";
 
     const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: `http://127.0.0.1:8000/market/success/checkout/${obj_type}/${item.id}/?session_id=some_id`,
+            return_url: `http://127.0.0.1:8000/market/success/checkout/listing/${item_id}?session_id=${paymentIntentId}&custom_checkout=true`,
             receipt_email: emailAddress,
         },
     });
@@ -284,6 +286,12 @@ function setLoading(isLoading) {
 {% endblock JavaScript %}
 
 {% endblock main %}
+
+
+
+
+
+
 
 
 

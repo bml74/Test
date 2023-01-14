@@ -118,3 +118,5 @@ EVENT_FIELDS = [
 EVENT_IMAGE_FIELDS = ["link", "title", "description"]
 
 EVENT_VIDEO_FIELDS = ["link", "title", "description"]
+
+TRANSACTION_DELIVERY_SUGGESTION_FIELDS = ["georgetown_location", "suggested_date_time", "description"]

@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
 from users.models import Profile
-from .models import Listing, Transaction
+from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from django.views.generic import (
     ListView,
@@ -22,7 +22,8 @@ from ecoles.models import Specialization, Course
 from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import (
     LISTING_FIELDS,
-    LISTING_FOR_GROUP_MEMBERS_FIELDS
+    LISTING_FOR_GROUP_MEMBERS_FIELDS,
+    TRANSACTION_DELIVERY_SUGGESTION_FIELDS
 )
 from config.abstract_settings.template_names import (
     FORM_VIEW_TEMPLATE_NAME, 
@@ -106,6 +107,56 @@ class TransactionDetailView(UserPassesTestMixin, DetailView):
             title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
             context.update({"title": title})
         return render(request, 'market/dashboard/transaction_detail.html', context)
+
+
+class TransactionDeliveryDetailView(UserPassesTestMixin, DetailView):
+    model = Transaction
+
+    def test_func(self):
+        transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
+        if transaction.seller == self.request.user or transaction.purchaser == self.request.user:
+            return True
+        return False
+
+    def get(self, request, *args, **kwargs):
+        transaction = get_object_or_404(Transaction, pk=kwargs['transaction_pk'])
+        buyer_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, purchaser=transaction.purchaser).all()
+        seller_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, seller=transaction.seller).all()
+        context = {
+            "transaction": transaction, 
+            "user_is_seller": transaction.seller == request.user,
+            "buyer_suggested_deliveries": buyer_suggested_deliveries,
+            "seller_suggested_deliveries": seller_suggested_deliveries,
+            "header": "Delivery"
+        }
+        return render(request, 'payments/transaction-delivery.html', context)
+
+
+class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = SuggestedDelivery
+    fields = TRANSACTION_DELIVERY_SUGGESTION_FIELDS
+    template_name = FORM_VIEW_TEMPLATE_NAME 
+
+    def form_valid(self, form):
+        transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
+        form.instance.seller = transaction.seller 
+        form.instance.purchaser = transaction.purchaser
+        if self.request.user == transaction.seller or self.request.user == transaction.purchaser:
+            super().form_valid(form)
+        super().form_invalid(form)
+
+    def test_func(self):
+        transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
+        if transaction.seller == self.request.user or transaction.purchaser == self.request.user:
+            return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionDeliveryCreateView, self).get_context_data(**kwargs)
+        header = "Add suggested delivery"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
 
 
 class ListingListView(UserPassesTestMixin, ListView):
@@ -294,14 +345,16 @@ def purchase_item_for_free(request, obj_type, pk):
 #checkout call
 def checkout(request, obj_type, pk):
     item = None
+    payment_intent_id = None
     payment_intent_client_secret = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
         creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
 
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
-            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+            stripe_account_id = creator_user_profile.stripe_account_id
 
+            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
             if RUNNING_DEVSERVER:
                 stripe.api_key = config('STRIPE_TEST_KEY') 
             else:
@@ -312,15 +365,51 @@ def checkout(request, obj_type, pk):
             total_payment_amount = int(price_rounded * 100)
             payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
 
-            payment_intent = stripe.PaymentIntent.create(
-                amount=total_payment_amount,
-                currency='usd',
-                transfer_data={
-                    'amount': payout_amount,
-                    'destination': creator_user_profile.stripe_account_id
-                }
-            )
-            payment_intent_client_secret = payment_intent.client_secret
+            market_paymentintent = None
+            try:
+                market_paymentintent = PaymentIntentTracker.objects.get(
+                    user_id=request.user.id, 
+                    listing_id=item.id,
+                    stripe_account_id=stripe_account_id
+                )
+            except PaymentIntentTracker.DoesNotExist:
+                market_paymentintent = None
+
+            print('market_paymentintent', market_paymentintent)
+
+            if(market_paymentintent is not None):
+                # Reuse existing payment intent id
+                payment_intent_id = market_paymentintent.stripe_payment_intent_id
+                # Update payment intent in case of any listing price changes
+                stripe.PaymentIntent.modify( 
+                    payment_intent_id,
+                    amount=total_payment_amount,
+                    currency='usd',
+                    payment_method_types=["card"],
+                    transfer_data={
+                        'amount': payout_amount
+                    }
+                )
+                payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+                payment_intent_client_secret = payment_intent.client_secret
+            else:
+                payment_intent = stripe.PaymentIntent.create(
+                    amount=total_payment_amount,
+                    currency='usd',
+                    payment_method_types=["card"],
+                    transfer_data={
+                        'amount': payout_amount,
+                        'destination': stripe_account_id
+                    }
+                )
+                payment_intent_id = payment_intent.id
+                payment_intent_client_secret = payment_intent.client_secret
+                PaymentIntentTracker(
+                    stripe_payment_intent_id = payment_intent_id,
+                    stripe_account_id = stripe_account_id,
+                    listing_id=item.id,
+                    user_id=request.user.id
+                ).save()
     elif obj_type == 'listing_for_group_members':
         item = ListingForGroupMembers.objects.get(pk=pk)
     elif obj_type == 'course':
@@ -334,7 +423,12 @@ def checkout(request, obj_type, pk):
                 return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
         except:
             pass
-        context = {"item": item, "obj_type": obj_type, "payment_intent_client_secret": payment_intent_client_secret}
+        context = {
+            "item": item, 
+            "obj_type": obj_type, 
+            "payment_intent_id": payment_intent_id,
+            "payment_intent_client_secret": payment_intent_client_secret
+        }
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
 
@@ -416,8 +510,34 @@ def payment_success(request, obj_type, pk):
     print(f"PK: {pk}")
     item = purchase_logic(request, obj_type, item_id=pk)
     try:
-        session = stripe.checkout.Session.retrieve(request.GET['session_id'])
-        item_id = session.client_reference_id
+        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+
+        if RUNNING_DEVSERVER:
+            stripe.api_key = config('STRIPE_TEST_KEY') 
+        else:
+            stripe.api_key = config('STRIPE_LIVE_KEY')
+
+        item_id = None
+        stripe_payment_intent_details = None
+
+        is_custom_checkout = False
+        try:
+            is_custom_checkout = request.GET['custom_checkout'] and request.GET['custom_checkout'] == 'true'
+        except:
+            is_custom_checkout = False
+
+        if is_custom_checkout == True:
+            item_id = request.GET['session_id']
+            stripe_payment_intent_details = stripe.PaymentIntent.retrieve(request.GET['session_id'])
+            print('stripe_payment_intent_details', stripe_payment_intent_details)
+            try:
+                # Delete payment method id from records after successful payment. Payment Intent ID cannot be reused once a payment goes through.
+                PaymentIntentTracker.objects.filter(stripe_payment_intent_id=request.GET['session_id']).delete()
+            except:
+                print('error deleteing payment intent from records')
+        else:
+            session = stripe.checkout.Session.retrieve(request.GET['session_id'])
+            item_id = session.client_reference_id
 
         print(item_id)
         item = None
@@ -486,7 +606,8 @@ def payment_success(request, obj_type, pk):
 
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type,
-                "session_id": item_id
+                "session_id": item_id,
+                "custom_checkout": is_custom_checkout
             }) 
         else:
             return render(request, 'payments/cancel.html')
@@ -714,7 +835,6 @@ class ListingForGroupMembersDeleteView(LoginRequiredMixin, UserPassesTestMixin, 
         title = f"Listing for group members: {item.title}"
         context.update({"type": "listing_for_group_members", "title": title})
         return context
-
 
 
 

@@ -92,9 +92,10 @@
                                             {% if not user_is_creator %}
                                                 <a href="{% url 'detail' item.creator.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Contact this seller</a>
                                             {% endif %}
-                                            {% if request.user in item.purchasers.all %}
+                                            {% comment %} {% if request.user in item.purchasers.all %}
                                             <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
-                                            {% elif not item.infinite_copies_available and item.quantity_available == 0 %}
+                                            {% endif%} {% endcomment %}
+                                            {% if not item.infinite_copies_available and item.quantity_available == 0 %}
                                             <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> No more of this item available.</a>
                                             {% else %}
                                             <a href="{% url 'checkout' 'listing' item.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Place bid (${{ item.price|floatformat:2 }})</a>
