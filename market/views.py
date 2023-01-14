@@ -371,9 +371,11 @@ def checkout(request, obj_type, pk):
             if RUNNING_DEVSERVER:
                 stripe.api_key = config('STRIPE_TEST_KEY') 
                 publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
+                BASE_DOMAIN = 'http://127.0.0.1:8000' 
             else:
                 stripe.api_key = config('STRIPE_LIVE_KEY')
                 publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
+                BASE_DOMAIN = 'https://www.hoyabay.com'
 
             commission_fee = 0.10 # 10% commission fee
             price_rounded = round(item.price, 2)
@@ -443,7 +445,8 @@ def checkout(request, obj_type, pk):
             "obj_type": obj_type, 
             "payment_intent_id": payment_intent_id,
             "payment_intent_client_secret": payment_intent_client_secret,
-            "publishable_key": publishable_key
+            "publishable_key": publishable_key,
+            "BASE_DOMAIN": BASE_DOMAIN
         }
         return render(request, "payments/checkout.html", context=context)
     return JsonResponse({"Error": "Item retrieval error."})
