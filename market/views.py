@@ -120,14 +120,14 @@ class TransactionDeliveryDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         transaction = get_object_or_404(Transaction, pk=kwargs['transaction_pk'])
-        buyer_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, purchaser=transaction.purchaser).all()
-        seller_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, seller=transaction.seller).all()
+        buyer_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Buyer").all()
+        seller_suggested_deliveries = SuggestedDelivery.objects.filter(transaction_id=transaction.id, created_by="Seller").all()
         context = {
             "transaction": transaction, 
             "user_is_seller": transaction.seller == request.user,
             "buyer_suggested_deliveries": buyer_suggested_deliveries,
             "seller_suggested_deliveries": seller_suggested_deliveries,
-            "header": "Delivery"
+            "header": f"Delivery for Transaction #{transaction.transaction_id}"
         }
         return render(request, 'payments/transaction-delivery.html', context)
 
@@ -139,11 +139,20 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
 
     def form_valid(self, form):
         transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
+        print(transaction)
+        form.instance.transaction_id = self.kwargs['transaction_pk']
+        print(form.instance.transaction_id)
         form.instance.seller = transaction.seller 
+        print(form.instance.seller)
         form.instance.purchaser = transaction.purchaser
+        print(form.instance.purchaser)
+        if self.request.user == transaction.seller:
+            form.instance.created_by = "Seller"
+        else:
+            form.instance.created_by = "Buyer"
         if self.request.user == transaction.seller or self.request.user == transaction.purchaser:
-            super().form_valid(form)
-        super().form_invalid(form)
+            return super().form_valid(form)
+        return super().form_invalid(form)
 
     def test_func(self):
         transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])

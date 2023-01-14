@@ -25,37 +25,32 @@
         <div class="_IebywwKB6L2zG0BTy63 mveJTCIb2WII7J4sY22F">
           <div class="VPGGthdu3cy_ZP7AL7dt TK9h2c2b79uBgR_cJzCE u0Aizb1ol0gBXDISYKJM">
             <div class="wBVMFkIGfrKshbvi2gS1 mngKhi_Rv06PF57lblDI PTS4x_A1HVmoZYJHkYaG">
-                {{ buyer_suggested_deliveries }}
-                {{ seller_suggested_deliveries }}
+
+                <p class="flex mt-4">
+                    <a href="{% url 'transaction' transaction.id %}" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">&larr;&nbsp;View transaction details</a>
+                </p>
 
                 <p class="flex mt-4">
                     <a href="{% url 'create-delivery-suggestion' transaction.id %}" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Create suggestion</a>
                 </p>
 
-                {{ transaction.seller }}
-                {{ transaction.purchaser }}
 
-                <style>
-                    div.cols {
-                        -webkit-column-count: 2;  /* Chrome/Opera, Safari */
-                        -moz-column-count: 2; /* Mozilla Firefox */
-                        column-count: 2;
-                    }
-                </style>
-
-                <div class="cols">
+                <div>
                     <div>
                         Suggested by the purchaser ({{ transaction.purchaser }})
                         <ul>
-                            <li>hello</li>
-                            <li>hello</li>
+                            {% for suggestion in buyer_suggested_deliveries %}
+                                <li>{{ suggestion.suggested_date_time }} {{ suggestion.id }} {{ suggestion.georgetown_location }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
+                    <div class="py-2"></div>
                     <div>
                         Suggested by the seller ({{ transaction.seller }})
                         <ul>
-                            <li>hello</li>
-                            <li>hello</li>
+                            {% for suggestion in seller_suggested_deliveries %}
+                                <li>{{ suggestion.suggested_date_time }} {{ suggestion.id }} {{ suggestion.georgetown_location }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

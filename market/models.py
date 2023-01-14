@@ -66,6 +66,17 @@ class SuggestedDelivery(models.Model):
     purchaser_verified = models.BooleanField(null=True, blank=True)
     transaction_id = models.IntegerField(null=True, blank=True)
     description = models.TextField(blank=True, null=True)
+    created_by = models.CharField(
+        max_length=100,
+        choices=(("Seller", "Seller"), ("Buyer", "Buyer")),
+        default="Seller",
+    )  
+
+    def __str__(self):
+        return f"Suggested delivery by {self.created_by} for Transaction (ID: {self.transaction_id})"
+
+    def get_absolute_url(self):
+        return reverse('transaction-delivery', kwargs={'transaction_pk': self.transaction_id})
 
 
 class Lottery(models.Model):
