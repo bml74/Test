@@ -91,9 +91,9 @@ Hoyabay | Listings
                                             <div class="px-2">
                                                 <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
                                             </div>
-                                            <div class="px-2">
+                                            {% comment %} <div class="px-2">
                                                 <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
-                                            </div>
+                                            </div> {% endcomment %}
 
                                             <div class="mt-2 px-5 pb-5">
                                                 <a href="{% url 'listing' item.id %}">
