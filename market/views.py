@@ -367,11 +367,12 @@ def checkout(request, obj_type, pk):
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
             stripe_account_id = creator_user_profile.stripe_account_id
 
-            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-            if RUNNING_DEVSERVER:
-                stripe.api_key = config('STRIPE_TEST_KEY') 
-            else:
-                stripe.api_key = config('STRIPE_LIVE_KEY')
+            # RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+            # if RUNNING_DEVSERVER:
+            #     stripe.api_key = config('STRIPE_TEST_KEY') 
+            # else:
+            #     stripe.api_key = config('STRIPE_LIVE_KEY')
+            stripe.api_key = config('STRIPE_TEST_KEY') 
 
             commission_fee = 0.10 # 10% commission fee
             price_rounded = round(item.price, 2)
