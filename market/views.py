@@ -168,6 +168,10 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
         return context
 
 
+def accept_delivery_suggestion(request):
+    return render(request, 'payments/transaction-delivery.html', context={})
+
+
 class ListingListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
