@@ -136,6 +136,7 @@ class GeorgetownLocations(TextChoices):
     ICC = 'ICC'
     LEAVEY_CENTER = 'Leavey Center'
     YATES = 'Yates'
+    OTHER = 'Other'
     NONE = 'None'
 
 
