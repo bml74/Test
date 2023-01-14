@@ -372,7 +372,7 @@ def checkout(request, obj_type, pk):
             #     stripe.api_key = config('STRIPE_TEST_KEY') 
             # else:
             #     stripe.api_key = config('STRIPE_LIVE_KEY')
-            stripe.api_key = config('STRIPE_TEST_KEY') 
+            stripe.api_key = config('STRIPE_TEST_KEY')  
 
             commission_fee = 0.10 # 10% commission fee
             price_rounded = round(item.price, 2)
