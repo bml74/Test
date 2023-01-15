@@ -88,13 +88,16 @@ class Lottery(models.Model):
     winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="lottery_winner")
 
     def select_lucky_number(self):
-        if not self.lottery.winner:
+        if not self.winner:
             if self.num_unique_users >= self.num_unique_users_required:
                 return random.randrange(self.num_unique_users)
         return False
 
     def __str__(self):
         return self.prize
+
+    def get_absolute_url(self):
+        return reverse('lottery', kwargs={'pk': self.pk}) 
 
 
 class LotteryParticipant(models.Model):

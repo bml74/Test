@@ -907,6 +907,25 @@ class LotteryDetailView(UserPassesTestMixin, DetailView):
                     winning_entry = participants[num]
                     winner = lottery.winner = winning_entry.lottery_participant
                     lottery.save()
+                    if winner:
+                        try:
+                            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+                            if RUNNING_DEVSERVER:
+                                BASE_DOMAIN = 'http://127.0.0.1:8000' 
+                            else:
+                                BASE_DOMAIN = 'https://www.hoyabay.com'
+                            subject = f"Congratulations!"
+                            html_content = f"""
+                            Congratulations, {winner}! You have won the lottery and will receive your prize {lottery.prize} shortly.
+                            """
+                            message = Mail(from_email="bml74@georgetown.edu", to_emails=winner.email, subject=subject, html_content=html_content)
+                            sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+                            response = sg.send(message)
+                            print(response.status_code)
+                            print(response.body)
+                            print(response.headers)
+                        except Exception as e:
+                            print(e)
             participants = LotteryParticipant.objects.filter(fk_lottery=lottery)
             num_entries = len(participants)
             num_entries_for_user = len(LotteryParticipant.objects.filter(fk_lottery=lottery, lottery_participant=request.user))
@@ -937,10 +956,6 @@ def add_lottery_participant(request, lottery_pk):
                 print(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery))
                 lottery.num_unique_users += 1
                 lottery.save()
-            print('x')
-            print(len(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery)))
-            print(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery))
-            print('x')
             new_entry = LotteryParticipant(lottery_participant=request.user, fk_lottery=lottery)
             new_entry.save()
             profile.credits -= 1
