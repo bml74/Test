@@ -88,9 +88,6 @@ def user_profile(request, username):
             rating = int(request.GET.get('rating'))
             if Rating.objects.filter(rater=logged_in_user, user_being_rated=user_with_profile_being_viewed).exists():
                 r = get_object_or_404(Rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed)
-                print("RRRR")
-                print(r)
-                print("RRRR")
                 r.rating = rating
                 r.save()
             else:

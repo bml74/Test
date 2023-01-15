@@ -58,4 +58,7 @@ urlpatterns = [
 
     # path('event-attendance/<str:username>/listing_for_group_members/<int:listing_id>/', views.event_attendance, name='event-attendance'),
 
+    path('lottery/<int:pk>/', views.LotteryDetailView.as_view(), name='lottery'),
+    path('enter/lottery/<int:lottery_pk>/', views.add_lottery_participant, name='add_lottery_participant')
+
 ]

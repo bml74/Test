@@ -6,7 +6,7 @@ from .models import Profile, ReferralCode
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(required=True)
 
     class Meta:
         model = User

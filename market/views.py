@@ -1,12 +1,13 @@
 import os, sys
 import stripe
 from decouple import config
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
 from users.models import Profile
-from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery
+from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery, Lottery, LotteryParticipant
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from django.views.generic import (
     ListView,
@@ -887,4 +888,63 @@ class ListingForGroupMembersDeleteView(LoginRequiredMixin, UserPassesTestMixin, 
         return context
 
 
+class LotteryDetailView(UserPassesTestMixin, DetailView):
+    model = Lottery
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get(self, request, *args, **kwargs):
+        lottery = get_object_or_404(Lottery, pk=kwargs['pk'])
+
+        winner = None
+        num_entries_for_user = pct_chance = num_entries = 0
+        if not lottery.winner:
+            num = lottery.select_lucky_number()
+            if num and LotteryParticipant.objects.filter(fk_lottery=lottery).exists():
+                participants = LotteryParticipant.objects.filter(fk_lottery=lottery)
+                if participants:
+                    winning_entry = participants[num]
+                    winner = lottery.winner = winning_entry.lottery_participant
+                    lottery.save()
+            participants = LotteryParticipant.objects.filter(fk_lottery=lottery)
+            num_entries = len(participants)
+            num_entries_for_user = len(LotteryParticipant.objects.filter(fk_lottery=lottery, lottery_participant=request.user))
+            try:
+                pct_chance = (num_entries_for_user / num_entries) * 100
+            except ZeroDivisionError:
+                pct_chance = 0
+        
+        context = {
+            "lottery": lottery,
+            "user_profile": get_object_or_404(Profile, user=request.user),
+            "winner": winner,
+            "num_entries_for_user": num_entries_for_user, 
+            "num_entries": num_entries,
+            "pct_chance": pct_chance
+        }
+
+        return render(request, 'market/lottery.html', context)
+
+
+def add_lottery_participant(request, lottery_pk):
+    profile = get_object_or_404(Profile, user=request.user)
+    lottery = get_object_or_404(Lottery, id=lottery_pk)
+    if not lottery.winner:
+        if profile.credits >= 1:
+            if not LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery).exists():
+                print(len(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery)))
+                print(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery))
+                lottery.num_unique_users += 1
+                lottery.save()
+            print('x')
+            print(len(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery)))
+            print(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery))
+            print('x')
+            new_entry = LotteryParticipant(lottery_participant=request.user, fk_lottery=lottery)
+            new_entry.save()
+            profile.credits -= 1
+            profile.save()
+            messages.success(request, f'You have been entered in the lottery!')
+    return redirect('lottery', pk=lottery.id)
 

@@ -1,3 +1,4 @@
+import random
 from django.utils import timezone
 from django.db import models
 from django.urls import reverse
@@ -10,9 +11,8 @@ from config.choices import GeorgetownLocations
 class Listing(models.Model):
     title = models.CharField(max_length=64, default="Listing", blank=False)
     image = models.FileField(upload_to='listings/images', blank=True, null=True)
-    # image = .....
     description = models.TextField(blank=True, null=True)
-    price = models.FloatField(default=50, validators=[MinValueValidator(0.00)])
+    price = models.FloatField(default=50, validators=[MinValueValidator(1)])
     date_listed = models.DateTimeField(auto_now_add=True)
     # listing_ends_on = models.DateTimeField(blank=True, null=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="user_that_created_listing")
@@ -81,14 +81,38 @@ class SuggestedDelivery(models.Model):
 
 
 class Lottery(models.Model):
-    title = models.CharField(max_length=128, default="Lottery Prize")
-    # image = .....
-    lottery_ends_on = models.DateTimeField(blank=True, null=True)
+    prize = models.CharField(max_length=128, default="Lottery Prize")
+    image = models.FileField(upload_to='lotteries/images', blank=True, null=True)
+    num_unique_users = models.IntegerField(default=0)
+    num_unique_users_required = models.IntegerField(default=500)
+    winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="lottery_winner")
+
+    def select_lucky_number(self):
+        if not self.lottery.winner:
+            if self.num_unique_users >= self.num_unique_users_required:
+                return random.randrange(self.num_unique_users)
+        return False
+
+    def __str__(self):
+        return self.prize
 
 
 class LotteryParticipant(models.Model):
     lottery_participant = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="lottery_participant")
-    fk_lottery = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="fk_lottery")
+    fk_lottery = models.ForeignKey(Lottery, on_delete=models.CASCADE, null=True, related_name="fk_lottery")
+
+    def get_absolute_url(self):
+        return reverse('lottery', kwargs={'pk': self.fk_lottery.id}) 
+
+"""
+from market.models import Lottery, LotteryParticipant
+from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+lottery = get_object_or_404(Lottery, id=1)
+participants = list(LotteryParticipant.objects.filter(fk_lottery=lottery))
+num = lottery.select_lucky_number()
+print(num)
+"""
 
 
 class Fundraiser(models.Model):

@@ -96,7 +96,6 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
         print(e)
 
 
-
 def remove_payment_request_from_group_member(user_sending_request, user_receiving_request, ListingForGroupMembers_obj_id):
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=ListingForGroupMembers_obj_id)
     payment_request = get_object_or_404(
