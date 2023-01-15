@@ -217,7 +217,8 @@ class ListingListView(UserPassesTestMixin, ListView):
         num_results = len(Listing.objects.all())
         context.update({
             "num_results": num_results,
-            "header": "All listings"
+            "header": "All listings",
+            "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
         })
         return context
 
@@ -291,7 +292,7 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
     def test_func(self):
-        return self.request.user.is_authenticated 
+        return self.request.user.is_authenticated and get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
 
     def get_context_data(self, **kwargs):
         context = super(ListingCreateView, self).get_context_data(**kwargs)
@@ -836,7 +837,7 @@ class ListingForGroupMembersCreateView(LoginRequiredMixin, UserPassesTestMixin, 
         super().form_invalid(form)
 
     def test_func(self):
-        return self.request.user.is_authenticated
+        return self.request.user.is_authenticated and get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
 
     def get_context_data(self, **kwargs):
         context = super(ListingForGroupMembersCreateView, self).get_context_data(**kwargs)

@@ -107,6 +107,9 @@ class LotteryParticipant(models.Model):
     def get_absolute_url(self):
         return reverse('lottery', kwargs={'pk': self.fk_lottery.id}) 
 
+    def __str__(self):
+        return f""
+
 """
 from market.models import Lottery, LotteryParticipant
 from django.contrib.auth.models import User
