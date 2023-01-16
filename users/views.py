@@ -38,6 +38,10 @@ def register(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Your account has been created! You are now able to log in.')
+            user = get_object_or_404(User, username=username)
+            profile = get_object_or_404(Profile, user=user)
+            profile.credits = 3
+            profile.save()
             return redirect('login')
     else:
         form = UserRegisterForm()
@@ -218,6 +222,7 @@ def profileConnectToStripe(request):
 
     return redirect(accountLinks.url)
 
+
 @login_required
 def profileStripeConnectCallback(request, stripe_account_id):
     user_profile = get_object_or_404(Profile, user=request.user)
@@ -225,6 +230,7 @@ def profileStripeConnectCallback(request, stripe_account_id):
     user_profile.save()
 
     return profile(request)
+
 
 @login_required
 def referral(request):
