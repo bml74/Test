@@ -9,16 +9,29 @@ Hoyabay
 
 {% block main %}
 
+<style>
+    @media (min-width: 768px) {
+        .main-image {
+            margin: auto; width: 14%;
+        }
+    }
+    @media (max-width: 768px) {
+        .main-image {
+            margin: auto; width: 40%;
+        }
+    }
+</style>
+
 
 {% comment %} <img src="https://ethereum.org/static/28214bb68eb5445dcb063a72535bc90c/9019e/hero.webp" style="width: 100%;" alt=""> {% endcomment %}
 <div class="py-4"></div>
-<div class="mb-4" style="margin: auto; width: 14%;">
+<div class="mb-4 main-image">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Georgetown_University_Logotype.svg/2560px-Georgetown_University_Logotype.svg.png" alt="">
 </div>
 <div class="text-center fw-700 mt-4 text-4xl font-extrabold">
     X
 </div>
-<div style="margin: auto; width: 14%;">
+<div class="main-image">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Stripe_Logo%2C_revised_2016.svg/2560px-Stripe_Logo%2C_revised_2016.svg.png" alt="">
 </div> 
 
