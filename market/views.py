@@ -238,7 +238,7 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingRequestsToBuyListView, self).get_context_data(**kwargs)
-        results = Listing.objects.filter(listing_type="Bid (Looking to buy)"
+        results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
         num_results = len(results)
         context.update({
             "num_results": num_results,
@@ -248,8 +248,64 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = Listing.objects.filter(listing_type="Bid (Looking to buy)"
+        results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
         return results.exclude(visibility='Invisible').all().order_by('-title')
+
+
+def switch_listing(request, obj_type, pk):
+    print("OKKKKKKK!!!")
+    if obj_type == 'listing':
+        current_listing = Listing.objects.get(pk=pk)
+        assert(current_listing.listing_type == "Bid (Looking to buy)")
+        new_listing = Listing(
+            title=current_listing.title,
+            image=current_listing.image,
+            description=current_listing.description,
+            price=current_listing.price,
+            creator=request.user,
+            group=current_listing.group if current_listing.group else None,
+            visibility=current_listing.visibility,
+            listing_type="Offer (Looking to sell)",
+            listing_category=current_listing.listing_category,
+            listing_medium=current_listing.listing_medium,
+            infinite_copies_available=current_listing.infinite_copies_available,
+            quantity_available=current_listing.quantity_available,
+            quantity_sold=current_listing.quantity_sold
+        )
+        new_listing.save()
+        # Send e-mail to creator of Bid listing
+        try:
+            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+            if RUNNING_DEVSERVER:
+                BASE_DOMAIN = 'http://127.0.0.1:8000' 
+            else:
+                BASE_DOMAIN = 'https://www.hoyabay.com'
+
+            # EMAIL TO NEW CREATOR
+            subject = f"Listing created"
+            html_content = f"""
+            Your listing has been created. You can view this new listing <a href="{BASE_DOMAIN}/market/listing/{new_listing.id}/">here</a>.{current_listing.creator.email} has been emailed to inform them of this update.  
+            """
+            message = Mail(from_email="bml74@georgetown.edu", to_emails=request.user.email, subject=subject, html_content=html_content)
+            sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+            response1 = sg.send(message)
+            print(response1)
+
+            # EMAIL TO REQUESTER
+            subject = f"Request accepted"
+            html_content = f"""
+            {current_listing.creator.username} has accepted your request to buy '{current_listing.title}'. You can view this new listing <a href="{BASE_DOMAIN}/market/listing/{new_listing.id}/">here</a>.  
+            """
+            message = Mail(from_email="bml74@georgetown.edu", to_emails=request.user.email, subject=subject, html_content=html_content)
+            sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+            response2 = sg.send(message)
+            print(response2)
+            print("TRY")
+        except Exception as e:
+            print(e)
+            print("EXCEPT")
+        return redirect('listing', pk=new_listing.id) # Return redirect to new listing
+    return redirect('listing', pk=pk) # Return redirect to original listing
 
 
 class ListingsByUserListView(UserPassesTestMixin, ListView):
@@ -286,8 +342,8 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         listing = get_object_or_404(Listing, pk=kwargs['pk'])
         all_listings_from_this_creator = Listing.objects.filter(creator=listing.creator)
 
-        recs = generate_recommendations_from_queryset(queryset=Listing.objects.all(), obj=listing)
-        print(recs)
+        # recs = generate_recommendations_from_queryset(queryset=Listing.objects.all(), obj=listing)
+        # print(recs)
 
         from users.views import getOverallRating
         overall_rating = getOverallRating(user_being_rated=listing.creator)
@@ -298,7 +354,7 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
             "obj_type": "listing",
             "all_listings_from_this_creator": all_listings_from_this_creator,
 
-            "recs": recs,
+            # "recs": recs,
 
             "overall_rating": overall_rating
         }

@@ -12,6 +12,9 @@ urlpatterns = [
     path('listing/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
     path('listing/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
 
+    path('listings/requests/', views.ListingRequestsToBuyListView.as_view(), name='listings-requests-to-buy'),
+    path('switch/<str:obj_type>/<int:pk>/', views.switch_listing, name='listing-request-to-offer'),
+
     path('groups/listing/<int:pk>/', views.ListingForGroupMembersDetailView.as_view(), name='listing-for-group-members-detail'),
 
     path('lc/', views.learning_carousel, name='learning_carousel'),
