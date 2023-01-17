@@ -34,3 +34,5 @@ See if a bunch of packages show up. If yes, then pipenv was created!
 ```
 ./manage.py test users.tests.UserTestCase.userCreatedSuccessfully
 ```
+
+
