@@ -214,7 +214,7 @@ class ListingListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingListView, self).get_context_data(**kwargs)
-        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)
+        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
         num_results = len(results)
         context.update({
             "num_results": num_results,
@@ -224,7 +224,31 @@ class ListingListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)
+        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
+        return results.exclude(visibility='Invisible').all().order_by('-title')
+
+
+class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
+    model = Listing
+    template_name = 'market/listings.html'
+    context_object_name = 'items'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super(ListingRequestsToBuyListView, self).get_context_data(**kwargs)
+        results = Listing.objects.filter(listing_type="Bid (Looking to buy)"
+        num_results = len(results)
+        context.update({
+            "num_results": num_results,
+            "header": "Users are looking to buy....",
+            "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
+        })
+        return context
+
+    def get_queryset(self):
+        results = Listing.objects.filter(listing_type="Bid (Looking to buy)"
         return results.exclude(visibility='Invisible').all().order_by('-title')
 
 
