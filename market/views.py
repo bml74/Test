@@ -214,7 +214,8 @@ class ListingListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingListView, self).get_context_data(**kwargs)
-        num_results = len(Listing.objects.all())
+        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)
+        num_results = len(results)
         context.update({
             "num_results": num_results,
             "header": "All listings",
@@ -223,7 +224,7 @@ class ListingListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0)
+        results = Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)
         return results.exclude(visibility='Invisible').all().order_by('-title')
 
 

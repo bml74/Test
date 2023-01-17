@@ -30,7 +30,7 @@ See if a bunch of packages show up. If yes, then pipenv was created!
 
 1. Navigate to home directly
 2. Select test you want to do. In this example, we will run the userCreatedSuccessfully test in the UserTestCase class in the tests.py file in the users app.
-3. Run command. In this case:
+3. Run command. In this case: 
 ```
 ./manage.py test users.tests.UserTestCase.userCreatedSuccessfully
 ```
