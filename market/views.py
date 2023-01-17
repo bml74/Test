@@ -785,6 +785,25 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
         user_receiving_request=user_receiving_request,
         ListingForGroupMembers_obj_id=listing_for_group_members_id
     ) # Function returns a Bool.
+    listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
+    try:
+        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+        if RUNNING_DEVSERVER:
+            BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        else:
+            BASE_DOMAIN = 'https://www.hoyabay.com'
+        subject = f"Payment request"
+        html_content = f"""
+        {group.name} has requested a payment from you for {listing_for_group_members.title}.
+        """
+        message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+        response = sg.send(message)
+        print(response.status_code)
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
