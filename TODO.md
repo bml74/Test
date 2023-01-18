@@ -11,3 +11,28 @@ Request to buy
 [ ] Ads
 
 [ ] Ads upon searches
+
+For delivery:
+[ ] Add edit and delete for the ones that request.user made
+[ ] Only allow request.user to accept deliveries from other other 
+
+[ ] Make it so that only Stripe Connect-connected users can transact; it is too much of a pain to use Venmo 
+
+[ ] Email on lottery winner and on sales and notifications in site
+
+
+
+[ ] Emails (upon sale and purchase; upon delivery
+[ ] In-site notifications
+[ ] Customer service — form that sends to me on site
+[x] Request to buy (in addition to offer to sell)
+
+Emails upon:
+[ ] Purchase
+[ ] Sale
+[ ] Request to group member for payment
+[ ] Winning lottery
+[ ] Referral used
+
+
+
