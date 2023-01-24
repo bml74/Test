@@ -597,9 +597,9 @@ def checkout_session(request, obj_type, pk):
             else: 
                 handleQuantity(item)
 
-        if obj_type in ['listing', 'course', 'specialization']:
-            if item.creator == request.user:
-                return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
+        # if obj_type in ['listing', 'course', 'specialization']:
+        #     if item.creator == request.user:
+        #         return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
 
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -709,18 +709,7 @@ def payment_success(request, obj_type, pk):
         print('creator')
 
         if item is not None:
-
-            # Generate Transaction record
-            transaction_no = generate_transaction_id(10)
-
-            # print(item)
-            # print(type(item))
-            # print("from payment success function")
-            # print(obj_type)
-            # print(item.id)
-            # print(item.title)
-            # print(item.price)
-
+            transaction_no = generate_transaction_id(10) # Generate Transaction record
             t = Transaction(
                 transaction_obj_type=obj_type, 
                 transaction_obj_id=item.pk, 
@@ -737,7 +726,7 @@ def payment_success(request, obj_type, pk):
                 pass
 
             t.save()
-
+            
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type,
                 "session_id": item_id,

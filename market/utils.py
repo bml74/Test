@@ -108,8 +108,6 @@ def remove_payment_request_from_group_member(user_sending_request, user_receivin
 
 def allowSaleBasedOnQuantity(listing):
     """If there are infinite copies available, allow sale. If finite copies but quantity is available, allow sale."""
-    infinite_copies_available = True
-    quantity_available = 5
     return True if listing.infinite_copies_available or listing.quantity_available > 0 else False
 
 
