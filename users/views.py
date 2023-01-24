@@ -127,10 +127,11 @@ def user_profile(request, username):
 def profile(request):
 
     current_user = get_object_or_404(User, username=request.user.username)
+    profile = get_object_or_404(Profile, user=current_user)
     referral_code = get_object_or_404(ReferralCode, generatedBy=current_user)
     credits = get_object_or_404(Profile, user=request.user).credits
 
-    if current_user.stripe_account_id:
+    if profile.stripe_account_id:
         user_has_stripe_connect_account = True
     else:
         user_has_stripe_connect_account = False
