@@ -34,5 +34,15 @@ Emails upon:
 [ ] Winning lottery
 [ ] Referral used
 
+[ ] Create separate CreateViews for [ ] general advertisement and [ ] listing (in which pass within the URL parameters the Listing.id itself so that it is automatically saved to the model from the form_valid() function and also remember to also pass the Listing.title within the header).
+
+[ ] Ability to purchase ads. Make sure that the payments go directly to your centralized Stripe account.
+
+[ ] Almeida
+[ ] Rossi
+[ ] Rossetti
+[ ] Dong
+
+
 
 

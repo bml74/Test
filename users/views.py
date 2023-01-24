@@ -130,6 +130,11 @@ def profile(request):
     referral_code = get_object_or_404(ReferralCode, generatedBy=current_user)
     credits = get_object_or_404(Profile, user=request.user).credits
 
+    if current_user.stripe_account_id:
+        user_has_stripe_connect_account = True
+    else:
+        user_has_stripe_connect_account = False
+
     (list_of_followers, num_followers, users_that_user_with_profile_being_viewed_is_following, num_following) = get_user_followers_data(current_user)
 
     follow_requests = FollowRequest.objects.filter(user_receiving_follow_request=request.user).all()
@@ -171,6 +176,7 @@ def profile(request):
         'header': 'My profile',
         'referral_code': referral_code.referral_code,
         "credits": credits,
+        'user_has_stripe_connect_account': user_has_stripe_connect_account,
 
         "group_creator_data": group_creator_data, # DONE
         "num_groups_that_user_is_a_member_of": num_groups_that_user_is_a_member_of,

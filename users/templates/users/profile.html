@@ -102,6 +102,7 @@
         <!-- <p class="flex mt-4">
             <a href="#" id="connect-to-stripe-button" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Connect to Stripe</a>
         </p> -->
+        {% if not user_has_stripe_connect_account %}
         <form action="connect-to-stripe" id="connect-to-stripe-form" method="POST" class="mt-3">
             {% csrf_token %}
             {{ form|crispy }}
@@ -109,9 +110,13 @@
                 Connect to Stripe
             </button>
         </form>
+        {% endif %}
         {% if stripe_login_link %}
         <p class="flex mt-4">
             <a href="{{ stripe_login_link }}" target="_blank" id="connect-to-stripe-button" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">View Payouts</a>
+        </p>
+        <p class="flex mt-4">
+            Note to sellers: In order to provide the most secure and trustworthy payments platform possible, we partner with Stripe, one of the largest and most successful payments processors in the world, used by Amazon, Google, Shopify, Instacart, Lyft, and more. Stripe takes a 2.9% + $0.30 fee per transaction. So, if you sell an item with a listed price of $100, you will receive $96.80. If you sell an item with a listed price of $10, you will receive $9.41. The transaction fees are necessary in order to partner with Stripe and provide the most frictionless and secure system for all buyers and sellers, and will enable you to greatly increase visibility and publicity for the products and services you wish to sell.
         </p>
         {% endif %}
     </div>

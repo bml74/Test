@@ -4,10 +4,10 @@ AD_PURCHASE_FIELDS = [
         'group_that_purchased_ad', 
         'offer', 
         'advertisement_type', 
-        'specialization_to_be_advertised',
-        'course_to_be_advertised',
+        # 'specialization_to_be_advertised',
+        # 'course_to_be_advertised',
         'listing_to_be_advertised',
-        'post_to_be_advertised',
+        # 'post_to_be_advertised',
         'general_advertisement_text'
 ]
 
