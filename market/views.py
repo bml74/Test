@@ -473,7 +473,15 @@ def purchase_item_for_free(request, obj_type, pk):
 #checkout call
 def checkout(request, obj_type, pk):
     item = None
-    publishable_key = None
+    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+    if RUNNING_DEVSERVER:
+        stripe.api_key = config('STRIPE_TEST_KEY') 
+        publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
+        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+    else:
+        stripe.api_key = config('STRIPE_LIVE_KEY')
+        publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
+        BASE_DOMAIN = 'https://www.hoyabay.com'
     payment_intent_id = None
     payment_intent_client_secret = None
     if obj_type == 'listing':
@@ -482,16 +490,6 @@ def checkout(request, obj_type, pk):
 
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
             stripe_account_id = creator_user_profile.stripe_account_id
-
-            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-            if RUNNING_DEVSERVER:
-                stripe.api_key = config('STRIPE_TEST_KEY') 
-                publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
-                BASE_DOMAIN = 'http://127.0.0.1:8000' 
-            else:
-                stripe.api_key = config('STRIPE_LIVE_KEY')
-                publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
-                BASE_DOMAIN = 'https://www.hoyabay.com'
 
             commission_fee = 0.10 # 10% commission fee
             price_rounded = round(item.price, 2)
