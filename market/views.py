@@ -473,6 +473,7 @@ def purchase_item_for_free(request, obj_type, pk):
 #checkout call
 def checkout(request, obj_type, pk):
     item = None
+    publishable_key = None
     payment_intent_id = None
     payment_intent_client_secret = None
     if obj_type == 'listing':
