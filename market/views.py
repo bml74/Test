@@ -35,7 +35,8 @@ from config.utils import (
     formValid, 
     get_group_and_group_profile_from_group_id, 
     getGroupProfile, 
-    is_ajax
+    is_ajax,
+    runningDevServer
 )
 from .utils import (
     get_group_and_group_profile_and_listing_from_listing_id,
@@ -276,8 +277,7 @@ def switch_listing(request, obj_type, pk):
         new_listing.save()
         # Send e-mail to creator of Bid listing
         try:
-            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-            if RUNNING_DEVSERVER:
+            if runningDevServer():
                 BASE_DOMAIN = 'http://127.0.0.1:8000' 
             else:
                 BASE_DOMAIN = 'https://www.hoyabay.com'
@@ -473,8 +473,7 @@ def purchase_item_for_free(request, obj_type, pk):
 #checkout call
 def checkout(request, obj_type, pk):
     item = None
-    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-    if RUNNING_DEVSERVER:
+    if runningDevServer():
         stripe.api_key = config('STRIPE_TEST_KEY') 
         publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
         BASE_DOMAIN = 'http://127.0.0.1:8000' 
@@ -568,9 +567,7 @@ def checkout(request, obj_type, pk):
 
 def checkout_session(request, obj_type, pk):
 
-    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-
-    if RUNNING_DEVSERVER:
+    if runningDevServer():
         BASE_DOMAIN = 'http://127.0.0.1:8000' 
         stripe.api_key = config('STRIPE_TEST_KEY') 
     else:
@@ -643,9 +640,8 @@ def payment_success(request, obj_type, pk):
     print(f"PK: {pk}")
     item = purchase_logic(request, obj_type, item_id=pk)
     try:
-        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
 
-        if RUNNING_DEVSERVER:
+        if runningDevServer():
             stripe.api_key = config('STRIPE_TEST_KEY') 
         else:
             stripe.api_key = config('STRIPE_LIVE_KEY')
@@ -856,8 +852,7 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
     ) # Function returns a Bool.
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
     try:
-        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-        if RUNNING_DEVSERVER:
+        if runningDevServer():
             BASE_DOMAIN = 'http://127.0.0.1:8000' 
         else:
             BASE_DOMAIN = 'https://www.hoyabay.com'
@@ -999,8 +994,7 @@ class LotteryDetailView(UserPassesTestMixin, DetailView):
                     lottery.save()
                     if winner:
                         try:
-                            RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-                            if RUNNING_DEVSERVER:
+                            if runningDevServer():
                                 BASE_DOMAIN = 'http://127.0.0.1:8000' 
                             else:
                                 BASE_DOMAIN = 'https://www.hoyabay.com'

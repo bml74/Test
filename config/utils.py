@@ -120,3 +120,8 @@ def get_group_and_group_profile_from_group_id(group_id):
     # Then get the group's profile
     group_profile_obj = GroupProfile.objects.filter(group=group_obj).first()
     return (group_obj, group_profile_obj)
+
+
+def runningDevServer():
+    RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
+    return RUNNING_DEVSERVER
