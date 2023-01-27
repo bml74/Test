@@ -11,7 +11,7 @@ from .utils import (
     get_groups_that_user_follows,
     does_user1_follow_user2
 )
-
+from market.models import Transaction
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -63,6 +63,8 @@ def user_profile(request, username):
 
     logged_in_user_follows_user_with_profile_being_viewed = does_user1_follow_user2(logged_in_user, user_with_profile_being_viewed) # Does logged in user follow user with profile being viewed?
 
+    numSalesByUser = Transaction.objects.filter(seller=user_with_profile_being_viewed).count()
+
     context = {
         "user_with_profile_being_viewed": user_with_profile_being_viewed,
         "profile_of_user": profile_of_user,
@@ -83,7 +85,9 @@ def user_profile(request, username):
         "num_following": num_following,
 
         "logged_in_user_follows_user_with_profile_being_viewed": logged_in_user_follows_user_with_profile_being_viewed,
-        "logged_in_user_has_sent_follow_request": FollowRequest.objects.filter(user_requesting_to_follow=logged_in_user, user_receiving_follow_request=user_with_profile_being_viewed).exists()
+        "logged_in_user_has_sent_follow_request": FollowRequest.objects.filter(user_requesting_to_follow=logged_in_user, user_receiving_follow_request=user_with_profile_being_viewed).exists(),
+
+        "numSalesByUser": numSalesByUser
 
     }
 
