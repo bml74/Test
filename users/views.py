@@ -115,8 +115,8 @@ def user_profile(request, username):
         logged_in_user_has_rated = False
     
     context.update({
-        "overall_rating": "%.1f" % overall_rating,
-        "rating": '{0:.1f}'.format(rating),
+        "overall_rating": '{0:.1f}'.format(overall_rating) if overall_rating else None,
+        "rating": '{0:.1f}'.format(rating) if rating else None,
         "user_has_been_rated": user_has_been_rated,
         "logged_in_user_has_rated": logged_in_user_has_rated
     })

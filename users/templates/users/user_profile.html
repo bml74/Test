@@ -179,14 +179,14 @@
 
     <div class="mt-4 pt-4">
         <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            {% if user_has_been_rated %}
+            {% if user_has_been_rated and overall_rating %}
                 This seller's overall rating: <span id="overall-rating">{{ overall_rating|floatformat:1 }}</span>/5
             {% else %}
                 This seller hasn't yet been rated.
             {% endif %}
         </p>
         <p class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            {% if logged_in_user_has_rated %}
+            {% if logged_in_user_has_rated and rating %}
                 Your rating of this seller: <span id="my-rating">{{ rating|floatformat:1 }}</span>/5
             {% else %}
                 You haven't yet rated this seller.
