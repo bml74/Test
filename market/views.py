@@ -546,12 +546,6 @@ def checkout(request, obj_type, pk):
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
     if item is not None:
-        try:
-            # If user created item, then don't let them view checkout page and purchase.
-            if item.creator == request.user:
-                return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
-        except:
-            pass
         context = {
             "item": item, 
             "obj_type": obj_type, 
@@ -591,10 +585,6 @@ def checkout_session(request, obj_type, pk):
                 return JsonResponse({"Error": "There are not enough of these items available."})
             else: 
                 handleQuantity(item)
-
-        # if obj_type in ['listing', 'course', 'specialization']:
-        #     if item.creator == request.user:
-        #         return JsonResponse({"Error": "The creator of this item cannot purchase the same item."})
 
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],

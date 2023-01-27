@@ -65,6 +65,8 @@ def user_profile(request, username):
 
     numSalesByUser = Transaction.objects.filter(seller=user_with_profile_being_viewed).count()
 
+    logged_in_user_has_bought_from_user_with_profile_being_viewed = Transaction.objects.filter(purchaser=logged_in_user, seller=user_with_profile_being_viewed).exists()
+
     context = {
         "user_with_profile_being_viewed": user_with_profile_being_viewed,
         "profile_of_user": profile_of_user,
@@ -87,7 +89,9 @@ def user_profile(request, username):
         "logged_in_user_follows_user_with_profile_being_viewed": logged_in_user_follows_user_with_profile_being_viewed,
         "logged_in_user_has_sent_follow_request": FollowRequest.objects.filter(user_requesting_to_follow=logged_in_user, user_receiving_follow_request=user_with_profile_being_viewed).exists(),
 
-        "numSalesByUser": numSalesByUser
+        "numSalesByUser": numSalesByUser,
+
+        "logged_in_user_has_bought_from_user_with_profile_being_viewed": logged_in_user_has_bought_from_user_with_profile_being_viewed
 
     }
 
@@ -102,7 +106,7 @@ def user_profile(request, username):
                 r = Rating(rating=rating, rater=logged_in_user, user_being_rated=user_with_profile_being_viewed)
                 r.save()
             overall_rating = getOverallRating(user_being_rated=user_with_profile_being_viewed)
-            ratings_dict = {"rating": '{0:.1f}'.format(rating), "overall_rating": '{0:.1f}'.format(overall_rating)}
+            ratings_dict = {"rating": rating, "overall_rating": overall_rating} # '{0:.1f}'.format(rating)
             return JsonResponse(ratings_dict)
 
     if Rating.objects.filter(user_being_rated=user_with_profile_being_viewed).exists():
@@ -119,8 +123,8 @@ def user_profile(request, username):
         logged_in_user_has_rated = False
     
     context.update({
-        "overall_rating": '{0:.1f}'.format(overall_rating) if (isinstance(overall_rating, int) or isinstance(overall_rating, float)) else None,
-        "rating": '{0:.1f}'.format(rating) if (isinstance(rating, int) or isinstance(rating, float)) else None,
+        "overall_rating": overall_rating if (isinstance(overall_rating, int) or isinstance(overall_rating, float)) else None,
+        "rating": overall_rating if (isinstance(rating, int) or isinstance(rating, float)) else None,
         "user_has_been_rated": user_has_been_rated,
         "logged_in_user_has_rated": logged_in_user_has_rated
     })
