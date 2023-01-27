@@ -50,7 +50,9 @@ from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 
+
 load_dotenv()
+
 
 SENDGRID_API_KEY = os.getenv("SENDGRID_API_KEY")
 SENDER_EMAIL_ADDRESS = os.getenv("SENDER_EMAIL_ADDRESS")
@@ -254,7 +256,6 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
 
 
 def switch_listing(request, obj_type, pk):
-    print("OKKKKKKK!!!")
     if obj_type == 'listing':
         current_listing = Listing.objects.get(pk=pk)
         assert(current_listing.listing_type == "Bid (Looking to buy)")
@@ -469,7 +470,6 @@ def purchase_item_for_free(request, obj_type, pk):
         return redirect('payment_cancel')
 
 
-#checkout call
 def checkout(request, obj_type, pk):
     item = None
     if runningDevServer():
@@ -620,12 +620,10 @@ def checkout_session(request, obj_type, pk):
     return JsonResponse({"Error": "Item retrieval error."})
 
 
-#on stripe cancel payment
 def payment_cancel(request):
     return render(request, "payments/cancel.html")
 
 
-#generate transaction id
 def generate_transaction_id(length):
     set_number = '12345678903773764673738299'
     import random
@@ -633,7 +631,6 @@ def generate_transaction_id(length):
     return gen_text
 
 
-#stripe success payment
 def payment_success(request, obj_type, pk):
     print(f"OBJ TYPE: {obj_type}")
     print(f"PK: {pk}")
@@ -733,7 +730,6 @@ def payment_success(request, obj_type, pk):
         return render(request, 'payments/cancel.html')
 
 
-#purchaser unverified payments
 def my_payments(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
     # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
