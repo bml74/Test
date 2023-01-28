@@ -59,6 +59,7 @@ urlpatterns = [
     path('data/', include('data.urls')), 
     path('quizzes/', include('quizzes.urls')), 
     path('market/', include('market.urls')), 
+    path('reviews/', include('reviews.urls')), 
 
     path('finance/', include('finance.urls')),
 

@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     'quizzes',
     'questions',
     'market',
+    'reviews',
 
     'finance',
     'languages',

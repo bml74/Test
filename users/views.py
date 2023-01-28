@@ -17,18 +17,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from config.utils import is_ajax
+from config.utils import is_ajax, getOverallRating
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-
-def getOverallRating(user_being_rated):
-    overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
-    if overall_ratings:
-        overall_rating = 0
-        for r in overall_ratings:
-            overall_rating += r.rating
-        overall_rating /= len(overall_ratings)
-        return overall_rating
-    return 0
 
 
 def register(request):

@@ -7,6 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from orgs.models import GroupProfile
 from django.contrib.auth.models import Group
+from users.models import Rating
 
 
 def is_ajax(request):
@@ -125,3 +126,18 @@ def get_group_and_group_profile_from_group_id(group_id):
 def runningDevServer():
     RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
     return RUNNING_DEVSERVER
+
+
+def getOverallRating(user_being_rated):
+    overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
+    if overall_ratings:
+        overall_rating = 0
+        for r in overall_ratings:
+            overall_rating += r.rating
+        overall_rating /= len(overall_ratings)
+        return overall_rating
+    return 0
+
+
+def myround(x, base=10):
+    return base * round(x/base)
