@@ -10,6 +10,7 @@ from django.contrib.auth.models import User, Group
 from users.models import Profile
 from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery, Lottery, LotteryParticipant
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
+from ads.models import AdOffer, AdPurchase
 from django.views.generic import (
     ListView,
     DetailView,
@@ -569,6 +570,8 @@ def checkout(request, obj_type, pk):
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
+    elif obj_type == 'ad_offer':
+        item = AdOffer.objects.get(pk=pk)
     if item is not None:
         context = {
             "item": item, 
@@ -602,6 +605,8 @@ def checkout_session(request, obj_type, pk):
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
         item = Specialization.objects.get(pk=pk)
+    elif obj_type == 'ad_offer':
+        item = AdOffer.objects.get(pk=pk)
     if item: # if item is not None
 
         if obj_type == 'listing':
@@ -646,9 +651,10 @@ def generate_transaction_id(length):
 
 
 def payment_success(request, obj_type, pk):
-    print(f"OBJ TYPE: {obj_type}")
-    print(f"PK: {pk}")
-    item = purchase_logic(request, obj_type, item_id=pk)
+    if obj_type == 'listing':
+        item = purchase_logic(request, obj_type, item_id=pk)
+    elif obj_type == 'ad_offer':
+        item = AdOffer.objects.get(pk=pk)
     try:
 
         if runningDevServer():
@@ -673,7 +679,7 @@ def payment_success(request, obj_type, pk):
                 # Delete payment method id from records after successful payment. Payment Intent ID cannot be reused once a payment goes through.
                 PaymentIntentTracker.objects.filter(stripe_payment_intent_id=request.GET['session_id']).delete()
             except:
-                print('error deleteing payment intent from records')
+                print('Error deleting payment intent from records')
         else:
             session = stripe.checkout.Session.retrieve(request.GET['session_id'])
             item_id = session.client_reference_id
@@ -709,10 +715,13 @@ def payment_success(request, obj_type, pk):
                 for course in courses_within_specialization: # For each of these courses within the specialization
                     if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
                         course.students.add(request.user) # Then add user as a student
-        print('creator')
-        print(item.creator)
-        print('creator')
-
+        elif obj_type == 'ad_offer':
+            item = AdOffer.objects.get(pk=pk)
+            ad_purchase = AdPurchase(
+                user_that_purchased_ad=request.user,
+                offer=item
+            )
+            ad_purchase.save()
         if item is not None:
             transaction_no = generate_transaction_id(10) # Generate Transaction record
             t = Transaction(
@@ -1076,3 +1085,8 @@ class LotteryListView(UserPassesTestMixin, ListView):
     def get_queryset(self):
         results = Lottery.objects.all()
         return results.order_by('-date_created')
+
+
+def redirect_from_ad_to_listing(request, pk):
+    print("REDIRECT")
+    return redirect('listing', pk=pk)

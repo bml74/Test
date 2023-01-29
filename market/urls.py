@@ -65,4 +65,6 @@ urlpatterns = [
     path('enter/lottery/<int:lottery_pk>/', views.add_lottery_participant, name='add_lottery_participant'),
     path('lotteries/', views.LotteryListView.as_view(), name='lotteries'),
 
+    path('redirect/from/ad/to/listing/<int:pk>/', views.redirect_from_ad_to_listing, name='redirect_from_ad_to_listing'),
+
 ]
