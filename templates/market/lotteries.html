@@ -1,0 +1,103 @@
+{% extends 'market/base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+
+{% block title %}
+Lotteries
+{% endblock title %}
+
+{% block main %}
+
+
+<main class="grow" style="margin: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 border-b border-gray-200 dark:border-gray-800 pl-15vw pr-15vw">
+
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay&trade;</span> Lotteries</h1>
+                            
+                                                        
+                        </div>
+                
+                        <div id="mainContent" class="">
+
+
+
+
+                            <div class="grid grid-cols-3 mt-6 md:grid-cols-3 xl:grid-cols-3" id="ad-offers">
+
+                                {% for item in items %}
+                                    <div class="mt-4 p-4 w-full max-w-sm bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                                        <div class="text-center">
+                                            <h5 class="mb-4 text-xl font-medium text-gray-500 dark:text-gray-400">1 credit to enter</h5>
+                                        </div>
+                                        <div class="flex items-baseline text-gray-900 dark:text-white">
+                                            <span class="text-3xl font-semibold">Prize: </span>
+                                            <span class="text-5xl font-extrabold tracking-tight">{{ item.prize }}</span>
+                                            {% comment %} <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">credit to enter</span> {% endcomment %}
+                                        </div>
+                                        {% comment %} <div class="mt-4 text-base font-normal leading-tight text-gray-500 dark:text-white single-line">Prize: {{ item.prize|safe }}</div> {% endcomment %}
+                                        <!-- List -->
+                                        <ul role="list" class="my-7 space-y-5">
+                                            <li class="flex space-x-3">
+                                                <!-- Icon -->
+                                                <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Check icon</title><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">{{ item.num_unique_users }} have already entered</span>
+                                            </li>
+                                            <li class="flex space-x-3">
+                                                <!-- Icon -->
+                                                <svg aria-hidden="true" class="flex-shrink-0 w-5 h-5 text-blue-600 dark:text-blue-500" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><title>Check icon</title><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                                <span class="text-base font-normal leading-tight text-gray-500 dark:text-gray-400">{{ item.num_unique_users_required }} required upon selection</span>
+                                            </li>
+                                        </ul> 
+                                        <a href="{% url 'lottery' item.id %}" type="button" class="mt-4 text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-200 dark:focus:ring-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex justify-center w-full text-center">View plan</a>
+                                    </div>
+                                {% endfor %}
+                            
+                            </div>
+
+
+
+
+
+
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main> 
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+{% endblock main %}
+
+
+
+

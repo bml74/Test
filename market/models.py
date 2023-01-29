@@ -87,6 +87,7 @@ class Lottery(models.Model):
     num_unique_users = models.IntegerField(default=0)
     num_unique_users_required = models.IntegerField(default=500)
     winner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="lottery_winner")
+    date_created = models.DateTimeField(auto_now_add=True)
 
     def select_lucky_number(self):
         if not self.winner:

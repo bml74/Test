@@ -1056,3 +1056,23 @@ def add_lottery_participant(request, lottery_pk):
             messages.success(request, f'You have been entered in the lottery!')
     return redirect('lottery', pk=lottery.id)
 
+
+class LotteryListView(UserPassesTestMixin, ListView):
+    model = Lottery
+    template_name = 'market/lotteries.html'
+    context_object_name = 'items'
+    paginate_by = 12
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+
+    def get_context_data(self, **kwargs):
+        context = super(LotteryListView, self).get_context_data(**kwargs)
+        context.update({
+            
+        })
+        return context
+
+    def get_queryset(self):
+        results = Lottery.objects.all()
+        return results.order_by('-date_created')
