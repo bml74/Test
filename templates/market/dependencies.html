@@ -160,16 +160,22 @@
         .stars-90:after { width: 90%; }
         .stars-100:after { width: 100; }
 
-        {% comment %} @media (max-width: 1000px) {
+        @media (max-width: 1000px) {
             #ads {
                 display: none;
+            }
+            #listings-container {
+                width: 100vw;
             }
         }
         @media (min-width: 1000px) {
             #ads {
-                width: 15vw !important
+                width: 40%;
             }
-        } {% endcomment %}
+            #listings-container {
+                width: 60%;
+            }
+        }
     
     </style>
 

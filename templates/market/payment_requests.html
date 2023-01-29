@@ -47,7 +47,7 @@ Payment requests
 
                                                     <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
                                                         <div class="flex flex-col items-center pb-10">
-                                                            <img class="mt-4 mb-3 w-24 h-24 rounded-full shadow-lg" src="https://dejpknyizje2n.cloudfront.net/gallery/Georgetown_Hoyas_Logo_.png" alt="Image">
+                                                            <img class="mt-4 mb-3 w-24 h-24 rounded-full shadow-lg" src="{% static 'hoyabay/images/sailboat.png' %}" alt="Image">
                                                             <h5 class="mt-4 mb-1 text-xl font-medium text-gray-900 dark:text-white">{{ payment_request.listing_for_group_members.group }}</h5>
                                                             <span class="text-sm text-gray-500 dark:text-gray-400">requests ${{ payment_request.listing_for_group_members.price|floatformat:2 }}</span>
                                                             <span class="text-sm text-gray-500 dark:text-gray-400">for {{ payment_request.listing_for_group_members.title }}</span>

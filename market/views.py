@@ -211,6 +211,7 @@ class ListingListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
     context_object_name = 'items'
+    paginate_by = 12
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -219,10 +220,33 @@ class ListingListView(UserPassesTestMixin, ListView):
         context = super(ListingListView, self).get_context_data(**kwargs)
         results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
         num_results = len(results)
+        for result in results:
+            print(result)
+        
+        """ BEGIN ADVERTISING LOGIC """
+        if len(Listing.objects.all()) == 0:
+            first_ads, second_ads, all_other_ads = None
+        if len(Listing.objects.all()) <= 3:
+            first_ads = Listing.objects.all()
+            second_ads = None
+            all_other_ads = None
+        elif len(Listing.objects.all()) > 3 and len(Listing.objects.all()) <= 6:
+            first_ads = Listing.objects.all()[:3]
+            second_ads = Listing.objects.all()[3:6]
+            all_other_ads = None
+        else:
+            first_ads = Listing.objects.all()[:3]
+            second_ads = Listing.objects.all()[3:6]
+            all_other_ads = Listing.objects.all()[6:]
+        """ END ADVERTISING LOGIC """
+
         context.update({
             "num_results": num_results,
             "header": "All listings",
-            "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
+            "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None,
+            "first_ads": first_ads,
+            "second_ads": second_ads,
+            "all_other_ads": all_other_ads
         })
         return context
 

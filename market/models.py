@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator
 from ecoles.choices import Visibility
 from config.choices import GeorgetownLocations
+from django.conf import settings
 
 
 class Listing(models.Model):

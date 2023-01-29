@@ -51,7 +51,7 @@ Ad Offers
                                             <span class="text-5xl font-extrabold tracking-tight">{{ item.get_price_per_required_metric|floatformat:2 }}</span>
                                             <span class="ml-1 text-xl font-normal text-gray-500 dark:text-gray-400">/{% if item.metric == "Impressions" %}impression{% elif item.metric == "Unique Impressions" %}unique impression{% elif item.metric == "Clicks" %}click{% endif %}</span>
                                         </div>
-                                        <p class="mt-4 text-base font-normal leading-tight text-gray-500 dark:text-gray-400 single-line">{{ item.description|safe }}</p>
+                                        <div class="mt-4 text-base font-normal leading-tight text-gray-500 dark:text-white single-line">{{ item.description|safe }}</div>
                                         <!-- List -->
                                         <ul role="list" class="my-7 space-y-5">
                                             <li class="flex space-x-3">

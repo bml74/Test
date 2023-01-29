@@ -11,129 +11,321 @@ Hoyabay&trade; | Listings
 <main class="grow" style="margin: 2%;">
 
     <div class="w-full px-5 mx-auto max-w-8xl"> 
-    <div class="lg:flex">
-        <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
-            <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
-            <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
-                <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
-                    <ul class="mb-0 list-unstyled">
+        <div class="lg:flex">
+            <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
+                <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
+                <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
+                    <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
+                        <ul class="mb-0 list-unstyled">
 
-                        <li class="mt-8"> 
+                            <li class="mt-8"> 
 
-                            <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
+                                <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
 
-                                <div class="flex items-center mb-4 listing-type-radio-div">
-                                    <input id="general" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
-                                    <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
-                                </div>
-                                <div class="flex items-center mb-4 listing-type-radio-div">
-                                    <input id="consulting" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
-                                    <label for="consulting" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Consulting</label>
-                                </div>
-                                <div class="flex items-center mb-4 listing-type-radio-div">
-                                    <input id="tutoring" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
-                                    <label for="tutoring" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tutoring</label>
-                                </div>
-                                <div class="flex items-center mb-4 listing-type-radio-div">
-                                    <input id="sale" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
-                                    <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
-                                </div>
-
-
-                            <button class="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
-                            <hr>
-                            <button class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="resetFilter()">Reset</button>
-
-                        </li>
-
-                    </ul>
-                </nav>
-            </div>
-
-        </aside>
+                                    <div class="flex items-center mb-4 listing-type-radio-div">
+                                        <input id="general" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
+                                        <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
+                                    </div>
+                                    <div class="flex items-center mb-4 listing-type-radio-div">
+                                        <input id="consulting" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
+                                        <label for="consulting" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Consulting</label>
+                                    </div>
+                                    <div class="flex items-center mb-4 listing-type-radio-div">
+                                        <input id="tutoring" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio"> 
+                                        <label for="tutoring" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Tutoring</label>
+                                    </div>
+                                    <div class="flex items-center mb-4 listing-type-radio-div">
+                                        <input id="sale" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
+                                        <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
+                                    </div>
 
 
-        <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
-            <div class="flex w-full">
+                                <button class="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
+                                <hr>
+                                <button class="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="resetFilter()">Reset</button>
 
-                <div class="flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
-            
-                <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-            
-                    <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay&trade;</span> Marketplace</h1>
-                    <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Explore a variety of products and services, from used textbooks and tutoring sessions to NFTs and software programs.</p>
-                    
+                            </li>
+
+                        </ul>
+                    </nav>
                 </div>
 
-                {% if user_has_stripe_account_id %}
-                <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                    <a href="{% url 'listing-create' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create new listing</a>
-                </div>  
-                {% else %}
-                <p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
-                {% endif %}   
-            
-                    <div id="mainContent">
+            </aside>
 
-                        <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2>
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div id=""> <!-- listings-container --> <!-- flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16 -->
+                
+                        <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
                     
-                        <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
-                            <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
-                            <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings">
-                                {% for item in items %}    
-                                    {% if item.visibility != "Invisible" %}
-                    
-                                        <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay&trade;</span> Marketplace</h1>
+                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Explore a variety of products and services, from used textbooks and tutoring sessions to NFTs and software programs.</p>
+                            
+                        </div>
 
-                                            <div class="p-4">
-                                                {% if item.image %}
-                                                <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
-                                                {% endif %}
-                                            </div>
+                        {% if user_has_stripe_account_id %}
+                        <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                            <a href="{% url 'listing-create' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create new listing</a>
+                        </div>  
+                        {% else %}
+                        <p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
+                        {% endif %}   
+                
+                        <div id="mainContent">
 
-                                            <br>
-                                            <div class="px-2">
-                                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
-                                            </div>
-                                            {% comment %} <div class="px-2">
-                                                <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
-                                            </div> {% endcomment %}
+                            <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2>
+                        
+                            <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
+                                <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>
+                                <div class="grid grid-cols-3 gap-6 mt-6 md:grid-cols-3 xl:grid-cols-3" id="listings">
+                                    <!-- BEGIN FIRST ADS -->
+                                    {% if first_ads %}
+                                    {% for item in first_ads %}    
+                                        {% if item.visibility != "Invisible" %}
+                        
+                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
 
-                                            <div class="mt-2 px-5 pb-5">
-                                                <a href="{% url 'listing' item.id %}">
-                                                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                                </a>
-                                                <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                    {{ item.creator }}
-                                                </p>
-                                                <div class="flex justify-between items-center">
-                                                    <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
-                                                    <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                <div class="p-4">
+                                                    {% if item.image %}
+                                                    <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                    {% endif %}
+                                                </div>
+
+                                                <br>
+                                                <div class="px-2">
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                                </div>
+                                                {% comment %} <div class="px-2">
+                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                                </div> {% endcomment %}
+
+                                                <div class="mt-2 px-5 pb-5">
+                                                    <a href="{% url 'listing' item.id %}">
+                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                    </a>
+                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                        {{ item.creator }}
+                                                    </p>
+                                                    <div class="flex justify-between items-center">
+                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                        <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                    
+                        
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- END FIRST ADS -->
+
+                                    <!-- BEGIN ALL LISTINGS-->
+                                    {% for item in items %}    
+                                        {% if item.visibility != "Invisible" %}
+                        
+                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
+
+                                                <div class="p-4">
+                                                    <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                </div>
+
+
+                                                <br>
+                                                <div class="px-2">
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                                </div>
+                                                {% comment %} <div class="px-2">
+                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                                </div> {% endcomment %}
+
+                                                <div class="mt-2 px-5 pb-5">
+                                                    <a href="{% url 'listing' item.id %}">
+                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                    </a>
+                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                        {{ item.creator }}
+                                                    </p>
+                                                    <div class="flex justify-between items-center">
+                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                        <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                        {% endif %}
+                                    {% endfor %}
+                                    <!-- END ALL LISTINGS -->
+
+                                    <!-- BEGIN SECOND ADS -->
+                                    {% if second_ads %}
+                                    {% for item in second_ads %}    
+                                        {% if item.visibility != "Invisible" %}
+                        
+                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
+
+                                                <div class="p-4">
+                                                    {% if item.image %}
+                                                    <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                    {% endif %}
+                                                </div>
+
+                                                <br>
+                                                <div class="px-2">
+                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                                </div>
+                                                {% comment %} <div class="px-2">
+                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                                </div> {% endcomment %}
+
+                                                <div class="mt-2 px-5 pb-5">
+                                                    <a href="{% url 'listing' item.id %}">
+                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                    </a>
+                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                        {{ item.creator }}
+                                                    </p>
+                                                    <div class="flex justify-between items-center">
+                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                        <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                        
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% endif %}
+                                    <!-- END SECOND ADS -->
+                                    
+                        
+                                </div>
+                            </section>
+
+                            <div id="paginator">
+                                {% if is_paginated %}
+
+                                {% if page_obj.has_previous %}
+                                    <a type="button" class="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" href="?page=1">First</a>
+                                    <a type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                                {% endif %}
+
+                                {% for num in page_obj.paginator.page_range %}
+                                    {% if page_obj.number == num %}
+                                    <a type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="?page={{ num }}">{{ num }}</a>
+                                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                                    <a type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" href="?page={{ num }}">{{ num }}</a>
                                     {% endif %}
                                 {% endfor %}
-                    
-                            </div>
-                        </section>
 
-                        hello
-            
+                                {% if page_obj.has_next %}
+                                    <a type="button" class="text-white bg-yellow-400 hover:bg-yellow-500 focus:outline-none focus:ring-4 focus:ring-yellow-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-900" href="?page={{ page_obj.next_page_number }}">Next</a>
+                                    <a type="button" class="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                                {% endif %}
+
+                                {% endif %}
+                            </div>
+
+                            <div class="py-4"></div>
+
+
+                
+                        </div>
+
                     </div>
+
+                    {% comment %} <div id="ads" style="width: 40%; overflow-x: scroll; margin-top: 44vh;">
+                        <div class="ml-4 grid grid-cols-1 gap-6 mt-6 md:grid-cols-1 xl:grid-cols-1" id="listings">
+                            {% for item in first_ads %}    
+                                {% if item.visibility != "Invisible" %}
+                
+                                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
+
+                                        <div class="p-4">
+                                            {% if item.image %}
+                                            <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                            {% endif %}
+                                        </div>
+
+                                        <br>
+                                        <div class="px-2">
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                        </div>
+
+                                        <div class="mt-2 px-5 pb-5">
+                                            <a href="{% url 'listing' item.id %}">
+                                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                            </a>
+                                            <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                {{ item.creator }}
+                                            </p>
+                                            <div class="flex justify-between items-center">
+                                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                
+                                {% endif %}
+                            {% endfor %}
+
+                            
+                
+                        </div>
+                    </div>  {% endcomment %}
+
+
+                </div> 
+
+                <div>
+                    <h2 class="text-4xl font-extrabold dark:text-white">Advertisements</h2>
+                </div>
+
+                <div id="other-ads" class="flex w-100 mb-4 mt-4" style="overflow-x: scroll;">
+
+                    {% if all_other_ads %}
+                        {% for item in all_other_ads %}
+                            {% if item.visibility != "Invisible" %}
+            
+                                <div style="min-width: 400px!important;" class="mt-4 mb-4 mr-4 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
+
+                                    <div class="p-4">
+                                        {% if item.image %}
+                                        <img src="{{ item.image.url }}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                        {% endif %}
+                                    </div>
+
+                                    <br>
+                                    <div class="px-2">
+                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                    </div>
+                                    {% comment %} <div class="px-2">
+                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                    </div> {% endcomment %}
+
+                                    <div class="mt-2 px-5 pb-5">
+                                        <a href="{% url 'listing' item.id %}">
+                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                        </a>
+                                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                            {{ item.creator }}
+                                        </p>
+                                        <div class="flex justify-between items-center">
+                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                            <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
 
                 </div>
 
-                {% comment %} <div id="ads" style="max-width: 15vw; overflow-x: scroll;">
-                    jknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjtjknbhvgyjekghbjrwjgkuyhbyjt
-                </div> {% endcomment %}
+                
+            </main> 
 
-            </div> 
-
-            
-        </main> 
-
+        </div>
     </div>
 
 
