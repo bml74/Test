@@ -42,9 +42,9 @@
         
             <div class="flex justify-between items-center">
             <a href="/" class="flex">
-                <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Hoyabay Logo" />
+                <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Hoyabay&trade; Logo" />
                 <h1 class="text-2xl font-extrabold text-gray-900 dark:text-white md:text-2xl lg:text-2xl">
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay</span> <!-- self-center text-2xl font-semibold whitespace-nowrap dark:text-white -->
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay&trade;</span> <!-- self-center text-2xl font-semibold whitespace-nowrap dark:text-white -->
                 </h1>
             </a>
             </div>
@@ -139,35 +139,39 @@
     {% block main %}
     {% endblock main %}
 
-    {% comment %} <footer class="py-12 bg-gray-50 xl:py-24 dark:bg-gray-800">
+    <footer class="py-12 bg-gray-50 xl:py-24 dark:bg-gray-800">
         <div class="px-4 mx-auto w-full max-w-8xl">
             <div class="grid gap-12 xl:grid-cols-6 xl:gap-24">
                 <div class="col-span-2">
                     <a href="/" class="flex mb-5">
-                    <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Hoyabay Logo" />
-                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hoyabay</span>
+                    <img src="https://www.svgrepo.com/show/76153/sailboat.svg" class="mr-3 h-8" alt="Hoyabay&trade; Logo" />
+                    <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Hoyabay&trade;</span>
                     </a>
-                    <p class="mb-3 max-w-lg text-gray-600 dark:text-gray-400">Flowbite is a library of interactive UI components built with Tailwind CSS that can get you started building websites faster and more efficiently.</p>
-                    <p class="max-w-lg text-gray-600 dark:text-gray-400">Code licensed <a href="https://github.com/themesberg/flowbite/blob/main/LICENSE.md" class="text-blue-600 dark:text-blue-500 hover:underline" rel="nofollow">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" class="text-blue-600 hover:underline dark:text-blue-500" rel="nofollow">CC BY 3.0</a>.</p>
+                    <p class="mb-3 max-w-lg text-gray-600 dark:text-gray-400">Hoyabay&trade; is a digital marketplace on which university students and organizations can seamlessly and conveniently transact.</p>
+                    {% comment %} <p class="max-w-lg text-gray-600 dark:text-gray-400">Code licensed <a href="https://github.com/themesberg/flowbite/blob/main/LICENSE.md" class="text-blue-600 dark:text-blue-500 hover:underline" rel="nofollow">MIT</a>, docs <a href="https://creativecommons.org/licenses/by/3.0/" class="text-blue-600 hover:underline dark:text-blue-500" rel="nofollow">CC BY 3.0</a>.</p> {% endcomment %}
                 </div>
                 <div>
                     <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Resources</h3>
                     <ul>
                         <li class="mb-4">
-                        <a href="https://flowbite.com/"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Flowbite</a>
+                        <a href="{% url 'listings' %}"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Listings</a>
                         </li>
                         <li class="mb-4">
-                        <a href="https://www.figma.com/?ref=flowbite.com" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Figma</a>
+                        <a href="{% url 'listings_by_user' request.user %}" rel="noreferrer nofollow"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">My listings</a>
                         </li>
                         <li class="mb-4">
-                        <a href="https://tailwindcss.com/?ref=flowbite.com" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Tailwind CSS</a>
+                        <a href="{% url 'my_purchases' %}" rel="noreferrer nofollow"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">My purchases</a>
                         </li>
                         <li class="mb-4">
-                        <a href="https://flowbite.com/pro/"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Pro version</a>
+                        <a href="{% url 'my_sales' %}"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">My sales</a>
+                        </li>
+                        <li class="mb-4">
+                        <a href="{% url 'profile' %}"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Account</a>
                         </li>
                     </ul>
                 </div>
@@ -175,29 +179,17 @@
                     <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Help and support</h3>
                     <ul>
                         <li class="mb-4">
-                        <a href="https://flowbite.com/contact/" rel="noreferrer nofollow"
+                        <a href="{% url 'customer-message-create' %}" rel="noreferrer nofollow"
                         class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Contact us</a>
-                        </li>
-                        <li class="mb-4">
-                        <a href="https://github.com/themesberg/flowbite/discussions" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Github discussions</a>
                         </li>
                         </ul>
                         </div>
                         <div>
-                        <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Follow us</h3>
+                        <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Advertise</h3>
                         <ul>
                         <li class="mb-4">
-                        <a href="https://discord.gg/4eeurUVvTy" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Discord</a>
-                        </li>
-                        <li class="mb-4">
-                        <a href="https://github.com/themesberg" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">GitHub</a>
-                        </li>
-                        <li class="mb-4">
-                        <a href="https://twitter.com/zoltanszogyenyi" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Twitter</a>
+                        <a href="{% url 'ad-offers' %}" rel="noreferrer nofollow"
+                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Ad offers</a>
                         </li>
                     </ul>
                 </div>
@@ -219,10 +211,10 @@
                 </div>
             </div>
             <hr class="my-8 border-gray-200 dark:border-gray-700 lg:my-12" />
-            <span class="block text-center text-gray-600 dark:text-gray-400 font-">© 2019-<span id="currentYear"></span> <a href="https://flowbite.com/">Flowbite™</a> is a registered trademark. All Rights Reserved.
+            <span class="block text-center text-gray-600 dark:text-gray-400 font-">© 2023<span id="currentYear"></span> <a href="https://hoyabay.com/">Hoyabay&trade;</a> . All Rights Reserved.
             </span>
         </div>
-    </footer> {% endcomment %}
+    </footer>
 
 
 

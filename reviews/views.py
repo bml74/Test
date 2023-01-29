@@ -11,7 +11,7 @@ from django.views.generic import (
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
-from .models import Review
+from .models import Review, CustomerMessage
 from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import COURSE_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
@@ -69,7 +69,6 @@ class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         subject_username = self.kwargs.get('username')
         subject = get_object_or_404(User, username=subject_username)
         form.instance.subject = subject
-        # If user has chosen a group, make sure the user is a member of that group:
         return super().form_valid(form)
 
     def test_func(self):
@@ -94,7 +93,6 @@ class ReviewUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         subject_username = self.kwargs.get('username')
         subject = get_object_or_404(User, username=subject_username)
         form.instance.subject = subject
-        # If user has chosen a group, make sure the user is a member of that group:
         return super().form_valid(form)
 
     def test_func(self):
@@ -124,5 +122,54 @@ class ReviewDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         transaction = get_object_or_404(Review, id=self.kwargs.get('pk'))
         title = f"Review: {transaction.title}"
         context.update({"type": "review", "title": title})
+        return context
+
+
+class CustomerMessageListView(UserPassesTestMixin, ListView):
+    model = CustomerMessage
+    template_name = 'reviews/customer-messages.html'
+    context_object_name = 'items'
+    paginate_by = 10
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerMessageListView, self).get_context_data(**kwargs)
+        context.update({"header": "Feedback"})
+        return context
+
+
+class CustomerMessageDetailView(UserPassesTestMixin, DetailView):
+    model = CustomerMessage
+    template_name = 'reviews/customer-message.html'
+
+    def test_func(self):
+        return self.request.user.is_superuser 
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerMessageDetailView, self).get_context_data(**kwargs)
+        customerMessage = get_object_or_404(CustomerMessage, id=self.kwargs['pk'])
+        context = {"header": f"Feedback from {customerMessage.author}", "item": customerMessage}
+        return context
+
+
+class CustomerMessageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
+    model = CustomerMessage
+    fields = ['title', 'content']
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        return self.request.user.is_superuser
+
+    def get_context_data(self, **kwargs):
+        context = super(CustomerMessageCreateView, self).get_context_data(**kwargs)
+        header = "Create post"
+        create = True # If update, false; if create, true
+        context.update({"header": header, "create": create})
         return context
 

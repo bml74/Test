@@ -1,6 +1,6 @@
 # Ca' Bruno
 
-### Hoyabay
+### Hoyabay&trade;
 
 ##### École militaire
 ##### École d'histoire

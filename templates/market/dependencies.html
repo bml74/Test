@@ -5,9 +5,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Buy and sell instantly, easily, and securely on Hoyabay, Georgetown University’s premier online marketplace.">
-    <meta name="author" content="Hoyabay">
-    <meta name="generator" content="Hoyabay">
+    <meta name="description" content="Buy and sell instantly, easily, and securely on Hoyabay&trade;, Georgetown University’s premier online marketplace.">
+    <meta name="author" content="Hoyabay&trade;">
+    <meta name="generator" content="Hoyabay&trade;">
 
     <title>{% block title %}{% endblock title %}</title>
 
@@ -159,6 +159,17 @@
         .stars-80:after { width: 80%; }
         .stars-90:after { width: 90%; }
         .stars-100:after { width: 100; }
+
+        {% comment %} @media (max-width: 1000px) {
+            #ads {
+                display: none;
+            }
+        }
+        @media (min-width: 1000px) {
+            #ads {
+                width: 15vw !important
+            }
+        } {% endcomment %}
     
     </style>
 

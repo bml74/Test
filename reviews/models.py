@@ -19,3 +19,19 @@ class Review(models.Model):
     def get_absolute_url(self):
         return reverse('review-detail', kwargs={'pk': self.pk})
 
+
+class CustomerMessage(models.Model):
+    title = models.CharField(max_length=100)
+    content = models.TextField()
+    date_posted = models.DateTimeField(auto_now_add=True)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='author_of_message_to_admin')
+
+    class Meta:
+        ordering = ['-date_posted']
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('customer-message-detail', kwargs={'pk': self.pk})
+

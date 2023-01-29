@@ -3,7 +3,7 @@
 
 # ecoles = [ 
 #     ["École générale", "general", "https://www.svgrepo.com/show/195313/bank.svg", ""],
-#     ["École des finances", "finance", "https://www.svgrepo.com/show/212692/banking-business-and-finance.svg", "Hoyabay's École des finances features dozens of specializations and courses as well as databases and interactive learning materials."],
+#     ["École des finances", "finance", "https://www.svgrepo.com/show/212692/banking-business-and-finance.svg", "Hoyabay&trade;'s École des finances features dozens of specializations and courses as well as databases and interactive learning materials."],
 #     ["École de commerce", "business", "https://www.svgrepo.com/show/33778/globe.svg", ""],
 #     ["École d'économie", "economics", "https://www.svgrepo.com/show/11834/economy.svg", ""],
 #     ["École d'histoire", "history", "https://www.svgrepo.com/show/66405/arc-de-triomphe.svg", ""],

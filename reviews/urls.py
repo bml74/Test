@@ -10,4 +10,8 @@ urlpatterns = [
     path('update/of/<str:username>/<int:pk>/', views.ReviewUpdateView.as_view(), name='review-update'),
     path('delete/<int:pk>/', views.ReviewDeleteView.as_view(), name='review-delete'), 
 
+    path('list/feedback/', views.CustomerMessageListView.as_view(), name='customer-message-list'), 
+    path('message/from/customers/<int:pk>/', views.CustomerMessageDetailView.as_view(), name='customer-message-detail'), 
+    path('contact/us/', views.CustomerMessageCreateView.as_view(), name='customer-message-create'), 
+
 ]
