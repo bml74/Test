@@ -179,9 +179,19 @@
                     <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Help and support</h3>
                     <ul>
                         <li class="mb-4">
-                        <a href="{% url 'customer-message-create' %}" rel="noreferrer nofollow"
-                        class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Contact us</a>
+                            <a href="{% url 'customer-message-create' %}" rel="noreferrer nofollow"
+                            class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Contact us</a>
                         </li>
+                        {% if request.user.is_superuser %}
+                        <li class="mb-4">
+                            <a href="{% url 'customer-message-list' %}" rel="noreferrer nofollow"
+                            class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Feedback from customers</a>
+                        </li>
+                        <li class="mb-4">
+                            <a href="/admin/" rel="noreferrer nofollow"
+                            class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Admin</a>
+                        </li>
+                        {% endif %}
                         </ul>
                         </div>
                         <div>

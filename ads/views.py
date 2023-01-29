@@ -67,7 +67,7 @@ class AdOfferUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user == self.get_object().author
+        return self.request.user.is_superuser
 
     def get_context_data(self, **kwargs):
         context = super(AdOfferUpdateView, self).get_context_data(**kwargs)
@@ -84,7 +84,7 @@ class AdOfferDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
-        return self.request.user == self.get_object().author
+        return self.request.user == self.get_object().is_superuser
 
     def get_context_data(self, **kwargs):
         context = super(AdOfferDeleteView, self).get_context_data(**kwargs)
@@ -151,10 +151,14 @@ class AdPurchaseDetailView(UserPassesTestMixin, DetailView):
         ad = get_object_or_404(AdPurchase, id=self.kwargs.get('pk')) # Get AdPurchase object
         user_created_ad = ad.user_that_purchased_ad == user # Boolean: Did the current user create this AdPurchase object?
 
-        group_that_purchased_ad = ad.group_that_purchased_ad # Get Group object of group that purchased ad
-        group_profile_of_group_that_purchased_ad = get_object_or_404(GroupProfile, group=group_that_purchased_ad) # Get GroupProfile object
-        user_created_group_that_created_ad = user == group_profile_of_group_that_purchased_ad.group_creator # Boolean: Did user create the group?
-        user_is_member_of_group_that_created_ad = user in group_profile_of_group_that_purchased_ad.group_members.all() # Boolean: Is user member of this group?
+        if ad.group_that_purchased_ad:
+            group_that_purchased_ad = ad.group_that_purchased_ad # Get Group object of group that purchased ad
+            group_profile_of_group_that_purchased_ad = get_object_or_404(GroupProfile, group=group_that_purchased_ad) # Get GroupProfile object
+            user_created_group_that_created_ad = user == group_profile_of_group_that_purchased_ad.group_creator # Boolean: Did user create the group?
+            user_is_member_of_group_that_created_ad = user in group_profile_of_group_that_purchased_ad.group_members.all() # Boolean: Is user member of this group?
+        else:
+            user_created_group_that_created_ad = False
+            user_created_group_that_created_ad = False
         return user_created_ad or user_created_group_that_created_ad or user_is_member_of_group_that_created_ad # If any of the above three conditions is True, return True
 
 
@@ -209,7 +213,7 @@ class AdPurchaseUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
                 return super().form_invalid(form)
 
     def test_func(self):
-        return self.request.user == self.get_object().author
+        return self.request.user == self.get_object().user_that_purchased_ad
 
     def get_context_data(self, **kwargs):
         context = super(AdPurchaseUpdateView, self).get_context_data(**kwargs)
@@ -226,7 +230,7 @@ class AdPurchaseDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
     def test_func(self):
-        return self.request.user == self.get_object().author
+        return self.request.user == self.get_object().user_that_purchased_ad
 
     def get_context_data(self, **kwargs):
         context = super(AdPurchaseDeleteView, self).get_context_data(**kwargs)

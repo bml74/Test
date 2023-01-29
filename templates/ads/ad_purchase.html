@@ -4,14 +4,14 @@
 {% load crispy_forms_tags %}
 
 {% block title %}
-Ad Purchase
+Ad Purchase #{{ item.id }}
 {% endblock title %}
 
 {% block main %}
 
 <div class="xCPtuxM4_gihvpPwv9bX Nu4HUn5EQpnNJ1itNkrd RZmKBZs1E1eXw8vkE6jY mlwbuv_bMkMhzTA3msA3 hD0sTTDgbxakubcHVW2X AWLGIryfLKwkSeUZd4O6 h8KYXnua2NT4kTVzieom _fGhMnSfYmaGrv7DvZ00"> <!-- h6ZjYPWLn_mAxjSYNWsM -->
     <div class="EWLTGduHCjFnjN6tLCXV hD0sTTDgbxakubcHVW2X QzGxlDe4W0Kn6V1Dkd6r">
-        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">Ad Purchase</h1>
+        <h1 class="vyo_A8gnQD1QWDPglr3h yM_AorRf2jSON3pDsdrz __9sbu0yrzdhGIkLWNXl NdexIDe6BTJXjtSnppoV OyABRrnTV_kvHV7dJ0uE">Ad Purchase #{{ item.id }}</h1>
     </div>
     <div class="_wYiJGbRZyFZeCc8y7Sf _Ybd3WwuTVljUT4vEaM3 mveJTCIb2WII7J4sY22F mngKhi_Rv06PF57lblDI _YxZw_O8dWkTljptcO7z SWDELhWFjL8JxEtm91_o _1jTZ8KXRZul60S6czNi">
         
@@ -72,7 +72,7 @@ Ad Purchase
             <div class="flex flex-col pb-3 dark:text-white mb-2rem">
                 <dt class="mb-1 text-gray-500 md:text-lg yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Description</dt>
                 <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">
-                    {{ item.offer.description }}
+                    {{ item.offer.description|safe }}
                 </dd>
             </div>
         </dl>
@@ -123,6 +123,14 @@ Ad Purchase
             </div>
 
         </dl>
+
+        <p class="flex mt-4">
+            <a href="{% url 'ad-purchase-update' item.id %}" target="_blank" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Update</a>
+        </p>
+
+        <p class="flex mt-4">
+            <a href="{% url 'ad-purchase-delete' item.id %}" target="_blank" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Delete</a>
+        </p>
 
     </div>
 </div>
