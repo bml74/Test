@@ -243,7 +243,6 @@ class ListingListView(UserPassesTestMixin, ListView):
             first_ads = ads_purchased_by_user[:3]
             second_ads = ads_purchased_by_user[3:6]
             all_other_ads = ads_purchased_by_user[6:]
-        """ END ADVERTISING LOGIC """
         first_ad_purchases = []
         second_ad_purchases = []
         all_other_ad_purchases = []
@@ -259,11 +258,7 @@ class ListingListView(UserPassesTestMixin, ListView):
             for adPurchase in all_other_ads:
                 if adPurchase.listing_to_be_advertised:
                     all_other_ad_purchases.append(adPurchase.listing_to_be_advertised)
-
-        print()
-        print(first_ad_purchases)
-        print(second_ad_purchases)
-
+        """ END ADVERTISING LOGIC """
 
         context.update({
             "num_results": num_results,
