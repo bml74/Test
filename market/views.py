@@ -225,29 +225,53 @@ class ListingListView(UserPassesTestMixin, ListView):
             print(result)
         
         """ BEGIN ADVERTISING LOGIC """
-        if len(Listing.objects.all()) == 0:
-            first_ads, second_ads, all_other_ads = None
-        if len(Listing.objects.all()) <= 3:
-            first_ads = Listing.objects.all()
+        ads_purchased_by_user = AdPurchase.objects.filter(user_that_purchased_ad=self.request.user).all()
+        print("LENNNNN")
+        print(len(ads_purchased_by_user))
+        if len(ads_purchased_by_user) == 0:
+            first_ads = second_ads = all_other_ads = None
+        if len(ads_purchased_by_user) <= 3:
+            print("under333333or3333")
+            first_ads = ads_purchased_by_user
             second_ads = None
             all_other_ads = None
-        elif len(Listing.objects.all()) > 3 and len(Listing.objects.all()) <= 6:
-            first_ads = Listing.objects.all()[:3]
-            second_ads = Listing.objects.all()[3:6]
+        elif len(ads_purchased_by_user) > 3 and len(ads_purchased_by_user) <= 6:
+            first_ads = ads_purchased_by_user[:3]
+            second_ads = ads_purchased_by_user[3:6]
             all_other_ads = None
         else:
-            first_ads = Listing.objects.all()[:3]
-            second_ads = Listing.objects.all()[3:6]
-            all_other_ads = Listing.objects.all()[6:]
+            first_ads = ads_purchased_by_user[:3]
+            second_ads = ads_purchased_by_user[3:6]
+            all_other_ads = ads_purchased_by_user[6:]
         """ END ADVERTISING LOGIC """
+        first_ad_purchases = []
+        second_ad_purchases = []
+        all_other_ad_purchases = []
+        if first_ads:
+            for adPurchase in first_ads:
+                if adPurchase.listing_to_be_advertised:
+                    first_ad_purchases.append(adPurchase.listing_to_be_advertised)
+        if second_ads:
+            for adPurchase in second_ads:
+                if adPurchase.listing_to_be_advertised:
+                    second_ad_purchases.append(adPurchase.listing_to_be_advertised)
+        if all_other_ads:
+            for adPurchase in all_other_ads:
+                if adPurchase.listing_to_be_advertised:
+                    all_other_ad_purchases.append(adPurchase.listing_to_be_advertised)
+
+        print()
+        print(first_ad_purchases)
+        print(second_ad_purchases)
+
 
         context.update({
             "num_results": num_results,
             "header": "All listings",
             "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None,
-            "first_ads": first_ads,
-            "second_ads": second_ads,
-            "all_other_ads": all_other_ads
+            "first_ads": first_ad_purchases,
+            "second_ads": second_ad_purchases,
+            "all_other_ads": all_other_ad_purchases
         })
         return context
 

@@ -7,7 +7,7 @@ AD_PURCHASE_FIELDS = [
         # 'course_to_be_advertised',
         'listing_to_be_advertised',
         # 'post_to_be_advertised',
-        'general_advertisement_text'
+        # 'general_advertisement_text'
 ]
 
 AD_OFFER_FIELDS = [
