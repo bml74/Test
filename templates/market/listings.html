@@ -82,42 +82,42 @@ Hoyabay&trade; | Listings
                                 <div class="grid grid-cols-3 gap-6 mt-6 sm:grid-cols-1 md:grid-cols-3 lg_grid-cols-3 xl:grid-cols-3" id="listings">
                                     <!-- BEGIN FIRST ADS -->
                                     {% if first_ads %}
-                                    {% for item in first_ads %}    
-                                        {% if item.visibility != "Invisible" %}
-                        
-                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
+                                        {% for item in first_ads %}    
+                                            {% if item.listing_to_be_advertised %}
+                            
+                                                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
 
-                                                <div class="p-4">
-                                                    <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
-                                                </div>
+                                                    <div class="p-4">
+                                                        <img src="{% if item.listing_to_be_advertised.image %}{% if item.listing_to_be_advertised.image.url %}{{ item.listing_to_be_advertised.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                    </div>
 
-                                                <br>
-                                                <div class="px-2">
-                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ml-3">Advertisement</span>
-                                                </div>
-                                                <div class="px-2">
-                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
-                                                </div>
-                                                {% comment %} <div class="px-2">
-                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
-                                                </div> {% endcomment %}
+                                                    <br>
+                                                    <div class="px-2">
+                                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ml-3">Advertisement</span>
+                                                    </div>
+                                                    <div class="px-2">
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_to_be_advertised.listing_category }}</span>
+                                                    </div>
+                                                    {% comment %} <div class="px-2">
+                                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                                    </div> {% endcomment %}
 
-                                                <div class="mt-2 px-5 pb-5">
-                                                    <a href="{% url 'redirect_from_ad_to_listing' item.id %}">
-                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                                    </a>
-                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        {{ item.creator }}
-                                                    </p>
-                                                    <div class="flex justify-between items-center">
-                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
-                                                        <a href="{% url 'redirect_from_ad_to_listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                    <div class="mt-2 px-5 pb-5">
+                                                        <a href="{% url 'redirect_from_ad_to_listing' item.id %}">
+                                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.listing_to_be_advertised.title }}</h5>
+                                                        </a>
+                                                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                            {{ item.listing_to_be_advertised.creator }}
+                                                        </p>
+                                                        <div class="flex justify-between items-center">
+                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.listing_to_be_advertised.price|floatformat:2 }}</span>
+                                                            <a href="{% url 'redirect_from_ad_to_listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                        
-                                        {% endif %}
-                                    {% endfor %}
+                            
+                                            {% endif %}
+                                        {% endfor %}
                                     {% endif %}
                                     <!-- END FIRST ADS -->
 
@@ -160,42 +160,42 @@ Hoyabay&trade; | Listings
 
                                     <!-- BEGIN SECOND ADS -->
                                     {% if second_ads %}
-                                    {% for item in second_ads %}    
-                                        {% if item.visibility != "Invisible" %}
-                        
-                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
+                                        {% for item in second_ads %}    
+                                            {% if item.listing_to_be_advertised %}
+                                
+                                                <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
 
-                                                <div class="p-4">
-                                                    <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
-                                                </div>
+                                                    <div class="p-4">
+                                                        <img src="{% if item.listing_to_be_advertised.image %}{% if item.listing_to_be_advertised.image.url %}{{ item.listing_to_be_advertised.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                                    </div>
 
-                                                <br>
-                                                <div class="px-2">
-                                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ml-3">Advertisement</span>
-                                                </div>
-                                                <div class="px-2">
-                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
-                                                </div>
-                                                {% comment %} <div class="px-2">
-                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
-                                                </div> {% endcomment %}
+                                                    <br>
+                                                    <div class="px-2">
+                                                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ml-3">Advertisement</span>
+                                                    </div>
+                                                    <div class="px-2">
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_to_be_advertised.listing_category }}</span>
+                                                    </div>
+                                                    {% comment %} <div class="px-2">
+                                                        <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
+                                                    </div> {% endcomment %}
 
-                                                <div class="mt-2 px-5 pb-5">
-                                                    <a href="{% url 'redirect_from_ad_to_listing' item.id %}">
-                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                                    </a>
-                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        {{ item.creator }}
-                                                    </p>
-                                                    <div class="flex justify-between items-center">
-                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
-                                                        <a href="{% url 'redirect_from_ad_to_listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                    <div class="mt-2 px-5 pb-5">
+                                                        <a href="{% url 'redirect_from_ad_to_listing' item.id %}">
+                                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.listing_to_be_advertised.title }}</h5>
+                                                        </a>
+                                                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                            {{ item.listing_to_be_advertised.creator }}
+                                                        </p>
+                                                        <div class="flex justify-between items-center">
+                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.listing_to_be_advertised.price|floatformat:2 }}</span>
+                                                            <a href="{% url 'redirect_from_ad_to_listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                        
-                                        {% endif %}
-                                    {% endfor %}
+
+                                            {% endif %}
+                                        {% endfor %}
                                     {% endif %}
                                     <!-- END SECOND ADS -->
                                     
@@ -288,12 +288,12 @@ Hoyabay&trade; | Listings
 
                         {% if all_other_ads %}
                             {% for item in all_other_ads %}
-                                {% if item.visibility != "Invisible" %}
-                
-                                    <div class="mt-4 mb-4 mr-4 bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 listing {{ item.listing_category }}">
+                                {% if item.listing_to_be_advertised %}
+                            
+                                    <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
 
                                         <div class="p-4">
-                                            <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
+                                            <img src="{% if item.listing_to_be_advertised.image %}{% if item.listing_to_be_advertised.image.url %}{{ item.listing_to_be_advertised.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
                                         </div>
 
                                         <br>
@@ -301,7 +301,7 @@ Hoyabay&trade; | Listings
                                             <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300 ml-3">Advertisement</span>
                                         </div>
                                         <div class="px-2">
-                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                            <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_to_be_advertised.listing_category }}</span>
                                         </div>
                                         {% comment %} <div class="px-2">
                                             <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
@@ -309,13 +309,13 @@ Hoyabay&trade; | Listings
 
                                         <div class="mt-2 px-5 pb-5">
                                             <a href="{% url 'redirect_from_ad_to_listing' item.id %}">
-                                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.listing_to_be_advertised.title }}</h5>
                                             </a>
                                             <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                {{ item.creator }}
+                                                {{ item.listing_to_be_advertised.creator }}
                                             </p>
                                             <div class="flex justify-between items-center">
-                                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.listing_to_be_advertised.price|floatformat:2 }}</span>
                                                 <a href="{% url 'redirect_from_ad_to_listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
                                             </div>
                                         </div>

@@ -226,8 +226,6 @@ class ListingListView(UserPassesTestMixin, ListView):
         
         """ BEGIN ADVERTISING LOGIC """
         ads_purchased_by_user = AdPurchase.objects.filter(user_that_purchased_ad=self.request.user).all()
-        print("LENNNNN")
-        print(len(ads_purchased_by_user))
         if len(ads_purchased_by_user) == 0:
             first_ads = second_ads = all_other_ads = None
         if len(ads_purchased_by_user) <= 3:
@@ -243,30 +241,21 @@ class ListingListView(UserPassesTestMixin, ListView):
             first_ads = ads_purchased_by_user[:3]
             second_ads = ads_purchased_by_user[3:6]
             all_other_ads = ads_purchased_by_user[6:]
-        first_ad_purchases = []
-        second_ad_purchases = []
-        all_other_ad_purchases = []
-        if first_ads:
-            for adPurchase in first_ads:
-                if adPurchase.listing_to_be_advertised:
-                    first_ad_purchases.append(adPurchase.listing_to_be_advertised)
-        if second_ads:
-            for adPurchase in second_ads:
-                if adPurchase.listing_to_be_advertised:
-                    second_ad_purchases.append(adPurchase.listing_to_be_advertised)
-        if all_other_ads:
-            for adPurchase in all_other_ads:
-                if adPurchase.listing_to_be_advertised:
-                    all_other_ad_purchases.append(adPurchase.listing_to_be_advertised)
+        for adPurchase in ads_purchased_by_user:
+            adPurchase.impressions += 1
+            if self.request.user not in adPurchase.unique_impressions.all():
+                adPurchase.num_unique_impressions += 1
+                adPurchase.unique_impressions.add(self.request.user)
+            adPurchase.save()
         """ END ADVERTISING LOGIC """
 
         context.update({
             "num_results": num_results,
             "header": "All listings",
             "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None,
-            "first_ads": first_ad_purchases,
-            "second_ads": second_ad_purchases,
-            "all_other_ads": all_other_ad_purchases
+            "first_ads": first_ads,
+            "second_ads": second_ads,
+            "all_other_ads": all_other_ads
         })
         return context
 
@@ -1107,5 +1096,6 @@ class LotteryListView(UserPassesTestMixin, ListView):
 
 
 def redirect_from_ad_to_listing(request, pk):
-    print("REDIRECT")
-    return redirect('listing', pk=pk)
+    adPurchase = get_object_or_404(AdPurchase, id=pk)
+    adPurchase.clicks += 1
+    return redirect('listing', pk=adPurchase.listing_to_be_advertised.id)

@@ -64,6 +64,7 @@ class AdPurchase(models.Model):
     clicks = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     unique_impressions = models.ManyToManyField(User, related_name="unique_impressions", default=None, blank=True)
+    num_unique_impressions = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     advertisement_type = models.CharField( 
         max_length=32,
         choices=(
