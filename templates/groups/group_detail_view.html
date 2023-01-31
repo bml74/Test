@@ -241,7 +241,7 @@
                                     <div class="p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800 hidden" id="group-member-listings" role="tabpanel" aria-labelledby="group-member-listings-tab">
                                         {% if user_is_creator %}
                                             <div>
-                                                <a href="{% url 'listing-for-group-members-create' item.id %}" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                <a href="{% url 'listing-for-group-members-create' item.group.id %}" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                                                     Create&nbsp;
                                                     <i class="fas fa-plus-circle"></i>
                                                 </a>
