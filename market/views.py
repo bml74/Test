@@ -229,7 +229,6 @@ class ListingListView(UserPassesTestMixin, ListView):
         if len(ads_purchased_by_user) == 0:
             first_ads = second_ads = all_other_ads = None
         if len(ads_purchased_by_user) <= 3:
-            print("under333333or3333")
             first_ads = ads_purchased_by_user
             second_ads = None
             all_other_ads = None
@@ -261,7 +260,7 @@ class ListingListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
-        return results.exclude(visibility='Invisible').all().order_by('-title')
+        return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
 class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
@@ -595,6 +594,8 @@ def checkout(request, obj_type, pk):
 
 def checkout_session(request, obj_type, pk):
 
+    print("1. CHECKOUT SESSION")
+
     if runningDevServer():
         BASE_DOMAIN = 'http://127.0.0.1:8000' 
         stripe.api_key = config('STRIPE_TEST_KEY') 
@@ -605,10 +606,9 @@ def checkout_session(request, obj_type, pk):
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
+        print("2. OBJ TYPE LISTING")
     elif obj_type == 'listing_for_group_members':
         item = ListingForGroupMembers.objects.get(pk=pk)
-        print(item)
-        print("from checkout_session function")
     elif obj_type == 'course':
         item = Course.objects.get(pk=pk)
     elif obj_type == 'specialization':
@@ -617,11 +617,7 @@ def checkout_session(request, obj_type, pk):
         item = AdOffer.objects.get(pk=pk)
     if item: # if item is not None
 
-        if obj_type == 'listing':
-            if not allowSaleBasedOnQuantity(item):
-                return JsonResponse({"Error": "There are not enough of these items available."})
-            else: 
-                handleQuantity(item)
+        print("3. ITEM EXISTS")
 
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -682,7 +678,6 @@ def payment_success(request, obj_type, pk):
         if is_custom_checkout == True:
             item_id = request.GET['session_id']
             stripe_payment_intent_details = stripe.PaymentIntent.retrieve(request.GET['session_id'])
-            print('stripe_payment_intent_details', stripe_payment_intent_details)
             try:
                 # Delete payment method id from records after successful payment. Payment Intent ID cannot be reused once a payment goes through.
                 PaymentIntentTracker.objects.filter(stripe_payment_intent_id=request.GET['session_id']).delete()
@@ -692,10 +687,15 @@ def payment_success(request, obj_type, pk):
             session = stripe.checkout.Session.retrieve(request.GET['session_id'])
             item_id = session.client_reference_id
 
-        print(item_id)
         item = None
         if obj_type == 'listing':
             item = Listing.objects.get(pk=pk)
+            if not allowSaleBasedOnQuantity(item):
+                print("NOT ALLOWING SALE BASED ON QUANITYT")
+                return JsonResponse({"Error": "There are not enough of these items available."})
+            else: 
+                print("HANDLING QUANTITY")
+                handleQuantity(item)
         elif obj_type == 'listing_for_group_members':
             item = ListingForGroupMembers.objects.get(pk=pk)
             # If there are existing requests, delete.
@@ -757,7 +757,6 @@ def payment_success(request, obj_type, pk):
         else:
             return render(request, 'payments/cancel.html')
     except Exception as e:
-        print(e)
         return render(request, 'payments/cancel.html')
 
 
