@@ -284,7 +284,7 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
-        return results.exclude(visibility='Invisible').all().order_by('-title')
+        return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
 def switch_listing(request, obj_type, pk):
@@ -362,7 +362,7 @@ class ListingsByUserListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self):
         user_in_url = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Listing.objects.filter(creator=user_in_url).all().exclude(visibility='Anonymous').all().exclude(visibility='Invisible').all().order_by('-title')
+        return Listing.objects.filter(creator=user_in_url).all().exclude(visibility='Anonymous').all().exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
 class ListingDetailView(UserPassesTestMixin, DetailView):
@@ -594,8 +594,6 @@ def checkout(request, obj_type, pk):
 
 def checkout_session(request, obj_type, pk):
 
-    print("1. CHECKOUT SESSION")
-
     if runningDevServer():
         BASE_DOMAIN = 'http://127.0.0.1:8000' 
         stripe.api_key = config('STRIPE_TEST_KEY') 
@@ -606,7 +604,6 @@ def checkout_session(request, obj_type, pk):
     item = None
     if obj_type == 'listing':
         item = Listing.objects.get(pk=pk)
-        print("2. OBJ TYPE LISTING")
     elif obj_type == 'listing_for_group_members':
         item = ListingForGroupMembers.objects.get(pk=pk)
     elif obj_type == 'course':
@@ -616,8 +613,6 @@ def checkout_session(request, obj_type, pk):
     elif obj_type == 'ad_offer':
         item = AdOffer.objects.get(pk=pk)
     if item: # if item is not None
-
-        print("3. ITEM EXISTS")
 
         session = stripe.checkout.Session.create(
             payment_method_types=['card'],
@@ -691,10 +686,8 @@ def payment_success(request, obj_type, pk):
         if obj_type == 'listing':
             item = Listing.objects.get(pk=pk)
             if not allowSaleBasedOnQuantity(item):
-                print("NOT ALLOWING SALE BASED ON QUANITYT")
                 return JsonResponse({"Error": "There are not enough of these items available."})
             else: 
-                print("HANDLING QUANTITY")
                 handleQuantity(item)
         elif obj_type == 'listing_for_group_members':
             item = ListingForGroupMembers.objects.get(pk=pk)
