@@ -17,7 +17,7 @@ class AdOfferListView(ListView):
     model = AdOffer
     template_name = 'ads/ad_offers.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super(AdOfferListView, self).get_context_data(**kwargs)
@@ -98,7 +98,7 @@ class AdPurchaseByUserListView(ListView):
     model = AdPurchase
     template_name = 'ads/ad_purchases.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def test_func(self):
         return self.kwargs.get('username') == self.request.user.username
@@ -116,7 +116,7 @@ class AdPurchaseByGroupListView(ListView):
     model = AdPurchase
     template_name = 'ads/ad_purchases.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def test_func(self):
         # Is user member of group? Or is user creator of group?

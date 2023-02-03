@@ -44,9 +44,7 @@ class Listing(models.Model):
             ("Research", "Research"),
             ("Used textbook", "Used textbook"),
             ("Book", "Book"),
-            ("Used book", "Used book"),
             ("Textbook", "Textbook"),
-            ("Used textbook", "Used textbook"),
             ("Furniture", "Furniture"),
             ("Electronics", "Electronics"),
             ("Household appliances", "Household appliances"),
@@ -81,6 +79,8 @@ class Listing(models.Model):
     quantity_available = models.IntegerField(default=1, blank=True, null=True, validators=[MinValueValidator(0.00)])
     quantity_sold = models.IntegerField(default=0, blank=True, null=True, validators=[MinValueValidator(0.00)])
     purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)
+    # condition
+    # size
 
     def __str__(self):
         return self.title

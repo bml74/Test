@@ -309,7 +309,7 @@ class RoomListView(ListView):
 	model = Room
 	context_object_name = 'items'
 	template_name = 'messaging/room_list_view.html'
-	paginate_by = 10
+	paginate_by = 50
 
 	def get_context_data(self, **kwargs):
 		context = super(RoomListView, self).get_context_data(**kwargs)
@@ -328,7 +328,7 @@ class RoomListView(ListView):
 class UserRoomListView(ListView):
 	model = Room
 	context_object_name = 'items'
-	paginate_by = 10
+	paginate_by = 50
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))

@@ -116,3 +116,51 @@ def handleQuantity(listing):
     listing.quantity_available -= 1
     listing.quantity_sold += 1
     listing.save()
+
+
+listing_category_options = [
+    "Consulting",
+    "Tutoring - College",
+    "Tutoring - MSB",
+    "Tutoring - Computer Science",
+    "Tutoring - SFS",
+    "Tutoring - NHS",
+    "Translation services",
+    "Programming services",
+    "Research",
+    "Used textbook",
+    "Book",
+    "Textbook",
+    "Furniture",
+    "Electronics",
+    "Household appliances",
+    "Sports tickets",
+    "Concert tickets",
+    "Other tickets",
+    "Sports gear",
+    "Men's basketball sneakers",
+    "Women's basketball sneakers",
+    "Men's running sneakers",
+    "Women's running sneakers",
+    "Other men's sneakers",
+    "Other women's sneakers",
+    "Men's jackets",
+    "Women's jackets",
+    "Men's clothing",
+    "Women's clothing",
+    "Video games",
+    "Food",
+    "Gift cards",
+    "Miscellaneous",
+    "Other", 
+]
+
+
+
+listing_category_options_list_of_tups = []
+for cat in listing_category_options:
+    tup = (cat, cat)
+    listing_category_options_list_of_tups.append(tup)
+
+listing_category_options_tup_of_tups = tuple(listing_category_options_list_of_tups)
+

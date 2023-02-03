@@ -232,7 +232,7 @@ class ListingListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
     context_object_name = 'items'
-    paginate_by = 12
+    paginate_by = 50
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -1116,7 +1116,7 @@ class LotteryListView(UserPassesTestMixin, ListView):
     model = Lottery
     template_name = 'market/lotteries.html'
     context_object_name = 'items'
-    paginate_by = 12
+    paginate_by = 50
 
     def test_func(self):
         return self.request.user.is_authenticated

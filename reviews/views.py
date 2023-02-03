@@ -27,7 +27,7 @@ class ReviewOfUserListView(ListView):
     model = Review
     template_name = 'reviews/review_list.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def get_queryset(self):
         """Get posts by specific user (as passed into URL)."""
@@ -129,7 +129,7 @@ class CustomerMessageListView(UserPassesTestMixin, ListView):
     model = CustomerMessage
     template_name = 'reviews/customer-messages.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def test_func(self):
         return self.request.user.is_superuser

@@ -27,7 +27,7 @@ class PostListView(ListView):
     model = Post
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
@@ -44,7 +44,7 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 10
+    paginate_by = 50
 
     def get_queryset(self):
         """Get posts by specific user (as passed into URL)."""
