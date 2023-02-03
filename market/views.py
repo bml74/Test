@@ -765,7 +765,7 @@ def payment_success(request, obj_type, pk):
                 # FOR SELLER:
                 subject = "Sale successful"
                 html_content = f"""
-                <h3><strong>The user "{t.purchaser}" has bought "{item.title}" from you for {t.value}.</strong></h3>
+                <h3><strong>The user "{t.purchaser}" has bought "{item.title}" from you for ${t.value}.</strong></h3>
                 <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{t.id}/'>here</a> to set a delivery.</strong></h3>
                 <h3><strong>Click <a href='{BASE_DOMAIN}/market/transactions/{t.id}/'>here</a> to view transaction details.</strong></h3>
                 <h3><strong>Click <a href='{BASE_DOMAIN}/market/my_sales/'>here</a> to view all your sales.</strong></h3>
