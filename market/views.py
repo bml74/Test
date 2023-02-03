@@ -930,9 +930,6 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
         message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
-        print(response.status_code)
-        print(response.body)
-        print(response.headers)
     except Exception as e:
         print(e)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
