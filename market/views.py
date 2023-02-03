@@ -759,6 +759,29 @@ def payment_success(request, obj_type, pk):
                 pass
 
             t.save()
+
+            if obj_type == 'listing':
+                BASE_DOMAIN = getDomain()
+                # FOR SELLER:
+                subject = "Sale successful"
+                html_content = f"""
+                <h3><strong>The user "{t.purchaser}" has bought "{item.title}" from you for {t.value}.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{t.id}/'>here</a> to set a delivery.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/transactions/{t.id}/'>here</a> to view transaction details.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/my_sales/'>here</a> to view all your sales.</strong></h3>
+                """
+                sendEmail(subject=subject, html_content=html_content, to_emails=t.seller.email, from_email=SENDER_EMAIL_ADDRESS)
+                # FOR BUYER:
+                subject = "Purchase successful"
+                html_content = f"""
+                <h3><strong>Your purchase of {item.title} was successful!.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{t.id}/'>here</a> to set a delivery.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/transactions/{t.id}/'>here</a> to view transaction details.</strong></h3>
+                <h3><strong>Click <a href='{BASE_DOMAIN}/market/my_purchases/'>here</a> to view all your purchases.</strong></h3>
+                """
+                sendEmail(subject=subject, html_content=html_content, to_emails=t.purchaser.email, from_email=SENDER_EMAIL_ADDRESS)
+
+
             
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type,

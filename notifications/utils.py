@@ -22,5 +22,7 @@ def sendEmail(subject, html_content, to_emails, from_email=SENDER_EMAIL_ADDRESS)
         response = sg.send(message)
         print(response)
         print("Working")
+        return True
     except Exception as e:
         print(e)
+        return False
