@@ -74,7 +74,7 @@
                                             <div id="dropdown" class="hidden z-10 w-44 text-base list-none bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700">
                                                 <ul class="py-1" aria-labelledby="dropdownButton">
                                                 <li>
-                                                    <a href="{% url 'listing' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">View</a>
+                                                    <a href="{% if obj_type == 'listing_for_group_members' %}{% url 'listing-for-group-members-detail' item.id %}{% elif obj_type == 'listing' %}{% url 'listing' item.id %}{% endif %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">View</a>
                                                 </li>
                                                 </ul>
                                             </div>
@@ -83,7 +83,7 @@
                                         
                                         <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.title|safe }}</h2>
                                         <div class="flex flex-wrap justify-left mt-4 mb-4">
-                                            <a href="{% url 'listing' item.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">&larr; Back to item page</a>
+                                            <a href="{% if obj_type == 'listing_for_group_members' %}{% url 'listing-for-group-members-detail' item.id %}{% elif obj_type == 'listing' %}{% url 'listing' item.id %}{% endif %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">&larr; Back to item page</a>
                                             {% comment %} {% if request.user in item.purchasers.all %}
                                                 <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
                                             {% endif %} {% endcomment %}
@@ -204,11 +204,13 @@ async function handleSubmit(e) {
 
     let BASE_DOMAIN = "{{ BASE_DOMAIN|safe }}";
 
+    let OBJ_TYPE = "{{ obj_type|safe }}";
+
     const result = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: `${BASE_DOMAIN}/market/success/checkout/listing/${item_id}?session_id=${paymentIntentId}&custom_checkout=true`,
+            return_url: `${BASE_DOMAIN}/market/success/checkout/${OBJ_TYPE}/${item_id}?session_id=${paymentIntentId}&custom_checkout=true`,
             receipt_email: emailAddress,
         },
     });
