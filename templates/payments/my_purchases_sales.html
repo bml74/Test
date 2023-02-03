@@ -61,7 +61,7 @@
                     {% for item in items %}
                     <tr>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
-                            {{ item.transaction_id }}
+                            <a href="{% url 'transaction' item.id %}"><span class="dashed-underline">{{ item.transaction_id }}</span></a>
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
                             {% if item.transaction_obj_type == 'listing' %}
@@ -74,17 +74,25 @@
                             
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
-                          <a href="{% url 'transaction' item.id %}">Details</a>
+                          <a href="{% url 'transaction' item.id %}"><span class="dashed-underline">Details</span></a>
                         </td>
 
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd BHrWGjM1Iab_fAz0_91H">
                           <span class="bg-indigo-100 text-indigo-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-indigo-200 dark:text-indigo-900">{{ item.transaction_obj_type.capitalize }}</span>
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
-                          {{ item.seller }}
+                          {% if item.seller %}
+                          <a href="{% url 'user_profile' item.seller %}">{{ item.seller }}</a>
+                          {% else %}
+                          <em>[Hoyabay]</em>
+                          {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL __9sbu0yrzdhGIkLWNXl BHrWGjM1Iab_fAz0_91H OyABRrnTV_kvHV7dJ0uE">
-                          {{ item.purchaser }}
+                          {% if item.purchaser %}
+                          <a href="{% url 'user_profile' item.purchaser %}">{{ item.purchaser }}</a>
+                          {% else %}
+                          <em>[Hoyabay]</em>
+                          {% endif %}
                         </td>
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL PeR2JZ9BZHYIH8Ea3F36 BHrWGjM1Iab_fAz0_91H XIIs8ZOri3wm8Wnj9N_y">
                             {{ item.inserted_on }}
@@ -93,7 +101,7 @@
                             ${{ item.value|floatformat:2 }}
                         </td> 
                         <td class="_wYiJGbRZyFZeCc8y7Sf j3i69xSMMfEtcnNNMuVd c8dCx6gnV43hTOLV6ks5 _43MO1gcdi2Y0RJW1uHL PeR2JZ9BZHYIH8Ea3F36 BHrWGjM1Iab_fAz0_91H XIIs8ZOri3wm8Wnj9N_y">
-                          <a href="{% url 'transaction-delivery' item.id %}">View</a>
+                          <a href="{% url 'transaction-delivery' item.id %}"><span class="dashed-underline">Details</span></a>
                         </td> 
                     </tr>
                     {% endfor %}
