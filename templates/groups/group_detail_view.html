@@ -112,10 +112,10 @@
                                                 <ul class="py-1" aria-labelledby="dropdownButton">
                                                 {% if user_is_creator %}
                                                 <li>
-                                                    <a href="{% url 'group_profile' item.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update</a>
+                                                    <a href="{% url 'group_profile' item.group.id %}" class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Update</a>
                                                 </li>
                                                 <li>
-                                                    <a href="{% url 'group_delete' item.id %}" class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
+                                                    <a href="{% url 'group_delete' item.group.id %}" class="block py-2 px-4 text-sm text-red-600 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Delete</a>
                                                 </li>
                                                 {% endif %}
                                                 </ul>
