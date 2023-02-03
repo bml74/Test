@@ -32,18 +32,55 @@ class Listing(models.Model):
     )
     listing_category = models.CharField(
         max_length=100,
-        choices=(("General", "General"), ("Consulting", "Consulting"), ("Tutoring", "Tutoring"), ("Sale", "Sale")),
-        default="General",
+        choices=(
+            ("Consulting", "Consulting"), 
+            ("Tutoring - College", "Tutoring - College"), 
+            ("Tutoring - MSB", "Tutoring - MSB"), 
+            ("Tutoring - Computer Science", "Tutoring - Computer Science"), 
+            ("Tutoring - SFS", "Tutoring - SFS"), 
+            ("Tutoring - NHS", "Tutoring - NHS"), 
+            ("Translation services", "Translation services"),
+            ("Programming services", "Programming services"),
+            ("Research", "Research"),
+            ("Used textbook", "Used textbook"),
+            ("Book", "Book"),
+            ("Used book", "Used book"),
+            ("Textbook", "Textbook"),
+            ("Used textbook", "Used textbook"),
+            ("Furniture", "Furniture"),
+            ("Electronics", "Electronics"),
+            ("Household appliances", "Household appliances"),
+            ("Sports tickets", "Sports tickets"),
+            ("Concert tickets", "Concert tickets"),
+            ("Other tickets", "Other tickets"),
+            ("Sports gear", "Sports gear"),
+            ("Men's basketball sneakers", "Men's basketball sneakers"),
+            ("Women's basketball sneakers", "Women's basketball sneakers"),
+            ("Men's running sneakers", "Men's running sneakers"),
+            ("Women's running sneakers", "Women's running sneakers"),
+            ("Other men's sneakers", "Other men's sneakers"),
+            ("Other women's sneakers", "Other women's sneakers"),
+            ("Men's jackets", "Men's jackets"),
+            ("Women's jackets", "Women's jackets"),
+            ("Men's clothing", "Men's clothing"),
+            ("Women's clothing", "Women's clothing"),
+            ("Video games", "Video games"),
+            ("Food", "Food"),
+            ("Gift cards", "Gift cards"),
+            ("Miscellaneous", "Miscellaneous"),
+            ("Other", "Other")
+        ),
+        default="Other",
     )
     listing_medium = models.CharField(
         max_length=100,
         choices=(("Digital File(s)", "Digital File(s)"), ("In-Person Service", "In-Person Service"), ("Digital Service", "Digital Service"), ("Physical Product", "Physical Product")),
-        default="General",
+        default="Physical Product",
     )  
     infinite_copies_available = models.BooleanField(default=False, blank=False, null=False) # If non-fungible, then unique and one-time purchase.
     quantity_available = models.IntegerField(default=1, blank=True, null=True, validators=[MinValueValidator(0.00)])
     quantity_sold = models.IntegerField(default=0, blank=True, null=True, validators=[MinValueValidator(0.00)])
-    purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)    
+    purchasers = models.ManyToManyField(User, related_name="purchasers", default=None, blank=True)
 
     def __str__(self):
         return self.title
