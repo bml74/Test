@@ -521,7 +521,7 @@ def checkout(request, obj_type, pk):
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
             stripe_account_id = creator_user_profile.stripe_account_id
 
-            commission_fee = 0.10 # 10% commission fee
+            commission_fee = 0.000 # 10% commission fee
             price_rounded = round(item.price, 2)
             total_payment_amount = int(price_rounded * 100)
             payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
