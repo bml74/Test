@@ -917,7 +917,9 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
             BASE_DOMAIN = 'https://www.hoyabay.com'
         subject = f"Payment request"
         html_content = f"""
-        {group.name} has requested a payment from you for {listing_for_group_members.title}.
+        <h3><strong>{group.name} has requested a payment from you for {listing_for_group_members.title}.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/checkout/listing_for_group_members/{listing_for_group_members_id}/'>here</a> to pay.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/payment_requests/'>here</a> to view all payments requested from you.</strong></h3>
         """
         message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))

@@ -42,7 +42,7 @@ Payment requests
                                         <div class="grid grid-cols-2 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-2" id="members-of-group">
 
 
-                                            <div class="overflow-x-auto relative">
+                                            {% comment %} <div class="overflow-x-auto relative"> {% endcomment %}
                                                 {% for payment_request in payment_requests %}
 
                                                     <div class="w-full max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -59,7 +59,7 @@ Payment requests
                                                     </div>
 
                                                 {% endfor %}
-                                            </div>
+                                            {% comment %} </div> {% endcomment %}
 
                                         </div>
                                         {% else %}
