@@ -274,9 +274,9 @@ def referral(request):
                 MAX_REFERRAL_USES = 5
 
                 if numTimesUsed < MAX_REFERRAL_USES: # Valid; uses have not been used up.
-                    NUM_CREDITS_TO_ADD = 100
+                    NUM_CREDITS_TO_ADD = 3
                     messages.success(request, f'That referral code from {referralObj.generatedBy} is valid and has been applied! You and {referralObj.generatedBy} have each received {NUM_CREDITS_TO_ADD} tokens.')
-                    # Add 100 tokens to both accounts
+                    # Add 3 tokens to both accounts
                     profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
                     profileOfUserWhoGeneratedCode.credits += NUM_CREDITS_TO_ADD
                     profileOfUserWhoGeneratedCode.save()
@@ -286,7 +286,7 @@ def referral(request):
                         profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
                         print(profileOfUserWhoUsedCode)
                         print(profileOfUserWhoUsedCode.credits)
-                        profile.credits = int(profile.credits) + 100
+                        profile.credits = int(profile.credits) + NUM_CREDITS_TO_ADD
                         print(profileOfUserWhoUsedCode)
                         print(profileOfUserWhoUsedCode.credits)
                     # Modify referralObj field 
