@@ -200,11 +200,11 @@ def set_delivery(request, transaction_pk, suggestion_pk):
     BASE_DOMAIN = getDomain()
     subject = "Delivery set"
     html_content = f"""
-    <h3><strong>You have agreed upon a delivery.</strong></h3>
+    <h3><strong>A delivery has been agreed upon for your transaction.</strong></h3>
     <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{transaction_pk}/'>here</a> to view details.</strong></h3>
     """
-    sendEmail(subject=subject, html_content=html_content, to_emails=request.user.email, from_email=request.user.email)
-    
+    sendEmail(subject=subject, html_content=html_content, to_emails=[transaction.seller.email, transaction.purchaser.email], from_email=SENDER_EMAIL_ADDRESS)
+
     return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
 
@@ -216,6 +216,15 @@ def cancel_delivery(request, transaction_pk, suggestion_pk):
     transaction = get_object_or_404(Transaction, id=transaction_pk)
     transaction.delivery = None
     transaction.save()
+
+    BASE_DOMAIN = getDomain()
+    subject = "Delivery cancelled"
+    html_content = f"""
+    <h3><strong>The existing agreed-upon delivery has been cancelled.</strong></h3>
+    <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{transaction_pk}/'>here</a> to view details and set up another delivery time and location.</strong></h3>
+    """
+    sendEmail(subject=subject, html_content=html_content, to_emails=[transaction.seller.email, transaction.purchaser.email], from_email=SENDER_EMAIL_ADDRESS)
+
     return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
 
