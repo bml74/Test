@@ -532,9 +532,15 @@ def checkout(request, obj_type, pk):
         BASE_DOMAIN = 'https://www.hoyabay.com'
     payment_intent_id = None
     payment_intent_client_secret = None
-    if obj_type == 'listing':
-        item = Listing.objects.get(pk=pk)
-        creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
+    if obj_type == 'listing' or obj_type == 'listing_for_group_members':
+        if obj_type == 'listing':
+            item = Listing.objects.get(pk=pk)
+            creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
+        elif obj_type == 'listing_for_group_members':
+            item = ListingForGroupMembers.objects.get(pk=pk)
+            group = item.group
+            group_profile = getGroupProfile(group=group)
+            creator_user_profile = Profile.objects.get(user_id=group_profile.group_creator.id) 
 
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
             stripe_account_id = creator_user_profile.stripe_account_id
