@@ -37,7 +37,8 @@ from config.utils import (
     get_group_and_group_profile_from_group_id, 
     getGroupProfile, 
     is_ajax,
-    runningDevServer
+    runningDevServer,
+    getDomain
 )
 from .utils import (
     get_group_and_group_profile_and_listing_from_listing_id,
@@ -47,6 +48,7 @@ from .utils import (
     allowSaleBasedOnQuantity,
     handleQuantity
 )
+from notifications.utils import sendEmail
 from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
@@ -194,6 +196,15 @@ def set_delivery(request, transaction_pk, suggestion_pk):
     transaction = get_object_or_404(Transaction, id=transaction_pk)
     transaction.delivery = suggestion
     transaction.save()
+
+    BASE_DOMAIN = getDomain()
+    subject = "Delivery set"
+    html_content = f"""
+    <h3><strong>You have agreed upon a delivery.</strong></h3>
+    <h3><strong>Click <a href='{BASE_DOMAIN}/market/delivery/{transaction_pk}/'>here</a> to view details.</strong></h3>
+    """
+    sendEmail(subject=subject, html_content=html_content, to_emails=request.user.email, from_email=request.user.email)
+    
     return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
 
@@ -221,8 +232,6 @@ class ListingListView(UserPassesTestMixin, ListView):
         context = super(ListingListView, self).get_context_data(**kwargs)
         results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
         num_results = len(results)
-        for result in results:
-            print(result)
         
         """ BEGIN ADVERTISING LOGIC """
         ads_purchased_by_user = AdPurchase.objects.filter(user_that_purchased_ad=self.request.user).all()

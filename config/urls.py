@@ -56,7 +56,6 @@ urlpatterns = [
     path('feeds/', include('newsfeed.urls')), 
     path('maps/', include('maps.urls')), 
     path('messaging/', include('messaging.urls')), 
-    path('data/', include('data.urls')), 
     path('quizzes/', include('quizzes.urls')), 
     path('market/', include('market.urls')), 
     path('reviews/', include('reviews.urls')), 

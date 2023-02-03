@@ -128,6 +128,14 @@ def runningDevServer():
     return RUNNING_DEVSERVER
 
 
+def getDomain():
+    if runningDevServer():
+        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+    else:
+        BASE_DOMAIN = 'https://www.hoyabay.com'
+    return BASE_DOMAIN
+
+
 def getOverallRating(user_being_rated):
     overall_ratings = Rating.objects.filter(user_being_rated=user_being_rated).all()
     if overall_ratings:
