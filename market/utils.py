@@ -162,5 +162,5 @@ for cat in listing_category_options:
     tup = (cat, cat)
     listing_category_options_list_of_tups.append(tup)
 
-listing_category_options_tup_of_tups = tuple(listing_category_options_list_of_tups)
+# listing_category_options_list_of_tups = tuple(listing_category_options_list_of_tups)
 
