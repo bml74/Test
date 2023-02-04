@@ -24,9 +24,12 @@ function filterListingsByType() {
     for (radio_div of radio_divs) {
         radio = radio_div.querySelector(".listing-type-radio");
         if (radio.checked) {
-            label = radio_div.querySelector("label").innerHTML
+            label = radio_div.querySelector("label").innerHTML;
             for (listing of all_listings) {
-                if (!listing.classList.contains(label)) {
+                // if (!listing.classList.contains(label)) {
+                //     listing.style.display = 'none';
+                // }
+                if (!(listing.dataset.category === label)) {
                     listing.style.display = 'none';
                 }
             }

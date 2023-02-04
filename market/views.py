@@ -46,7 +46,8 @@ from .utils import (
     create_payment_request_from_group_member,
     remove_payment_request_from_group_member,
     allowSaleBasedOnQuantity,
-    handleQuantity
+    handleQuantity,
+    listing_category_options
 )
 from notifications.utils import sendEmail
 from dotenv import load_dotenv
@@ -272,7 +273,8 @@ class ListingListView(UserPassesTestMixin, ListView):
             "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None,
             "first_ads": first_ads,
             "second_ads": second_ads,
-            "all_other_ads": all_other_ads
+            "all_other_ads": all_other_ads,
+            "listing_category_options": listing_category_options
         })
         return context
 

@@ -22,7 +22,14 @@ Hoyabay&trade; | Listings
 
                                 <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
 
-                                    <div class="flex items-center mb-4 listing-type-radio-div">
+                                {% for category in listing_category_options %}
+                                <div class="flex items-center mb-4 listing-type-radio-div">
+                                    <input id="{{ category.lower }}" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
+                                    <label for="{{ category.lower }}" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ category }}</label>
+                                </div>
+                                {% endfor %}
+
+                                    {% comment %} <div class="flex items-center mb-4 listing-type-radio-div">
                                         <input id="general" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
                                         <label for="general" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">General</label>
                                     </div>
@@ -37,7 +44,7 @@ Hoyabay&trade; | Listings
                                     <div class="flex items-center mb-4 listing-type-radio-div">
                                         <input id="sale" name="default-radio" type="radio" value="" class="w-4 h-4 bg-gray-50 rounded border border-gray-300 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 listing-type-radio">
                                         <label for="sale" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Sale</label>
-                                    </div>
+                                    </div> {% endcomment %}
 
 
                                 <button class="mb-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" onclick="filterListingsByType()">Filter</button>
@@ -134,11 +141,13 @@ Hoyabay&trade; | Listings
                                     {% endif %}
                                     <!-- END FIRST ADS -->
 
+                                    {% comment %} <div id="main-listings"> {% endcomment %}
+
                                     <!-- BEGIN ALL LISTINGS-->
                                     {% for item in items %}    
                                         {% if item.visibility != "Invisible" %}
                         
-                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black listing {{ item.listing_category }}">
+                                            <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black non-advertised-listing listing {{ item.listing_category }}" data-category="{{ item.listing_category }}">
 
                                                 <div class="p-4">
                                                     <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
@@ -174,6 +183,8 @@ Hoyabay&trade; | Listings
                                         {% endif %}
                                     {% endfor %}
                                     <!-- END ALL LISTINGS -->
+
+                                    {% comment %} </div> {% endcomment %}
 
                                     <!-- BEGIN SECOND ADS -->
                                     {% if second_ads %}
