@@ -267,7 +267,7 @@ class ListingListView(UserPassesTestMixin, ListView):
             adPurchase.save()
         """ END ADVERTISING LOGIC """
 
-        main_header = "What users are selling"
+        main_header = "For buyers"
         main_description = "Browse this page as a buyer and discover what other members of your community have that's available for sale."
 
         context.update({
@@ -289,6 +289,13 @@ class ListingListView(UserPassesTestMixin, ListView):
         return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
+def request_or_offer(request):
+    context = {
+        "user_has_stripe_account_id": get_object_or_404(Profile, user=request.user).stripe_account_id is not None
+    }
+    return render(request, 'market/request_or_offer.html', context=context)
+
+
 class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
@@ -301,7 +308,7 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         context = super(ListingRequestsToBuyListView, self).get_context_data(**kwargs)
         results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
         num_results = len(results)
-        main_header = "What users want"
+        main_header = "For sellers"
         main_description = "Browse this page as a seller and discover what other people in your community want. If they want something that you can provide, click 'Accept' to begin the transaction."
         context.update({
             "listings_type": "request-to-buy",

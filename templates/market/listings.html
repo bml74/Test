@@ -18,7 +18,27 @@ Hoyabay&trade; | Listings
                     <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
                         <ul class="mb-0 list-unstyled">
 
-                            <li class="mt-8"> 
+                            <li class="mb-4">
+
+                                <div class="flex flex-wrap justify-left mb-4"> <!-- border-b border-gray-200 dark:border-gray-800 -->
+                                    <a href="{% url 'request_or_offer' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create listing</a>
+                                </div>  
+    
+                            </li>
+
+                            {% comment %} <li class="mb-4">
+                                {% if listings_type == "offer-to-sell" %}
+                                <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Want to see what members want to buy? Click <a href="{% url 'listings-requests-to-buy' %}" class="dashed-underline">here</a> to find out what people want.
+                                </p>
+                                {% else %}
+                                <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                    Looking for things to buy? Click <a href="{% url 'listings' %}" class="dashed-underline">here</a> to find out what members are selling.
+                                </p>
+                                {% endif %}
+                            </li> {% endcomment %}
+
+                            <li class="mb-4"> 
 
                                 <h5 class="mb-2 text-sm font-semibold tracking-wide text-gray-900 uppercase lg:text-xs dark:text-white">Filter by category</h5>
 
@@ -64,55 +84,29 @@ Hoyabay&trade; | Listings
                 <div class="flex w-full">
 
 
-                    <div id=""> <!-- listings-container --> <!-- flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16 -->
+                    <div id="" class="w-full"> <!-- listings-container --> <!-- flex-auto max-w-4xl min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16 -->
                 
-                        <a href="{% url 'lotteries' %}">
+                        {% comment %} <a href="{% url 'lotteries' %}">
                             <div class="text-center w-100 max-w-100 p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400 dark:border-green-800" role="alert">
                                 <div class="text-center">
                                     <h1 class="text-4xl font-extrabold text-gray-900 dark:text-white md:text-4xl lg:text-4xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400" style="font-family: 'Bungee Shade', cursive;">Click <span class="underline">here</span> to enter a lottery</span></h1>
                                 </div>
                             </div>
-                        </a>
+                        </a> {% endcomment %}
 
-                        {% if listings_type == "offer-to-sell" %}
-                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                            Want to see what members want to buy? Click <a href="{% url 'listings-requests-to-buy' %}" class="dashed-underline">here</a> to find out what people want.
-                        </p>
-                        {% else %}
-                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
-                            Looking for things to buy? Click <a href="{% url 'listings' %}" class="dashed-underline">here</a> to find out what members are selling.
-                        </p>
-                        {% endif %}
-
-                        <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                        <div class="w-100 pb-4 mb-4"> <!-- border-b border-gray-200 dark:border-gray-800 -->
                     
-                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ main_header }}</span></h1>
-                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ main_description }}</p>
+                            <h1 class="w-100 mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ main_header }}</span></h1>
+                            {% comment %} <p class="w-100 text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ main_description }}</p> {% endcomment %}
                             
                         </div>
 
-                        {% if listings_type == "offer-to-sell" %}
-
-                            {% if user_has_stripe_account_id %}
-                            <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                                <a href="{% url 'listing-create' 'offer-to-sell' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Post something that you want to sell</a>
-                            </div>  
-                            {% else %}
-                            <p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
-                            {% endif %}   
-
-                        {% else %}
-
-                        <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                            <a href="{% url 'listing-create' 'request-to-buy' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Post something that you want to buy</a>
-                        </div>  
-
-                        {% endif %}   
+                         
 
                 
                         <div id="mainContent">
 
-                            <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2>
+                            {% comment %} <h2 class="text-4xl font-extrabold dark:text-white">{{ header }}</h2> {% endcomment %}
                                                     
                             <section id="components" class="pb-8 bg-white dark:bg-gray-900 lg:pb-24">
                                 <div class="mb-6 w-full"><div class="flex flex-col justify-between items-center p-4 bg-gray-50 rounded-lg border border-gray-200 shadow-sm dark:bg-gray-800 dark:border-gray-700 sm:flex-row"><div class="w-full sm:w-auto sm:flex"><div class="relative w-full sm:w-64 lg:w-96"><div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg></div><label for="search" class="hidden">Search listings:</label><input id="search" onkeyup='filterList(input_id="search", list_id="listings", list_item_class="listing", list_item_title_class="listing-title")'  type="text" class="bg-white border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 py-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search listings" value=""></div></div><div class="hidden text-sm text-gray-600 dark:text-gray-400 sm:block">Showing <span id="num_results">{{ num_results }}</span> results.</div></div></div>

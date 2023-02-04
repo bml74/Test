@@ -11,6 +11,8 @@ urlpatterns = [
     path('listing/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
     path('listing/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
 
+    path('listing/create/type/', views.request_or_offer, name='request_or_offer'),
+
     path('listing/create/<str:listings_type>/', views.ListingCreateView.as_view(), name='listing-create'),
 
     path('listings/requests/', views.ListingRequestsToBuyListView.as_view(), name='listings-requests-to-buy'),
