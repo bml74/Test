@@ -13,7 +13,7 @@ Hoyabay&trade; | Listings
     <div class="w-full px-5 mx-auto max-w-8xl"> 
         <div class="lg:flex">
             <aside id="sidebar" class="fixed inset-0 z-20 flex-none hidden h-full w-72 lg:static lg:h-auto lg:overflow-y-visible lg:pt-0 lg:w-48 lg:block" aria-labelledby="sidebar-label">
-                <h4 id="sidebar-label" class="sr-only">Browse docs</h4>
+                <h4 id="sidebar-label" class="sr-only">Browse</h4>
                 <div id="navWrapper" class="overflow-y-auto z-20 h-full bg-white scrolling-touch max-w-2xs lg:h-[calc(100vh-3rem)] lg:block lg:sticky top:24 lg:top-28 dark:bg-gray-900 lg:mr-0">
                     <nav id="nav" class="pt-16 px-1 pl-3 lg:pl-0 lg:pt-2 font-normal text-base lg:text-sm pb-10 lg:pb-20 sticky?lg:h-(screen-18)" aria-label="Docs navigation">
                         <ul class="mb-0 list-unstyled">
@@ -74,20 +74,41 @@ Hoyabay&trade; | Listings
                             </div>
                         </a>
 
+                        {% if listings_type == "offer-to-sell" %}
+                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                            Want to see what members want to buy? Click <a href="{% url 'listings-requests-to-buy' %}" class="dashed-underline">here</a> to find out what people want.
+                        </p>
+                        {% else %}
+                        <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                            Looking for things to buy? Click <a href="{% url 'listings' %}" class="dashed-underline">here</a> to find out what members are selling.
+                        </p>
+                        {% endif %}
+
                         <div class="pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
                     
-                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Hoyabay&trade;</span> Marketplace</h1>
-                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">Explore a variety of products and services, from used textbooks and tutoring sessions to tickets and furniture.</p>
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">{{ main_header }}</span></h1>
+                            <p class="text-lg font-normal text-gray-500 lg:text-xl dark:text-gray-400">{{ main_description }}</p>
                             
                         </div>
 
-                        {% if user_has_stripe_account_id %}
-                        <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
-                            <a href="{% url 'listing-create' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Create new listing</a>
-                        </div>  
+                        {% if listings_type == "offer-to-sell" %}
+
+                            {% if user_has_stripe_account_id %}
+                            <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                                <a href="{% url 'listing-create' 'offer-to-sell' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Post something that you want to sell</a>
+                            </div>  
+                            {% else %}
+                            <p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
+                            {% endif %}   
+
                         {% else %}
-                        <p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
+
+                        <div class="flex flex-wrap justify-left pb-4 mb-8 border-b border-gray-200 dark:border-gray-800">
+                            <a href="{% url 'listing-create' 'request-to-buy' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Post something that you want to buy</a>
+                        </div>  
+
                         {% endif %}   
+
                 
                         <div id="mainContent">
 
@@ -163,16 +184,22 @@ Hoyabay&trade; | Listings
                                                 </div> {% endcomment %}
 
                                                 <div class="mt-2 px-5 pb-5">
-                                                    <a href="{% url 'listing' item.id %}">
-                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                                    </a>
-                                                    <p class="mb-4 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                    <p class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">
                                                         {% if item.visibility != "Anonymous" %}
                                                         {{ item.creator }}
                                                         {% else %}
                                                         Anonymous
                                                         {% endif %}
+                                                    
+                                                        {% if listings_type == "offer-to-sell" %}
+                                                        is looking to sell...
+                                                        {% else %}
+                                                        is looking to buy...
+                                                        {% endif %}
                                                     </p>
+                                                    <a href="{% url 'listing' item.id %}">
+                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                    </a>
                                                     <div class="flex justify-between items-center">
                                                         <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
                                                         <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
@@ -310,9 +337,13 @@ Hoyabay&trade; | Listings
 
                 </div> 
 
+                {% if all_other_ads %}
+
                 <div>
                     <h2 class="text-4xl font-extrabold dark:text-white">Advertisements</h2>
                 </div>
+
+                {% endif %}
 
                 <div id="other-ads" class="w-100 mb-4 mt-4">
 

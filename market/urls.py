@@ -8,9 +8,10 @@ urlpatterns = [
     path('listings/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),
     path('listing/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
-    path('listing/create/', views.ListingCreateView.as_view(), name='listing-create'),
     path('listing/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),
     path('listing/delete/<int:pk>/', views.ListingDeleteView.as_view(), name='listing-delete'),
+
+    path('listing/create/<str:listings_type>/', views.ListingCreateView.as_view(), name='listing-create'),
 
     path('listings/requests/', views.ListingRequestsToBuyListView.as_view(), name='listings-requests-to-buy'),
     path('switch/<str:obj_type>/<int:pk>/', views.switch_listing, name='listing-request-to-offer'),

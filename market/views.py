@@ -267,9 +267,15 @@ class ListingListView(UserPassesTestMixin, ListView):
             adPurchase.save()
         """ END ADVERTISING LOGIC """
 
+        main_header = "What users are selling"
+        main_description = "Browse this page as a buyer and discover what other members of your community have that's available for sale."
+
         context.update({
+            "listings_type": "offer-to-sell",
+            "main_header": main_header,
+            "main_description": main_description,
             "num_results": num_results,
-            "header": "All listings",
+            "header": "Users are looking to sell...",
             "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None,
             "first_ads": first_ads,
             "second_ads": second_ads,
@@ -295,9 +301,14 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         context = super(ListingRequestsToBuyListView, self).get_context_data(**kwargs)
         results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
         num_results = len(results)
+        main_header = "What users want"
+        main_description = "Browse this page as a seller and discover what other people in your community want. If they want something that you can provide, click 'Accept' to begin the transaction."
         context.update({
+            "listings_type": "request-to-buy",
+            "main_description": main_description,
+            "main_header": main_header,
             "num_results": num_results,
-            "header": "Users are looking to buy....",
+            "header": "Users are looking to buy...",
             "user_has_stripe_account_id": get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
         })
         return context
@@ -422,6 +433,11 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def form_valid(self, form): 
         form.instance.creator = self.request.user
+        listings_type = self.kwargs.get('listings_type')
+        if listings_type == "offer-to-sell":
+            form.instance.listing_type = "Offer (Looking to sell)"
+        else: # "request-to-buy"
+            form.instance.listing_type = "Bid (Looking to buy)"
         # If user has chosen a group, make sure the user is a member of that group:
         return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
@@ -430,7 +446,11 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingCreateView, self).get_context_data(**kwargs)
-        header = "Create listing"
+        listings_type = self.kwargs.get('listings_type')
+        if listings_type == "offer-to-sell":
+            header = "Post something that you want to sell"
+        else: # "request-to-buy"
+            header = "Post something that you want to buy"
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context
@@ -805,7 +825,7 @@ def payment_success(request, obj_type, pk):
 def my_payments(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
     # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
-    items = set(list(Transaction.objects.filter(purchaser=request.user)) + list(Transaction.objects.filter(seller=request.user)))
+    items = list(set(list(Transaction.objects.filter(purchaser=request.user)) + list(Transaction.objects.filter(seller=request.user)))).reverse()
     return render(request,'payments/my_payments.html',{'items': items})
 
 
