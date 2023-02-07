@@ -19,6 +19,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from config.utils import is_ajax, getOverallRating
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from config.abstract_settings import VARIABLES
 
 
 def register(request):
@@ -271,24 +272,18 @@ def referral(request):
                     return redirect('profile')
                 
                 numTimesUsed = referralObj.usedBy.all().count() # Count how many times it has been used the ManyToMany field.
-                MAX_REFERRAL_USES = 5
+                MAX_REFERRAL_USES = VARIABLES.MAX_REFERRAL_USES
 
                 if numTimesUsed < MAX_REFERRAL_USES: # Valid; uses have not been used up.
-                    NUM_CREDITS_TO_ADD = 3
+                    NUM_CREDITS_TO_ADD = VARIABLES.NUM_CREDITS_TO_ADD_FOR_REFERRAL
                     messages.success(request, f'That referral code from {referralObj.generatedBy} is valid and has been applied! You and {referralObj.generatedBy} have each received {NUM_CREDITS_TO_ADD} tokens.')
                     # Add 3 tokens to both accounts
                     profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
                     profileOfUserWhoGeneratedCode.credits += NUM_CREDITS_TO_ADD
                     profileOfUserWhoGeneratedCode.save()
-                    print(profileOfUserWhoGeneratedCode)
-                    print(profileOfUserWhoGeneratedCode.credits)
                     if True:
                         profileOfUserWhoUsedCode = get_object_or_404(Profile, user=request.user)
-                        print(profileOfUserWhoUsedCode)
-                        print(profileOfUserWhoUsedCode.credits)
                         profile.credits = int(profile.credits) + NUM_CREDITS_TO_ADD
-                        print(profileOfUserWhoUsedCode)
-                        print(profileOfUserWhoUsedCode.credits)
                     # Modify referralObj field 
                     # Save request.user as usedBy
                     referralObj.usedBy.add(request.user)
