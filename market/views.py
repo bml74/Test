@@ -28,6 +28,7 @@ from config.abstract_settings.model_fields import (
     LISTING_FOR_GROUP_MEMBERS_FIELDS,
     TRANSACTION_DELIVERY_SUGGESTION_FIELDS
 )
+from config.abstract_settings import VARIABLES
 from config.abstract_settings.template_names import (
     FORM_VIEW_TEMPLATE_NAME, 
     CONFIRM_DELETE_TEMPLATE_NAME
@@ -111,7 +112,7 @@ class TransactionDetailView(UserPassesTestMixin, DetailView):
             "transaction": transaction, 
             "user_is_seller": transaction.seller == request.user
         }
-        if transaction.transaction_obj_type == 'listing':
+        if transaction.transaction_obj_type == VARIABLES.LISTING_OBJ_TYPE:
             title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
             context.update({"title": title})
         return render(request, 'market/dashboard/transaction_detail.html', context)
@@ -128,7 +129,7 @@ class TransactionDeliveryDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         transaction = get_object_or_404(Transaction, pk=kwargs['transaction_pk'])
-        if transaction.transaction_obj_type != 'listing':
+        if transaction.transaction_obj_type != VARIABLES.LISTING_OBJ_TYPE:
             return render(request, 'payments/transaction-no-delivery.html')
         else:
             listing = get_object_or_404(Listing, id=transaction.transaction_obj_id)
@@ -233,7 +234,7 @@ class ListingListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def test_func(self):
         return self.request.user.is_authenticated
@@ -326,7 +327,7 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
 
 
 def switch_listing(request, obj_type, pk):
-    if obj_type == 'listing':
+    if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         current_listing = Listing.objects.get(pk=pk)
         assert(current_listing.listing_type == "Bid (Looking to buy)")
         new_listing = Listing(
@@ -504,21 +505,21 @@ class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 def purchase_logic(request, obj_type, item_id):
     item = None
-    if obj_type == 'listing':
+    if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         item = Listing.objects.get(pk=item_id)
         item.purchasers.add(request.user)
-    elif obj_type == 'listing_for_group_members':
+    elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
         item = ListingForGroupMembers.objects.get(pk=item_id)
         item.members_who_have_paid.add(request.user)
     # If obj_type is course or specialization then also enroll
-    elif obj_type == 'course':
+    elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
         item = Course.objects.get(pk=item_id)
         # If obj_type is course then enroll in that course
         if not item.students.filter(id=request.user.id).exists():
             item.students.add(request.user)
         if not item.purchasers.filter(id=request.user.id).exists():
             item.purchasers.add(request.user)
-    elif obj_type == 'specialization':
+    elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
         item = Specialization.objects.get(pk=item_id)
         # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
         if not item.students.filter(id=request.user.id).exists():
@@ -561,11 +562,11 @@ def checkout(request, obj_type, pk):
         BASE_DOMAIN = 'https://www.hoyabay.com'
     payment_intent_id = None
     payment_intent_client_secret = None
-    if obj_type == 'listing' or obj_type == 'listing_for_group_members':
-        if obj_type == 'listing':
+    if obj_type == VARIABLES.LISTING_OBJ_TYPE or obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+        if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             item = Listing.objects.get(pk=pk)
             creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
-        elif obj_type == 'listing_for_group_members':
+        elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
             item = ListingForGroupMembers.objects.get(pk=pk)
             group = item.group
             group_profile = getGroupProfile(group=group)
@@ -574,7 +575,7 @@ def checkout(request, obj_type, pk):
         if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
             stripe_account_id = creator_user_profile.stripe_account_id
 
-            commission_fee = 0.006 # commission fee
+            commission_fee = VARIABLES.COMMISSION_FEE # commission fee
             price_rounded = round(item.price, 2)
             total_payment_amount = int(price_rounded * 100)
             payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
@@ -624,13 +625,13 @@ def checkout(request, obj_type, pk):
                     listing_id=item.id,
                     user_id=request.user.id
                 ).save()
-    elif obj_type == 'listing_for_group_members':
+    elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
         item = ListingForGroupMembers.objects.get(pk=pk)
-    elif obj_type == 'course':
+    elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
         item = Course.objects.get(pk=pk)
-    elif obj_type == 'specialization':
+    elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
         item = Specialization.objects.get(pk=pk)
-    elif obj_type == 'ad_offer':
+    elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
         item = AdOffer.objects.get(pk=pk)
     if item is not None:
         context = {
@@ -655,15 +656,15 @@ def checkout_session(request, obj_type, pk):
         stripe.api_key = config('STRIPE_LIVE_KEY')
 
     item = None
-    if obj_type == 'listing':
+    if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         item = Listing.objects.get(pk=pk)
-    elif obj_type == 'listing_for_group_members':
+    elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
         item = ListingForGroupMembers.objects.get(pk=pk)
-    elif obj_type == 'course':
+    elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
         item = Course.objects.get(pk=pk)
-    elif obj_type == 'specialization':
+    elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
         item = Specialization.objects.get(pk=pk)
-    elif obj_type == 'ad_offer':
+    elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
         item = AdOffer.objects.get(pk=pk)
     if item: # if item is not None
 
@@ -703,9 +704,9 @@ def generate_transaction_id(length):
 
 
 def payment_success(request, obj_type, pk):
-    if obj_type == 'listing':
+    if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         item = purchase_logic(request, obj_type, item_id=pk)
-    elif obj_type == 'ad_offer':
+    elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
         item = AdOffer.objects.get(pk=pk)
     try:
 
@@ -736,13 +737,13 @@ def payment_success(request, obj_type, pk):
             item_id = session.client_reference_id
 
         item = None
-        if obj_type == 'listing':
+        if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             item = Listing.objects.get(pk=pk)
             if not allowSaleBasedOnQuantity(item):
                 return JsonResponse({"Error": "There are not enough of these items available."})
             else: 
                 handleQuantity(item)
-        elif obj_type == 'listing_for_group_members':
+        elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
             item = ListingForGroupMembers.objects.get(pk=pk)
             # If there are existing requests, delete.
             if RequestForPaymentToGroupMember.objects.filter(user_receiving_request=request.user, listing_for_group_members=item).exists():
@@ -750,14 +751,14 @@ def payment_success(request, obj_type, pk):
                     req.delete()
             item.members_who_have_paid.add(request.user)
         # If obj_type is course or specialization then also enroll
-        elif obj_type == 'course':
+        elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
             item = Course.objects.get(pk=pk)
             # If obj_type is course then enroll in that course
             if not item.students.filter(id=request.user.id).exists():
                 item.students.add(request.user)
             if not item.purchasers.filter(id=request.user.id).exists():
                 item.purchasers.add(request.user)
-        elif obj_type == 'specialization':
+        elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
             item = Specialization.objects.get(pk=pk)
             # If obj_type is specialization then 1) enroll in that specialization and 2) enroll in all courses within that specialization
             if not item.students.filter(id=request.user.id).exists():
@@ -769,7 +770,7 @@ def payment_success(request, obj_type, pk):
                 for course in courses_within_specialization: # For each of these courses within the specialization
                     if not course.students.filter(id=request.user.id).exists(): # If user not already enrolled in that course
                         course.students.add(request.user) # Then add user as a student
-        elif obj_type == 'ad_offer':
+        elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
             item = AdOffer.objects.get(pk=pk)
             ad_purchase = AdPurchase(
                 user_that_purchased_ad=request.user,
@@ -795,7 +796,7 @@ def payment_success(request, obj_type, pk):
 
             t.save()
 
-            if obj_type == 'listing':
+            if obj_type == VARIABLES.LISTING_OBJ_TYPE:
                 BASE_DOMAIN = getDomain()
                 # FOR SELLER:
                 subject = "Sale successful"
@@ -1127,15 +1128,16 @@ def add_lottery_participant(request, lottery_pk):
     profile = get_object_or_404(Profile, user=request.user)
     lottery = get_object_or_404(Lottery, id=lottery_pk)
     if not lottery.winner:
-        if profile.credits >= 1:
+        REQUIRED_CREDITS_TO_ENTER = VARIABLES.NUM_CREDITS_TO_ENTER_LOTTERY
+        if profile.credits >= REQUIRED_CREDITS_TO_ENTER:
             if not LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery).exists():
                 print(len(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery)))
                 print(LotteryParticipant.objects.filter(lottery_participant=request.user, fk_lottery=lottery))
-                lottery.num_unique_users += 1
+                lottery.num_unique_users += REQUIRED_CREDITS_TO_ENTER
                 lottery.save()
             new_entry = LotteryParticipant(lottery_participant=request.user, fk_lottery=lottery)
             new_entry.save()
-            profile.credits -= 1
+            profile.credits -= REQUIRED_CREDITS_TO_ENTER
             profile.save()
             messages.success(request, f'You have been entered in the lottery!')
     return redirect('lottery', pk=lottery.id)
@@ -1145,7 +1147,7 @@ class LotteryListView(UserPassesTestMixin, ListView):
     model = Lottery
     template_name = 'market/lotteries.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def test_func(self):
         return self.request.user.is_authenticated
