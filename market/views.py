@@ -604,7 +604,7 @@ def checkout(request, obj_type, pk):
                     transfer_data={
                         'amount': payout_amount
                     }
-                )
+                ) 
                 payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
                 payment_intent_client_secret = payment_intent.client_secret
             else:
