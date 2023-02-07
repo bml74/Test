@@ -241,7 +241,7 @@ class ListingListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingListView, self).get_context_data(**kwargs)
-        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
+        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
         num_results = len(results)
         
         """ BEGIN ADVERTISING LOGIC """
@@ -286,7 +286,7 @@ class ListingListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type="Offer (Looking to sell)")
+        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
         return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
@@ -307,7 +307,7 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ListingRequestsToBuyListView, self).get_context_data(**kwargs)
-        results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
+        results = Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_BUY)
         num_results = len(results)
         main_header = "For sellers"
         main_description = "Browse this page as a seller and discover what other people in your community want. If they want something that you can provide, click 'Accept' to begin the transaction."
@@ -322,14 +322,14 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = Listing.objects.filter(listing_type="Bid (Looking to buy)")
+        results = Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_BUY)
         return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
 def switch_listing(request, obj_type, pk):
     if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         current_listing = Listing.objects.get(pk=pk)
-        assert(current_listing.listing_type == "Bid (Looking to buy)")
+        assert(current_listing.listing_type == VARIABLES.LOOKING_TO_BUY)
         new_listing = Listing(
             title=current_listing.title,
             image=current_listing.image,
@@ -338,7 +338,7 @@ def switch_listing(request, obj_type, pk):
             creator=request.user,
             group=current_listing.group if current_listing.group else None,
             visibility=current_listing.visibility,
-            listing_type="Offer (Looking to sell)",
+            listing_type=VARIABLES.LOOKING_TO_SELL,
             listing_category=current_listing.listing_category,
             listing_medium=current_listing.listing_medium,
             infinite_copies_available=current_listing.infinite_copies_available,
@@ -348,10 +348,7 @@ def switch_listing(request, obj_type, pk):
         new_listing.save()
         # Send e-mail to creator of Bid listing
         try:
-            if runningDevServer():
-                BASE_DOMAIN = 'http://127.0.0.1:8000' 
-            else:
-                BASE_DOMAIN = 'https://www.hoyabay.com'
+            BASE_DOMAIN = getDomain()
 
             # EMAIL TO NEW CREATOR
             subject = f"Listing created"
@@ -371,11 +368,8 @@ def switch_listing(request, obj_type, pk):
             message = Mail(from_email="bml74@georgetown.edu", to_emails=request.user.email, subject=subject, html_content=html_content)
             sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
             response2 = sg.send(message)
-            print(response2)
-            print("TRY")
         except Exception as e:
             print(e)
-            print("EXCEPT")
         return redirect('listing', pk=new_listing.id) # Return redirect to new listing
     return redirect('listing', pk=pk) # Return redirect to original listing
 
@@ -443,9 +437,9 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         form.instance.creator = self.request.user
         listings_type = self.kwargs.get('listings_type')
         if listings_type == "offer-to-sell":
-            form.instance.listing_type = "Offer (Looking to sell)"
+            form.instance.listing_type = VARIABLES.LOOKING_TO_SELL
         else: # "request-to-buy"
-            form.instance.listing_type = "Bid (Looking to buy)"
+            form.instance.listing_type = VARIABLES.LOOKING_TO_BUY
         # If user has chosen a group, make sure the user is a member of that group:
         return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
 
@@ -555,11 +549,11 @@ def checkout(request, obj_type, pk):
     if runningDevServer():
         stripe.api_key = config('STRIPE_TEST_KEY') 
         publishable_key = config('STRIPE_PUBLISHABLE_TEST_KEY') 
-        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        BASE_DOMAIN = VARIABLES.LOCAL_DOMAIN
     else:
         stripe.api_key = config('STRIPE_LIVE_KEY')
         publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
-        BASE_DOMAIN = 'https://www.hoyabay.com'
+        BASE_DOMAIN = VARIABLES.HOSTED_DOMAIN
     payment_intent_id = None
     payment_intent_client_secret = None
     if obj_type == VARIABLES.LISTING_OBJ_TYPE or obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
@@ -600,7 +594,7 @@ def checkout(request, obj_type, pk):
                     payment_intent_id,
                     amount=total_payment_amount,
                     currency='usd',
-                    payment_method_types=["card"],
+                    payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
                     transfer_data={
                         'amount': payout_amount
                     }
@@ -611,7 +605,7 @@ def checkout(request, obj_type, pk):
                 payment_intent = stripe.PaymentIntent.create(
                     amount=total_payment_amount,
                     currency='usd',
-                    payment_method_types=["card"],
+                    payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
                     transfer_data={
                         'amount': payout_amount,
                         'destination': stripe_account_id
@@ -649,10 +643,10 @@ def checkout(request, obj_type, pk):
 def checkout_session(request, obj_type, pk):
 
     if runningDevServer():
-        BASE_DOMAIN = 'http://127.0.0.1:8000' 
+        BASE_DOMAIN = VARIABLES.LOCAL_DOMAIN
         stripe.api_key = config('STRIPE_TEST_KEY') 
     else:
-        BASE_DOMAIN = 'https://www.hoyabay.com'
+        BASE_DOMAIN = VARIABLES.HOSTED_DOMAIN
         stripe.api_key = config('STRIPE_LIVE_KEY')
 
     item = None
@@ -947,10 +941,7 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
     ) # Function returns a Bool.
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
     try:
-        if runningDevServer():
-            BASE_DOMAIN = 'http://127.0.0.1:8000' 
-        else:
-            BASE_DOMAIN = 'https://www.hoyabay.com'
+        BASE_DOMAIN = getDomain()
         subject = f"Payment request"
         html_content = f"""
         <h3><strong>{group.name} has requested a payment from you for {listing_for_group_members.title}.</strong></h3>
@@ -1088,10 +1079,7 @@ class LotteryDetailView(UserPassesTestMixin, DetailView):
                     lottery.save()
                     if winner:
                         try:
-                            if runningDevServer():
-                                BASE_DOMAIN = 'http://127.0.0.1:8000' 
-                            else:
-                                BASE_DOMAIN = 'https://www.hoyabay.com'
+                            BASE_DOMAIN = getDomain()
                             subject = f"Congratulations!"
                             html_content = f"""
                             Congratulations, {winner}! You have won the lottery and will receive your prize {lottery.prize} shortly.

@@ -344,9 +344,6 @@ def follow_request(request, user_requesting_to_follow, user_receiving_follow_req
 
 
 def delete_follow_request(user_requesting_to_follow, user_receiving_follow_request):
-    print("func")
-    print(user_requesting_to_follow)
-    print(user_receiving_follow_request)
     # Check if follower request exists. If it does, delete that object.
     if FollowRequest.objects.filter(user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request).exists():
         follow_request = get_object_or_404(FollowRequest, user_requesting_to_follow=user_requesting_to_follow, user_receiving_follow_request=user_receiving_follow_request)
@@ -357,11 +354,6 @@ def delete_follow_request(user_requesting_to_follow, user_receiving_follow_reque
 def withdraw_follow_request(request, user_requesting_to_follow, user_receiving_follow_request):
     user_requesting_to_follow = get_object_or_404(User, username=user_requesting_to_follow)
     user_receiving_follow_request = get_object_or_404(User, username=user_receiving_follow_request)
-    print(user_requesting_to_follow)
-    print(type(user_requesting_to_follow))
-    print()
-    print(user_receiving_follow_request)
-    print(type(user_receiving_follow_request))
     delete_follow_request(user_requesting_to_follow, user_receiving_follow_request)
     return redirect(f'/profile/{user_receiving_follow_request}')
 
