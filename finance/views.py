@@ -11,8 +11,8 @@ from django.views.generic import (
     DeleteView,
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
 from .models import (TwoSidedFinancialTransaction, Entity, Era, Theme, Chain)
+from config.abstract_settings import VARIABLES
 
 
 def finance_home(request):
@@ -59,7 +59,7 @@ class TransactionListView(ListView):
     model = TwoSidedFinancialTransaction
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(TransactionListView, self).get_context_data(**kwargs)
@@ -71,7 +71,7 @@ class UserTransactionListView(ListView):
     model = TwoSidedFinancialTransaction
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get entries by specific user (as passed into URL)."""
@@ -188,7 +188,7 @@ class EntityListView(ListView):
     model = Entity
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(EntityListView, self).get_context_data(**kwargs)
@@ -200,7 +200,7 @@ class UserEntityListView(ListView):
     model = Entity
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get entries by specific user (as passed into URL)."""
@@ -352,7 +352,7 @@ class ChainListView(ListView):
     model = Chain
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(ChainListView, self).get_context_data(**kwargs)
@@ -364,7 +364,7 @@ class UserChainListView(ListView):
     model = Chain
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get entries by specific user (as passed into URL)."""
@@ -475,7 +475,7 @@ class EraListView(ListView):
     model = Era
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(EraListView, self).get_context_data(**kwargs)
@@ -487,7 +487,7 @@ class UserEraListView(ListView):
     model = Era
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get entries by specific user (as passed into URL)."""
@@ -598,7 +598,7 @@ class ThemeListView(ListView):
     model = Theme
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(ThemeListView, self).get_context_data(**kwargs)
@@ -610,7 +610,7 @@ class UserThemeListView(ListView):
     model = Theme
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get entries by specific user (as passed into URL)."""

@@ -17,6 +17,8 @@ from .forms import DirectMessageForm
 from config.utils import get_group_and_group_profile_from_group_id, formValid
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.abstract_settings.model_fields import ROOM_FIELDS
+from config.abstract_settings import VARIABLES
+
 
 @login_required
 def inbox(request):
@@ -309,7 +311,7 @@ class RoomListView(ListView):
 	model = Room
 	context_object_name = 'items'
 	template_name = 'messaging/room_list_view.html'
-	paginate_by = 50
+	paginate_by = VARIABLES.PAGINATE_BY
 
 	def get_context_data(self, **kwargs):
 		context = super(RoomListView, self).get_context_data(**kwargs)
@@ -328,7 +330,7 @@ class RoomListView(ListView):
 class UserRoomListView(ListView):
 	model = Room
 	context_object_name = 'items'
-	paginate_by = 50
+	paginate_by = VARIABLES.PAGINATE_BY
 
 	def get_queryset(self):
 		user = get_object_or_404(User, username=self.kwargs.get('username'))

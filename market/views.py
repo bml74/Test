@@ -54,6 +54,7 @@ from notifications.utils import sendEmail
 from dotenv import load_dotenv
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
+from config.abstract_settings import VARIABLES
 
 
 load_dotenv()

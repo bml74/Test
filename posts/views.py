@@ -16,6 +16,7 @@ from ecoles.datatools import generate_recommendations_from_queryset
 from config.abstract_settings.model_fields import COURSE_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.utils import formValid
+from config.abstract_settings import VARIABLES
 
 
 class PostListView(ListView):
@@ -27,7 +28,7 @@ class PostListView(ListView):
     model = Post
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_context_data(self, **kwargs):
         context = super(PostListView, self).get_context_data(**kwargs)
@@ -44,7 +45,7 @@ class UserPostListView(ListView):
     model = Post
     template_name = 'finance/finance_list_view.html'
     context_object_name = 'items'
-    paginate_by = 50
+    paginate_by = VARIABLES.PAGINATE_BY
 
     def get_queryset(self):
         """Get posts by specific user (as passed into URL)."""
