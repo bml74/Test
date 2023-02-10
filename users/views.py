@@ -169,6 +169,7 @@ def profile(request):
         stripe_login_link = login_link.url + '#/account'
     except:
         print('Stripe account does not exist')
+    print(stripe_login_link)
 
     context = {
         'u_form': u_form,

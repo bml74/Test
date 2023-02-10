@@ -68,7 +68,7 @@ Create listing
                             {% else %}
 
                             <div class="text-center">
-                                <i class="fas fa-exclamation-triangle"></i> Before you can buy and sell on Hoyabay, you have to connect your account to Stripe's payments platform. Click <a class="dashed-underline" href="{% url 'connect-to-stripe-page' %}">here</a> to finish setting up your account.
+                                <i class="fas fa-exclamation-triangle"></i> Before you can buy and sell on Hoyabay, you have to connect your account to Stripe's payments platform. Click <a class="dashed-underline" href="{% url 'profile' %}">here</a> to finish setting up your account.
                             </div>
 
                             {% endif %}
@@ -113,7 +113,7 @@ Create listing
     <a href="{% url 'listing-create' 'offer-to-sell' %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-plus-circle"></i> Post something that you want to sell</a>
 </div>  
 {% else %}
-<p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'connect-to-stripe-page' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
+<p class="font-normal text-gray-500 dark:text-gray-400">Looking to sell something? Click <a href="{% url 'profile' %}" class="text-black dark:text-white" style="text-decoration: underline;">here</a> to set up your Stripe account within two minutes.</p>
 {% endif %}   
 
 

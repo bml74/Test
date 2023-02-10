@@ -74,34 +74,6 @@ def dashboard(request):
 
 
 @login_required
-def connect_to_stripe_page(request):
-    current_user = get_object_or_404(User, username=request.user.username)
-    profile = get_object_or_404(Profile, user=current_user)
-
-    if profile.stripe_account_id:
-        user_has_stripe_connect_account = True
-    else:
-        user_has_stripe_connect_account = False
-
-    stripe_login_link = None
-    try:
-        RUNNING_DEVSERVER = (len(sys.argv) > 1 and sys.argv[1] == 'runserver')
-        if RUNNING_DEVSERVER:
-            stripe.api_key = config('STRIPE_TEST_KEY') 
-        else:
-            stripe.api_key = config('STRIPE_LIVE_KEY')
-        login_link = stripe.Account.create_login_link(request.user.profile.stripe_account_id)
-        stripe_login_link = login_link.url + '#/account'
-    except:
-        print('Stripe account does not exist')
-    context = {
-        "stripe_login_link": stripe_login_link,
-        "user_has_stripe_connect_account": user_has_stripe_connect_account,
-    }
-    return render(request, "market/stripe_connect.html", context=context)
-
-
-@login_required
 def my_listings(request):
     listings = Listing.objects.filter(creator=request.user)
     context = {

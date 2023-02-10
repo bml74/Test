@@ -83,21 +83,17 @@
         </p>
         <p><span class="font-medium">Were you given a referral code?</span> Click <strong><em><a href="{% url 'referral' %}">this link</a></em></strong> to enter the code.</p>
     </div>
-    <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
-        <p><strong>Credits</strong></p>
-        <div class="mt-2" style="display: flex;">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
-                <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z"/>
-                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
-                <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/>
-            </svg>
-            &nbsp;&nbsp;
-            You currently have&nbsp;<span class="font-semibold">{{ credits }} credits</span>&nbsp;to your account.
-        </div>
-    </div>
 
+
+    {% if user_has_stripe_connect_account %}
     <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
-        <p><strong>Connect to Stripe</strong></p>
+    {% else %}
+    <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+        <p><strong>
+            <i class="fas fa-exclamation-triangle"></i> NOTICE: In order to sell on Hoyabay, you have to connect your account with Stripe!
+        </strong></p>
+    {% endif %}
+        <p class="mt-2"><strong>Connect to Stripe</strong></p>
         <p class="mt-2"><span class="font-medium">For sellers:</span> Link your account to Stripe Connect to directly receive payments after someone buys your product or service.</p>
         <!-- <p class="flex mt-4">
             <a href="#" id="connect-to-stripe-button" class="y6GKdvUrd7vp_pxsFb57 g40_g3BQzYCOX5eZADgY YoPCmQ0E_V5W0GGmSIdm _dylIDxYTN3qgvD4U597 KmgKPWh7pHX4ztLneO0T ezMFUVl744lvw6ht0lFe mveJTCIb2WII7J4sY22F c8dCx6gnV43hTOLV6ks5 ZjWEEmDsdPvU2GdH53LK cexDVMRjens2nRrMcG96 ijrOHNoSVGATsWYKl4Id d8_fVOcgDmbt7UdpfeLK WuKugQzwTT7o1wwBck2R _ZsTMX_gz275093orLWM" type="button">Connect to Stripe</a>
@@ -119,6 +115,19 @@
             Note to sellers: In order to provide the most secure and trustworthy payments platform possible, we partner with Stripe, one of the largest and most successful payments processors in the world, used by Amazon, Google, Shopify, Instacart, Lyft, and more. Stripe takes a 2.9% + $0.30 fee per transaction. So, if you sell an item with a listed price of $100, you will receive $96.80. If you sell an item with a listed price of $10, you will receive $9.41. The transaction fees are necessary in order to partner with Stripe and provide the most frictionless and secure system for all buyers and sellers, and will enable you to greatly increase visibility and publicity for the products and services you wish to sell.
         </p>
         {% endif %}
+    </div>
+
+    <div class="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800" role="alert">
+        <p><strong>Credits</strong></p>
+        <div class="mt-2" style="display: flex;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-coin" viewBox="0 0 16 16">
+                <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9H5.5zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518l.087.02z"/>
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11zm0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"/>
+            </svg>
+            &nbsp;&nbsp;
+            You currently have&nbsp;<span class="font-semibold">{{ credits }} credits</span>&nbsp;to your account.
+        </div>
     </div>
 
     {% comment %} <div class="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
