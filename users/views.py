@@ -168,7 +168,7 @@ def profile(request):
         login_link = stripe.Account.create_login_link(request.user.profile.stripe_account_id)
         stripe_login_link = login_link.url + '#/account'
     except:
-        print('stripe account does not exist')
+        print('Stripe account does not exist')
 
     context = {
         'u_form': u_form,

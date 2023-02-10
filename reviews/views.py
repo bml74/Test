@@ -13,7 +13,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 from .models import Review, CustomerMessage
 from ecoles.datatools import generate_recommendations_from_queryset
-from config.abstract_settings.model_fields import COURSE_FIELDS
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.utils import formValid, getOverallRating, myround
 from config.abstract_settings.model_fields import (
@@ -169,7 +168,7 @@ class CustomerMessageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateV
 
     def get_context_data(self, **kwargs):
         context = super(CustomerMessageCreateView, self).get_context_data(**kwargs)
-        header = "Create post"
+        header = "Create review"
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context
