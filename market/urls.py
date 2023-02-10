@@ -51,6 +51,8 @@ urlpatterns = [
     path('my_purchases/', views.my_purchases, name='my_purchases'),
     path('my_sales/', views.my_sales, name='my_sales'),
 
+    path('request_payments/from/<int:group_id>/listing/<int:listing_for_group_members_id>/', views.request_payment_from_all_group_members, name='request_payment_from_all_group_members'),
+
     path('request_payment/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.request_payment, name='request_payment'),
     path('reject_payment_request/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.reject_payment_request, name='reject_payment_request'),
     

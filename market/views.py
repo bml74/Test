@@ -351,7 +351,7 @@ def switch_listing(request, obj_type, pk):
             html_content = f"""
             Your listing has been created. You can view this new listing <a href="{BASE_DOMAIN}/market/listing/{new_listing.id}/">here</a>.{current_listing.creator.email} has been emailed to inform them of this update.  
             """
-            message = Mail(from_email="bml74@georgetown.edu", to_emails=request.user.email, subject=subject, html_content=html_content)
+            message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=request.user.email, subject=subject, html_content=html_content)
             sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
             response1 = sg.send(message)
             print(response1)
@@ -361,7 +361,7 @@ def switch_listing(request, obj_type, pk):
             html_content = f"""
             {current_listing.creator.username} has accepted your request to buy '{current_listing.title}'. You can view this new listing <a href="{BASE_DOMAIN}/market/listing/{new_listing.id}/">here</a>.  
             """
-            message = Mail(from_email="bml74@georgetown.edu", to_emails=request.user.email, subject=subject, html_content=html_content)
+            message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=request.user.email, subject=subject, html_content=html_content)
             sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
             response2 = sg.send(message)
         except Exception as e:
@@ -540,6 +540,7 @@ def purchase_item_for_free(request, obj_type, pk):
         return redirect('payment_cancel')
 
 
+@login_required
 def checkout(request, obj_type, pk):
     item = None
     if runningDevServer():
@@ -636,6 +637,7 @@ def checkout(request, obj_type, pk):
     return JsonResponse({"Error": "Item retrieval error."})
 
 
+@login_required
 def checkout_session(request, obj_type, pk):
 
     if runningDevServer():
@@ -682,6 +684,7 @@ def checkout_session(request, obj_type, pk):
     return JsonResponse({"Error": "Item retrieval error."})
 
 
+@login_required
 def payment_cancel(request):
     return render(request, "payments/cancel.html")
 
@@ -693,6 +696,7 @@ def generate_transaction_id(length):
     return gen_text
 
 
+@login_required
 def payment_success(request, obj_type, pk):
     if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         item = purchase_logic(request, obj_type, item_id=pk)
@@ -820,6 +824,7 @@ def payment_success(request, obj_type, pk):
         return render(request, 'payments/cancel.html')
 
 
+@login_required
 def my_payments(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
     # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
@@ -827,6 +832,7 @@ def my_payments(request):
     return render(request,'payments/my_payments.html',{'items': items})
 
 
+@login_required
 def my_purchases(request):
     # transaction_verification_data=Transaction.objects.filter(purchaser=request.user,purchaser_verified=None)
     # return render(request,'payments/my_payments.html',{'transaction_verification_data':transaction_verification_data})
@@ -834,6 +840,7 @@ def my_purchases(request):
     return render(request,'payments/my_purchases_sales.html',{"items": items, "header": "My purchases"})
 
 
+@login_required
 def my_sales(request):
     items = list(Transaction.objects.filter(seller=request.user).order_by('-inserted_on'))
     return render(request,'payments/my_purchases_sales.html',{"items": items, "header": "My sales"})
@@ -924,6 +931,43 @@ class ListingForGroupMembersDetailView(UserPassesTestMixin, DetailView):
         return render(request, 'market/listing_for_group_members.html', context)
 
 
+def request_payment_from_all_group_members(request, group_id, listing_for_group_members_id):
+    (group, group_profile) = get_group_and_group_profile_from_group_id(
+        group_id=group_id
+    )
+    user_sending_request = group_profile.group_creator
+    group = Group.objects.get(id=group_id)
+    members = group.user_set.all()
+    print("members")
+    print(members)
+    print("members")
+    users_receiving_request = []
+    for member in members:
+        create_payment_request_from_group_member(
+            user_sending_request=user_sending_request,
+            user_receiving_request=member,
+            ListingForGroupMembers_obj_id=listing_for_group_members_id
+        ) # Function returns a Bool.
+        users_receiving_request.append(member)
+    listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
+    emails_of_users_receiving_request = [u.email for u in users_receiving_request]
+    print(emails_of_users_receiving_request)
+    try:
+        BASE_DOMAIN = getDomain()
+        subject = f"Payment request"
+        html_content = f"""
+        <h3><strong>{group.name} has requested a payment from you for {listing_for_group_members.title}.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/checkout/listing_for_group_members/{listing_for_group_members_id}/'>here</a> to pay.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/payment_requests/'>here</a> to view all payments requested from you.</strong></h3>
+        """
+        message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=emails_of_users_receiving_request, subject=subject, html_content=html_content)
+        sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
+        response = sg.send(message)
+    except Exception as e:
+        print(e)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
 def request_payment(request, group_id, user_id, listing_for_group_members_id):
     (group, group_profile) = get_group_and_group_profile_from_group_id(
         group_id=group_id
@@ -944,7 +988,7 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
         <h3><strong>Click <a href='{BASE_DOMAIN}/market/checkout/listing_for_group_members/{listing_for_group_members_id}/'>here</a> to pay.</strong></h3>
         <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/payment_requests/'>here</a> to view all payments requested from you.</strong></h3>
         """
-        message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
+        message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
     except Exception as e:
@@ -1080,7 +1124,7 @@ class LotteryDetailView(UserPassesTestMixin, DetailView):
                             html_content = f"""
                             Congratulations, {winner}! You have won the lottery and will receive your prize {lottery.prize} shortly.
                             """
-                            message = Mail(from_email="bml74@georgetown.edu", to_emails=winner.email, subject=subject, html_content=html_content)
+                            message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=winner.email, subject=subject, html_content=html_content)
                             sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
                             response = sg.send(message)
                             print(response.status_code)

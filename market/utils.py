@@ -86,7 +86,7 @@ def create_payment_request_from_group_member(user_sending_request, user_receivin
     #         To reject this request, click <a href="{BASE_DOMAIN}/market/my/payment_requests/">here</a>.
     #     </p>
     #     """
-    #     message = Mail(from_email="bml74@georgetown.edu", to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
+    #     message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
     #     sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
     #     response = sg.send(message)
     #     print(response.status_code)
