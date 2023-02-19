@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
 
     # Listings
-    path('listings/', views.ListingListView.as_view(), name='listings'),
+    path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),
     path('listing/<int:pk>/', views.ListingDetailView.as_view(), name='listing'),
     path('listing/update/<int:pk>/', views.ListingUpdateView.as_view(), name='listing-update'),

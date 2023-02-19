@@ -282,7 +282,9 @@ class ListingListView(UserPassesTestMixin, ListView):
         return context
 
     def get_queryset(self):
-        results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
+        filter = self.kwargs.get('filter')
+        if filter == 'all':
+            results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
         return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
