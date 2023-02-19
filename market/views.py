@@ -285,6 +285,9 @@ class ListingListView(UserPassesTestMixin, ListView):
         filter = self.kwargs.get('filter')
         if filter == 'all':
             results = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
+        if filter == 'tickets-all':
+            results = None
+
         return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
