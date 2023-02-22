@@ -119,40 +119,63 @@ def handleQuantity(listing):
 
 
 listing_category_options = [
-    "Consulting",
-    "Tutoring - College",
-    "Tutoring - MSB",
-    "Tutoring - Computer Science",
-    "Tutoring - SFS",
-    "Tutoring - NHS",
+
+    "Tutoring - Arts & Humanities",
+    "Tutoring - Sciences",
+    "Tutoring - Programming & Technology",
+    "Tutoring - Business",
+    "Tutoring - Other",
+
+    "Notes - Arts & Humanities",
+    "Notes - Sciences",
+    "Notes - Programming & Technology",
+    "Notes - Business",
+    "Notes - Other",
+
+    "Consulting services",
     "Translation services",
     "Programming services",
-    "Research",
-    "Used textbook",
+    "Research assistance",
+    "Interview prep",
+    "Résumé help",
+    "Other services",
+
     "Book",
+
     "Textbook",
+
     "Furniture",
+
     "Electronics",
-    "Household appliances",
+
+    "Household",
+
     "Sports tickets",
     "Concert tickets",
+    "Local event tickets",
     "Other tickets",
-    "Sports gear",
+
     "Men's basketball sneakers",
     "Women's basketball sneakers",
     "Men's running sneakers",
     "Women's running sneakers",
-    "Other men's sneakers",
-    "Other women's sneakers",
+    "Men's casual sneakers",
+    "Women's casual sneakers",
+    "Men's formal wear",
+    "Women's formal wear",
+    "Other men's shoes",
+    "Other women's shoes",
+
     "Men's jackets",
     "Women's jackets",
-    "Men's clothing",
-    "Women's clothing",
-    "Video games",
-    "Food",
-    "Gift cards",
-    "Miscellaneous",
-    "Other", 
+    "Men's sweatshirts",
+    "Women's sweatshirts",
+    "Men's formal wear",
+    "Women's formal wear",
+    "Men's clothing - Other",
+    "Women's clothing - Other",
+    "Men's suits",
+    "Women's dresses",
 ]
 
 

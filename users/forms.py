@@ -24,7 +24,7 @@ class UserUpdateForm(forms.ModelForm):
 class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['description', 'country', 'visibility']
+        fields = ['description', 'institution', 'country', 'visibility']
 
 
 class ReferralCodeForm(forms.Form):
