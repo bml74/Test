@@ -79,217 +79,446 @@
                 </div>
             </li> {% endcomment %}
 
-            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
-                <button id="forBuyersDropdownNavbarLink" data-dropdown-toggle="forBuyersDropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">
-                    For buyers 
-                    <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </button>
-                <!-- Dropdown menu -->
-                <div id="forBuyersDropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+              <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
+                  <button id="forBuyersDropdownNavbarLink" data-dropdown-toggle="forBuyersDropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">
+                      For buyers 
+                      <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="forBuyersDropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                      <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersTicketsDoubleDropdownButton" data-dropdown-toggle="forBuyersTicketsDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tickets<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersTicketsDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersTicketsDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'tickets-sports' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sports events</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tickets-concerts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Concerts</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tickets-local' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Local events</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tickets-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other tickets</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersTutoringDoubleDropdownButton" data-dropdown-toggle="forBuyersTutoringDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tutoring<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersTutoringDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersTutoringDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'tutoring-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tutoring-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tutoring-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tutoring-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'tutoring-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersNotesDoubleDropdownButton" data-dropdown-toggle="forBuyersNotesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Class notes <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersNotesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersNotesDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'notes-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'notes-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'notes-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'notes-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'notes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersServicesDoubleDropdownButton" data-dropdown-toggle="forBuyersServicesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Other services<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersServicesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersServicesDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'services-interview-prep' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Interview prep</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-resume-help' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Résumé help</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-consulting' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Consulting</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-programming' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming services</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-research' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Research assistance</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-translation' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Translation</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'services-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li>
+                          <a href="{% url 'listings' 'books' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Books</a>
+                        </li>
+
+                        <li>
+                          <a href="{% url 'listings' 'textbooks' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Textbooks</a>
+                        </li>
+
+                        <li>
+                          <a href="{% url 'listings' 'household' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Furniture</a>
+                        </li>
+
+                        <li>
+                          <a href="{% url 'listings' 'furniture' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Household</a>
+                        </li>
+
+                        <li>
+                          <a href="{% url 'listings' 'electronics' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Electronics</a>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersMensClothingDoubleDropdownButton" data-dropdown-toggle="forBuyersMensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersMensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersMensClothingDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'mens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-clothing-suits' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Suits</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersWomensClothingDoubleDropdownButton" data-dropdown-toggle="forBuyersWomensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersWomensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersWomensClothingDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'womens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-clothing-dresses' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Dresses</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersMensShoesDoubleDropdownButton" data-dropdown-toggle="forBuyersMensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersMensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersMensShoesDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'mens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'mens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                        <li aria-labelledby="forBuyersDropdownNavbarLink">
+                          <button id="forBuyersWomensShoesDoubleDropdownButton" data-dropdown-toggle="forBuyersWomensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                          <div id="forBuyersWomensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                              <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersWomensShoesDoubleDropdownButton">
+                                <li>
+                                  <a href="{% url 'listings' 'womens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                </li>
+                                <li>
+                                  <a href="{% url 'listings' 'womens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                </li>
+                              </ul>
+                          </div>
+                        </li>
+
+                      </ul>
+                      <div class="py-1">
+                        <a href="{% url 'listings' 'all' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">View all</a>
+                      </div>
+                  </div>
+              </li>
+
+
+
+
+
+
+
+
+              <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
+                  <button id="forSellersDropdownNavbarLink" data-dropdown-toggle="forSellersDropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">For sellers 
+                      <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                  </button>
+                  <!-- Dropdown menu -->
+                  <div id="forSellersDropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersTicketsDoubleDropdownButton" data-dropdown-toggle="forBuyersTicketsDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tickets<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersTicketsDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersTicketsDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersTicketsDoubleDropdownButton" data-dropdown-toggle="forSellersTicketsDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tickets<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersTicketsDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersTicketsDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'tickets-sports' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sports events</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tickets-sports' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sports events</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'tickets-concerts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Concerts</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tickets-concerts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Concerts</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'tickets-local' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Local events</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tickets-local' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Local events</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'tickets-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other tickets</a>
-                              </li>
-                            </ul>
-                        </div>
-                      </li>
-
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersTutoringDoubleDropdownButton" data-dropdown-toggle="forBuyersTutoringDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tutoring<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersTutoringDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersTutoringDoubleDropdownButton">
-                              <li>
-                                <a href="{% url 'listings' 'tutoring-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'tutoring-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'tutoring-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'tutoring-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'tutoring-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tickets-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other tickets</a>
                               </li>
                             </ul>
                         </div>
                       </li>
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersNotesDoubleDropdownButton" data-dropdown-toggle="forBuyersNotesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Class notes <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersNotesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersNotesDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersTutoringDoubleDropdownButton" data-dropdown-toggle="forSellersTutoringDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Tutoring<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersTutoringDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersTutoringDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'notes-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tutoring-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'notes-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tutoring-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'notes-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tutoring-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'notes-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tutoring-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'notes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'tutoring-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
                               </li>
                             </ul>
                         </div>
                       </li>
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersServicesDoubleDropdownButton" data-dropdown-toggle="forBuyersServicesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Other services<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersServicesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersServicesDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersNotesDoubleDropdownButton" data-dropdown-toggle="forSellersNotesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Class notes <svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersNotesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersNotesDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'services-interview-prep' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Interview prep</a>
+                                <a href="{% url 'listings-requests-to-buy' 'notes-arts-humanities' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Arts and Humanities</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-resume-help' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Résumé help</a>
+                                <a href="{% url 'listings-requests-to-buy' 'notes-sciences' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sciences</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-consulting' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Consulting</a>
+                                <a href="{% url 'listings-requests-to-buy' 'notes-tech' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming and Technology</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-programming' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming services</a>
+                                <a href="{% url 'listings-requests-to-buy' 'notes-business' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Business</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-research' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Research assistance</a>
+                                <a href="{% url 'listings-requests-to-buy' 'notes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                              </li>
+                            </ul>
+                        </div>
+                      </li>
+
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersServicesDoubleDropdownButton" data-dropdown-toggle="forSellersServicesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Other services<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersServicesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersServicesDoubleDropdownButton">
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'services-interview-prep' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Interview prep</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-translation' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Translation</a>
+                                <a href="{% url 'listings-requests-to-buy' 'services-resume-help' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Résumé help</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'services-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'services-consulting' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Consulting</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'services-programming' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Programming services</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'services-research' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Research assistance</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'services-translation' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Translation</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'services-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
                               </li>
                             </ul>
                         </div>
                       </li>
 
                       <li>
-                        <a href="{% url 'listings' 'books' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Books</a>
+                        <a href="{% url 'listings-requests-to-buy' 'books' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Books</a>
                       </li>
 
                       <li>
-                        <a href="{% url 'listings' 'textbooks' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Textbooks</a>
+                        <a href="{% url 'listings-requests-to-buy' 'textbooks' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Textbooks</a>
                       </li>
 
                       <li>
-                        <a href="{% url 'listings' 'household' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Furniture</a>
+                        <a href="{% url 'listings-requests-to-buy' 'household' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Furniture</a>
                       </li>
 
                       <li>
-                        <a href="{% url 'listings' 'furniture' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Household</a>
+                        <a href="{% url 'listings-requests-to-buy' 'furniture' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Household</a>
                       </li>
 
                       <li>
-                        <a href="{% url 'listings' 'electronics' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Electronics</a>
+                        <a href="{% url 'listings-requests-to-buy' 'electronics' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Electronics</a>
                       </li>
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersMensClothingDoubleDropdownButton" data-dropdown-toggle="forBuyersMensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersMensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersMensClothingDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersMensClothingDoubleDropdownButton" data-dropdown-toggle="forSellersMensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersMensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersMensClothingDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'mens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'mens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'mens-clothing-suits' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Suits</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-clothing-suits' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Suits</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'mens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'mens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
                               </li>
                             </ul>
                         </div>
                       </li>
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersWomensClothingDoubleDropdownButton" data-dropdown-toggle="forBuyersWomensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersWomensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersWomensClothingDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersWomensClothingDoubleDropdownButton" data-dropdown-toggle="forSellersWomensClothingDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's clothing<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersWomensClothingDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersWomensClothingDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'womens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-clothing-sweatshirts' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sweatshirts</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-clothing-jackets' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Jackets</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-clothing-dresses' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Dresses</a>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-clothing-dresses' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Dresses</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-clothing-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
-                              </li>
-                            </ul>
-                        </div>
-                      </li>
-
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersMensShoesDoubleDropdownButton" data-dropdown-toggle="forBuyersMensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersMensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersMensShoesDoubleDropdownButton">
-                              <li>
-                                <a href="{% url 'listings' 'mens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'mens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'mens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'mens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
-                              </li>
-                              <li>
-                                <a href="{% url 'listings' 'mens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-clothing-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
                               </li>
                             </ul>
                         </div>
                       </li>
 
-                      <li aria-labelledby="forBuyersDropdownNavbarLink">
-                        <button id="forBuyersWomensShoesDoubleDropdownButton" data-dropdown-toggle="forBuyersWomensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="forBuyersWomensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forBuyersWomensShoesDoubleDropdownButton">
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersMensShoesDoubleDropdownButton" data-dropdown-toggle="forSellersMensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Men's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersMensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersMensShoesDoubleDropdownButton">
                               <li>
-                                <a href="{% url 'listings' 'womens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
                               </li>
                               <li>
-                                <a href="{% url 'listings' 'womens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                                <a href="{% url 'listings-requests-to-buy' 'mens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
+                              </li>
+                            </ul>
+                        </div>
+                      </li>
+
+                      <li aria-labelledby="forSellersDropdownNavbarLink">
+                        <button id="forSellersWomensShoesDoubleDropdownButton" data-dropdown-toggle="forSellersWomensShoesDoubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Women's shoes<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
+                        <div id="forSellersWomensShoesDoubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
+                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="forSellersWomensShoesDoubleDropdownButton">
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-shoes-basketball' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Basketball shoes</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-shoes-running' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Running shoes</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-shoes-casual' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Casual shoes</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-shoes-formal' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Formal wear</a>
+                              </li>
+                              <li>
+                                <a href="{% url 'listings-requests-to-buy' 'womens-shoes-other' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Other</a>
                               </li>
                             </ul>
                         </div>
@@ -297,67 +526,28 @@
 
                     </ul>
                     <div class="py-1">
-                      <a href="{% url 'listings' 'all' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">View all</a>
+                      <a href="{% url 'listings-requests-to-buy' 'all' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">View all</a>
                     </div>
                 </div>
-            </li>
+              </li>
 
-            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
-                <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">For sellers 
-                    <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                </button>
+              <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
+                <button id="groups-dropdownNavbarLink" data-dropdown-toggle="groups-dropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">Groups <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
                 <!-- Dropdown menu -->
-                <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                <div id="groups-dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                     <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
+                      
                       <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
+                        <a href="{% url 'user_groups_list_view' request.user.username %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My groups</a>
                       </li>
-                      <li aria-labelledby="dropdownNavbarLink">
-                        <button id="doubleDropdownButton" data-dropdown-toggle="doubleDropdown" data-dropdown-placement="right-start" type="button" class="flex items-center justify-between w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dropdown<svg aria-hidden="true" class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg></button>
-                        <div id="doubleDropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="doubleDropdownButton">
-                              <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Overview</a>
-                              </li>
-                              <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">My downloads</a>
-                              </li>
-                              <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Billing</a>
-                              </li>
-                              <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Rewards</a>
-                              </li>
-                            </ul>
-                        </div>
-                      </li>
+
                       <li>
-                        <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
+                        <a href="{% url 'groups_list_view' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All groups</a>
                       </li>
+
                     </ul>
-                    <div class="py-1">
-                      <a href="{% url 'listings-requests-to-buy' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">View all</a>
-                    </div>
                 </div>
-            </li>
-
-            <li class="mb-3 lg:px-2 xl:px-3 lg:mb-0 xl:block">
-              <button id="groups-dropdownNavbarLink" data-dropdown-toggle="groups-dropdownNavbar" class="flex items-center justify-between text-sm font-medium text-gray-900 hover:text-blue-600 dark:text-gray-300 dark:hover:text-blue-500 mt-1">Groups <svg class="w-4 h-4 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
-              <!-- Dropdown menu -->
-              <div id="groups-dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                  <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                    
-                    <li>
-                      <a href="{% url 'user_groups_list_view' request.user.username %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">My groups</a>
-                    </li>
-
-                    <li>
-                      <a href="{% url 'groups_list_view' %}" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">All groups</a>
-                    </li>
-
-                  </ul>
-              </div>
-          </li>
+              </li>
 
     
     

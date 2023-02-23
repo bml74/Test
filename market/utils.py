@@ -186,3 +186,12 @@ for cat in listing_category_options:
     listing_category_options_list_of_tups.append(tup)
 
 # listing_category_options_list_of_tups = tuple(listing_category_options_list_of_tups)
+
+
+
+
+
+
+
+
+

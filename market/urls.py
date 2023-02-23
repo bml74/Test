@@ -15,7 +15,7 @@ urlpatterns = [
 
     path('listing/create/<str:listings_type>/', views.ListingCreateView.as_view(), name='listing-create'),
 
-    path('listings/requests/', views.ListingRequestsToBuyListView.as_view(), name='listings-requests-to-buy'),
+    path('listings/<str:filter>/requests/', views.ListingRequestsToBuyListView.as_view(), name='listings-requests-to-buy'),
     path('switch/<str:obj_type>/<int:pk>/', views.switch_listing, name='listing-request-to-offer'),
 
     path('groups/listing/<int:pk>/', views.ListingForGroupMembersDetailView.as_view(), name='listing-for-group-members-detail'),

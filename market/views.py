@@ -226,6 +226,171 @@ def cancel_delivery(request, transaction_pk, suggestion_pk):
     return redirect('transaction-delivery', transaction_pk=transaction_pk)
 
 
+def processResults(filter, available):
+
+    if filter == 'all':
+        subheading = "All results"
+        results = available
+        
+    elif filter == 'tickets-sports':
+        subheading = "Sports tickets"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tickets-concerts':
+        subheading = "Concert tickets"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tickets-local':
+        subheading = "Local event tickets"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tickets-other':
+        subheading = "Other tickets"
+        results = available.filter(listing_category=subheading)
+    
+    elif filter == 'tutoring-arts-humanities':
+        subheading = "Tutoring - Arts & Humanities"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tutoring-sciences':
+        subheading = "Tutoring - Sciences"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tutoring-tech':
+        subheading = "Tutoring - Programming & Technology"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tutoring-business':
+        subheading = "Tutoring - Business"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'tutoring-other':
+        subheading = "Tutoring - Business"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'notes-arts-humanities':
+        subheading = "Notes - Arts & Humanities"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'notes-sciences':
+        subheading = "Notes - Sciences"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'notes-tech':
+        subheading = "Notes - Programming & Technology"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'notes-business':
+        subheading = "Notes - Business"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'notes-other':
+        subheading = "Notes - Other"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'services-interview-prep':
+        subheading = "Interview prep"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-resume-help':
+        subheading = "Résumé help"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-consulting':
+        subheading = "Consulting services"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-programming':
+        subheading = "Programming services"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-research':
+        subheading = "Research assistance"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-translation':
+        subheading = "Translation services"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'services-other':
+        subheading = "Other services"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'books':
+        subheading = "Books"
+        results = available.filter(listing_category="Book")
+    
+    elif filter == 'textbooks':
+        subheading = "Textbooks"
+        results = available.filter(listing_category="Textbook")
+    
+    elif filter == 'household':
+        subheading = "Household"
+        results = available.filter(listing_category=subheading)
+    
+    elif filter == 'furniture':
+        subheading = "Furniture"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'electronics':
+        subheading = "Electronics"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'mens-clothing-sweatshirts':
+        subheading = "Men's sweatshirts"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-clothing-jackets':
+        subheading = "Men's jackets"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-clothing-suits':
+        subheading = "Men's suits"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-clothing-formal':
+        subheading = "Men's formal wear"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-clothing-all':
+        subheading = "Men's clothing - Other"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'womens-clothing-sweatshirts':
+        subheading = "Women's sweatshirts"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-clothing-jackets':
+        subheading = "Women's jackets"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-clothing-dresses':
+        subheading = "Women's dresses"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-clothing-formal':
+        subheading = "Women's formal wear"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-clothing-all':
+        subheading = "Women's clothing - Other"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'mens-shoes-basketball':
+        subheading = "Men's basketball sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-shoes-running':
+        subheading = "Men's running sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-shoes-casual':
+        subheading = "Men's casual sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-shoes-formal':
+        subheading = "Men's formal wear"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'mens-shoes-other':
+        subheading = "Other men's shoes"
+        results = available.filter(listing_category=subheading)
+
+    elif filter == 'womens-shoes-basketball':
+        subheading = "Women's basketball sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-shoes-running':
+        subheading = "Women's running sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-shoes-casual':
+        subheading = "Women's casual sneakers"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-shoes-formal':
+        subheading = "Women's formal wear"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'womens-shoes-other':
+        subheading = "Other women's shoes"
+        results = available.filter(listing_category=subheading)
+
+    else:
+        subheading = "All results"
+        results = available
+
+    results = results.exclude(visibility='Invisible').all().order_by('-date_listed')
+
+    return (results, subheading)
+
 class ListingListView(UserPassesTestMixin, ListView):
     model = Listing
     template_name = 'market/listings.html'
@@ -267,168 +432,12 @@ class ListingListView(UserPassesTestMixin, ListView):
         main_header = "For buyers"
         main_description = "Browse this page as a buyer and discover what other members of your community have that's available for sale."
 
-        filter = self.kwargs.get('filter')
-
         available = (Listing.objects.filter(infinite_copies_available=True) | Listing.objects.filter(quantity_available__gt=0, infinite_copies_available=False)) & Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_SELL)
         
-        if filter == 'all':
-            subheading = "All results"
-            results = available
-        
-        elif filter == 'tickets-sports':
-            subheading = "Sports tickets"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tickets-concerts':
-            subheading = "Concert tickets"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tickets-local':
-            subheading = "Local event tickets"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tickets-other':
-            subheading = "Other tickets"
-            results = available.filter(listing_category=subheading)
-        
-        elif filter == 'tutoring-arts-humanities':
-            subheading = "Tutoring - Arts & Humanities"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tutoring-sciences':
-            subheading = "Tutoring - Sciences"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tutoring-tech':
-            subheading = "Tutoring - Programming & Technology"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tutoring-business':
-            subheading = "Tutoring - Business"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'tutoring-other':
-            subheading = "Tutoring - Business"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'notes-arts-humanities':
-            subheading = "Notes - Arts & Humanities"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'notes-sciences':
-            subheading = "Notes - Sciences"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'notes-tech':
-            subheading = "Notes - Programming & Technology"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'notes-business':
-            subheading = "Notes - Business"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'notes-other':
-            subheading = "Notes - Other"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'services-interview-prep':
-            subheading = "Interview prep"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-resume-help':
-            subheading = "Résumé help"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-consulting':
-            subheading = "Consulting services"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-programming':
-            subheading = "Programming services"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-research':
-            subheading = "Research assistance"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-translation':
-            subheading = "Translation services"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'services-other':
-            subheading = "Other services"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'books':
-            subheading = "Books"
-            results = available.filter(listing_category="Book")
-        
-        elif filter == 'textbooks':
-            subheading = "Textbooks"
-            results = available.filter(listing_category="Textbook")
-        
-        elif filter == 'household':
-            subheading = "Household"
-            results = available.filter(listing_category=subheading)
-        
-        elif filter == 'furniture':
-            subheading = "Furniture"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'electronics':
-            subheading = "Electronics"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'mens-clothing-sweatshirts':
-            subheading = "Men's sweatshirts"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-clothing-jackets':
-            subheading = "Men's jackets"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-clothing-suits':
-            subheading = "Men's suits"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-clothing-formal':
-            subheading = "Men's formal wear"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-clothing-all':
-            subheading = "Men's clothing - Other"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'womens-clothing-sweatshirts':
-            subheading = "Women's sweatshirts"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-clothing-jackets':
-            subheading = "Women's jackets"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-clothing-dresses':
-            subheading = "Women's dresses"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-clothing-formal':
-            subheading = "Women's formal wear"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-clothing-all':
-            subheading = "Women's clothing - Other"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'mens-shoes-basketball':
-            subheading = "Men's basketball sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-shoes-running':
-            subheading = "Men's running sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-shoes-casual':
-            subheading = "Men's casual sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-shoes-formal':
-            subheading = "Men's formal wear"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'mens-shoes-other':
-            subheading = "Other men's shoes"
-            results = available.filter(listing_category=subheading)
-
-        elif filter == 'womens-shoes-basketball':
-            subheading = "Women's basketball sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-shoes-running':
-            subheading = "Women's running sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-shoes-casual':
-            subheading = "Women's casual sneakers"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-shoes-formal':
-            subheading = "Women's formal wear"
-            results = available.filter(listing_category=subheading)
-        elif filter == 'womens-shoes-other':
-            subheading = "Other women's shoes"
-            results = available.filter(listing_category=subheading)
-
+        (results, subheading) = processResults(filter=self.kwargs.get('filter'), available=available)
 
         context.update({
-            "items": results.exclude(visibility='Invisible').all().order_by('-date_listed'),
+            "items": results,
             "subheading": subheading,
             "listings_type": "offer-to-sell",
             "main_header": main_header,
@@ -465,7 +474,11 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         num_results = len(results)
         main_header = "For sellers"
         main_description = "Browse this page as a seller and discover what other people in your community want. If they want something that you can provide, click 'Accept' to begin the transaction."
+        requestsToBuy = Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_BUY)
+        (results, subheading) = processResults(filter=self.kwargs.get('filter'), available=requestsToBuy)
         context.update({
+            "items": results,
+            "subheading": subheading,
             "listings_type": "request-to-buy",
             "main_description": main_description,
             "main_header": main_header,
@@ -475,9 +488,9 @@ class ListingRequestsToBuyListView(UserPassesTestMixin, ListView):
         })
         return context
 
-    def get_queryset(self):
-        results = Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_BUY)
-        return results.exclude(visibility='Invisible').all().order_by('-date_listed')
+    # def get_queryset(self):
+    #     results = Listing.objects.filter(listing_type=VARIABLES.LOOKING_TO_BUY)
+    #     return results.exclude(visibility='Invisible').all().order_by('-date_listed')
 
 
 def switch_listing(request, obj_type, pk):
