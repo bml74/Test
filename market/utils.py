@@ -56,14 +56,13 @@ def get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id):
 
 def create_payment_request_from_group_member(user_sending_request, user_receiving_request, ListingForGroupMembers_obj_id):
     (group, group_profile, listing_for_group_members, list_of_members_who_have_paid, list_of_members_who_have_not_paid) = get_data_on_listing_for_group_members(ListingForGroupMembers_obj_id)
-    assert(user_sending_request == group_profile.group_creator)
-    assert(user_receiving_request in list_of_members_who_have_not_paid)
-    if not RequestForPaymentToGroupMember.objects.filter(user_receiving_request=user_receiving_request, listing_for_group_members=listing_for_group_members).exists():
-        new_payment_request = RequestForPaymentToGroupMember(
-            user_receiving_request=user_receiving_request,
-            listing_for_group_members=listing_for_group_members
-        )
-        new_payment_request.save()
+    if user_sending_request == group_profile.group_creator and user_receiving_request in list_of_members_who_have_not_paid:
+        if not RequestForPaymentToGroupMember.objects.filter(user_receiving_request=user_receiving_request, listing_for_group_members=listing_for_group_members).exists():
+            new_payment_request = RequestForPaymentToGroupMember(
+                user_receiving_request=user_receiving_request,
+                listing_for_group_members=listing_for_group_members
+            )
+            new_payment_request.save()
     # Send email
     # try:
     #     import sys
