@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
-from users.models import Profile
+from users.models import Profile, Notification
 from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery, Lottery, LotteryParticipant
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from ads.models import AdOffer, AdPurchase
@@ -39,7 +39,8 @@ from config.utils import (
     getGroupProfile, 
     is_ajax,
     runningDevServer,
-    getDomain
+    getDomain,
+    create_notification
 )
 from .utils import (
     get_group_and_group_profile_and_listing_from_listing_id,
@@ -608,7 +609,16 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         else: # "request-to-buy"
             form.instance.listing_type = VARIABLES.LOOKING_TO_BUY
         # If user has chosen a group, make sure the user is a member of that group:
-        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
+        success = formValid(user=form.instance.creator, group=form.instance.group)
+        if success:
+            BASE_DOMAIN = getDomain()
+            link = f"{BASE_DOMAIN}/market/listing/{form.instance.id}/"
+            description = f"Your listing has been created!"
+            notified_user = self.request.user
+            notification_type = "listing created"
+            create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+        return super().form_valid(form) if success else super().form_invalid(form)
+
 
     def test_func(self):
         return self.request.user.is_authenticated and get_object_or_404(Profile, user=self.request.user).stripe_account_id is not None
@@ -632,8 +642,16 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 
     def form_valid(self, form):
         form.instance.creator = self.request.user
-        # If user has chosen a group, make sure the user is a member of that group:
-        return super().form_valid(form) if formValid(user=form.instance.creator, group=form.instance.group) else super().form_invalid(form)
+        success = formValid(user=form.instance.creator, group=form.instance.group)
+        if success:
+            BASE_DOMAIN = getDomain()
+            link = f"{BASE_DOMAIN}/market/listing/{form.instance.id}/"
+            description = f"Your listing has been updated!"
+            notified_user = self.request.user
+            notification_type = "listing updated"
+            create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+        return super().form_valid(form) if success else super().form_invalid(form)
+
 
     def test_func(self):
         return self.request.user == self.get_object().creator
@@ -725,6 +743,7 @@ def checkout(request, obj_type, pk):
     payment_intent_id = None
     payment_intent_client_secret = None
     if obj_type == VARIABLES.LISTING_OBJ_TYPE or obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+        print("CP1")
         if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             item = Listing.objects.get(pk=pk)
             creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
@@ -742,11 +761,24 @@ def checkout(request, obj_type, pk):
             total_payment_amount = int(price_rounded * 100)
             payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
 
+        if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             market_paymentintent = None
             try:
                 market_paymentintent = PaymentIntentTracker.objects.get(
                     user_id=request.user.id, 
                     listing_id=item.id,
+                    stripe_account_id=stripe_account_id
+                )
+            except PaymentIntentTracker.DoesNotExist:
+                market_paymentintent = None
+        
+        elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+
+            market_paymentintent = None
+            try:
+                market_paymentintent = PaymentIntentTracker.objects.get(
+                    user_id=request.user.id, 
+                    listing_for_group_members_id=item.id,
                     stripe_account_id=stripe_account_id
                 )
             except PaymentIntentTracker.DoesNotExist:
@@ -781,12 +813,22 @@ def checkout(request, obj_type, pk):
                 )
                 payment_intent_id = payment_intent.id
                 payment_intent_client_secret = payment_intent.client_secret
-                PaymentIntentTracker(
-                    stripe_payment_intent_id = payment_intent_id,
-                    stripe_account_id = stripe_account_id,
-                    listing_id=item.id,
-                    user_id=request.user.id
-                ).save()
+                if obj_type == VARIABLES.LISTING_OBJ_TYPE:
+                    PaymentIntentTracker(
+                        stripe_payment_intent_id = payment_intent_id,
+                        stripe_account_id = stripe_account_id,
+                        listing=item,
+                        user_id=request.user.id
+                    ).save()
+                    print("CREATEDLISTING")
+                elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+                    PaymentIntentTracker(
+                        stripe_payment_intent_id = payment_intent_id,
+                        stripe_account_id = stripe_account_id,
+                        listing_for_group_members=item,
+                        user_id=request.user.id
+                    ).save()
+                    print("CREATEDLISTINGFORGROUPMEMBERS")
     elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
         item = ListingForGroupMembers.objects.get(pk=pk)
     elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
@@ -982,8 +1024,20 @@ def payment_success(request, obj_type, pk):
                 """
                 sendEmail(subject=subject, html_content=html_content, to_emails=t.purchaser.email, from_email=SENDER_EMAIL_ADDRESS)
 
+            BASE_DOMAIN = getDomain()
 
-            
+            purchaser_link = f"{BASE_DOMAIN}/market/my_purchases/"
+            purchaser_description = f"You have purchased '{item.title}'! View all your purchases here."
+            purchaser_notified_user = t.purchaser
+            purchaser_notification_type = "purchase"
+            create_notification(link=purchaser_link, description=purchaser_description, notification_type=purchaser_notification_type, notified_user=purchaser_notified_user)
+
+            seller_link = f"{BASE_DOMAIN}/market/my_sales/"
+            seller_description = f"You have sold '{item.title}'! View all your sales here."
+            seller_notified_user = t.seller
+            seller_notification_type = "sale"
+            create_notification(link=seller_link, description=seller_description, notification_type=seller_notification_type, notified_user=seller_notified_user)
+
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type,
                 "session_id": item_id,
@@ -1106,12 +1160,12 @@ def request_payment_from_all_group_members(request, group_id, listing_for_group_
     (group, group_profile) = get_group_and_group_profile_from_group_id(
         group_id=group_id
     )
+
+    BASE_DOMAIN = getDomain()
+
     user_sending_request = group_profile.group_creator
     group = Group.objects.get(id=group_id)
     members = group.user_set.all()
-    print("members")
-    print(members)
-    print("members")
     users_receiving_request = []
     for member in members:
         create_payment_request_from_group_member(
@@ -1120,16 +1174,22 @@ def request_payment_from_all_group_members(request, group_id, listing_for_group_
             ListingForGroupMembers_obj_id=listing_for_group_members_id
         ) # Function returns a Bool.
         users_receiving_request.append(member)
+
+        link = f"{BASE_DOMAIN}/market/my/notifications/"
+        description = f"{group.name} has requested a payment from you for {listing_for_group_members.title}."
+        notified_user = member
+        notification_type = "payment request"
+        create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
     emails_of_users_receiving_request = [u.email for u in users_receiving_request]
     print(emails_of_users_receiving_request)
     try:
-        BASE_DOMAIN = getDomain()
         subject = f"Payment request"
         html_content = f"""
         <h3><strong>{group.name} has requested a payment from you for {listing_for_group_members.title}.</strong></h3>
         <h3><strong>Click <a href='{BASE_DOMAIN}/market/checkout/listing_for_group_members/{listing_for_group_members_id}/'>here</a> to pay.</strong></h3>
-        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/payment_requests/'>here</a> to view all payments requested from you.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/notifications/'>here</a> to view all payments requested from you.</strong></h3>
         """
         message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=emails_of_users_receiving_request, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
@@ -1151,19 +1211,24 @@ def request_payment(request, group_id, user_id, listing_for_group_members_id):
         ListingForGroupMembers_obj_id=listing_for_group_members_id
     ) # Function returns a Bool.
     listing_for_group_members = get_object_or_404(ListingForGroupMembers, id=listing_for_group_members_id)
+    BASE_DOMAIN = getDomain()
     try:
-        BASE_DOMAIN = getDomain()
         subject = f"Payment request"
         html_content = f"""
         <h3><strong>{group.name} has requested a payment from you for {listing_for_group_members.title}.</strong></h3>
         <h3><strong>Click <a href='{BASE_DOMAIN}/market/checkout/listing_for_group_members/{listing_for_group_members_id}/'>here</a> to pay.</strong></h3>
-        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/payment_requests/'>here</a> to view all payments requested from you.</strong></h3>
+        <h3><strong>Click <a href='{BASE_DOMAIN}/market/my/notifications/'>here</a> to view all payments requested from you.</strong></h3>
         """
         message = Mail(from_email=VARIABLES.ADMIN_EMAIL, to_emails=user_receiving_request.email, subject=subject, html_content=html_content)
         sg = SendGridAPIClient(os.getenv("SENDGRID_API_KEY"))
         response = sg.send(message)
     except Exception as e:
         print(e)
+    link = f"{BASE_DOMAIN}/market/my/notifications/"
+    description = f"{group.name} has requested a payment from you for {listing_for_group_members.title}."
+    notified_user = user_receiving_request
+    notification_type = "payment request"
+    create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
@@ -1183,23 +1248,26 @@ def reject_payment_request(request, group_id, user_id, listing_for_group_members
 
 class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
     model = RequestForPaymentToGroupMember
-    template_name = 'market/payment_requests.html'
-    context_object_name = "payment_requests"
+    template_name = 'market/notifications.html'
 
     def test_func(self):
         return self.request.user.is_authenticated
 
     def get_context_data(self, **kwargs):
         context = super(RequestForPaymentToGroupMemberListView, self).get_context_data(**kwargs)
+        notifications = Notification.objects.filter(notified_user=self.request.user).all()
+        payment_requests = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
         context.update({
-            "obj_type": "listing_for_group_members"
+            "obj_type": "listing_for_group_members",
+            "notifications": notifications,
+            "payment_requests": payment_requests,
         })
 
         return context
 
-    def get_queryset(self):
-        reqs = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
-        return reqs
+    # def get_queryset(self):
+    #     reqs = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
+    #     return reqs
 
 
 class ListingForGroupMembersCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
@@ -1303,6 +1371,12 @@ class LotteryDetailView(UserPassesTestMixin, DetailView):
                             print(response.headers)
                         except Exception as e:
                             print(e)
+                        link = f"{BASE_DOMAIN}/market/lottery/{lottery.id}/"
+                        description = f"You have won a lottery on Hoyabay!"
+                        notified_user = winner
+                        notification_type = "lottery winner"
+                        create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+
             participants = LotteryParticipant.objects.filter(fk_lottery=lottery)
             num_entries = len(participants)
             num_entries_for_user = len(LotteryParticipant.objects.filter(fk_lottery=lottery, lottery_participant=request.user))

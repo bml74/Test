@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
 from orgs.models import GroupProfile
 from django.contrib.auth.models import Group
-from users.models import Rating
+from users.models import Rating, Notification
 
 
 def is_ajax(request):
@@ -149,3 +149,8 @@ def getOverallRating(user_being_rated):
 
 def myround(x, base=10):
     return base * round(x/base)
+
+
+def create_notification(link, description, notification_type, notified_user):
+    n = Notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+    n.save()

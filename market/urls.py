@@ -56,7 +56,7 @@ urlpatterns = [
     path('request_payment/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.request_payment, name='request_payment'),
     path('reject_payment_request/from/<int:group_id>/to/<int:user_id>/listing/<int:listing_for_group_members_id>/', views.reject_payment_request, name='reject_payment_request'),
     
-    path('my/payment_requests/', views.RequestForPaymentToGroupMemberListView.as_view(), name='payment_requests'),
+    path('my/notifications/', views.RequestForPaymentToGroupMemberListView.as_view(), name='notifications'),
 
     path('create/listing/group/<int:group_id>/', views.ListingForGroupMembersCreateView.as_view(), name='listing-for-group-members-create'),
     path('update/listing/<int:pk>/group/<int:group_id>/', views.ListingForGroupMembersUpdateView.as_view(), name='listing-for-group-members-update'),

@@ -77,4 +77,36 @@ class FollowRequest(models.Model):
     user_receiving_follow_request = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_receiving_follow_request") 
 
 
-
+class Notification(models.Model):
+    """
+    Notifications on:
+    1. Listing created
+    2. Listing deleted
+    3. Listing updated
+    4. Purchase
+    5. Sale
+    6. Payment request
+    7. Lottery winner
+    8. Rating
+    9. You attempt to become group member
+    10. You are accepted as group member
+    """
+    notified_user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name="notified_user")
+    link = models.CharField(max_length=512, blank=True, null=True)
+    description = models.CharField(max_length=512, blank=True, null=True)
+    notification_type = models.CharField( 
+        max_length=64,
+        choices=(
+            ("purchase", "purchase"), 
+            ("sale", "sale"),
+            ("membership request", "membership request"),
+            ("membership accepted", "membership accepted"),
+            ("listing created", "listing created"), # Done
+            ("listing updated", "listing updated"), # Done
+            ("payment request", "payment request"), # Done
+            ("lottery winner", "lottery winner"), # Done
+        ),
+        blank=True,
+        null=True
+    )
+    

@@ -8,6 +8,7 @@ from ecoles.choices import Visibility
 from config.choices import GeorgetownLocations
 from django.conf import settings
 from .utils import listing_category_options_list_of_tups
+from orgs.models import ListingForGroupMembers
 
 
 class Listing(models.Model):
@@ -168,7 +169,8 @@ class Transaction(models.Model):
 class PaymentIntentTracker(models.Model):
     stripe_payment_intent_id = models.CharField(max_length=264, null=False, blank=False, unique=True)
     stripe_account_id = models.CharField(max_length=264, null=False, blank=False, unique=False)
-    listing = models.ForeignKey(Listing, null=False, blank=False, unique=False, on_delete=models.PROTECT)
+    listing = models.ForeignKey(Listing, null=True, blank=True, unique=False, on_delete=models.PROTECT)
+    listing_for_group_members = models.ForeignKey(ListingForGroupMembers, null=True, blank=True, unique=False, on_delete=models.PROTECT)
     user = models.ForeignKey(User, blank=False, null=False, unique=False, on_delete=models.CASCADE)
 
     class Meta:
