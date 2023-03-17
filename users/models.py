@@ -32,12 +32,12 @@ class Profile(models.Model):
     ACCOUNT_BALANCE = models.FloatField(default=0.0)
     venmoHandle = models.CharField(max_length=256, blank=True, null=True)
     stripe_account_id = models.CharField(max_length=256, blank=True, null=True)
-    institution = models.CharField(
-        max_length=64,
-        choices=(("Georgetown University", "Georgetown University"),),
-        default="Georgetown University",
-        blank=False,
-    )
+    # institution = models.CharField(
+    #     max_length=64,
+    #     choices=(("Georgetown University", "Georgetown University"),),
+    #     default="Georgetown University",
+    #     blank=False,
+    # )
 
     def __str__(self):
         return f'{self.user.username} Profile'

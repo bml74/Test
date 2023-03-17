@@ -5,7 +5,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.core.validators import MinValueValidator
 from ecoles.choices import Visibility
-from config.choices import GeorgetownLocations
+from config.choices import DeliveryLocations
 from django.conf import settings
 from .utils import listing_category_options_list_of_tups
 from orgs.models import ListingForGroupMembers
@@ -57,10 +57,10 @@ class Listing(models.Model):
 
 
 class SuggestedDelivery(models.Model):
-    georgetown_location = models.CharField(
+    deliveryLocation = models.CharField(
         max_length=100,
-        choices=GeorgetownLocations.choices,
-        default=GeorgetownLocations.NONE,
+        choices=DeliveryLocations.choices,
+        default=DeliveryLocations.NONE,
         blank=True,
         null=True
     )

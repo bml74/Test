@@ -111,7 +111,7 @@ class Languages(TextChoices):
     ET = 'ee'
 
 
-class GeorgetownLocations(TextChoices):
+class DeliveryLocations(TextChoices):
     COPLEY = 'Copley'
     DARNALL = 'Darnall'
     HARBIN = 'Harbin'

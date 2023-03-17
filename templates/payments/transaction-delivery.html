@@ -57,7 +57,7 @@
                                             {% if accepted_delivery %}
                                             <ul class="max-w-md space-y-1 text-gray-500 list-disc list-inside dark:text-gray-400">
                                                 <li>
-                                                    {{ accepted_delivery.georgetown_location }}
+                                                    {{ accepted_delivery.deliveryLocation }}
                                                 </li>
                                                 <li>
                                                     {{ accepted_delivery.suggested_date_time }}
@@ -87,7 +87,7 @@
                                             {% for suggestion in buyer_suggested_deliveries %}
 
                                                 <div class="max-w-sm mb-4 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.georgetown_location }}</p>
+                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.deliveryLocation }}</p>
                                                     <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.suggested_date_time }}</p>
                                                     {% if suggestion == accepted_delivery %}
                                                     <button disabled type="button" class="mt-2 text-sm text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium text-sm px-3 py-2 text-center mr-2 mb-2 rounded-lg"><i class="fas fa-check-circle"></i>&nbsp;Agreed</button>
@@ -123,7 +123,7 @@
                                             {% for suggestion in seller_suggested_deliveries %}
 
                                                 <div class="max-w-sm mb-4 p-6 bg-white border border-gray-200 rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700">
-                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.georgetown_location }}</p>
+                                                    <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.deliveryLocation }}</p>
                                                     <p class="font-normal text-gray-700 dark:text-gray-400">{{ suggestion.suggested_date_time }}</p>
                                                     {% if suggestion == accepted_delivery %}
                                                     <button disabled type="button" class="mt-2 text-sm text-white bg-gradient-to-br from-green-400 to-blue-600 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800 font-medium text-sm px-3 py-2 text-center mr-2 mb-2 rounded-lg"><i class="fas fa-check-circle"></i>&nbsp;Agreed</button>
