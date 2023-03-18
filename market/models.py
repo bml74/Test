@@ -35,7 +35,7 @@ class Listing(models.Model):
     listing_category = models.CharField(
         max_length=100,
         choices=listing_category_options_list_of_tups,
-        default="Other",
+        default="Book",
     )
     condition = models.CharField(
         max_length=100,
