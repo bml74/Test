@@ -147,7 +147,14 @@
                                     </div>
 
                                     <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="listings" role="tabpanel" aria-labelledby="listings-tab">
-                                        <h2 class="pt-4 mb-3 text-2xl font-extrabold tracking-tight text-gray-900 dark:text-white">Listings</h2>
+                                        {% if user_is_creator %}
+                                            <div>
+                                                <a href="{% url 'request_or_offer' %}" class="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                                    Create&nbsp;
+                                                    <i class="fas fa-plus-circle"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
                                         {% if first_few_listings %}
                                             <div class="grid grid-cols-1 gap-6 mt-6 md:grid-cols-2 xl:grid-cols-3" id="listings-of-group">
                                                 {% for item in first_few_listings %}
