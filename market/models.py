@@ -12,7 +12,7 @@ from orgs.models import ListingForGroupMembers
 
 
 class Listing(models.Model):
-    title = models.CharField(max_length=64, default="Listing", blank=False)
+    title = models.CharField(max_length=128, default="Listing", blank=False)
     image = models.FileField(upload_to='listings/images', blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     price = models.FloatField(default=50, validators=[MinValueValidator(1)])
