@@ -143,46 +143,46 @@ Hoyabay&trade; | Listings
                                     <!-- BEGIN ALL LISTINGS-->
                                     {% for item in items %}    
                                         {% if item.visibility != "Invisible" %}
-                        
+                                        
                                             <div class="w-full max-w-sm bg-white rounded-lg shadow-md dark:bg-gray-800 dark:border-gray-700 border-black non-advertised-listing listing {{ item.listing_category }}" data-category="{{ item.listing_category }}">
 
-                                                <div class="p-4">
-                                                    <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
-                                                </div>
-
-
-                                                <br>
-                                                <div class="px-2">
-                                                    <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
-                                                </div>
-                                                {% comment %} <div class="px-2">
-                                                    <span class="bg-purple-100 text-purple-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-purple-900 dark:text-purple-300 ml-3">{{ item.listing_type }}</span>
-                                                </div> {% endcomment %}
-
-                                                <div class="mt-2 px-5 pb-5">
-                                                    <p class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">
-                                                        {% if item.visibility != "Anonymous" %}
-                                                        {{ item.creator }}
-                                                        {% else %}
-                                                        Anonymous
-                                                        {% endif %}
-                                                    
-                                                        {% if listings_type == "offer-to-sell" %}
-                                                        is looking to sell...
-                                                        {% else %}
-                                                        is looking to buy...
-                                                        {% endif %}
-                                                    </p>
-                                                    <a href="{% url 'listing' item.id %}">
-                                                        <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
-                                                    </a>
-                                                    <div class="flex justify-between items-center">
-                                                        <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
-                                                        <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a>
+                                                <a href="{% url 'listing' item.id %}">
+                                                    <div class="p-4">
+                                                        <img src="{% if item.image %}{% if item.image.url %}{{ item.image.url }}{% endif %}{% else %}{% static 'hoyabay/images/sailboat.png' %}{% endif %}" alt="" style="width: auto; height: 100px; margin-left: auto; margin-right: auto; display: block;">
                                                     </div>
-                                                </div>
+
+
+                                                    <br>
+                                                    <div class="px-2">
+                                                        <span class="bg-blue-100 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-blue-200 dark:text-blue-800 ml-3">{{ item.listing_category }}</span>
+                                                    </div>
+
+
+                                                    <div class="mt-2 px-5 pb-5">
+                                                        <p class="mb-1 text-sm font-medium text-gray-500 dark:text-gray-400">
+                                                            {% if item.visibility != "Anonymous" %}
+                                                            {{ item.creator }}
+                                                            {% else %}
+                                                            Anonymous
+                                                            {% endif %}
+                                                        
+                                                            {% if listings_type == "offer-to-sell" %}
+                                                            is looking to sell...
+                                                            {% else %}
+                                                            is looking to buy...
+                                                            {% endif %}
+                                                        </p>
+                                                        <a href="{% url 'listing' item.id %}">
+                                                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white listing-title">{{ item.title }}</h5>
+                                                        </a>
+                                                        <div class="flex justify-between items-center">
+                                                            <span class="text-3xl font-bold text-gray-900 dark:text-white">${{ item.price|floatformat:2 }}</span>
+                                                            {% comment %} <a href="{% url 'listing' item.id %}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">View</a> {% endcomment %}
+                                                        </div>
+                                                    </div>
+
+                                                </a>
                                             </div>
-                        
                                         {% endif %}
                                     {% endfor %}
                                     <!-- END ALL LISTINGS -->
