@@ -37,6 +37,18 @@ class Listing(models.Model):
         choices=listing_category_options_list_of_tups,
         default="Other",
     )
+    condition = models.CharField(
+        max_length=100,
+        choices=(
+            ("Brand new (5/5)", "Brand new (5/5)"), 
+            ("Practically new (4/5)", "Practically new (4/5)"),
+            ("Used but in good condition (3/5)", "Used but in good condition (3/5)"), 
+            ("Used and in ok condition (2/5)", "Used and in ok condition (2/5)"),
+            ("Poor condition (1/5)", "Poor condition (1/5)"),
+        ),
+        blank=True,
+        null=True,
+    )
     listing_medium = models.CharField(
         max_length=100,
         choices=(("Digital File(s)", "Digital File(s)"), ("In-Person Service", "In-Person Service"), ("Digital Service", "Digital Service"), ("Physical Product", "Physical Product")),

@@ -57,6 +57,7 @@ LISTING_FIELDS = [
     'visibility', 
     'group',
     'listing_category', 
+    'condition',
     'infinite_copies_available', 
     'quantity_available', 
     'listing_medium', 
