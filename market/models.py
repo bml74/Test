@@ -41,7 +41,7 @@ class Listing(models.Model):
         max_length=100,
         choices=(
             ("Brand new (5/5)", "Brand new (5/5)"), 
-            ("Practically new (4/5)", "Practically new (4/5)"),
+            ("Very good condition (4/5)", "Very good condition (4/5)"),
             ("Used but in good condition (3/5)", "Used but in good condition (3/5)"), 
             ("Used and in ok condition (2/5)", "Used and in ok condition (2/5)"),
             ("Poor condition (1/5)", "Poor condition (1/5)"),
