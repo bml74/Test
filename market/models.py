@@ -76,7 +76,7 @@ class SuggestedDelivery(models.Model):
         blank=True,
         null=True
     )
-    suggested_date_time = models.DateTimeField(auto_now_add=False, default=timezone.now())
+    suggested_date_time = models.DateTimeField(auto_now_add=False, default=timezone.now)
     listing = models.ForeignKey(Listing, null=True, blank=True, related_name="seller", on_delete=models.CASCADE)
     seller = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="seller_of_listing")
     purchaser = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name="purchaser_of_listing")

@@ -129,7 +129,7 @@ def group_profile(request, pk):
 
     group_profile = get_object_or_404(GroupProfile, group=group)
 
-    if request.user not in users_in_group:
+    if request.user not in users_in_group and request.user != group_profile.group_creator:
         raise PermissionDenied()
     else:
 
