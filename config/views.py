@@ -27,13 +27,13 @@ def search_results(request):
     if request.method == "GET":
         term = request.GET.get('term', None)
         if term: 
-            user_results = User.objects.filter(username__contains=term).all()
-            group_results = Group.objects.filter(name__contains=term).all()
-            category_results = Category.objects.filter(title__contains=term).all()
-            field_results = Field.objects.filter(title__contains=term).all()
-            specialization_results = Specialization.objects.filter(title__contains=term).all()
-            course_results = Course.objects.filter(title__contains=term).all()
-            listing_results = Listing.objects.filter(title__contains=term).all()
+            user_results = User.objects.filter(username__icontains=term).all()
+            group_results = Group.objects.filter(name__icontains=term).all()
+            category_results = Category.objects.filter(title__icontains=term).all()
+            field_results = Field.objects.filter(title__icontains=term).all()
+            specialization_results = Specialization.objects.filter(title__icontains=term).all()
+            course_results = Course.objects.filter(title__icontains=term).all()
+            listing_results = Listing.objects.filter(title__icontains=term).all()
             context = {
                 'term': term,
                 "user_results": user_results,
