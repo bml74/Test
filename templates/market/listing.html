@@ -111,8 +111,13 @@
                                             <a href="{% url 'listing-request-to-offer' 'listing' item.id %}" type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">Accept for ${{ item.price|floatformat:2 }}</a>
                                             {% endif %}
                                         </div>   
-                                        {{ item.listing_type }}
-   
+                                        
+
+                                        <div class="py-2"></div>
+
+                                        {% if item.condition %}
+                                        <div class="mb-3 text-gray-500 dark:text-gray-400 w-100">{{ item.condition|safe }}</div>
+                                        {% endif %}
                                         
                                         <div class="mb-3 text-gray-500 dark:text-gray-400 w-100">{{ item.description|safe }}</div>
 
