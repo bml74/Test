@@ -610,10 +610,13 @@ class ListingCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             form.instance.listing_type = VARIABLES.LOOKING_TO_BUY
         # If user has chosen a group, make sure the user is a member of that group:
         success = formValid(user=form.instance.creator, group=form.instance.group)
+        print("FORM")
+        print(form.instance.pk)
+        super().form_valid(form) if success else super().form_invalid(form)
         if success:
             BASE_DOMAIN = getDomain()
-            link = f"{BASE_DOMAIN}/market/listing/{form.instance.id}/"
-            description = f"Your listing has been created!"
+            link = f"{BASE_DOMAIN}/market/listing/{form.instance.pk}/"
+            description = f"Your listing has been created!!!"
             notified_user = self.request.user
             notification_type = "listing created"
             create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
