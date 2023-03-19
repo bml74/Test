@@ -743,10 +743,11 @@ def checkout(request, obj_type, pk):
         stripe.api_key = config('STRIPE_LIVE_KEY')
         publishable_key = config('STRIPE_PUBLISHABLE_LIVE_KEY') 
         BASE_DOMAIN = VARIABLES.HOSTED_DOMAIN
+    
     payment_intent_id = None
     payment_intent_client_secret = None
+
     if obj_type == VARIABLES.LISTING_OBJ_TYPE or obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
-        print("CP1")
         if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             item = Listing.objects.get(pk=pk)
             creator_user_profile = Profile.objects.get(user_id=item.creator.id) 
@@ -755,14 +756,15 @@ def checkout(request, obj_type, pk):
             group = item.group
             group_profile = getGroupProfile(group=group)
             creator_user_profile = Profile.objects.get(user_id=group_profile.group_creator.id) 
+    # Now we have the item and the user who created the listing.
 
-        if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
-            stripe_account_id = creator_user_profile.stripe_account_id
+    if creator_user_profile.stripe_account_id and len(creator_user_profile.stripe_account_id) > 1:
+        stripe_account_id = creator_user_profile.stripe_account_id
 
-            commission_fee = VARIABLES.COMMISSION_FEE # commission fee
-            price_rounded = round(item.price, 2)
-            total_payment_amount = int(price_rounded * 100)
-            payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
+        commission_fee = VARIABLES.COMMISSION_FEE # commission fee
+        price_rounded = round(item.price, 2)
+        total_payment_amount = int(price_rounded * 100)
+        payout_amount = int(total_payment_amount - (total_payment_amount * commission_fee))
 
         if obj_type == VARIABLES.LISTING_OBJ_TYPE:
             market_paymentintent = None
@@ -789,57 +791,59 @@ def checkout(request, obj_type, pk):
 
             print('market_paymentintent', market_paymentintent)
 
-            if(market_paymentintent is not None):
-                # Reuse existing payment intent id
-                payment_intent_id = market_paymentintent.stripe_payment_intent_id
-                # Update payment intent in case of any listing price changes
-                stripe.PaymentIntent.modify( 
-                    payment_intent_id,
-                    amount=total_payment_amount,
-                    currency='usd',
-                    payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
-                    transfer_data={
-                        'amount': payout_amount
-                    }
-                ) 
-                payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
-                payment_intent_client_secret = payment_intent.client_secret
-            else:
-                payment_intent = stripe.PaymentIntent.create(
-                    amount=total_payment_amount,
-                    currency='usd',
-                    payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
-                    transfer_data={
-                        'amount': payout_amount,
-                        'destination': stripe_account_id
-                    }
-                )
-                payment_intent_id = payment_intent.id
-                payment_intent_client_secret = payment_intent.client_secret
-                if obj_type == VARIABLES.LISTING_OBJ_TYPE:
-                    PaymentIntentTracker(
-                        stripe_payment_intent_id = payment_intent_id,
-                        stripe_account_id = stripe_account_id,
-                        listing=item,
-                        user_id=request.user.id
-                    ).save()
-                    print("CREATEDLISTING")
-                elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
-                    PaymentIntentTracker(
-                        stripe_payment_intent_id = payment_intent_id,
-                        stripe_account_id = stripe_account_id,
-                        listing_for_group_members=item,
-                        user_id=request.user.id
-                    ).save()
-                    print("CREATEDLISTINGFORGROUPMEMBERS")
-    elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
-        item = ListingForGroupMembers.objects.get(pk=pk)
-    elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
-        item = Course.objects.get(pk=pk)
-    elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
-        item = Specialization.objects.get(pk=pk)
-    elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
-        item = AdOffer.objects.get(pk=pk)
+        if(market_paymentintent is not None):
+            # Reuse existing payment intent id
+            payment_intent_id = market_paymentintent.stripe_payment_intent_id
+            # Update payment intent in case of any listing price changes
+            stripe.PaymentIntent.modify( 
+                payment_intent_id,
+                amount=total_payment_amount,
+                currency='usd',
+                payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
+                transfer_data={
+                    'amount': payout_amount
+                }
+            ) 
+            payment_intent = stripe.PaymentIntent.retrieve(payment_intent_id)
+            payment_intent_client_secret = payment_intent.client_secret
+        else:
+            payment_intent = stripe.PaymentIntent.create(
+                amount=total_payment_amount,
+                currency='usd',
+                payment_method_types=VARIABLES.STRIPE_PAYMENT_METHOD_TYPES,
+                transfer_data={
+                    'amount': payout_amount,
+                    'destination': stripe_account_id
+                }
+            )
+            payment_intent_id = payment_intent.id
+            payment_intent_client_secret = payment_intent.client_secret
+            if obj_type == VARIABLES.LISTING_OBJ_TYPE:
+                PaymentIntentTracker(
+                    stripe_payment_intent_id = payment_intent_id,
+                    stripe_account_id = stripe_account_id,
+                    listing=item,
+                    user_id=request.user.id
+                ).save()
+                print("CREATEDLISTING")
+            elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+                PaymentIntentTracker(
+                    stripe_payment_intent_id = payment_intent_id,
+                    stripe_account_id = stripe_account_id,
+                    listing_for_group_members=item,
+                    user_id=request.user.id
+                ).save()
+                print("CREATEDLISTINGFORGROUPMEMBERS")
+            
+        # elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
+        #     item = ListingForGroupMembers.objects.get(pk=pk)
+        # elif obj_type == VARIABLES.COURSE_OBJ_TYPE:
+        #     item = Course.objects.get(pk=pk)
+        # elif obj_type == VARIABLES.SPECIALIZATION_OBJ_TYPE:
+        #     item = Specialization.objects.get(pk=pk)
+        # elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
+        #     item = AdOffer.objects.get(pk=pk)
+    
     if item is not None:
         context = {
             "item": item, 

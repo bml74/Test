@@ -28,5 +28,5 @@ MAX_REFERRAL_USES = 5
 NUM_CREDITS_TO_ADD_FOR_REFERRAL = 3
 
 # Emails
-ADMIN_EMAIL = "bml74@georgetown.edu"
+ADMIN_EMAIL = "hoyabay@hoyabay.com"#"bml74@georgetown.edu"
 
