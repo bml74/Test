@@ -9,6 +9,7 @@ from config.choices import DeliveryLocations
 from django.conf import settings
 from .utils import listing_category_options_list_of_tups
 from orgs.models import ListingForGroupMembers
+from django.shortcuts import get_object_or_404
 
 
 class Listing(models.Model):
@@ -128,16 +129,6 @@ class LotteryParticipant(models.Model):
     def __str__(self):
         return f""
 
-"""
-from market.models import Lottery, LotteryParticipant
-from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404
-lottery = get_object_or_404(Lottery, id=1)
-participants = list(LotteryParticipant.objects.filter(fk_lottery=lottery))
-num = lottery.select_lucky_number()
-print(num)
-"""
-
 
 class Fundraiser(models.Model):
     title = models.CharField(max_length=64, default="Fundraiser", blank=False)
@@ -168,8 +159,8 @@ class Transaction(models.Model):
     description = models.CharField(max_length=256,null=True, blank=True)
     inserted_on = models.DateTimeField(auto_now_add=True)
     end_payment_sent = models.BooleanField(default=False)
-
     delivery = models.ForeignKey(SuggestedDelivery, on_delete=models.CASCADE, null=True, blank=True, related_name="delivery")
+    ticket = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
 
     def __str__(self):
         return f"Transaction #{self.transaction_id}"
@@ -189,3 +180,30 @@ class PaymentIntentTracker(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['stripe_account_id', 'listing', 'user'], name='unique_payment_intent')
         ]
+
+
+class RequestForDigitalTicket(models.Model):
+    user_receiving_request = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True,  related_name="user_receiving_request_and_thus_sending_ticket")
+    user_sending_request = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="user_sending_request_and_thus_receiving_ticket")
+    inserted_on = models.DateTimeField(auto_now_add=True)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"Request for ticket from {self.user_sending_request} to {self.user_receiving_request}"
+    
+    def get_absolute_url(self):
+        listing = get_object_or_404(Listing, id=self.transaction.transaction_obj_id)
+        return reverse('ticketPortal', kwargs={'transaction_id': self.transaction.id, 'listing_id': listing.id})
+
+
+class TicketFile(models.Model):
+    ticket = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
+    inserted_on = models.DateTimeField(auto_now_add=True)
+    transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"File"
+    
+    def get_absolute_url(self):
+        listing = get_object_or_404(Listing, id=self.transaction.transaction_obj_id)
+        return reverse('ticketPortal', kwargs={'transaction_id': self.transaction.id, 'listing_id': listing.id})

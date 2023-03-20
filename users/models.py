@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 from django_countries.fields import CountryField
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.utils import timezone
 
 
 class TwitterHandle(models.Model):
@@ -101,12 +102,14 @@ class Notification(models.Model):
             ("sale", "sale"),
             ("membership request", "membership request"),
             ("membership accepted", "membership accepted"),
-            ("listing created", "listing created"), # Done
-            ("listing updated", "listing updated"), # Done
-            ("payment request", "payment request"), # Done
-            ("lottery winner", "lottery winner"), # Done
+            ("listing created", "listing created"), 
+            ("listing updated", "listing updated"), 
+            ("payment request", "payment request"), 
+            ("lottery winner", "lottery winner"),
+            ("ticket request", "ticket request"),
+            # ("delivery set", "delivery set"),
         ),
         blank=True,
         null=True
     )
-    
+    inserted_on = models.DateTimeField(auto_now_add=True)

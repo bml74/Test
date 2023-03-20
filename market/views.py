@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.models import User, Group
 from users.models import Profile, Notification
-from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery, Lottery, LotteryParticipant
+from .models import Listing, Transaction, PaymentIntentTracker, SuggestedDelivery, Lottery, LotteryParticipant, RequestForDigitalTicket
 from orgs.models import ListingForGroupMembers, RequestForPaymentToGroupMember
 from ads.models import AdOffer, AdPurchase
 from django.views.generic import (
@@ -1279,14 +1279,13 @@ class RequestForPaymentToGroupMemberListView(UserPassesTestMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(RequestForPaymentToGroupMemberListView, self).get_context_data(**kwargs)
-        notifications = Notification.objects.filter(notified_user=self.request.user).all()
-        payment_requests = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).all()
+        notifications = Notification.objects.filter(notified_user=self.request.user).order_by("-inserted_on").all()
+        payment_requests = RequestForPaymentToGroupMember.objects.filter(user_receiving_request=self.request.user).order_by("-inserted_on").all()
         context.update({
             "obj_type": "listing_for_group_members",
             "notifications": notifications,
             "payment_requests": payment_requests,
         })
-
         return context
 
     # def get_queryset(self):
@@ -1468,13 +1467,12 @@ def redirect_from_ad_to_listing(request, pk):
 
 
 def ticket_hub_sales(request):
-    transactions_where_user_is_seller = Transaction.objects.filter(seller=request.user).all()
+    transactions_where_user_is_seller = Transaction.objects.filter(seller=request.user).filter(transaction_obj_type="listing").all().order_by("-inserted_on")
     ticket_transactions = []
     for t in transactions_where_user_is_seller:
         listing = get_object_or_404(Listing, id=t.transaction_obj_id)
         if listing.listing_category in ["Sports tickets", "Concert tickets", "Local event tickets", "Other tickets"]:
-            ticket_transactions.append({"listing": listing, "transaction": t})
-        print(t.transaction_id)
+            ticket_transactions.append({"listing": listing, "transaction": t, "other_party": t.purchaser if t.purchaser else None})
     context = {
         "ticket_transactions": ticket_transactions,
         "tab_type": "sales"
@@ -1483,14 +1481,64 @@ def ticket_hub_sales(request):
 
 
 def ticket_hub_purchases(request):
-    transactions_where_user_is_seller = Transaction.objects.filter(purchaser=request.user).all()
+    transactions_where_user_is_seller = Transaction.objects.filter(purchaser=request.user).filter(transaction_obj_type="listing").all().order_by("-inserted_on")
     ticket_transactions = []
     for t in transactions_where_user_is_seller:
         listing = get_object_or_404(Listing, id=t.transaction_obj_id)
         if listing.listing_category in ["Sports tickets", "Concert tickets", "Local event tickets", "Other tickets"]:
-            ticket_transactions.append(listing)
+            ticket_transactions.append({"listing": listing, "transaction": t, "other_party": t.seller if t.seller else None})
+
     context = {
         "ticket_transactions": ticket_transactions,
         "tab_type": "purchases"
     }
     return render(request, 'tickets/ticket_hub.html', context=context)
+
+
+def requestTicketDigitally(request, transaction_id, listing_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    listing = get_object_or_404(Listing, id=listing_id)
+
+
+    BASE_DOMAIN = getDomain()
+    link = f"{BASE_DOMAIN}/market/ticket/exchange/transaction/{transaction_id}/listing/{listing_id}/"
+
+    description = f"You have requested a digital ticket."
+    notified_user = request.user
+    notification_type = "ticket request"
+    create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+
+    description = f"A digital ticket has been requested from you."
+    notified_user = transaction.seller
+    notification_type = "ticket request"
+    create_notification(link=link, description=description, notification_type=notification_type, notified_user=notified_user)
+
+    r = RequestForDigitalTicket(
+        user_receiving_request=transaction.seller,
+        user_sending_request=request.user,
+        transaction=transaction
+    )
+    r.save()    
+    return redirect('ticketPortal', transaction_id=transaction.id, listing_id=listing.id)
+
+
+def verify_receipt_of_ticket(request, transaction_id, listing_id, party, username):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    listing = get_object_or_404(Listing, id=listing_id)
+    if party == "purchaser":
+        transaction.purchaser_verified = False if transaction.purchaser_verified else True
+        transaction.save()
+    else: # party == "seller"
+        transaction.seller_verified = False if transaction.seller_verified else True
+        transaction.save()
+    return redirect('ticketPortal', transaction_id=transaction.id, listing_id=listing.id)
+
+
+def ticketPortal(request, transaction_id, listing_id):
+    transaction = get_object_or_404(Transaction, id=transaction_id)
+    listing = get_object_or_404(Listing, id=listing_id)
+    if request.user == transaction.purchaser:
+        if RequestForDigitalTicket.objects.filter(user_receiving_request=transaction.seller, user_sending_request=request.user, transaction=transaction).exists():
+            messages.success(request, f"You have requested this ticket.")
+    context = {"transaction": transaction, "listing": listing}
+    return render(request, 'tickets/ticket_portal.html', context=context)

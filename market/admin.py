@@ -6,7 +6,9 @@ from .models import (
     SuggestedDelivery, 
     PaymentIntentTracker,
     Lottery,
-    LotteryParticipant
+    LotteryParticipant,
+    RequestForDigitalTicket,
+    TicketFile
 )
 
 
@@ -17,3 +19,6 @@ admin.site.register(SuggestedDelivery)
 admin.site.register(PaymentIntentTracker)
 admin.site.register(Lottery)
 admin.site.register(LotteryParticipant)
+admin.site.register(RequestForDigitalTicket) 
+admin.site.register(TicketFile)
+

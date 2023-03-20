@@ -136,10 +136,26 @@ Ticket Hub
                     {{ ticket_transaction.listing.listing_category }}
                 </td>
                 <td class="px-6 py-4">
-                    <a class="dashed-underline" href="{% url 'transaction' ticket_transaction.transaction.id %}">Go&nbsp;&rarr;</a>
+                    <a class="dashed-underline" href="{% url 'detail' ticket_transaction.other_party.id %}">Go&nbsp;&rarr;</a>
                 </td>
                 <td class="px-6 py-4">
-                    <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Set&nbsp;&rarr;</a>
+                    {% if tab_type == "sales" %}
+                        {% if ticket_transaction.listing.listing_medium == "Physical Product" %}
+                        <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Set delivery&nbsp;&rarr;</a>
+                        {% elif ticket_transaction.listing.listing_medium == "Digital File(s)" %}
+                        <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Send digitally&nbsp;&rarr;</a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    {% else %}
+                        {% if ticket_transaction.listing.listing_medium == "Physical Product" %}
+                        <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Set delivery&nbsp;&rarr;</a>
+                        {% elif ticket_transaction.listing.listing_medium == "Digital File(s)" %}
+                        <a class="dashed-underline request-receive" href="{% url 'ticketPortal' ticket_transaction.transaction.id ticket_transaction.listing.id %}">Receive digitally&nbsp;&rarr;</a>
+                        {% else %}
+                        -
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
             {% endfor %}
@@ -184,6 +200,8 @@ Ticket Hub
 
 
 {% endblock main %}
+
+
 
 
 

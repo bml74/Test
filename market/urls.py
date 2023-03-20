@@ -8,6 +8,10 @@ urlpatterns = [
     path('tickets/sales/', views.ticket_hub_sales, name='ticket_hub_sales'),
     path('tickets/purchases/', views.ticket_hub_purchases, name='ticket_hub_purchases'),
 
+    path('request/ticket/digitally/transaction/<int:transaction_id>/listing/<int:listing_id>/', views.requestTicketDigitally, name='requestTicketDigitally'),
+    path('ticket/portal/transaction/<int:transaction_id>/listing/<int:listing_id>/', views.ticketPortal, name='ticketPortal'),
+    path('ticket/portal/transaction/<int:transaction_id>/listing/<int:listing_id>/<str:party>/<str:username>/', views.verify_receipt_of_ticket, name='verify_receipt_of_ticket'),
+    
     # Listings
     path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),

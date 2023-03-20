@@ -1,0 +1,134 @@
+{% extends 'market/base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+
+{% block title %}
+Ticket Portal
+{% endblock title %}
+
+{% block main %}
+
+<style>
+    @media (min-width: 768px) {
+        .main-image {
+            margin: auto; width: 14%;
+        }
+    }
+    @media (max-width: 768px) {
+        .main-image {
+            margin: auto; width: 40%;
+        }
+    }
+</style>
+
+
+
+<div class="py-4"></div>
+<div class="py-4"></div>
+<div class="py-4"></div>
+<div class="py-4"></div>
+
+<main class="grow" style="margin-left: 2%; margin-right: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div class="text-center pb-4 mb-8 pl-15vw pr-15vw">
+
+                    
+                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Ticket</span> Exchange</h1>
+
+                            
+                            
+                            
+                                                        
+                        </div>
+                
+                        <div id="mainContent" class="pl-15vw pr-15vw">
+
+
+
+
+                            {% if request.user == transaction.purchaser %}
+                                <a class="dashed-underline request-receive" href="{% url 'requestTicketDigitally' transaction.id listing.id %}">Receive digitally&nbsp;&rarr;</a>
+                                {% if transaction.purchaser_verified %}
+                                verified
+                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}">Unverify&nbsp;&rarr;</a>
+                                {% else %}
+                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}">Verify&nbsp;&rarr;</a>
+                                {% endif %}
+                            {% elif request.user == transaction.seller %}
+                                {% if transaction.seller_verified %}
+                                verified
+                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}">Unverify&nbsp;&rarr;</a>
+                                {% else %}
+                                not verified
+                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}">Verify&nbsp;&rarr;</a>
+                                {% endif %}
+                            {% endif %}
+
+                            {% if transaction.ticket %}
+                                {% if transaction.ticket.url %}
+                                    <iframe src="{{ transaction.ticket.url }}" alt="" style="width: 100%; height: auto;"></iframe>
+                                {% endif %}
+                            {% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main> 
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+<div class="py-4"></div>
+<div class="py-4"></div>
+<div class="py-4"></div>
+
+
+
+{% endblock main %}
+
+
+
+
+
+
