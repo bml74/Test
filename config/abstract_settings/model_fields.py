@@ -61,8 +61,9 @@ LISTING_FIELDS = [
     'infinite_copies_available', 
     'quantity_available', 
     'listing_medium', 
+    'ticket',
     # 'listing_type',
-    'image'
+    'image',
 ]
 
 

@@ -38,6 +38,7 @@ class Listing(models.Model):
         choices=listing_category_options_list_of_tups,
         default="Book",
     )
+    ticket = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
     condition = models.CharField(
         max_length=100,
         choices=(
@@ -160,7 +161,6 @@ class Transaction(models.Model):
     inserted_on = models.DateTimeField(auto_now_add=True)
     end_payment_sent = models.BooleanField(default=False)
     delivery = models.ForeignKey(SuggestedDelivery, on_delete=models.CASCADE, null=True, blank=True, related_name="delivery")
-    ticket = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
 
     def __str__(self):
         return f"Transaction #{self.transaction_id}"
