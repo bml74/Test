@@ -29,6 +29,7 @@ class RoomMembershipRequest(models.Model):
 class DirectMessage(models.Model):
     date_time_sent = models.DateTimeField(auto_now_add=True)
     body = models.TextField(default="")
+    file = models.FileField(upload_to='hoyabay/messaging/files', blank=True, null=True)
     sender_of_message = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender_of_message")
     receiver_of_message = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="receiver_of_message")
     room = models.ForeignKey(Room, on_delete=models.CASCADE, blank=True, null=True, related_name="receiver_of_message")

@@ -4,6 +4,10 @@ from . import views
 
 urlpatterns = [
 
+    path('tickets/', views.ticket_hub_sales, name='ticket_hub'),
+    path('tickets/sales/', views.ticket_hub_sales, name='ticket_hub_sales'),
+    path('tickets/purchases/', views.ticket_hub_purchases, name='ticket_hub_purchases'),
+
     # Listings
     path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),

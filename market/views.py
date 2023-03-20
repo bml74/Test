@@ -1051,10 +1051,21 @@ def payment_success(request, obj_type, pk):
             seller_notification_type = "sale"
             create_notification(link=seller_link, description=seller_description, notification_type=seller_notification_type, notified_user=seller_notified_user)
 
+            if not t.seller == request.user:
+                other_party = t.seller
+            elif not t.purchaser == request.user:
+                other_party = t.purchaser
+            else:
+                other_party = None
+
+            print("OP")
+            print(other_party)
+
             return render(request, 'payments/success.html', context={
                 "obj_type":  obj_type,
                 "session_id": item_id,
-                "custom_checkout": is_custom_checkout
+                "custom_checkout": is_custom_checkout,
+                "other_party": other_party
             }) 
         else:
             return render(request, 'payments/cancel.html')
@@ -1454,3 +1465,32 @@ def redirect_from_ad_to_listing(request, pk):
     adPurchase = get_object_or_404(AdPurchase, id=pk)
     adPurchase.clicks += 1
     return redirect('listing', pk=adPurchase.listing_to_be_advertised.id)
+
+
+def ticket_hub_sales(request):
+    transactions_where_user_is_seller = Transaction.objects.filter(seller=request.user).all()
+    ticket_transactions = []
+    for t in transactions_where_user_is_seller:
+        listing = get_object_or_404(Listing, id=t.transaction_obj_id)
+        if listing.listing_category in ["Sports tickets", "Concert tickets", "Local event tickets", "Other tickets"]:
+            ticket_transactions.append({"listing": listing, "transaction": t})
+        print(t.transaction_id)
+    context = {
+        "ticket_transactions": ticket_transactions,
+        "tab_type": "sales"
+    }
+    return render(request, 'tickets/ticket_hub.html', context=context)
+
+
+def ticket_hub_purchases(request):
+    transactions_where_user_is_seller = Transaction.objects.filter(purchaser=request.user).all()
+    ticket_transactions = []
+    for t in transactions_where_user_is_seller:
+        listing = get_object_or_404(Listing, id=t.transaction_obj_id)
+        if listing.listing_category in ["Sports tickets", "Concert tickets", "Local event tickets", "Other tickets"]:
+            ticket_transactions.append(listing)
+    context = {
+        "ticket_transactions": ticket_transactions,
+        "tab_type": "purchases"
+    }
+    return render(request, 'tickets/ticket_hub.html', context=context)

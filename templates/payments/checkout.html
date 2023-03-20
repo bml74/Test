@@ -82,8 +82,8 @@
 
                                         
                                         <h2 class="pt-4 mb-3 text-3xl font-extrabold tracking-tight text-gray-900 dark:text-white">{{ item.title|safe }}</h2>
-                                        <div class="flex flex-wrap justify-left mt-4 mb-4">
-                                            <a href="{% if obj_type == 'listing_for_group_members' %}{% url 'listing-for-group-members-detail' item.id %}{% elif obj_type == 'listing' %}{% url 'listing' item.id %}{% endif %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">&larr; Back to item page</a>
+                                        <a href="{% if obj_type == 'listing_for_group_members' %}{% url 'listing-for-group-members-detail' item.id %}{% elif obj_type == 'listing' %}{% url 'listing' item.id %}{% endif %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2">&larr; Back to item page</a>
+                                        <div class="flex flex-wrap justify-left mt-4 mb-4 w-100">
                                             {% comment %} {% if request.user in item.purchasers.all %}
                                                 <a disabled type="button" class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-6 py-4 text-center mr-2 mb-2"><i class="fas fa-check-circle"></i> You've already purchased this item</a>
                                             {% endif %} {% endcomment %}
