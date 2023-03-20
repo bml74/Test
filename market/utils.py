@@ -145,6 +145,9 @@ listing_category_options = [
     "Women's clothing - Other",
     "Men's suits",
     "Women's dresses",
+
+    "Gift cards",
+    "Other"
 ]
 
 

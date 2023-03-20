@@ -382,6 +382,12 @@ def processResults(filter, available):
         results = available.filter(listing_category=subheading)
     elif filter == 'womens-shoes-other':
         subheading = "Other women's shoes"
+        results = available.filter(listing_category=subheading) 
+    elif filter == 'gift-cards':
+        subheading = "Gift cards"
+        results = available.filter(listing_category=subheading)
+    elif filter == 'other':
+        subheading = "Other"
         results = available.filter(listing_category=subheading)
 
     else:

@@ -198,7 +198,7 @@
                                         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-6 mt-6" id="{{ obj_type }}s">
 
                                             {% for item in all_listings_from_this_creator %}
-                                            <div class="p-6 w-50 bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700 w-100">
+                                            <div class="p-6 w-50 bg-white rounded-lg shadow-md dark:bg-gray-800 w-100">
                                                 <a href="{% url 'listing' item.id %}">
                                                     <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white single-line">{{ item.title }}</h5>
                                                 </a>
