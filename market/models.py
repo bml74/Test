@@ -197,12 +197,12 @@ class RequestForDigitalTicket(models.Model):
 
 
 class TicketFile(models.Model):
-    ticket = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
+    ticket_file = models.FileField(upload_to='hoyabay/tickets/digital', blank=True, null=True)
     inserted_on = models.DateTimeField(auto_now_add=True)
     transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"File"
+        return f"Ticket File"
     
     def get_absolute_url(self):
         listing = get_object_or_404(Listing, id=self.transaction.transaction_obj_id)

@@ -24,10 +24,6 @@ Ticket Portal
 
 
 
-<div class="py-4"></div>
-<div class="py-4"></div>
-<div class="py-4"></div>
-<div class="py-4"></div>
 
 <main class="grow" style="margin-left: 2%; margin-right: 2%;">
 
@@ -42,45 +38,88 @@ Ticket Portal
 
                     <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
                 
-                        <div class="text-center pb-4 mb-8 pl-15vw pr-15vw">
-
-                    
-                            <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl"><span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Ticket</span> Exchange</h1>
-
-                            
-                            
-                            
-                                                        
-                        </div>
-                
                         <div id="mainContent" class="pl-15vw pr-15vw">
 
+                            <h2 class="text-4xl font-extrabold dark:text-white">Ticket Exchange</h2>
 
 
+
+                            <div class="mb-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-100">
+                                <a href="#">
+                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Status</h5>
+                                </a>
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+
+                                <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
+                                    <li class="flex items-center">
+                                        {% if transaction.purchaser_verified %}
+                                        <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Purchaser has verified
+                                        {% else %}
+                                        <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                        Purchaser has not verified
+                                        {% endif %}
+                                    </li>
+                                    <li class="flex items-center">
+                                        {% if transaction.seller_verified %}
+                                        <svg class="w-4 h-4 mr-1.5 text-green-500 dark:text-green-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Seller has verified
+                                        {% else %}
+                                        <svg class="w-4 h-4 mr-1.5 text-gray-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                        Seller has not verified
+                                        {% endif %}
+                                    </li>
+                                </ul>
+
+                            </div>
+                            
+
+
+
+
+                            {% if request.user == transaction.seller %}
+                            <div>
+                                <p class="font-light text-gray-500 dark:text-gray-400">You are the seller of this ticket.</p>
+                                <a href="{% url 'ticket-create' transaction.id listing.id %}" type="button" class="text-gray-900 bg-gradient-to-r from-red-200 via-red-300 to-yellow-200 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-red-100 dark:focus:ring-red-400 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">Send ticket</a>
+                            </div>
+                            {% endif %}
+
+                
 
                             {% if request.user == transaction.purchaser %}
-                                <a class="dashed-underline request-receive" href="{% url 'requestTicketDigitally' transaction.id listing.id %}">Receive digitally&nbsp;&rarr;</a>
+                                <a href="{% url 'requestTicketDigitally' transaction.id listing.id %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                    Request to receive digitally&nbsp;&rarr;
+                                </a>
                                 {% if transaction.purchaser_verified %}
-                                verified
-                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}">Unverify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify&nbsp;&rarr;</a>
                                 {% else %}
-                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}">Verify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify&nbsp;&rarr;</a>
                                 {% endif %}
                             {% elif request.user == transaction.seller %}
                                 {% if transaction.seller_verified %}
-                                verified
-                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}">Unverify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify&nbsp;&rarr;</a>
                                 {% else %}
-                                not verified
-                                <a class="dashed-underline request-receive" href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}">Verify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify&nbsp;&rarr;</a>
                                 {% endif %}
                             {% endif %}
 
                             {% if listing.ticket %}
                                 {% if listing.ticket.url %}
                                     <iframe src="{{ listing.ticket.url }}" alt="" style="width: 100%; height: auto;"></iframe>
+                                    <a href="{{ listing.ticket.url }}" download>Download</a>
                                 {% endif %}
                             {% endif %}
+
+                            <br><br><br>
+
+                            {% for related_ticket in related_tickets %}
+                                {% if related_ticket.ticket_file %}
+                                    {% if related_ticket.ticket_file.url %}
+                                        <iframe src="{{ related_ticket.ticket_file.url }}" alt="" style="width: 100%; height: auto;" download></iframe>
+                                        <a href="{{ related_ticket.ticket_file.url }}" download>Download</a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
 
 
 

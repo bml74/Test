@@ -124,3 +124,5 @@ EVENT_VIDEO_FIELDS = ["link", "title", "description"]
 TRANSACTION_DELIVERY_SUGGESTION_FIELDS = ["deliveryLocation", "suggested_date_time", "description"]
 
 REVIEW_FIELDS = ['title', 'content']
+
+TICKET_FILE_FIELDS = ['ticket_file']
