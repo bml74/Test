@@ -48,17 +48,19 @@
 <script>
     document.getElementById("div_id_ticket").style.display = "none";
     function checkMedium() {
+        let id_listing_category = document.getElementById("id_listing_category");
         let id_listing_medium = document.getElementById("id_listing_medium");
         medium = id_listing_medium.value;
         let div_id_ticket = document.getElementById("div_id_ticket");
         //let id_infinite_copies_available = document.getElementById("id_infinite_copies_available");
-        if (medium === "Digital File(s)") {
+        if (medium === "Digital File(s)" && id_listing_category.value.toLowerCase().includes("ticket")) {
             div_id_ticket.style.display = "block";
         } else {
             div_id_ticket.style.display = "none";
         }
     }
     id_listing_medium.addEventListener("change", checkMedium);
+    id_listing_category.addEventListener("change", checkMedium);
 </script>
 
 <script>
