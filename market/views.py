@@ -1605,20 +1605,13 @@ class TicketFileDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return context
 
 
-class TicketFileDetailView(UserPassesTestMixin, DetailView):
-    model = TicketFile
-    template_name = 'tickets/ticket_file_detail_view.html'
-    context_object_name = 'item'
-
-    def test_func(self):
-        transaction = get_object_or_404(TicketFile, id=self.kwargs.get('transaction_pk'))
-        return True#self.request.user == transaction.seller or self.request.user == transaction.purchaser
-
-    def get(self, request, *args, **kwargs):
-        item = get_object_or_404(TicketFile, pk=kwargs['pk'])
-        print(kwargs['pk'])
-        print(item)
-        context = {
-            "item": item
-        }
-        return render(request, 'tickets/ticket_file_detail_view.html', context)
+def ticketFileDetailView(request, transaction_pk, listing_id, pk):
+    transaction = get_object_or_404(Transaction, id=transaction_pk)
+    listing = get_object_or_404(Listing, id=listing_id)
+    item = get_object_or_404(TicketFile, pk=pk)
+    context = {
+        "item": item,
+        "transaction": transaction,
+        "listing": listing
+    }
+    return render(request, 'tickets/ticket_file_detail_view.html', context)

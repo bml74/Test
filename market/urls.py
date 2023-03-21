@@ -13,10 +13,10 @@ urlpatterns = [
     path('ticket/portal/transaction/<int:transaction_id>/listing/<int:listing_id>/<str:party>/<str:username>/', views.verify_receipt_of_ticket, name='verify_receipt_of_ticket'),
 
     path('ticket/create/transaction/<int:transaction_pk>/listing/<int:listing_id>/', views.TicketFileCreateView.as_view(), name='ticket-create'),
-    path('ticket/update/transaction/<int:transaction_pk>/listing/<int:listing_id>/', views.TicketFileUpdateView.as_view(), name='ticket-update'),
-    path('ticket/delete/transaction/<int:transaction_pk>/listing/<int:listing_id>/', views.TicketFileDeleteView.as_view(), name='ticket-delete'),
+    path('ticket/update/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.TicketFileUpdateView.as_view(), name='ticket-update'),
+    path('ticket/delete/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.TicketFileDeleteView.as_view(), name='ticket-delete'),
 
-    path('ticket/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.TicketFileDetailView.as_view(), name='ticket-file-detail'),
+    path('ticket/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.ticketFileDetailView, name='ticket-file-detail'),
 
     # Listings
     path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),

@@ -40,14 +40,38 @@ Ticket File
                 
                         <div id="mainContent" class="pl-15vw pr-15vw">
 
+
+
+                            <nav class="flex" aria-label="Breadcrumb">
+                                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                                <li class="inline-flex items-center">
+                                    <a href="{% url 'ticket_hub' %}" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                                    <svg aria-hidden="true" class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                                    Ticket Exchange
+                                    </a>
+                                </li>
+                                <li>
+                                    <div class="flex items-center">
+                                    <svg aria-hidden="true" class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+                                    <a href="{% url 'ticketPortal' transaction.id listing.id %}" class="ml-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ml-2 dark:text-gray-400 dark:hover:text-white">Transaction #{{ transaction.transaction_id }}</a>
+                                    </div>
+                                </li>
+                                </ol>
+                            </nav>
+
+  
+
                             <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ticket Exchange</h5>
 
 
                             <div>
                                 {% if item.ticket_file %}
                                     {% if item.ticket_file.url %}
-                                        <a class="dashed-underline" href="{{ item.ticket_file.url }}" download>Download</a>
-                                        <iframe src="{{ item.ticket_file.url }}" alt="" style="width: 100%; height: auto;"></iframe>
+                                        <a href="{{ item.ticket_file.url }}" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" download>Download</a>
+                                        <a href="{% url 'ticket-update' transaction.id listing.id item.id %}" type="button" class="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Update</a>
+                                        <a href="{% url 'ticket-delete' transaction.id listing.id item.id %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Delete</a>
+
+                                        <iframe src="{{ item.ticket_file.url }}" alt="" style="width: 100%; height: 500px;"></iframe>
                                     {% endif %}
                                 {% endif %}
                             </div>
