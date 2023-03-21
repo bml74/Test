@@ -143,7 +143,7 @@ Ticket Hub
                         {% if ticket_transaction.listing.listing_medium == "Physical Product" %}
                         <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Set delivery&nbsp;&rarr;</a>
                         {% elif ticket_transaction.listing.listing_medium == "Digital File(s)" %}
-                        <a class="dashed-underline" href="{% url 'transaction-delivery' ticket_transaction.transaction.id %}">Send digitally&nbsp;&rarr;</a>
+                        <a class="dashed-underline" href="{% url 'ticketPortal' ticket_transaction.transaction.id ticket_transaction.listing.id %}">Send digitally&nbsp;&rarr;</a>
                         {% else %}
                         -
                         {% endif %}
