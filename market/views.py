@@ -1538,11 +1538,11 @@ def verify_receipt_of_ticket(request, transaction_id, listing_id, party, usernam
 def ticketPortal(request, transaction_id, listing_id):
     transaction = get_object_or_404(Transaction, id=transaction_id)
     listing = get_object_or_404(Listing, id=listing_id)
-    if request.user == transaction.purchaser:
-        if RequestForDigitalTicket.objects.filter(user_receiving_request=transaction.seller, user_sending_request=request.user, transaction=transaction).exists():
-            messages.success(request, f"You have requested this ticket.")
+    request_exists = False
+    if RequestForDigitalTicket.objects.filter(user_receiving_request=transaction.seller, user_sending_request=transaction.purchaser, transaction=transaction).exists():
+        request_exists = True
     related_tickets = TicketFile.objects.filter(transaction=transaction).all()
-    context = {"transaction": transaction, "listing": listing, "related_tickets": related_tickets}
+    context = {"transaction": transaction, "listing": listing, "related_tickets": related_tickets, "request_exists": request_exists}
     return render(request, 'tickets/ticket_portal.html', context=context)
 
 
@@ -1604,3 +1604,21 @@ class TicketFileDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         context.update({"type": "ticket", "title": title})
         return context
 
+
+class TicketFileDetailView(UserPassesTestMixin, DetailView):
+    model = TicketFile
+    template_name = 'tickets/ticket_file_detail_view.html'
+    context_object_name = 'item'
+
+    def test_func(self):
+        transaction = get_object_or_404(TicketFile, id=self.kwargs.get('transaction_pk'))
+        return True#self.request.user == transaction.seller or self.request.user == transaction.purchaser
+
+    def get(self, request, *args, **kwargs):
+        item = get_object_or_404(TicketFile, pk=kwargs['pk'])
+        print(kwargs['pk'])
+        print(item)
+        context = {
+            "item": item
+        }
+        return render(request, 'tickets/ticket_file_detail_view.html', context)

@@ -1,0 +1,96 @@
+{% extends 'market/base.html' %}
+{% load static %}
+{% load auth_extras %}
+
+
+{% block title %}
+Ticket File
+{% endblock title %}
+
+{% block main %}
+
+<style>
+    @media (min-width: 768px) {
+        .main-image {
+            margin: auto; width: 14%;
+        }
+    }
+    @media (max-width: 768px) {
+        .main-image {
+            margin: auto; width: 40%;
+        }
+    }
+</style>
+
+
+
+
+<main class="grow" style="margin-left: 2%; margin-right: 2%;">
+
+    <div class="w-full px-5 mx-auto"> <!-- w-full px-5 mx-auto -->
+        <div class="lg:flex">
+
+
+
+
+            <main id="content-wrapper" class="flex-auto w-full min-w-0 lg:static lg:max-h-full lg:overflow-visible">
+                <div class="flex w-full">
+
+                    <div class="flex-auto min-w-0 pt-6 lg:px-8 lg:pt-8 pb:12 xl:pb-24 lg:pb-16">
+                
+                        <div id="mainContent" class="pl-15vw pr-15vw">
+
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ticket Exchange</h5>
+
+
+                            <div>
+                                {% if item.ticket_file %}
+                                    {% if item.ticket_file.url %}
+                                        <a class="dashed-underline" href="{{ item.ticket_file.url }}" download>Download</a>
+                                        <iframe src="{{ item.ticket_file.url }}" alt="" style="width: 100%; height: auto;"></iframe>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+
+
+
+
+
+
+
+                    
+                        </div>
+
+                    </div>
+
+
+                
+
+                </div> 
+                
+            </main> 
+
+
+        </div>
+    </div>
+
+
+    
+
+
+
+</main>
+
+<div class="py-4"></div>
+<div class="py-4"></div>
+<div class="py-4"></div>
+
+
+
+{% endblock main %}
+
+
+
+
+
+

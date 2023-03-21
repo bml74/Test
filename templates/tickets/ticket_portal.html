@@ -40,15 +40,26 @@ Ticket Portal
                 
                         <div id="mainContent" class="pl-15vw pr-15vw">
 
-                            <h2 class="text-4xl font-extrabold dark:text-white">Ticket Exchange</h2>
+                            <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Ticket Exchange</h5>
 
 
 
                             <div class="mb-4 p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 w-100">
                                 <a href="#">
-                                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Status</h5>
+                                    <h5 class="text-2xl font-extrabold dark:text-white">Status</h5>
                                 </a>
-                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">Here are the biggest enterprise technology acquisitions of 2021 so far, in reverse chronological order.</p>
+
+
+                                {% if request_exists %}
+                                
+                                <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
+                                    {% if request.user == transaction.seller %}
+                                    The purchaser, <a class="dashed-underline" href="{% url 'user_profile' transaction.purchaser %}">{{ transaction.purchaser }}</a>, has requested this ticket.
+                                    {% else %}
+                                    You have requested this ticket from the seller, <a class="dashed-underline" href="{% url 'user_profile' transaction.seller %}">{{ transaction.seller }}</a>.
+                                    {% endif %}
+                                </p>
+                                {% endif %}
 
                                 <ul class="max-w-md space-y-1 text-gray-500 list-inside dark:text-gray-400">
                                     <li class="flex items-center">
@@ -87,36 +98,52 @@ Ticket Portal
                 
 
                             {% if request.user == transaction.purchaser %}
-                                <a href="{% url 'requestTicketDigitally' transaction.id listing.id %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Request to receive digitally&nbsp;&rarr;
-                                </a>
+
+                                {% if not request_exists %}
+                                    <a href="{% url 'requestTicketDigitally' transaction.id listing.id %}" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                                        Request to receive digitally&nbsp;&rarr;
+                                    </a>
+                                {% endif %}
+
                                 {% if transaction.purchaser_verified %}
-                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify as purchaser&nbsp;&rarr;</a>
                                 {% else %}
-                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "purchaser" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify as purchaser&nbsp;&rarr;</a>
                                 {% endif %}
                             {% elif request.user == transaction.seller %}
                                 {% if transaction.seller_verified %}
-                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Unverify as seller&nbsp;&rarr;</a>
                                 {% else %}
-                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify&nbsp;&rarr;</a>
+                                <a href="{% url 'verify_receipt_of_ticket' transaction.id listing.id "seller" request.user.username %}" type="button" class="text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700">Verify as seller&nbsp;&rarr;</a>
                                 {% endif %}
                             {% endif %}
 
+                            <div class="py-4"></div>
+
+
+
+                            <div>
+                                <h5 class="text-xl dark:text-white">Ticket attached to listing</h5>
+                            </div>
                             {% if listing.ticket %}
                                 {% if listing.ticket.url %}
+                                    <a class="dashed-underline" href="{{ listing.ticket.url }}" download>Download</a>
                                     <iframe src="{{ listing.ticket.url }}" alt="" style="width: 100%; height: auto;"></iframe>
-                                    <a href="{{ listing.ticket.url }}" download>Download</a>
                                 {% endif %}
                             {% endif %}
 
                             <br><br><br>
+                            <div>
+                                <h5 class="text-xl dark:text-white">Ticket(s) sent from seller</h5>
+                            </div>
 
                             {% for related_ticket in related_tickets %}
                                 {% if related_ticket.ticket_file %}
                                     {% if related_ticket.ticket_file.url %}
-                                        <iframe src="{{ related_ticket.ticket_file.url }}" alt="" style="width: 100%; height: auto;" download></iframe>
-                                        <a href="{{ related_ticket.ticket_file.url }}" download>Download</a>
+                                        <div class="mb-3">
+                                            {{ forloop.counter }}. <a class="dashed-underline" href="{{ related_ticket.ticket_file.url }}" download>Download</a> or <a class="dashed-underline" href="{% url 'ticket-file-detail' transaction_pk=transaction.id listing_id=listing.id pk=related_ticket.id %}">View</a>
+                                            <iframe src="{{ related_ticket.ticket_file.url }}" alt="" style="width: 100%; height: 400px;"></iframe> 
+                                        </div>
                                     {% endif %}
                                 {% endif %}
                             {% endfor %}
