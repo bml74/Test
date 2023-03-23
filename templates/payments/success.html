@@ -42,9 +42,9 @@ Payment successful
                             </p>
                             {% endif %}
                             {% if clothing %}
-                            <p class="text-lg font-normal text-dark lg:text-xl dark:text-white">
+                            <p class="text-lg font-normal text-red-600 lg:text-xl dark:text-white">
                                 <a href="{% url 'transaction-size-select' transaction.id %}">
-                                    Click <u>here</u> to select your size.
+                                    <i class="fas fa-exclamation-triangle"></i> Click <u>here</u> to select your size.
                                 </a>
                             </p>
                             {% endif %}
