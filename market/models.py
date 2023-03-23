@@ -10,6 +10,7 @@ from django.conf import settings
 from .utils import listing_category_options_list_of_tups
 from orgs.models import ListingForGroupMembers
 from django.shortcuts import get_object_or_404
+from config.abstract_settings import VARIABLES
 
 
 class Listing(models.Model):
@@ -169,6 +170,10 @@ class Transaction(models.Model):
     )  
     seller_notes = models.CharField(max_length=256, blank=True, null=True)
     purchaser_notes = models.CharField(max_length=256, blank=True, null=True)
+
+    def isClothing(self):
+        listing = get_object_or_404(Listing, id=self.transaction_obj_id)
+        return True if listing.listing_category in VARIABLES.CLOTHING_OPTIONS else False
 
     def __str__(self):
         return f"Sold by {self.seller} to {self.purchaser} for {self.value}"

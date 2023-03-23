@@ -30,3 +30,15 @@ NUM_CREDITS_TO_ADD_FOR_REFERRAL = 3
 # Emails
 ADMIN_EMAIL = "hoyabay@hoyabay.com"#"bml74@georgetown.edu"
 
+CLOTHING_OPTIONS = [
+    "Men's jackets",
+    "Women's jackets",
+    "Men's sweatshirts",
+    "Women's sweatshirts",
+    "Men's formal wear",
+    "Women's formal wear",
+    "Men's clothing - Other",
+    "Women's clothing - Other",
+    "Men's suits",
+    "Women's dresses",
+]

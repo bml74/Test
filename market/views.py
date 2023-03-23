@@ -106,9 +106,12 @@ class TransactionDetailView(UserPassesTestMixin, DetailView):
 
     def get(self, request, *args, **kwargs):
         transaction = get_object_or_404(Transaction, pk=kwargs['pk'])
+        listing = get_object_or_404(Listing, id=transaction.transaction_obj_id)
+        clothing = True if listing.listing_category in VARIABLES.CLOTHING_OPTIONS else False
         context = {
             "transaction": transaction, 
-            "user_is_seller": transaction.seller == request.user
+            "user_is_seller": transaction.seller == request.user,
+            "clothing": clothing
         }
         if transaction.transaction_obj_type == VARIABLES.LISTING_OBJ_TYPE:
             title = get_object_or_404(Listing, pk=transaction.transaction_obj_id)
@@ -197,18 +200,7 @@ class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         if self.request.user == transaction.purchaser:
             if transaction.transaction_obj_type == "listing":
                 listing = get_object_or_404(Listing, id=transaction.transaction_obj_id)
-                if listing.listing_category in [
-                        "Men's jackets",
-                        "Women's jackets",
-                        "Men's sweatshirts",
-                        "Women's sweatshirts",
-                        "Men's formal wear",
-                        "Women's formal wear",
-                        "Men's clothing - Other",
-                        "Women's clothing - Other",
-                        "Men's suits",
-                        "Women's dresses",
-                ]:
+                if listing.listing_category in VARIABLES.CLOTHING_OPTIONS:
                     return True
         return False
 
@@ -998,18 +990,7 @@ def payment_success(request, obj_type, pk):
             else: 
                 handleQuantity(item)
 
-            if item.listing_category in [
-                "Men's jackets",
-                "Women's jackets",
-                "Men's sweatshirts",
-                "Women's sweatshirts",
-                "Men's formal wear",
-                "Women's formal wear",
-                "Men's clothing - Other",
-                "Women's clothing - Other",
-                "Men's suits",
-                "Women's dresses",
-            ]:
+            if item.listing_category in VARIABLES.CLOTHING_OPTIONS:
                 clothing = True
 
         elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
