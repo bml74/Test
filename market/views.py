@@ -187,7 +187,7 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
         return context
     
 
-class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class SizeSelectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Transaction
     fields = ['size']
     template_name = FORM_VIEW_TEMPLATE_NAME
@@ -205,8 +205,48 @@ class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return False
 
     def get_context_data(self, **kwargs):
-        context = super(TransactionUpdateView, self).get_context_data(**kwargs)
+        context = super(SizeSelectUpdateView, self).get_context_data(**kwargs)
         header = "Select which size you want"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class SellerNotesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Transaction
+    fields = ['seller_notes']
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        transaction = get_object_or_404(Transaction, id=self.kwargs.get('pk'))
+        return True if self.request.user == transaction.seller else False
+
+    def get_context_data(self, **kwargs):
+        context = super(SizeSelectUpdateView, self).get_context_data(**kwargs)
+        header = "Add note as a seller"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
+
+
+class PurchaserNotesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Transaction
+    fields = ['purchaser_notes']
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        transaction = get_object_or_404(Transaction, id=self.kwargs.get('pk'))
+        return True if self.request.user == transaction.purchaser else False
+
+    def get_context_data(self, **kwargs):
+        context = super(PurchaserNotesUpdateView, self).get_context_data(**kwargs)
+        header = "Add note as a purchaser"
         create = False # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context

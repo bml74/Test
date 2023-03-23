@@ -18,7 +18,9 @@ urlpatterns = [
 
     path('ticket/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.ticketFileDetailView, name='ticket-file-detail'),
 
-    path('transaction/<int:pk>/size/', views.TransactionUpdateView.as_view(), name='transaction-size-select'),
+    path('transaction/<int:pk>/size/', views.SizeSelectUpdateView.as_view(), name='transaction-size-select'),
+    path('transaction/<int:pk>/notes/seller/', views.PurchaserNotesUpdateView.as_view(), name='seller-notes'),
+    path('transaction/<int:pk>/notes/purchaser/', views.SellerNotesUpdateView.as_view(), name='purchaser-notes'),
 
     # Listings
     path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),
