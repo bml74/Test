@@ -677,7 +677,7 @@ class ListingUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
 class ListingDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     """Delete Listing."""
     model = Listing
-    success_url = '/market/listings/'
+    success_url = '/market/listings/all/'
     context_object_name = 'item'
     template_name = CONFIRM_DELETE_TEMPLATE_NAME
 
