@@ -161,6 +161,14 @@ class Transaction(models.Model):
     inserted_on = models.DateTimeField(auto_now_add=True)
     end_payment_sent = models.BooleanField(default=False)
     delivery = models.ForeignKey(SuggestedDelivery, on_delete=models.CASCADE, null=True, blank=True, related_name="delivery")
+    size = models.CharField(
+        max_length=100,
+        choices=(("S", "S"), ("M", "M"), ("L", "L"), ("XL", "XL")),
+        blank=True,
+        null=True
+    )  
+    seller_notes = models.CharField(max_length=256, blank=True, null=True)
+    purchaser_notes = models.CharField(max_length=256, blank=True, null=True)
 
     def __str__(self):
         return f"Sold by {self.seller} to {self.purchaser} for {self.value}"

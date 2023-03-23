@@ -182,6 +182,42 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
         create = True # If update, false; if create, true
         context.update({"header": header, "create": create})
         return context
+    
+
+class TransactionUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Transaction
+    fields = ['size']
+    template_name = FORM_VIEW_TEMPLATE_NAME
+
+    def form_valid(self, form):
+        return super().form_valid(form)
+
+    def test_func(self):
+        transaction = get_object_or_404(Transaction, id=self.kwargs.get('pk'))
+        if self.request.user == transaction.purchaser:
+            if transaction.transaction_obj_type == "listing":
+                listing = get_object_or_404(Listing, id=transaction.transaction_obj_id)
+                if listing.listing_category in [
+                        "Men's jackets",
+                        "Women's jackets",
+                        "Men's sweatshirts",
+                        "Women's sweatshirts",
+                        "Men's formal wear",
+                        "Women's formal wear",
+                        "Men's clothing - Other",
+                        "Women's clothing - Other",
+                        "Men's suits",
+                        "Women's dresses",
+                ]:
+                    return True
+        return False
+
+    def get_context_data(self, **kwargs):
+        context = super(TransactionUpdateView, self).get_context_data(**kwargs)
+        header = "Select which size you want"
+        create = False # If update, false; if create, true
+        context.update({"header": header, "create": create})
+        return context
 
 
 def set_delivery(request, transaction_pk, suggestion_pk):
@@ -921,6 +957,7 @@ def generate_transaction_id(length):
 
 @login_required
 def payment_success(request, obj_type, pk):
+    clothing = False
     if obj_type == VARIABLES.LISTING_OBJ_TYPE:
         item = purchase_logic(request, obj_type, item_id=pk)
     elif obj_type == VARIABLES.AD_OFFER_OBJ_TYPE:
@@ -960,6 +997,21 @@ def payment_success(request, obj_type, pk):
                 return JsonResponse({"Error": "There are not enough of these items available."})
             else: 
                 handleQuantity(item)
+
+            if item.listing_category in [
+                "Men's jackets",
+                "Women's jackets",
+                "Men's sweatshirts",
+                "Women's sweatshirts",
+                "Men's formal wear",
+                "Women's formal wear",
+                "Men's clothing - Other",
+                "Women's clothing - Other",
+                "Men's suits",
+                "Women's dresses",
+            ]:
+                clothing = True
+
         elif obj_type == VARIABLES.LISTING_FOR_GROUP_MEMBERS_OBJ_TYPE:
             item = ListingForGroupMembers.objects.get(pk=pk)
             # If there are existing requests, delete.
@@ -1062,7 +1114,9 @@ def payment_success(request, obj_type, pk):
                 "obj_type":  obj_type,
                 "session_id": item_id,
                 "custom_checkout": is_custom_checkout,
-                "other_party": other_party
+                "other_party": other_party,
+                "clothing": clothing,
+                "transaction": t
             }) 
         else:
             return render(request, 'payments/cancel.html')

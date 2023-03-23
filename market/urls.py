@@ -18,6 +18,8 @@ urlpatterns = [
 
     path('ticket/transaction/<int:transaction_pk>/listing/<int:listing_id>/file/<int:pk>/', views.ticketFileDetailView, name='ticket-file-detail'),
 
+    path('transaction/<int:pk>/size/', views.TransactionUpdateView.as_view(), name='transaction-size-select'),
+
     # Listings
     path('listings/<str:filter>/', views.ListingListView.as_view(), name='listings'),
     path('<str:username>/listings/', views.ListingsByUserListView.as_view(), name='listings_by_user'),
