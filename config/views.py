@@ -8,22 +8,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from ecoles.models import Category, Field, Specialization, Course
 from market.models import Listing
-from decouple import config
-import os.path
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
-
-# If modifying these scopes, delete the file token.json.
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 
 
 @login_required
 def index(request):
-    
+
     return render(request, 'market/index.html') 
 
 
