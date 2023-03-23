@@ -365,14 +365,29 @@ def accept_follow_request(request, user_requesting_to_follow, user_receiving_fol
     return redirect('profile')
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda u: u.is_superuser and u.username == "bml74")
 def admin_dashboard(request):
     users = User.objects.all()
     transactions = Transaction.objects.all()
+    amount_to_stripe = 0
+    for tr in transactions:
+        to_stripe = .3
+        leftover = tr.value - to_stripe
+        to_stripe += leftover * .029
+        amount_to_stripe += to_stripe
+    sold_by_bml74 = Transaction.objects.filter(seller=request.user.id).all()
+    print("ljknihuygtfrdhfyghukj")
+    print(mean([t.value for t in sold_by_bml74]))
     context = {
         "num_users": len(users),
         "num_transactions": len(transactions),
         "avg_transaction_amount": mean([t.value for t in transactions]),
-        "gmv": sum([t.value for t in transactions])
+        "gmv": sum([t.value for t in transactions]),
+
+        "avg_transaction_amount_for_bml74": mean([t.value for t in sold_by_bml74]),
+        "gmv_for_bml74": sum([t.value for t in sold_by_bml74]),
+
+        "amount_to_stripe": amount_to_stripe
+        
     }
     return render(request, 'users/admin_dashboard.html', context=context)

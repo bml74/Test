@@ -163,7 +163,7 @@ class Transaction(models.Model):
     delivery = models.ForeignKey(SuggestedDelivery, on_delete=models.CASCADE, null=True, blank=True, related_name="delivery")
 
     def __str__(self):
-        return f"Transaction #{self.transaction_id}"
+        return f"Sold by {self.seller} to {self.purchaser} for {self.value}"
 
     def get_absolute_url(self):
         return reverse('transaction', kwargs={'pk': self.pk})
