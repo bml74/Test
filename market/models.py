@@ -128,7 +128,7 @@ class LotteryParticipant(models.Model):
         return reverse('lottery', kwargs={'pk': self.fk_lottery.id}) 
 
     def __str__(self):
-        return f""
+        return f"{self.lottery_participant}"
 
 
 class Fundraiser(models.Model):
