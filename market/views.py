@@ -333,7 +333,7 @@ def processResults(filter, available):
     elif filter == 'mens-clothing-formal':
         subheading = "Men's formal wear"
         results = available.filter(listing_category=subheading)
-    elif filter == 'mens-clothing-all':
+    elif filter == 'mens-clothing-other':
         subheading = "Men's clothing - Other"
         results = available.filter(listing_category=subheading)
 
@@ -349,7 +349,7 @@ def processResults(filter, available):
     elif filter == 'womens-clothing-formal':
         subheading = "Women's formal wear"
         results = available.filter(listing_category=subheading)
-    elif filter == 'womens-clothing-all':
+    elif filter == 'womens-clothing-other':
         subheading = "Women's clothing - Other"
         results = available.filter(listing_category=subheading)
 
