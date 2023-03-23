@@ -30,6 +30,8 @@ urlpatterns = [
     path('search/results/', views.search_results, name='search-results'),
     path('dashboard/', views.dashboard, name='dashboard'),
 
+    path('privacy/', views.privacy_policy, name='privacy_policy'),
+
     path('ajax-chatbox/', views.ajax_chatbox, name='ajax-chatbox'),
     path('docs/chatbox/', views.chatbox_docs, name='chatbox_docs'),
 

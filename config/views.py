@@ -13,8 +13,11 @@ from market.models import Listing
 
 @login_required
 def index(request):
-
     return render(request, 'market/index.html') 
+
+
+def privacy_policy(request):
+    return render(request, 'legal/privacy.html')
 
 
 def dashboard(request):

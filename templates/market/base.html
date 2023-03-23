@@ -737,11 +737,11 @@
                 <div>
                     <h3 class="mb-6 text-sm font-semibold text-gray-400 uppercase dark:text-white">Legal</h3>
                     <ul>
-                        <li class="mb-4">
+                        {% comment %} <li class="mb-4">
                         <a href="https://flowbite.com/license/" class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">License (EULA)</a>
-                        </li>
+                        </li> {% endcomment %}
                         <li class="mb-4">
-                        <a href="https://themesberg.com/privacy-policy/" rel="noreferrer nofollow"
+                        <a href="{% url 'privacy_policy' %}" rel="noreferrer nofollow"
                         class="font-normal text-gray-600 dark:text-gray-400 dark:hover:text-white hover:underline">Privacy Policy</a>
                         </li>
                         <li class="mb-4">
