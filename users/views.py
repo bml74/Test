@@ -278,7 +278,7 @@ def referral(request):
                 if numTimesUsed < MAX_REFERRAL_USES: # Valid; uses have not been used up.
                     NUM_CREDITS_TO_ADD = VARIABLES.NUM_CREDITS_TO_ADD_FOR_REFERRAL
                     messages.success(request, f'That referral code from {referralObj.generatedBy} is valid and has been applied! You and {referralObj.generatedBy} have each received {NUM_CREDITS_TO_ADD} tokens.')
-                    # Add 3 tokens to both accounts
+                    # Add 3 credits to both accounts
                     profileOfUserWhoGeneratedCode = get_object_or_404(Profile, user=referralObj.generatedBy)
                     profileOfUserWhoGeneratedCode.credits += NUM_CREDITS_TO_ADD
                     profileOfUserWhoGeneratedCode.save()
