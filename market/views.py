@@ -158,13 +158,9 @@ class TransactionDeliveryCreateView(LoginRequiredMixin, UserPassesTestMixin, Cre
 
     def form_valid(self, form):
         transaction = get_object_or_404(Transaction, pk=self.kwargs['transaction_pk'])
-        print(transaction)
         form.instance.transaction_id = self.kwargs['transaction_pk']
-        print(form.instance.transaction_id)
         form.instance.seller = transaction.seller 
-        print(form.instance.seller)
         form.instance.purchaser = transaction.purchaser
-        print(form.instance.purchaser)
         if self.request.user == transaction.seller:
             form.instance.created_by = "Seller"
         else:

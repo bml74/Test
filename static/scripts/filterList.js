@@ -4,6 +4,11 @@ function filterList(input_id, list_id, list_item_class, list_item_title_class) {
     filter = input.value.toUpperCase();
     ul = document.getElementById(list_id);
     li = ul.querySelectorAll("." + list_item_class);
+    
+    for (item of li) {
+        item.style.display = "inline-block";
+    } 
+    
     let num_results = 0;
     for (i = 0; i < li.length; i++) {
         a = li[i].querySelector("." + list_item_title_class);

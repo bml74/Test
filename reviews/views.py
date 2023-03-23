@@ -164,7 +164,7 @@ class CustomerMessageCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateV
         return super().form_valid(form)
 
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_authenticated
 
     def get_context_data(self, **kwargs):
         context = super(CustomerMessageCreateView, self).get_context_data(**kwargs)

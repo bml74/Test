@@ -12,7 +12,7 @@ COURSE_OBJ_TYPE = 'course'
 SPECIALIZATION_OBJ_TYPE = 'specialization'
 
 # Payments
-COMMISSION_FEE = 0.006
+COMMISSION_FEE = 0.006 
 STRIPE_PAYMENT_METHOD_TYPES = ["card"]
 
 # Listing types

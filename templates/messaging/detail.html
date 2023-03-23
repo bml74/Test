@@ -102,16 +102,38 @@ Messages with {{ other_user.username }}
     interval_in_seconds = 1;
     setInterval(getNotifications, interval_in_seconds * 1000); // Run receiveMessages() to get the data every 3 seconds.
 
+    let loaded = false;
+
     function getNotifications () {
+
+        loaded = true;
+
         let url = `{% url 'direct-message-notification' %}`;
 
         fetch(url)
         .then(res=>res.json())
         .then(data=>{
-            console.log(data)
+            /* console.log(data)
             let chatNotificationBtn = document.getElementsByClassName("msg")
             for(let i = 0; i<data.length; i++){
                 chatNotificationBtn[i].innerText = data[i]
+            } */
+            console.log(data)
+            let chatNotificationBtn = document.getElementsByClassName("msg-link");
+            for(let i = 0; i<data.length; i++){
+                
+                if (!loaded || document.getElementById("search").value === "") {
+                    if (data[i] > 0) {
+                        chatNotificationBtn[i].querySelector(".msg").innerText = data[i];
+                    } else {
+                        chatNotificationBtn[i].style.display = "none";
+                    }
+                } else {
+                
+                chatNotificationBtn[i].querySelector(".msg").innerText = data[i];
+
+                }
+                
             }
         })
         .catch(error => console.log(error));
