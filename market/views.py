@@ -225,7 +225,7 @@ class SellerNotesUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView)
         return True if self.request.user == transaction.seller else False
 
     def get_context_data(self, **kwargs):
-        context = super(SizeSelectUpdateView, self).get_context_data(**kwargs)
+        context = super(SellerNotesUpdateView, self).get_context_data(**kwargs)
         header = "Add note as a seller"
         create = False # If update, false; if create, true
         context.update({"header": header, "create": create})

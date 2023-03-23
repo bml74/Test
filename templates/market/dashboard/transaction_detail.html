@@ -67,10 +67,18 @@ Listings | {{ request.user.username }}
         {% endif %}
         {% if clothing %}
         <div class="flex flex-col pt-3 dark:text-white mb-2rem">
-            <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Size</dt>
-            <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ transaction.size }}&nbsp;(<a class="dashed-underline" href="{% url 'transaction-size-select' transaction.id %}">Update</a>)</dd>
+            <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Size&nbsp;(<a class="dashed-underline" href="{% url 'transaction-size-select' transaction.id %}">Update</a>)</dt>
+            <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ transaction.size }}</dd>
         </div>
         {% endif %}
+        <div class="flex flex-col pt-3 dark:text-white mb-2rem">
+            <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Notes from seller&nbsp;(<a class="dashed-underline" href="{% url 'seller-notes' transaction.id %}">Update</a>)</dt>
+            <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ transaction.seller_notes }}</dd>
+        </div>
+        <div class="flex flex-col pt-3 dark:text-white mb-2rem">
+            <dt class="mb-1 text-gray-500 md:text-lgyM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE" style="color: #9CA3AF;">Notes from purchaser&nbsp;(<a class="dashed-underline" href="{% url 'purchaser-notes' transaction.id %}">Update</a>)</dt>
+            <dd class="text-lg font-semibold yM_AorRf2jSON3pDsdrz OyABRrnTV_kvHV7dJ0uE">{{ transaction.purchaser_notes }}</dd>
+        </div>
     </dl>
 
     </div>
