@@ -1,3 +1,4 @@
+import os
 import json
 from django.dispatch import receiver
 from django.views.generic import (
@@ -14,10 +15,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from .models import DirectMessage, Room, RoomMembershipRequest
 from .forms import DirectMessageForm
-from config.utils import get_group_and_group_profile_from_group_id, formValid
+from config.utils import get_group_and_group_profile_from_group_id, formValid, create_notification, getDomain
 from config.abstract_settings.template_names import FORM_VIEW_TEMPLATE_NAME, CONFIRM_DELETE_TEMPLATE_NAME
 from config.abstract_settings.model_fields import ROOM_FIELDS
 from config.abstract_settings import VARIABLES
+from notifications.utils import sendEmail
 
 
 @login_required
@@ -71,6 +73,15 @@ def sentDirectMessage(request, pk):
 	msg_body = data['message']
 	new_direct_message = DirectMessage(body=msg_body, sender_of_message=request.user, receiver_of_message=other_user)
 	new_direct_message.save()
+
+	BASE_DOMAIN = getDomain()
+	subject = f"Message from {request.user}"
+	html_content = f"""
+    <h3><strong>You have received a message from {request.user}.</strong></h3>
+    <h3><strong>Click <a href='{BASE_DOMAIN}/messaging/user/{request.user.id}/'>here</a> to view details and set up another delivery time and location.</strong></h3>
+    """
+	sendEmail(subject=subject, html_content=html_content, to_emails=other_user.email, from_email=os.getenv("SENDER_EMAIL_ADDRESS"))
+
 	return JsonResponse(f"Message sent. Message content: {new_direct_message.body}", safe=False)
 
 
