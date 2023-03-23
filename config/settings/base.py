@@ -55,7 +55,6 @@ INSTALLED_APPS = [
     'newsfeed',
     'vocab',
     'messaging',
-    'drive',
     'quizzes',
     'questions',
     'market',
