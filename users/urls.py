@@ -4,6 +4,9 @@ from .views import *
 from . import views
 
 urlpatterns = [
+
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
+
     path('followers_count/', views.followers_count, name='followers_count'),
     path('follow_request/<str:user_requesting_to_follow>/<str:user_receiving_follow_request>/', views.follow_request, name='follow_request'),
     path('accept_follow_request/<str:user_requesting_to_follow>/<str:user_receiving_follow_request>/', views.accept_follow_request, name='accept_follow_request'),

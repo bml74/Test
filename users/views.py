@@ -1,6 +1,7 @@
 import sys
 from decouple import config
 import stripe
+from numpy import mean
 from users.utils import get_user_followers_data
 from .forms import ReferralCodeForm, UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import FollowersCount, FollowRequest, Profile, ReferralCode, Rating
@@ -15,7 +16,7 @@ from market.models import Transaction
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponseRedirect
 from config.utils import is_ajax, getOverallRating
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -362,3 +363,16 @@ def accept_follow_request(request, user_requesting_to_follow, user_receiving_fol
     new_follower_obj.save()
     delete_follow_request(user_requesting_to_follow, request.user)
     return redirect('profile')
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def admin_dashboard(request):
+    users = User.objects.all()
+    transactions = Transaction.objects.all()
+    context = {
+        "num_users": len(users),
+        "num_transactions": len(transactions),
+        "avg_transaction_amount": mean([t.value for t in transactions]),
+        "gmv": sum([t.value for t in transactions])
+    }
+    return render(request, 'users/admin_dashboard.html', context=context)
