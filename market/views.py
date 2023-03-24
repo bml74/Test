@@ -377,13 +377,13 @@ def processResults(filter, available):
         subheading = "Household"
         results = available.filter(listing_category=subheading)
     
-    elif filter == 'furniture':
-        subheading = "Furniture"
-        results = available.filter(listing_category=subheading)
+    # elif filter == 'furniture':
+    #     subheading = "Furniture"
+    #     results = available.filter(listing_category=subheading)
 
-    elif filter == 'electronics':
-        subheading = "Electronics"
-        results = available.filter(listing_category=subheading)
+    # elif filter == 'electronics':
+    #     subheading = "Electronics"
+    #     results = available.filter(listing_category=subheading)
 
     elif filter == 'mens-clothing-sweatshirts':
         subheading = "Men's sweatshirts"

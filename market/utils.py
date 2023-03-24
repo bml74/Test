@@ -113,9 +113,9 @@ listing_category_options = [
 
     "Textbook",
 
-    "Furniture",
+    # "Furniture",
 
-    "Electronics",
+    # "Electronics",
 
     "Household",
 
