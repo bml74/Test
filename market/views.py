@@ -650,6 +650,8 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
         # recs = generate_recommendations_from_queryset(queryset=Listing.objects.all(), obj=listing)
         # print(recs)
 
+        clothing = True if listing.listing_category in VARIABLES.CLOTHING_OPTIONS else False
+
         from users.views import getOverallRating
         overall_rating = getOverallRating(user_being_rated=listing.creator)
 
@@ -661,7 +663,9 @@ class ListingDetailView(UserPassesTestMixin, DetailView):
 
             # "recs": recs,
 
-            "overall_rating": overall_rating
+            "overall_rating": overall_rating,
+
+            "clothing": clothing
         }
 
         return render(request, 'market/listing.html', context)

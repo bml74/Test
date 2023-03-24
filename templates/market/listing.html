@@ -118,6 +118,12 @@
                                         {% if item.condition %}
                                         <div class="mb-3 text-black dark:text-white w-100"><strong><em>CONDITION: {{ item.condition|safe }}</em></strong></div>
                                         {% endif %}
+
+                                        {% if clothing %}
+                                        <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
+                                            <span class="font-medium">Notice:</span> You do not need to specify size right now. After purchasing this item you will be asked to select the size you want.
+                                        </div>                                          
+                                        {% endif %}
                                         
                                         <div class="mb-3 text-gray-500 dark:text-gray-400 w-100">{{ item.description|safe }}</div>
 
