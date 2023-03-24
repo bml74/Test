@@ -46,7 +46,9 @@
 </script>
 
 <script>
-    document.getElementById("div_id_ticket").style.display = "none";
+    if (!window.location.href.includes("update")) {
+        document.getElementById("div_id_ticket").style.display = "none";
+    }
     function checkMedium() {
         let id_listing_category = document.getElementById("id_listing_category");
         let id_listing_medium = document.getElementById("id_listing_medium");
