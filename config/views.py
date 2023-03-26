@@ -24,6 +24,10 @@ def terms_and_conditions(request):
     return render(request, 'legal/terms_and_conditions.html')
 
 
+def payment_disclaimer(request):
+    return render(request, 'legal/payment_disclaimer.html')
+
+
 def dashboard(request):
     return render(request, 'base/dashboard.html')
 

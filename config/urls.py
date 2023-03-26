@@ -32,6 +32,7 @@ urlpatterns = [
 
     path('privacy/', views.privacy_policy, name='privacy_policy'),
     path('terms-and-conditions/', views.terms_and_conditions, name='terms_and_conditions'),
+    path('payment-disclaimer', views.payment_disclaimer, name='payment_disclaimer'),
 
     path('ajax-chatbox/', views.ajax_chatbox, name='ajax-chatbox'),
     path('docs/chatbox/', views.chatbox_docs, name='chatbox_docs'),
