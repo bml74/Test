@@ -8,4 +8,3 @@ admin.site.register(FollowRequest)
 admin.site.register(ReferralCode)
 admin.site.register(Rating)
 admin.site.register(Notification)
-
